@@ -10,7 +10,14 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-*.log
+
+/OuterJones/[Ll]ibrary/
+/OuterJones/[Tt]emp/
+/OuterJones/[Oo]bj/
+/OuterJones/[Bb]uild/
+/OuterJones/[Bb]uilds/
+/OuterJones/[Ll]ogs/
+/OuterJones/[Uu]ser[Ss]ettings/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
