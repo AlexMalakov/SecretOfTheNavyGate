@@ -41,3 +41,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Enviroment
+    uniqueID: 512769165
+    locked: 0
+  - name: PlayerObjects
+    uniqueID: 376842315
+    locked: 0
+  - name: PlayerEffects
+    uniqueID: 2441385643
+    locked: 0
+  - name: FrontForeground
+    uniqueID: 2008631739
+    locked: 0
+  - name: ForeGroundEffects
+    uniqueID: 1686968127
+    locked: 0
+  - name: FrontEffects
+    uniqueID: 593759979
+    locked: 0
