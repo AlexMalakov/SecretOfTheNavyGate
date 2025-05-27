@@ -10,7 +10,14 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-*.log
+
+/Chess Project/[Ll]ibrary/
+/Chess Project/[Tt]emp/
+/Chess Project/[Oo]bj/
+/Chess Project/[Bb]uild/
+/Chess Project/[Bb]uilds/
+/Chess Project/[Ll]ogs/
+/Chess Project/[Uu]ser[Ss]ettings/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
