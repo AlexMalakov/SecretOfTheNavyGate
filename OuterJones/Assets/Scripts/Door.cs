@@ -1,44 +1,75 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine; 
+
+public enum DoorDirection {
+    North, East, West, South
+}
 
 public class Door : MonoBehaviour 
 {
     [SerializeField] private Door destination;
     [SerializeField] private Room room;
+    [SerializeField] private DoorDirection direction;
     [SerializeField] private Transform enterPosition;
-
-    private float disabledDuration = 3f;
-    private bool canUse = true;
-
     
-    public void changeDestination(Door newDestination) {
+    public void setDestination(Door newDestination) {
         this.destination = newDestination;
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if(!canUse) {
-            return;
+        if(/*Input.GetKeyDown(KeyCode.Space) && */other.gameObject.GetComponent<Player>() != null) {
+            this.useDoor(other.gameObject.GetComponent<Player>());
+        }
+    }
+
+    private void useDoor(Player player) {
+        if(this.destination == null) {
+            Room next = player.getNextInDeck();
+            if(room.getLayoutManager().canPlaceRoom(this, next)) {
+                player.removeNextInDeck();
+                room.getLayoutManager().placeRoom(this, next);
+                this.setDestination(next.getEntrance(this.getInverse()));
+                this.destination.setDestination(this);
+                this.onExit();
+            } else {
+                return;
+            }
         }
 
-        if(other.gameObject.GetComponent<PlayerController>() != null) {
-            this.onExit();
-            this.destination.onEnter(other.gameObject.GetComponent<PlayerController>());
-        }
+        this.onExit();
+        this.destination.onEnter(player);
     }
 
     private void onExit() {
         this.room.onExit();
     }
 
-    public void onEnter(PlayerController player) {
+    public void onEnter(Player player) {
         player.transform.position = enterPosition.position;
-        this.canUse = false;
-        Invoke(nameof(enableDoor), this.disabledDuration);
         this.room.onEnter();
     }
 
-    private void enableDoor() {
-        this.canUse = true;
+    public DoorDirection getDirection() {
+        return this.direction;
+    }
+
+    public DoorDirection getInverse() {
+        switch(this.direction) {
+            case DoorDirection.North:
+                return DoorDirection.South;
+            case DoorDirection.South:
+                return DoorDirection.North;
+            case DoorDirection.East:
+                return DoorDirection.West;
+            case DoorDirection.West:
+                return DoorDirection.East;
+        }
+        throw new InvalidOperationException("direction does not exist");
+    }
+
+    public RoomCoords getPosition() {
+        return this.room.getPosition();
     }
 }
