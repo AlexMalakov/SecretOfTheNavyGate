@@ -9,10 +9,10 @@ public class Room : MonoBehaviour
     [SerializeField] private float roomLighting = .5f;
     [SerializeField] private Light2D globalLighting;
     // [SerializeField] private GameObject cameraObj;
-    [SerializeField] private RoomsLayout layoutManager;
-    [SerializeField] private List<Door> doors;
+    [SerializeField] protected RoomsLayout layoutManager;
+    [SerializeField] protected List<Door> doors;
 
-    private RoomCoords position;
+    protected RoomCoords position;
 
     public void init(RoomCoords position) {
         this.position = position;

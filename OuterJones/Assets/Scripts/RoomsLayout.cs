@@ -82,4 +82,8 @@ public class RoomsLayout : MonoBehaviour
         Vector3 offset = new Vector3(positionOffset * (destPos.x - origin.getPosition().x), positionOffset * (destPos.y - origin.getPosition().y), 0);
         dest.transform.position = this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].transform.position + offset;
     }
+
+    public Room getRoomAt(int x, int y) {
+        return this.rooms[x,y];
+    }
 }
