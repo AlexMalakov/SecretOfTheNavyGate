@@ -53,4 +53,13 @@ public class Room : MonoBehaviour
         }
         throw new InvalidOperationException("DOOR WITH THE DIRECTION " + direction + "  DOES NOT EXIST IN ROOM " + gameObject.name);
     }
+
+
+    /////////////////////////////////////////////
+    //adding this functionality to all rooms incase we want canals in non water rooms, or similar shananigans
+    public virtual void onFlood(List<CanalEntrances> entrances) {}
+
+    public virtual void drainWater() {}
+
+    public virtual void floodNeighbors(List<CanalEntrances> exits) {}
 }

@@ -19,7 +19,7 @@ public class WaterRoom : Room
     }
 
 
-    public void floodNeighbors(List<CanalEntrances> exits) {
+    public override void floodNeighbors(List<CanalEntrances> exits) {
         List<CanalEntrances> northExits = new List<CanalEntrances>();
         List<CanalEntrances> eastExits = new List<CanalEntrances>();
         List<CanalEntrances> southExits = new List<CanalEntrances>();
@@ -55,7 +55,7 @@ public class WaterRoom : Room
         }
     }
 
-    public void onFlood(List<CanalEntrances> floodingFrom) {
+    public override void onFlood(List<CanalEntrances> floodingFrom) {
         foreach(Canal c in this.canals) {
             if(c.willFlood(floodingFrom)) {
                 c.onFlood(floodingFrom);
@@ -63,7 +63,7 @@ public class WaterRoom : Room
         }
     }
 
-    public void drainWater() {
+    public override void drainWater() {
         foreach(Canal c in this.canals) {
             c.drainWater();
         }

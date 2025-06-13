@@ -47,7 +47,7 @@ public class Canal : MonoBehaviour
     }
 
 
-    public drainWater() {
+    public void drainWater() {
         this.flooded = false;
     }
 }
