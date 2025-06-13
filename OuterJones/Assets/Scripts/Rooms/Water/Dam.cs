@@ -13,7 +13,6 @@ public class Dam : MonoBehaviour
 
 
     public void onFlood(Canal c, List<FloodEntrances> floodingFrom) {
-
         if(!open) {
             return;
         }
@@ -21,7 +20,7 @@ public class Dam : MonoBehaviour
         if(c == c1) {
             c2.onFlood(floodingFrom)
         }else if(c == c2) {
-            c21.onFlood(floodingFrom)
+            c1.onFlood(floodingFrom)
         }
     }
 }

@@ -13,30 +13,13 @@ public class WaterRoom : Room
     //tbh not the greatest solution but should do the job
     [SerializeField] private List<CanalEntrances> canalEntrances;
     [SerializeField] private List<Canal> canals;
-    private bool flooded = false;
-
-    
 
     public void rotate(int turns) {
         //rotate which canal entrances are open/closed
     }
 
-    public void updateFlood(List<CanalEntrances> floodingFrom) {
-        if(flooded) {
-            return;
-        }
-        flooded = true;
-        List<CanalEntrances> floodTo = new List<CanalEntrances>();
-        foreach(Canal c in this.canals) {
-            if(c.willFlood(floodingFrom)) {
-                floodTo.AddRange(c.onFlood(floodingFrom));
-            }
-        }
 
-        passFloodOn(floodTo);
-    }
-
-    private void passFloodOn(List<CanalEntrances> exits) {
+    public void floodNeighbors(List<CanalEntrances> exits) {
         List<CanalEntrances> northExits = new List<CanalEntrances>();
         List<CanalEntrances> eastExits = new List<CanalEntrances>();
         List<CanalEntrances> southExits = new List<CanalEntrances>();
@@ -59,18 +42,31 @@ public class WaterRoom : Room
         }
 
         if(northExits.Count > 0) {
-            this.layoutManager.getRoomAt(this.position.x, this.position.y+1).updateFlood(northExits);
+            this.layoutManager.getRoomAt(this.position.x, this.position.y+1).onFlood(northExits);
         }
         if(eastExits.Count > 0) {
-            this.layoutManager.getRoomAt(this.position.x+1, this.position.y).updateFlood(eastExits);
+            this.layoutManager.getRoomAt(this.position.x+1, this.position.y).onFlood(eastExits);
         }
         if(southExits.Count > 0) {
-            this.layoutManager.getRoomAt(this.position.x, this.position.y-1).updateFlood(southExits);
+            this.layoutManager.getRoomAt(this.position.x, this.position.y-1).onFlood(southExits);
         }
         if(westExits.Count > 0) {
-            this.layoutManager.getRoomAt(this.position.x-1, this.position.y+1).updateFlood(westExits);
+            this.layoutManager.getRoomAt(this.position.x-1, this.position.y+1).onFlood(westExits);
         }
-        
+    }
+
+    public void onFlood(List<CanalEntrances> floodingFrom) {
+        foreach(Canal c in this.canals) {
+            if(c.willFlood(floodingFrom)) {
+                c.onFlood(floodingFrom);
+            }
+        }
+    }
+
+    public void drainWater() {
+        foreach(Canal c in this.canals) {
+            c.drainWater();
+        }
     }
 
 }

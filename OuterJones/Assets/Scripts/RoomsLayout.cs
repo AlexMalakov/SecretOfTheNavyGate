@@ -86,4 +86,16 @@ public class RoomsLayout : MonoBehaviour
     public Room getRoomAt(int x, int y) {
         return this.rooms[x,y];
     }
+
+    public List<Room> getAllRooms() {
+        List<Room> all = new List<Room>();
+        for(int i = 0; i < ROOM_GRID_X; i++) {
+            for(int j = 0; j < ROOM_GRID_X; j++) {
+                if(this.rooms[i,j] != null) {
+                    all.Add(this.rooms[i,j]);
+                }
+            }
+        }
+        return all;
+    }
 }

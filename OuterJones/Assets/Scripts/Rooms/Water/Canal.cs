@@ -8,12 +8,13 @@ public class Canal : MonoBehaviour
     //list of int 0 - 15
     [SerializeField] List<CanalEntrances> canalEntrances;
     [SerializeField] List<Dam> attatchedDams;
+    [SerializeField] Room room;
 
     private bool flooded = false;
     
-    public List<CanalEntrances> onFlood(List<CanalEntrances> floodingFrom) {
+    public void onFlood(List<CanalEntrances> floodingFrom) {
         if(this.flooded) {
-            return new List<CanalEntrances>();
+            return;
         }
 
         this.flooded = true;
@@ -29,7 +30,7 @@ public class Canal : MonoBehaviour
             d.onFlood(this, floodingFrom);
         }
 
-        return floodTo;
+        this.room.floodNeighbors(floodTo);
     }
 
     public bool willFlood(List<CanalEntrances> floodingFrom) {
@@ -43,6 +44,11 @@ public class Canal : MonoBehaviour
             }
         }
         return false;
+    }
+
+
+    public drainWater() {
+        this.flooded = false;
     }
 }
 
