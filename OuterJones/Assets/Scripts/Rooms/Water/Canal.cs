@@ -10,6 +10,13 @@ public class Canal : MonoBehaviour
     [SerializeField] List<Dam> attatchedDams;
     [SerializeField] Room room;
 
+
+    [SerializeField] GameObject floodedSprite;
+    [SerializeField] GameObject drainedSprite;
+
+    [SerializeField] GameObject edgeCollider;
+    [SerializeField] Collider2d enterCollider;
+
     private bool flooded = false;
     
     public void onFlood(List<CanalEntrances> floodingFrom) {
@@ -18,6 +25,11 @@ public class Canal : MonoBehaviour
         }
 
         this.flooded = true;
+        this.floodedSprite.SetActive(true);
+        this.edgeCollider.SetActive(true);
+        this.enterCollider.SetActive(false);
+        this.drainedSprite.SetActive(false);
+
         List<CanalEntrances> floodTo = new List<CanalEntrances>(this.canalEntrances);
 
         foreach(CanalEntrances c in floodingFrom) {
@@ -49,6 +61,10 @@ public class Canal : MonoBehaviour
 
     public void drainWater() {
         this.flooded = false;
+        this.floodedSprite.SetActive(false);
+        this.edgeCollider.SetActive(false);
+        this.enterCollider.SetActive(true);
+        this.drainedSprite.SetActive(true);
     }
 }
 
