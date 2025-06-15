@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterSource : MonoBehaviour
+public class WaterSource : MonoBehaviour, RoomUpdateListener
 {
     [SerializeField] RoomsLayout layout;
     [SerializeField] Canal waterOrigin;
@@ -20,5 +20,9 @@ public class WaterSource : MonoBehaviour
 
     private void computeFlow() {
         waterOrigin.onFlood(new List<CanalEntrances>());
+    }
+
+    public void onRoomUpdate() {
+        this.onWaterUpdate();
     }
 }

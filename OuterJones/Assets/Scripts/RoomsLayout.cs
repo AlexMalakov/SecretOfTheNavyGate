@@ -21,6 +21,8 @@ public class RoomsLayout : MonoBehaviour
     [SerializeField] private float positionOffset;
     int ROOM_GRID_X = 5;
 
+    private List<RoomUpdateListener> listeners;
+
     public void Start() {
         //place starting room in the grid
         this.rooms = new Room[ROOM_GRID_X, ROOM_GRID_X];
@@ -28,6 +30,10 @@ public class RoomsLayout : MonoBehaviour
         GameObject obj = GameObject.Find("startingRoom");
         this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2] = obj.GetComponent<Room>();
         this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].init(new RoomCoords(ROOM_GRID_X/2, ROOM_GRID_X/2));
+    }
+
+    public void addRoomUpdateListener(RoomUpdateListener l) {
+        this.listeners.Add(l);
     }
 
     //needs to be overriden for packman rooms
@@ -81,6 +87,10 @@ public class RoomsLayout : MonoBehaviour
 
         Vector3 offset = new Vector3(positionOffset * (destPos.x - origin.getPosition().x), positionOffset * (destPos.y - origin.getPosition().y), 0);
         dest.transform.position = this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].transform.position + offset;
+
+        foreach(RoomUpdateListener l in this.listeners) {
+            l.onRoomUpdate();
+        }
     }
 
     public Room getRoomAt(int x, int y) {
