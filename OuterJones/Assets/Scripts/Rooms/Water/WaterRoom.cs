@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* 
+big idea of code: each room has 16 possible entrances/exits, which is how cross room water flow is solved. If a canal in a room is flooded
+and it exits into an adjacent room which has a canal entrance that "lines up", that canal should also flood
+
+canals are made using tile maps. One tilemap for it's body, and a second to create a collider around it for when you fall in.
+*/
+
 public enum CanalEntrances {
     northFL = 0, northCL = 1, northCR= 2, northFR = 3,
     eastFT = 4, eastCT = 5, eastCB = 6, eastFB = 7,
