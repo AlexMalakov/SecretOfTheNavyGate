@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PackmanRoom : MonoBehaviour
+public class PackmanRoom : Room
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Mummy mummy;
 
-    // Update is called once per frame
-    void Update()
-    {
+
+
+    public static bool isPackmanPlace(Door origin, int maxX, int maxY) {
         
+        return (origin.getDirection() == DoorDirection.North  && origin.getPosition().getOffset(0, 1).y == maxY)
+                || (origin.getDirection() == DoorDirection.East && origin.getPosition().getOffset(1, 0).x == maxX)
+                || (origin.getDirection() == DoorDirection.West && origin.getPosition().getOffset(-1, 0).x == 0)
+                || (origin.getDirection() == DoorDirection.South && origin.getPosition().getOffset(0, -1).y == 0);
     }
 }

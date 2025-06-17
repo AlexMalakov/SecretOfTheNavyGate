@@ -38,6 +38,11 @@ public class RoomsLayout : MonoBehaviour
 
     //needs to be overriden for packman rooms
     public bool canPlaceRoom(Door origin, Room destination) {
+
+        if(origin.getRoom() is PackmanRoom) {
+            return destination.hasDoorDirection(origin.getInverse());
+        }
+
         switch(origin.getDirection()) {
             case DoorDirection.North:
                 if(origin.getPosition().getOffset(0, 1).y < ROOM_GRID_X - 1) {
@@ -45,17 +50,17 @@ public class RoomsLayout : MonoBehaviour
                 }
                 break;
             case DoorDirection.East:
-                if(origin.getPosition().getOffset(1, 0).y < ROOM_GRID_X - 1) {
+                if(origin.getPosition().getOffset(1, 0).x < ROOM_GRID_X - 1) {
                     return destination.hasDoorDirection(DoorDirection.West);
                 }
                 break;
             case DoorDirection.West:
-                if(origin.getPosition().getOffset(-1, 0).y < ROOM_GRID_X - 1) {
+                if(origin.getPosition().getOffset(-1, 0).x > 0) {
                     return destination.hasDoorDirection(DoorDirection.East);
                 }
                 break;
             case DoorDirection.South:
-                if(origin.getPosition().getOffset(0, -1).y < ROOM_GRID_X - 1) {
+                if(origin.getPosition().getOffset(0, -1).y > 0) {
                     return destination.hasDoorDirection(DoorDirection.North);
                 }
                 break;
@@ -64,24 +69,30 @@ public class RoomsLayout : MonoBehaviour
     }
 
     public void placeRoom(Door origin, Room dest) {
+
         RoomCoords destPos;
-        switch(origin.getDirection()) {
-            case DoorDirection.North:
-                destPos = origin.getPosition().getOffset(0, 1);
-                break;
-            case DoorDirection.East:
-                destPos = origin.getPosition().getOffset(1, 0);
-                break;
-            case DoorDirection.West:
-                destPos = origin.getPosition().getOffset(-1, 0);
-                break;
-            case DoorDirection.South:
-                destPos = origin.getPosition().getOffset(0, -1);
-                break;
-            default:
-                throw new InvalidOperationException("Invalid door direction!");
+        if(origin.getRoom() is PackmanRoom && PackmanRoom.isPackmanPlace(origin, ROOM_GRID_X, ROOM_GRID_X)) {
+            destPos = getPackmanCoords(origin);
+        } else {
+            switch(origin.getDirection()) {
+                case DoorDirection.North:
+                    destPos = origin.getPosition().getOffset(0, 1);
+                    break;
+                case DoorDirection.East:
+                    destPos = origin.getPosition().getOffset(1, 0);
+                    break;
+                case DoorDirection.West:
+                    destPos = origin.getPosition().getOffset(-1, 0);
+                    break;
+                case DoorDirection.South:
+                    destPos = origin.getPosition().getOffset(0, -1);
+                    break;
+                default:
+                    throw new InvalidOperationException("Invalid door direction!");
+            }
         }
 
+        
         this.rooms[destPos.x, destPos.y] = dest;
         dest.init(destPos);
 
@@ -91,6 +102,28 @@ public class RoomsLayout : MonoBehaviour
         foreach(RoomUpdateListener l in this.listeners) {
             l.onRoomUpdate(dest);
         }
+    }
+
+    private RoomCoords getPackmanCoords(Door origin) {
+        RoomCoords destPos;
+        switch(origin.getDirection()) {
+            case DoorDirection.North:
+                destPos = new RoomCoords(origin.getPosition().x, 0);
+                break;
+            case DoorDirection.East:
+                destPos = new RoomCoords(0, origin.getPosition().y);
+                break;
+            case DoorDirection.West:
+                destPos = new RoomCoords(ROOM_GRID_X-1, origin.getPosition().y);
+                break;
+            case DoorDirection.South:
+                destPos = new RoomCoords(origin.getPosition().y, ROOM_GRID_X-1);
+                break;
+            default:
+                throw new InvalidOperationException("Invalid door direction!");
+        }
+
+        return destPos;
     }
 
     public Room getRoomAt(int x, int y) {
