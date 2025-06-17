@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private List<Room> deck;
+    private Room currentRoom;
 
 
     public void Start() {
@@ -12,6 +13,11 @@ public class Player : MonoBehaviour
 
         GameObject obj = GameObject.Find("deckRoom");
         deck.Add(obj.GetComponent<Room>());
+
+        obj = GameObject.Find("startingRoom");
+        this.currentRoom = obj.GetComponent<Room>();
+
+        FindObjectOfType<DeckUI>().init(this);
     }
 
     public void addToDeck(List<Room> newDeck) {
@@ -22,6 +28,18 @@ public class Player : MonoBehaviour
         if(deck.Count == 0)
             return null;
         return deck[0];
+    }
+
+    public int getDeckSize() {
+        return this.deck.Count;
+    }
+
+    public Room getCurrentRoom() {
+        return this.currentRoom;
+    }
+
+    public void setCurrentRoom(Room r) {
+        this.currentRoom = r;
     }
 
     //throws out of bounds exception, should never occur tho so it going unhandled is best

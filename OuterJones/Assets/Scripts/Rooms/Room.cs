@@ -11,6 +11,7 @@ public class Room : MonoBehaviour
     // [SerializeField] private GameObject cameraObj;
     [SerializeField] protected RoomsLayout layoutManager;
     [SerializeField] protected List<Door> doors;
+    [SerializeField] private Sprite roomSprite;
 
     protected RoomCoords position;
 
@@ -54,6 +55,13 @@ public class Room : MonoBehaviour
         throw new InvalidOperationException("DOOR WITH THE DIRECTION " + direction + "  DOES NOT EXIST IN ROOM " + gameObject.name);
     }
 
+    public Sprite getRoomSprite() {
+        return this.roomSprite;
+    }
+
+    public List<Door> getDoors() {
+        return this.doors;
+    }
 
     /////////////////////////////////////////////
     //adding this functionality to all rooms incase we want canals in non water rooms, or similar shananigans

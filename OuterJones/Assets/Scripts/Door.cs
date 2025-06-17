@@ -7,15 +7,25 @@ public enum DoorDirection {
     North, East, West, South
 }
 
+public interface DoorUseListener {
+    void onRoomEnter();
+}
+
 public class Door : MonoBehaviour 
 {
     [SerializeField] private Door destination;
     [SerializeField] private Room room;
     [SerializeField] private DoorDirection direction;
     [SerializeField] private Transform enterPosition;
+
+    private List<DoorUseListener> listeners = new List<DoorUseListener>();
     
     public void setDestination(Door newDestination) {
         this.destination = newDestination;
+    }
+
+    public void addDoorUseListener(DoorUseListener listener) {
+        this.listeners.Add(listener);
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
@@ -40,6 +50,11 @@ public class Door : MonoBehaviour
 
         this.onExit();
         this.destination.onEnter(player);
+
+        player.setCurrentRoom(this.destination.getRoom());
+        foreach(DoorUseListener l in this.listeners) {
+            l.onRoomEnter();
+        }
     }
 
     private void onExit() {
@@ -67,6 +82,10 @@ public class Door : MonoBehaviour
                 return DoorDirection.East;
         }
         throw new InvalidOperationException("direction does not exist");
+    }
+
+    public Room getRoom() {
+        return this.room;
     }
 
     public RoomCoords getPosition() {

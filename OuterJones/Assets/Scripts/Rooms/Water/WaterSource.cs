@@ -7,6 +7,10 @@ public class WaterSource : MonoBehaviour, RoomUpdateListener
     [SerializeField] RoomsLayout layout;
     [SerializeField] Canal waterOrigin;
 
+    public void Start() {
+        layout.addRoomUpdateListener(this);
+    }
+
     public void onWaterUpdate() {
         this.drainAll();
         this.computeFlow();
@@ -22,7 +26,7 @@ public class WaterSource : MonoBehaviour, RoomUpdateListener
         waterOrigin.onFlood(new List<CanalEntrances>());
     }
 
-    public void onRoomUpdate() {
+    public void onRoomUpdate(Room r) {
         this.onWaterUpdate();
     }
 }

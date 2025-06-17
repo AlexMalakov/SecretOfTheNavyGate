@@ -21,9 +21,9 @@ public class RoomsLayout : MonoBehaviour
     [SerializeField] private float positionOffset;
     int ROOM_GRID_X = 5;
 
-    private List<RoomUpdateListener> listeners;
+    private List<RoomUpdateListener> listeners = new List<RoomUpdateListener>();
 
-    public void Start() {
+    public void Awake() {
         //place starting room in the grid
         this.rooms = new Room[ROOM_GRID_X, ROOM_GRID_X];
 
@@ -89,7 +89,7 @@ public class RoomsLayout : MonoBehaviour
         dest.transform.position = this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].transform.position + offset;
 
         foreach(RoomUpdateListener l in this.listeners) {
-            l.onRoomUpdate();
+            l.onRoomUpdate(dest);
         }
     }
 
