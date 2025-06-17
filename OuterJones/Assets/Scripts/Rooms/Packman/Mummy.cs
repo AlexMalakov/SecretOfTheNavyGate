@@ -1,18 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Mummy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    private Player player;
+    private NavMeshAgent agent;
+
+    private bool isAwake;
+
+    public void Start() {
+        this.player = FindObjectOfType<Player>();
+        this.agent = GetComponent<NavMeshAgent>();
         
+        this.agent.updateRotation = false;
+        this.agent.updateUpAxis = false;
+
+        this.agent.enabled = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void wake() {
+        this.isAwake = true;
+        this.agent.enabled = true;
+    }
+
+    public void sleep() {
+        this.isAwake = false;
+        this.agent.enabled = false;
+    }
+
+    public void Update() {
+        agent.setDestination(this.player.transform.position);
     }
 }

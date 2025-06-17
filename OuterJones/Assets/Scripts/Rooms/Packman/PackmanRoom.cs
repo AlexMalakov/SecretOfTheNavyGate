@@ -6,10 +6,19 @@ public class PackmanRoom : Room
 {
     public Mummy mummy;
 
+    public override void onEnter() {
+        base.onEnter();
+        mummy.wake();
+    }
+
+    public override void onExit() {
+        mummy.sleep();
+        base.onExit();
+    }
 
 
     public static bool isPackmanPlace(Door origin, int maxX, int maxY) {
-        
+
         return (origin.getDirection() == DoorDirection.North  && origin.getPosition().getOffset(0, 1).y == maxY)
                 || (origin.getDirection() == DoorDirection.East && origin.getPosition().getOffset(1, 0).x == maxX)
                 || (origin.getDirection() == DoorDirection.West && origin.getPosition().getOffset(-1, 0).x == 0)

@@ -19,13 +19,13 @@ public class Room : MonoBehaviour
         this.position = position;
     }
 
-    public void onEnter() {
+    public virtual void onEnter() {
         this.gameObject.SetActive(true);
         // cameraObj.transform.position = new Vector3(this.transform.position.x, this.transform.position.y ,this.cameraObj.transform.position.z);
         globalLighting.intensity = this.roomLighting;
     }
 
-    public void onExit() {
+    public virtual void onExit() {
         this.gameObject.SetActive(false);
     }
 
