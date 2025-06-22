@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class LightDarkRoom : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    [Header ("lightdark")]
+    [SerializeField] private float lightLevel;
+    [SerializeField] private float darkLevel;
+
+    [SerializeField] private Sprite darkSprite;
+
+
+    public override void init(RoomCoords position) {
+        this.position = position;
+        if((position.x + position.y) % 2 == 0) {
+            this.roomLighting = lightLevel;
+        } else {
+            this.roomLighting = darkLevel;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+
+    public override Sprite getRoomSprite() {
+        if(Mathf.Abs(this.roomLighting - lightLevel) < .001) {
+            return this.roomSprite;
+        }
+        return this.darkSprite;
     }
+
 }
