@@ -31,6 +31,6 @@ public class Mummy : MonoBehaviour
     }
 
     public void Update() {
-        agent.setDestination(this.player.transform.position);
+        agent.SetDestination(this.player.transform.position);
     }
 }

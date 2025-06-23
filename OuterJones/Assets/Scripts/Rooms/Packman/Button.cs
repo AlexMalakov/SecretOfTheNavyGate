@@ -18,7 +18,7 @@ public class Button : MonoBehaviour
 
     public void OnTriggerExit2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null || other.gameObject.GetComponent<Mummy>() != null) {
-            this.room.onButtonPress(this, false);
+            this.room.onButtonEvent(this, false);
         }
     }
 }

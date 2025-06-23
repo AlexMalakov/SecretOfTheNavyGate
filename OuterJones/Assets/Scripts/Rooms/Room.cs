@@ -11,7 +11,7 @@ public class Room : MonoBehaviour
     // [SerializeField] private GameObject cameraObj;
     [SerializeField] protected RoomsLayout layoutManager;
     [SerializeField] protected List<Door> doors;
-    [SerializeField] private Sprite roomSprite;
+    [SerializeField] protected Sprite roomSprite;
 
     protected RoomCoords position;
 
@@ -71,5 +71,11 @@ public class Room : MonoBehaviour
     public virtual void drainWater() {}
 
     public virtual void floodNeighbors(List<CanalEntrances> exits) {}
+
+
+    //////////////////////////////////////////////
+    //functionality for L/D rooms
+
+    public virtual void receiveBeam(DoorDirection incomingDirection) {}
     
 }

@@ -10,10 +10,7 @@ canals are made using tile maps. One tilemap for it's body, and a second to crea
 */
 
 public enum CanalEntrances {
-    northFL = 0, northCL = 1, northCR= 2, northFR = 3,
-    eastFT = 4, eastCT = 5, eastCB = 6, eastFB = 7,
-    southFR = 8, southCR = 9, southCL = 10, southFL = 11,
-    westFB = 12, westCB = 13, westCT = 14, westFT = 15,
+    NW = 0, N = 1, NE = 2, E = 3, SE = 4, S = 5, SW = 6, W = 7
 }
 public class WaterRoom : Room
 {
