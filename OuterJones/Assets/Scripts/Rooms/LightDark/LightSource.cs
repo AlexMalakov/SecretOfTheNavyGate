@@ -9,18 +9,30 @@ public class LightSource : MonoBehaviour, RoomUpdateListener
 
     [SerializeField] private GameObject beamModel; //need to draw a lien between 2 points
 
+    private BeamModel beam;
+
     private DoorDirection castDirection = DoorDirection.North;
 
     public void castBeam() {
-        //place beam object
+        GameObject newBeam = Instantiate(beamModel);
+
+        this.beam = newBeam.GetComponent<BeamModel>();
+        this.beam.init(this.transform.position, this.originRoom.getPointInDirection(castDirection).position);
+
         this.originRoom.beamNeighbor(castDirection);
     }
 
     public void onRoomUpdate() {
+        Destroy(this.beam.gameObject);
         foreach(Room r in this.layout.getAllRooms()) {
             r.removeBeam();
         }
 
         this.castBeam();
+    }
+
+    public BeamModel getBeam() {
+        GameObject newBeam = Instantiate(beamModel);
+        return newBeam.GetComponent<BeamModel>();
     }
 }

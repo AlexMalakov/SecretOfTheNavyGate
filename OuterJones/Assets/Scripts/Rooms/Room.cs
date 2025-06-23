@@ -13,6 +13,11 @@ public class Room : MonoBehaviour
     [SerializeField] protected List<Door> doors;
     [SerializeField] protected Sprite roomSprite;
 
+    [SerializeField] private Transform northPosition;
+    [SerializeField] private Transform eastPosition;
+    [SerializeField] private Transform southPosition;
+    [SerializeField] private Transform westPosition;
+
     protected RoomCoords position;
 
     public virtual void init(RoomCoords position) {
@@ -62,6 +67,22 @@ public class Room : MonoBehaviour
 
     public List<Door> getDoors() {
         return this.doors;
+    }
+
+    public Transform getPointInDirection(DoorDirection d) {
+        switch(origin.getDirection()) {
+            case DoorDirection.North:
+                return this.northPosition;
+                break;
+            case DoorDirection.East:
+                return this.eastPosition;
+                break;
+            case DoorDirection.West:
+                return this.westPosition;
+                break;
+            case DoorDirection.South:
+                return this.southPosition;
+                break;
     }
 
     /////////////////////////////////////////////
