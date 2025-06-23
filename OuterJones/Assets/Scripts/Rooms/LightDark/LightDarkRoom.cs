@@ -11,6 +11,8 @@ public class LightDarkRoom : Room
     [SerializeField] private Sprite darkSprite;
     [SerializeField] private Mirror mirror;
 
+    [SerializeField] private List<BeamModel> beams = new List<BeamModel>();
+
 
     public override void init(RoomCoords position) {
         this.position = position;
@@ -60,12 +62,15 @@ public class LightDarkRoom : Room
             case DoorDirection.West:
                 exit = new RoomCoords(this.position.x-1, this.position.y);
                 break;
+            default:
+                Debug.Log("IMPOSSIBLE COORDINATE");
+                return;
         }
 
         this.layoutManager.getRoomAt(exit.x, exit.y).receiveBeam(exitDirection);
     }
 
-    public virtual void removeBeam() {
+    public override void removeBeam() {
         //remove line object that represents the beam
     }
 

@@ -17,15 +17,16 @@ public class LightSource : MonoBehaviour, RoomUpdateListener
         GameObject newBeam = Instantiate(beamModel);
 
         this.beam = newBeam.GetComponent<BeamModel>();
-        this.beam.init(this.transform.position, this.originRoom.getPointInDirection(castDirection).position);
+        this.beam.initBeam(this.transform.position, this.originRoom.getPointInDirection(castDirection).position);
 
         this.originRoom.beamNeighbor(castDirection);
     }
 
-    public void onRoomUpdate() {
+    public void onRoomUpdate(Room r) {
         Destroy(this.beam.gameObject);
-        foreach(Room r in this.layout.getAllRooms()) {
-            r.removeBeam();
+        
+        foreach(Room room in this.layout.getAllRooms()) {
+            room.removeBeam();
         }
 
         this.castBeam();

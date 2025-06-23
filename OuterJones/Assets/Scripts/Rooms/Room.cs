@@ -70,19 +70,19 @@ public class Room : MonoBehaviour
     }
 
     public Transform getPointInDirection(DoorDirection d) {
-        switch(origin.getDirection()) {
+        switch(d) {
             case DoorDirection.North:
                 return this.northPosition;
-                break;
             case DoorDirection.East:
                 return this.eastPosition;
-                break;
             case DoorDirection.West:
                 return this.westPosition;
-                break;
             case DoorDirection.South:
                 return this.southPosition;
-                break;
+        }
+
+        Debug.Log("IMPOSSIBLE DIRECTION!");
+        return null;
     }
 
     /////////////////////////////////////////////
@@ -98,6 +98,8 @@ public class Room : MonoBehaviour
     //functionality for L/D rooms
 
     public virtual void receiveBeam(DoorDirection incomingDirection) {}
+
+    public virtual void beamNeighbor(DoorDirection exitDirection) {}
 
     public virtual void removeBeam() {}
     
