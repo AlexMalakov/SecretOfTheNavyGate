@@ -65,4 +65,8 @@ public class LightDarkRoom : Room
         this.layoutManager.getRoomAt(exit.x, exit.y).receiveBeam(exitDirection);
     }
 
+    public virtual void removeBeam() {
+        //remove line object that represents the beam
+    }
+
 }

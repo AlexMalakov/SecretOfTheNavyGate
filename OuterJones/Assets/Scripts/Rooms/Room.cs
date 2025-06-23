@@ -77,5 +77,7 @@ public class Room : MonoBehaviour
     //functionality for L/D rooms
 
     public virtual void receiveBeam(DoorDirection incomingDirection) {}
+
+    public virtual void removeBeam() {}
     
 }
