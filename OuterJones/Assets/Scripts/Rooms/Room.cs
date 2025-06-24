@@ -85,6 +85,17 @@ public class Room : MonoBehaviour
         return null;
     }
 
+    public void rotate90(bool clockwise) {
+        transform.Rotate(0f, 0f, (clockwise ? -90f : 90f));
+        //rotate game object
+
+        //rotate doors
+
+        //rotate any internal objects such as lights
+
+        //rotate on map
+    }
+
     /////////////////////////////////////////////
     //adding this functionality to all rooms incase we want canals in non water rooms, or similar shananigans
     public virtual void onFlood(List<CanalEntrances> entrances) {}

@@ -13,6 +13,21 @@ public struct RoomCoords {
     public RoomCoords getOffset(int dX, int dY) {
         return new RoomCoords(x + dX, y + dY);
     }
+
+    public RoomCoords getOffest(DoorDirection d) {
+        switch(this.direction) {
+            case DoorDirection.North:
+                return DoorDirection.South;
+            case DoorDirection.South:
+                return DoorDirection.North;
+            case DoorDirection.East:
+                return DoorDirection.West;
+            case DoorDirection.West:
+                return DoorDirection.East;
+        }
+
+        return this;
+    }
 }
 
 public class RoomsLayout : MonoBehaviour
@@ -159,6 +174,10 @@ public class RoomsLayout : MonoBehaviour
             new int[]{-1,0},
             new int[]{-1,1},
             new int[]{0,1},
+        }
+
+        if(!clockwise) {
+            offsets = offests.Reverse();
         }
 
         for(int[] offset in offsets) {

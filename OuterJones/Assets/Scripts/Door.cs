@@ -66,6 +66,10 @@ public class Door : MonoBehaviour
         this.room.onEnter();
     }
 
+    public void rotate90(bool clockwise) {
+        this.direction = rotateDirection(clockwise);
+    }
+
     public DoorDirection getDirection() {
         return this.direction;
     }
@@ -80,6 +84,28 @@ public class Door : MonoBehaviour
                 return DoorDirection.West;
             case DoorDirection.West:
                 return DoorDirection.East;
+        }
+        throw new InvalidOperationException("direction does not exist");
+    }
+
+    public DoorDirection rotateDirection(bool clockwise) {
+        switch(this.direction) {
+            case DoorDirection.North:
+                if(clockwise)
+                    return DoorDirection.East;
+                return DoorDirection.West;
+            case DoorDirection.South:
+                if(clockwise)
+                    return DoorDirection.West;
+                return DoorDirection.East;
+            case DoorDirection.East:
+                if(clockwise)
+                    return DoorDirection.South;
+                return DoorDirection.North;
+            case DoorDirection.West:
+                if(clockwise)
+                    return DoorDirection.North;
+                return DoorDirection.South;
         }
         throw new InvalidOperationException("direction does not exist");
     }
