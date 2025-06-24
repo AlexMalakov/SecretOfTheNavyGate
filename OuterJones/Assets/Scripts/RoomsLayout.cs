@@ -17,13 +17,13 @@ public struct RoomCoords {
     public RoomCoords getOffest(DoorDirection d) {
         switch(this.direction) {
             case DoorDirection.North:
-                return DoorDirection.South;
+                return this.getOffest(0,1);
             case DoorDirection.South:
-                return DoorDirection.North;
+                return this.getOffest(0,-1);
             case DoorDirection.East:
-                return DoorDirection.West;
+                return this.getOffest(1,0);
             case DoorDirection.West:
-                return DoorDirection.East;
+                return this.getOffest(-1,0);
         }
 
         return this;
@@ -58,29 +58,13 @@ public class RoomsLayout : MonoBehaviour
             return destination.hasDoorDirection(origin.getInverse());
         }
 
-        switch(origin.getDirection()) {
-            case DoorDirection.North:
-                if(origin.getPosition().getOffset(0, 1).y < ROOM_GRID_X - 1) {
-                    return destination.hasDoorDirection(DoorDirection.South);
-                }
-                break;
-            case DoorDirection.East:
-                if(origin.getPosition().getOffset(1, 0).x < ROOM_GRID_X - 1) {
-                    return destination.hasDoorDirection(DoorDirection.West);
-                }
-                break;
-            case DoorDirection.West:
-                if(origin.getPosition().getOffset(-1, 0).x > 0) {
-                    return destination.hasDoorDirection(DoorDirection.East);
-                }
-                break;
-            case DoorDirection.South:
-                if(origin.getPosition().getOffset(0, -1).y > 0) {
-                    return destination.hasDoorDirection(DoorDirection.North);
-                }
-                break;
+        RoomCoods newPos = origin.getPosition().getOffset(origin.getDirection());
+
+        if(newPos.x >= 0 && newPos.x < ROOM_GRID_X && newPos.y >= 0 && newPos.y < ROOM_GRID_X) {
+            return destination.hasDoorDirection(origin.getInverse());
         }
         return false;
+
     }
 
     public void placeRoom(Door origin, Room dest) {
@@ -89,22 +73,7 @@ public class RoomsLayout : MonoBehaviour
         if(origin.getRoom() is PackmanRoom && PackmanRoom.isPackmanPlace(origin, ROOM_GRID_X, ROOM_GRID_X)) {
             destPos = getPackmanCoords(origin);
         } else {
-            switch(origin.getDirection()) {
-                case DoorDirection.North:
-                    destPos = origin.getPosition().getOffset(0, 1);
-                    break;
-                case DoorDirection.East:
-                    destPos = origin.getPosition().getOffset(1, 0);
-                    break;
-                case DoorDirection.West:
-                    destPos = origin.getPosition().getOffset(-1, 0);
-                    break;
-                case DoorDirection.South:
-                    destPos = origin.getPosition().getOffset(0, -1);
-                    break;
-                default:
-                    throw new InvalidOperationException("Invalid door direction!");
-            }
+            destPos = origin.getPosition().getOffest(origin.getDirection());
         }
 
         

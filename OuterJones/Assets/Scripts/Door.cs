@@ -68,6 +68,8 @@ public class Door : MonoBehaviour
 
     public void rotate90(bool clockwise) {
         this.direction = rotateDirection(clockwise);
+
+        
     }
 
     public DoorDirection getDirection() {
