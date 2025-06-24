@@ -18,12 +18,11 @@ public class Canal : MonoBehaviour
     private Room room;
 
     [SerializeField] private Tilemap canalTilemap; // Assign in inspector
-    [SerializeField] private List<TileSwapPair> tileSwaps; // Assign original -> flooded
+    [SerializeField] private List<TileSwapPair> tileSwaps; // Assign original -> flooded, flooded -> original
     private Dictionary<TileBase, TileBase> swapDict;
 
-    [SerializeField] private Collider2D canalTrigger;
-    [SerializeField] private Collider2D canalCollider;
-    [SerializeField] private GameObject edgeCollider;
+    [SerializeField] private Collider2D canalCollider; //trigger when empty, collider when flooded
+    [SerializeField] private GameObject edgeCollider; //collider attatched to external object
 
     private bool flooded = false;
 
@@ -34,6 +33,7 @@ public class Canal : MonoBehaviour
         foreach (var pair in tileSwaps) {
             if (pair.originalTile != null && pair.floodedTile != null) {
                 swapDict[pair.originalTile] = pair.floodedTile;
+                swapDict[pair.floodedTile] = pair.originalTile;
             }
         }
     }
@@ -45,8 +45,7 @@ public class Canal : MonoBehaviour
 
         this.swapTiles();
         this.flooded = true;
-        this.canalCollider.enabled = true;
-        this.canalTrigger.enabled = false;
+        this.canalCollider.isTrigger = false;
 
         List<CanalEntrances> floodTo = new List<CanalEntrances>(this.canalEntrances);
 
@@ -82,8 +81,7 @@ public class Canal : MonoBehaviour
             swapTiles();
         }
 
-        this.canalTrigger.enabled = true;
-        this.canalCollider.enabled = false;
+        this.canalCollider.isTrigger = true;
         this.flooded = false;
     }
 
@@ -102,12 +100,14 @@ public class Canal : MonoBehaviour
         }
     }
 
+    //when the player falls in
     void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null) {
             this.edgeCollider.SetActive(true);
         }
     }
 
+    //once the player takes the ladder, turn off the edge collider
     void OnTriggerExit2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null) {
             this.edgeCollider.SetActive(false);
