@@ -95,6 +95,20 @@ public class Room : MonoBehaviour
             d.rotate90(clockwise);
         }
 
+        //rotate beam transforms :)
+        Transform swapper = northPosition;
+        if(clockwise) {
+            northPosition = westPosition;
+            westPosition = southPosition;
+            southPosition = eastPosition;
+            eastPosition = swapper;
+        } else {
+            northPosition = eastPosition;
+            eastPosition = southPosition;
+            southPosition = westPosition;
+            westPosition = swapper;
+        }
+
         //handles canal and light reset, and map rotate
         this.layoutManager.notifyRoomListeners(new List<Room>(){this});
     }

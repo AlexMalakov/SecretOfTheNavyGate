@@ -101,7 +101,11 @@ public class Door : MonoBehaviour
     }
 
     public DoorDirection rotateDirection(bool clockwise) {
-        switch(this.direction) {
+        return rotateDoorDirection(this.direction, clockwise); 
+    }
+
+    public static DoorDirection rotateDoorDirection(DoorDirection d, bool clockwise) {
+        switch(d) {
             case DoorDirection.North:
                 if(clockwise)
                     return DoorDirection.East;

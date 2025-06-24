@@ -11,12 +11,10 @@ public class LightDarkRoom : Room
     [SerializeField] private Sprite darkSprite;
     [SerializeField] private Mirror mirror;
 
-    [SerializeField] private LightSource source; //this is bad and needs to be moved somewhere else
-
     [SerializeField] private List<BeamModel> beams = new List<BeamModel>();
+    private LightSource source;
 
     [SerializeField] private List<LightPassage> passages;
-
 
     public override void init(RoomCoords position) {
         this.position = position;
@@ -43,7 +41,7 @@ public class LightDarkRoom : Room
         if(this.mirror == null) {
             if(this.hasDoorDirection(this.getEntrance(incomingDirection).getInverse())) {
 
-                BeamModel b = this.source.getBeam();
+                BeamModel b = BeamPool.getBeam();
                 this.beams.Add(b);
                 b.initBeam(
                     this.getPointInDirection(incomingDirection).position,
@@ -55,14 +53,14 @@ public class LightDarkRoom : Room
             DoorDirection exitDirection = this.mirror.reflect(this.getEntrance(incomingDirection).getInverse());
             if(this.hasDoorDirection(exitDirection)) {
 
-                BeamModel b = this.source.getBeam();
+                BeamModel b = BeamPool.getBeam();
                 this.beams.Add(b);
 
                 b.initBeam(
                     this.getPointInDirection(incomingDirection).position,
                     this.mirror.transform.position);
 
-                BeamModel bb = this.source.getBeam();
+                BeamModel bb = BeamPool.getBeam();
                 this.beams.Add(bb);
 
                 bb.initBeam(
@@ -99,21 +97,26 @@ public class LightDarkRoom : Room
 
     public override void removeBeam() {
         for(int i = 0; i < this.beams.Count; i++) {
-            Destroy(this.beams[i].gameObject);
+            this.beams[i].killBeam();
         }
 
         this.beams = new List<BeamModel>();
     }
 
     
-    public override void rotate90() {
+    public override void rotate90(bool clockwise) {
         base.rotate90(clockwise);
 
-        //TODO: If im the room with the source, i need to rotate it too
+        if(this.source != null) {
+            this.source.rotate90(clockwise);
+        }
 
         if(this.mirror != null) {
-            this.mirror.rotate90(clockwise);
+            this.mirror.rotate90();
         }
     }
 
+    public void setSource(LightSource s) {
+        this.source = s;
+    }
 }
