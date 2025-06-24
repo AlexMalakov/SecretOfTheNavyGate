@@ -66,7 +66,7 @@ public class LightDarkRoom : Room
                 this.beams.Add(bb);
 
                 bb.initBeam(
-                    this.mirror.transform.position),
+                    this.mirror.transform.position,
                     this.getPointInDirection(this.getEntrance(incomingDirection).getInverse()).position);
             }
         }
