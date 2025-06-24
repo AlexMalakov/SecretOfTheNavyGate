@@ -116,7 +116,7 @@ public class Canal : MonoBehaviour
 
     public void rotate90(bool clockwise) {
         for(int i = 0; i < this.canalEntrances.Count; i++) {
-            this.canalEntrances[i] = (CanalEntrances)((WaterRoom.CANAL_ENTRANCE_COUNT + this.canalEntrances[i] + (clockwise ? 2 : -2)) % WaterRoom.CANAL_ENTRANCE_COUNT);
+            this.canalEntrances[i] = (CanalEntrances)((WaterRoom.CANAL_ENTRANCE_COUNT + (int)this.canalEntrances[i] + (clockwise ? 2 : -2)) % WaterRoom.CANAL_ENTRANCE_COUNT);
         }
     }
 }

@@ -75,11 +75,10 @@ public class Door : MonoBehaviour
         this.direction = rotateDirection(clockwise);
 
         RoomCoords neighborPos = this.room.getPosition().getOffset(this.direction);
-        Room neighbor = this.room.room.getLayoutManager().getRoomAt(neighborPos.x, neighborPos.y)
+        Room neighbor = this.room.getLayoutManager().getRoomAt(neighborPos.x, neighborPos.y);
         if(neighbor.hasDoorDirection(this.direction)) {
             this.setDestination(neighbor.getEntrance(this.direction));
             this.destination.setDestination(this);
-            
         }
     }
 

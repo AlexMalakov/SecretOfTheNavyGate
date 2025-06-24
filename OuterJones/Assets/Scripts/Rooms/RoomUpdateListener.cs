@@ -4,5 +4,5 @@ using System.Collections.Generic;
 
 public interface RoomUpdateListener
 {
-    void onRoomUpdate(Room r);
+    void onRoomUpdate(List<Room> rooms);
 }

@@ -26,7 +26,7 @@ public class WaterSource : MonoBehaviour, RoomUpdateListener
         waterOrigin.onFlood(new List<CanalEntrances>());
     }
 
-    public void onRoomUpdate(Room r) {
+    public void onRoomUpdate(List<Room> rooms) {
         this.onWaterUpdate();
     }
 }

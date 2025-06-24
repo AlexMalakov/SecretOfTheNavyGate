@@ -22,7 +22,7 @@ public class LightSource : MonoBehaviour, RoomUpdateListener
         this.originRoom.beamNeighbor(castDirection);
     }
 
-    public void onRoomUpdate(Room r) {
+    public void onRoomUpdate(List<Room> rooms) {
         Destroy(this.beam.gameObject);
         
         foreach(Room room in this.layout.getAllRooms()) {

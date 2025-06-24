@@ -14,16 +14,16 @@ public struct RoomCoords {
         return new RoomCoords(x + dX, y + dY);
     }
 
-    public RoomCoords getOffest(DoorDirection d) {
-        switch(this.direction) {
+    public RoomCoords getOffset(DoorDirection d) {
+        switch(d) {
             case DoorDirection.North:
-                return this.getOffest(0,1);
+                return this.getOffset(0,1);
             case DoorDirection.South:
-                return this.getOffest(0,-1);
+                return this.getOffset(0,-1);
             case DoorDirection.East:
-                return this.getOffest(1,0);
+                return this.getOffset(1,0);
             case DoorDirection.West:
-                return this.getOffest(-1,0);
+                return this.getOffset(-1,0);
         }
 
         return this;
@@ -58,7 +58,7 @@ public class RoomsLayout : MonoBehaviour
             return destination.hasDoorDirection(origin.getInverse());
         }
 
-        RoomCoods newPos = origin.getPosition().getOffset(origin.getDirection());
+        RoomCoords newPos = origin.getPosition().getOffset(origin.getDirection());
 
         if(newPos.x >= 0 && newPos.x < ROOM_GRID_X && newPos.y >= 0 && newPos.y < ROOM_GRID_X) {
             return destination.hasDoorDirection(origin.getInverse());
@@ -73,7 +73,7 @@ public class RoomsLayout : MonoBehaviour
         if(origin.getRoom() is PackmanRoom && PackmanRoom.isPackmanPlace(origin, ROOM_GRID_X, ROOM_GRID_X)) {
             destPos = getPackmanCoords(origin);
         } else {
-            destPos = origin.getPosition().getOffest(origin.getDirection());
+            destPos = origin.getPosition().getOffset(origin.getDirection());
         }
 
         
@@ -82,15 +82,20 @@ public class RoomsLayout : MonoBehaviour
 
         this.moveRoomToSpot(dest, destPos);
 
+        this.notifyRoomListeners(new List<Room>(){dest});
+    }
+
+    public void notifyRoomListeners(List<Room> r) {
         foreach(RoomUpdateListener l in this.listeners) {
-            l.onRoomUpdate(dest);
+            l.onRoomUpdate(r);
         }
     }
 
     private void moveRoomToSpot(Room r, RoomCoords c) {
         //possible bug in the position placing?
-        Vector3 offset = new Vector3(this.positionOffset * (c.x - this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].x), this.positionOffset * (c.y - this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].y), 0);
-        dest.transform.position = this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].transform.position + offset;
+        RoomCoords centerPos = this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].getPosition();
+        Vector3 offset = new Vector3(this.positionOffset * (c.x - centerPos.x), this.positionOffset * (c.y - centerPos.y), 0);
+        r.transform.position = this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].transform.position + offset;
     }
 
     private RoomCoords getPackmanCoords(Door origin) {
@@ -143,13 +148,13 @@ public class RoomsLayout : MonoBehaviour
             new int[]{-1,0},
             new int[]{-1,1},
             new int[]{0,1},
-        }
+        };
 
         if(!clockwise) {
-            offsets = offests.Reverse();
+            offsets.Reverse();
         }
 
-        for(int[] offset in offsets) {
+        foreach(int[] offset in offsets) {
             if(center.x - offset[0] >= 0 && center.x - offset[0] < ROOM_GRID_X
                 && center.y - offset[1] >= 0 && center.y - offset[1] < ROOM_GRID_X) {
 
@@ -164,14 +169,14 @@ public class RoomsLayout : MonoBehaviour
             this.rooms[roomsToShift[i].x, roomsToShift[i].y] = this.rooms[roomsToShift[i+1].x, roomsToShift[i+1].y];
 
             //change room physical position
-            this.moveRoomToSpot(this.rooms[roomsToShift[i].x, roomsToShift[i].y], roomsToSift[i]);
+            this.moveRoomToSpot(this.rooms[roomsToShift[i].x, roomsToShift[i].y], roomsToShift[i]);
             
             //TODO: update map
         }
 
         this.rooms[roomsToShift[roomsToShift.Count-1].x, roomsToShift[roomsToShift.Count-1].y] = swapper;
 
-        this.moveRoomToSpot(swapper, roomsToSift[roomsToShift.Count-1]);
+        this.moveRoomToSpot(swapper, roomsToShift[roomsToShift.Count-1]);
             
         //TODO: update map
     }

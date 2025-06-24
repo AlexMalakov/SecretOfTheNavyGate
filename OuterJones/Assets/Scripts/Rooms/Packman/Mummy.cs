@@ -31,6 +31,8 @@ public class Mummy : MonoBehaviour
     }
 
     public void Update() {
-        agent.SetDestination(this.player.transform.position);
+        if(isAwake) {
+            agent.SetDestination(this.player.transform.position);
+        }
     }
 }

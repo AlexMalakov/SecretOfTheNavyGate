@@ -81,7 +81,7 @@ public class WaterRoom : Room
         base.rotate90(clockwise);
 
         for(int i = 0; i < this.canalEntrances.Count; i++) {
-            this.canalEntrances[i] = (CanalEntrances)((CANAL_ENTRANCE_COUNT + this.canalEntrances[i] + (clockwise ? 2 : -2)) % CANAL_ENTRANCE_COUNT);
+            this.canalEntrances[i] = (CanalEntrances)((CANAL_ENTRANCE_COUNT + (int)this.canalEntrances[i] + (clockwise ? 2 : -2)) % CANAL_ENTRANCE_COUNT);
         }
         foreach(Canal c in this.canals) {
             c.rotate90(clockwise);

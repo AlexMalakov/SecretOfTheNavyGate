@@ -25,7 +25,7 @@ public class DeckUI : MonoBehaviour, RoomUpdateListener, DoorUseListener
     }
 
 
-    public void onRoomUpdate(Room r) {
+    public void onRoomUpdate(List<Room> rooms) {
         this.onUpdate();
     }
 

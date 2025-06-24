@@ -19,8 +19,10 @@ public class Map: MonoBehaviour, RoomUpdateListener
 
     }
 
-    public void onRoomUpdate(Room r) {
-        displayRoom(r, this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y));
+    public void onRoomUpdate(List<Room> rooms) {
+        foreach(Room r in rooms) {
+            displayRoom(r, this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y));
+        }
     }
 
     private void displayRoom(Room r, Image i) {
@@ -28,6 +30,8 @@ public class Map: MonoBehaviour, RoomUpdateListener
         i.type = Image.Type.Simple;
         i.preserveAspect = false;
         i.gameObject.SetActive(true);
+
+        i.transform.rotation = r.transform.rotation;
     }
 }
 

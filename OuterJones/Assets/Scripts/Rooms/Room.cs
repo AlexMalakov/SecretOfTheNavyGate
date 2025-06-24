@@ -85,15 +85,18 @@ public class Room : MonoBehaviour
         return null;
     }
 
-    public void rotate90(bool clockwise) {
-        transform.Rotate(0f, 0f, (clockwise ? -90f : 90f));
+    //TODO: override with child obj rotations
+    public virtual void rotate90(bool clockwise) {
         //rotate game object
-
+        transform.Rotate(0f, 0f, (clockwise ? -90f : 90f));
+    
         //rotate doors
+        foreach(Door d in this.doors) {
+            d.rotate90(clockwise);
+        }
 
-        //rotate any internal objects such as lights
-
-        //rotate on map
+        //handles canal and light reset, and map rotate
+        this.layoutManager.notifyRoomListeners(new List<Room>(){this});
     }
 
     /////////////////////////////////////////////
