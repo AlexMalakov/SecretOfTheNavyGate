@@ -10,7 +10,7 @@ public class Chest : MonoBehaviour
 
     private bool opened = false;
 
-    public void OnTriggerEnter2D(Collider2D other) {
+    void OnTriggerEnter2D(Collider2D other) {
         if(opened) {
             return;
         }

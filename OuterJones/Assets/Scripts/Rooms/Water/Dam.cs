@@ -29,7 +29,7 @@ public class Dam : MonoBehaviour
         }
     }
 
-    public void OnTriggerStay2D(Collider2D other) {
+    void OnTriggerStay2D(Collider2D other) {
         if(Input.GetKeyDown(KeyCode.Space) && other.gameObject.GetComponent<Player>() != null) {
             this.open = !open;
             source.onWaterUpdate();

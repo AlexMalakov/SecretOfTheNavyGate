@@ -28,7 +28,7 @@ public class Door : MonoBehaviour
         this.listeners.Add(listener);
     }
 
-    public void OnTriggerEnter2D(Collider2D other) {
+    void OnTriggerEnter2D(Collider2D other) {
         if(/*Input.GetKeyDown(KeyCode.Space) && */other.gameObject.GetComponent<Player>() != null) {
             this.useDoor(other.gameObject.GetComponent<Player>());
         }

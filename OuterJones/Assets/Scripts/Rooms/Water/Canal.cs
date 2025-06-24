@@ -102,13 +102,13 @@ public class Canal : MonoBehaviour
         }
     }
 
-    public void OnTriggerEnter2D(Collider2D other) {
+    void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null) {
             this.edgeCollider.SetActive(true);
         }
     }
 
-    public void OnTriggerExit2D(Collider2D other) {
+    void OnTriggerExit2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null) {
             this.edgeCollider.SetActive(false);
         }
