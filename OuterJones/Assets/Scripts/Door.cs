@@ -66,10 +66,21 @@ public class Door : MonoBehaviour
         this.room.onEnter();
     }
 
+    //TODO: this won't really work for packman rooms.
+    //Actually not sure doors work for packman at all
     public void rotate90(bool clockwise) {
+        this.destination.setDestination(null);
+        this.destination = null;
+
         this.direction = rotateDirection(clockwise);
 
-        
+        RoomCoords neighborPos = this.room.getPosition().getOffset(this.direction);
+        Room neighbor = this.room.room.getLayoutManager().getRoomAt(neighborPos.x, neighborPos.y)
+        if(neighbor.hasDoorDirection(this.direction)) {
+            this.setDestination(neighbor.getEntrance(this.direction));
+            this.destination.setDestination(this);
+            
+        }
     }
 
     public DoorDirection getDirection() {
