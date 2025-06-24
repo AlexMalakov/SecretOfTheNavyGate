@@ -25,6 +25,10 @@ public class LightDarkRoom : Room
         } else {
             this.roomLighting = darkLevel;
         }
+
+        foreach(LightPassage p in this.passages) {
+            p.informLighting((position.x + position.y) % 2 == 0);
+        }
     }
 
 
