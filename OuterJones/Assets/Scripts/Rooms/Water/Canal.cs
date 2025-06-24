@@ -12,7 +12,7 @@ public class TileSwapPair {
 //canal endings can either be dams or wall
 public class Canal : MonoBehaviour
 {
-    //list of int 0 - 15
+    //list of int 0 - 8
     [SerializeField] List<CanalEntrances> canalEntrances;
     [SerializeField] List<Dam> attatchedDams;
     private Room room;
@@ -111,6 +111,12 @@ public class Canal : MonoBehaviour
     public void OnTriggerExit2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null) {
             this.edgeCollider.SetActive(false);
+        }
+    }
+
+    public void rotate90(bool clockwise) {
+        for(int i = 0; i < this.canalEntrances.Count; i++) {
+            this.canalEntrances[i] = (CanalEntrances)((WaterRoom.CANAL_ENTRANCE_COUNT + this.canalEntrances[i] + (clockwise ? 2 : -2)) % WaterRoom.CANAL_ENTRANCE_COUNT);
         }
     }
 }

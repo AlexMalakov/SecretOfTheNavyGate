@@ -12,11 +12,15 @@ canals are made using tile maps. One tilemap for it's body, and a second to crea
 public enum CanalEntrances {
     NW = 0, N = 1, NE = 2, E = 3, SE = 4, S = 5, SW = 6, W = 7
 }
+
+
 public class WaterRoom : Room
 {
     //tbh not the greatest solution but should do the job
     [SerializeField] private List<CanalEntrances> canalEntrances;
     [SerializeField] private List<Canal> canals;
+
+    public static int CANAL_ENTRANCE_COUNT = 8;
 
     public void rotate(int turns) {
         //rotate which canal entrances are open/closed
@@ -70,6 +74,17 @@ public class WaterRoom : Room
     public override void drainWater() {
         foreach(Canal c in this.canals) {
             c.drainWater();
+        }
+    }
+
+    public override void rotate90(bool clockwise) {
+        base.rotate90(clockwise);
+
+        for(int i = 0; i < this.canalEntrances.Count; i++) {
+            this.canalEntrances[i] = (CanalEntrances)((CANAL_ENTRANCE_COUNT + this.canalEntrances[i] + (clockwise ? 2 : -2)) % CANAL_ENTRANCE_COUNT);
+        }
+        foreach(Canal c in this.canals) {
+            c.rotate90(clockwise);
         }
     }
 
