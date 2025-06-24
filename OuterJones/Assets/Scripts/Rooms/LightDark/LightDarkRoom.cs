@@ -11,7 +11,11 @@ public class LightDarkRoom : Room
     [SerializeField] private Sprite darkSprite;
     [SerializeField] private Mirror mirror;
 
+    [SerializeField] private LightSource source; //this is bad and needs to be moved somewhere else
+
     [SerializeField] private List<BeamModel> beams = new List<BeamModel>();
+
+    [SerializeField] private List<LightPassage> passages;
 
 
     public override void init(RoomCoords position) {
@@ -34,13 +38,32 @@ public class LightDarkRoom : Room
     public override void receiveBeam(DoorDirection incomingDirection) {
         if(this.mirror == null) {
             if(this.hasDoorDirection(this.getEntrance(incomingDirection).getInverse())) {
-                //send it out of the exit
+
+                BeamModel b = this.source.getBeam();
+                this.beams.Add(b);
+                b.initBeam(
+                    this.getPointInDirection(incomingDirection).position,
+                    this.getPointInDirection(this.getEntrance(incomingDirection).getInverse()).position);
+
             }
             
         } else {
             DoorDirection exitDirection = this.mirror.reflect(this.getEntrance(incomingDirection).getInverse());
             if(this.hasDoorDirection(exitDirection)) {
-                //send it out the exit
+
+                BeamModel b = this.source.getBeam();
+                this.beams.Add(b);
+
+                b.initBeam(
+                    this.getPointInDirection(incomingDirection).position,
+                    this.mirror.transform.position);
+
+                BeamModel bb = this.source.getBeam();
+                this.beams.Add(bb);
+
+                bb.initBeam(
+                    this.mirror.transform.position),
+                    this.getPointInDirection(this.getEntrance(incomingDirection).getInverse()).position);
             }
         }
         
@@ -71,7 +94,11 @@ public class LightDarkRoom : Room
     }
 
     public override void removeBeam() {
-        //remove line object that represents the beam
+        for(int i = 0; i < this.beams.Count; i++) {
+            Destroy(this.beams[i].gameObject);
+        }
+
+        this.beams = new List<BeamModel>();
     }
 
 }
