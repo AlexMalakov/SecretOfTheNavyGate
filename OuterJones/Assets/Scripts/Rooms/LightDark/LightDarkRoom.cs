@@ -105,4 +105,15 @@ public class LightDarkRoom : Room
         this.beams = new List<BeamModel>();
     }
 
+    
+    public override void rotate90() {
+        base.rotate90(clockwise);
+
+        //TODO: If im the room with the source, i need to rotate it too
+
+        if(this.mirror != null) {
+            this.mirror.rotate90(clockwise);
+        }
+    }
+
 }

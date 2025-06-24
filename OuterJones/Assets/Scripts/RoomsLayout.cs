@@ -136,8 +136,9 @@ public class RoomsLayout : MonoBehaviour
         return all;
     }
 
-    public void shiftRoomPositionsAround(RoomCoords center, bool clockwise) {
+    public void slideRoomsAroundCenter(RoomCoords center, bool clockwise) {
         List<RoomCoords> roomsToShift = new List<RoomCoords>();
+        List<Room> toUpdate = new List<Room>();
 
         List<int[]> offsets = new List<int[]>(){
             new int[]{1,1},
@@ -167,17 +168,21 @@ public class RoomsLayout : MonoBehaviour
         for(int i = 0; i < roomsToShift.Count-1; i++) {
             //update list in internal grid
             this.rooms[roomsToShift[i].x, roomsToShift[i].y] = this.rooms[roomsToShift[i+1].x, roomsToShift[i+1].y];
+            this.rooms[roomsToShift[i].x, roomsToShift[i].y].init(roomsToShift[i]);
 
             //change room physical position
             this.moveRoomToSpot(this.rooms[roomsToShift[i].x, roomsToShift[i].y], roomsToShift[i]);
             
-            //TODO: update map
+            //update map
+            toUpdate.Add(this.rooms[roomsToShift[i].x, roomsToShift[i].y]);
         }
 
+        toUpdate.Add(swapper);
         this.rooms[roomsToShift[roomsToShift.Count-1].x, roomsToShift[roomsToShift.Count-1].y] = swapper;
+        swapper.init(roomsToShift[roomsToShift.Count-1]);
 
         this.moveRoomToSpot(swapper, roomsToShift[roomsToShift.Count-1]);
             
-        //TODO: update map
+        this.notifyRoomListeners(toUpdate);
     }
 }
