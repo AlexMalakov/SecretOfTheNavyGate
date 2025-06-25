@@ -6,6 +6,7 @@ using UnityEngine.Rendering.Universal;
 
 public class Room : MonoBehaviour
 {
+    [Header ("Room info")]
     [SerializeField] protected float roomLighting = .5f;
     [SerializeField] private Light2D globalLighting;
     // [SerializeField] private GameObject cameraObj;
@@ -13,6 +14,7 @@ public class Room : MonoBehaviour
     [SerializeField] protected List<Door> doors;
     [SerializeField] protected Sprite roomSprite;
 
+    [Header ("Beam target transforms")]
     [SerializeField] private Transform northPosition;
     [SerializeField] private Transform eastPosition;
     [SerializeField] private Transform southPosition;
@@ -85,13 +87,43 @@ public class Room : MonoBehaviour
         return null;
     }
 
-    /////////////////////////////////////////////
-    //adding this functionality to all rooms incase we want canals in non water rooms, or similar shananigans
-    public virtual void onFlood(List<CanalEntrances> entrances) {}
+    ///////////////////////////////////////////// CANAL ROOMS
+    [Header ("Canal Info")]
+    [SerializeField] protected List<CanalEntrances> canalEntrances;
+    [SerializeField] protected List<Canal> canals;
+    //since canals can exist in non water rooms, all water functionality gets to live in room :'(
 
-    public virtual void drainWater() {}
 
-    public virtual void floodNeighbors(List<CanalEntrances> exits) {}
+    public virtual void onFlood(List<CanalEntrances> floodingFrom) {
+        foreach(Canal c in this.canals) {
+            if(c.willFlood(floodingFrom)) {
+                c.onFlood(floodingFrom);
+            }
+        }
+    }
+
+    public virtual void drainWater() {
+        foreach(Canal c in this.canals) {
+            c.drainWater();
+        }
+    }
+
+    public virtual void floodNeighbors(List<CanalEntrances> exits) {
+        foreach(CanalEntrances exit in exits) {
+            if(this.layoutManager.getRoomAt(this.position.x + WaterRoom.CANAL_N_MAP[exit].x, this.position.y + WaterRoom.CANAL_N_MAP[exit].y) != null) {
+                this.layoutManager.getRoomAt(this.position.x + WaterRoom.CANAL_N_MAP[exit].x, this.position.y + WaterRoom.CANAL_N_MAP[exit].y).onFlood(exit);
+            }
+        }
+    }
+
+    private void rotateCanals90(bool clockwise) {
+        for(int i = 0; i < this.canalEntrances.Count; i++) {
+            this.canalEntrances[i] = (CanalEntrances)((WaterRoom.CANAL_ENTRANCE_COUNT + (int)this.canalEntrances[i] + (clockwise ? 2 : -2)) % WaterRoom.CANAL_ENTRANCE_COUNT);
+        }
+        foreach(Canal c in this.canals) {
+            c.rotate90(clockwise);
+        }
+    }
 
 
     //////////////////////////////////////////////
@@ -128,6 +160,8 @@ public class Room : MonoBehaviour
             southPosition = westPosition;
             westPosition = swapper;
         }
+
+        rotateCanals90(clockwise);
 
         //handles canal and light reset, and map rotate
         this.layoutManager.notifyRoomListeners(new List<Room>(){this});
