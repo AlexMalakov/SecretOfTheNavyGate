@@ -58,8 +58,8 @@ public class PackmanRoom : Room
 
     public override void floodNeighbors(List<CanalEntrances> exits) {
         foreach(CanalEntrances exit in exits) {
-            if(this.layoutManager.getRoomFromPackman(this.position.x + WaterRoom.CANAL_N_MAP[exit][0], this.position.y + WaterRoom.CANAL_N_MAP[exit][1]) != null) {
-                this.layoutManager.getRoomFromPackman(this.position.x + WaterRoom.CANAL_N_MAP[exit][0], this.position.y + WaterRoom.CANAL_N_MAP[exit][1]).onFlood(exit);
+            if(this.layoutManager.getRoomFromPackman(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]) != null) {
+                this.layoutManager.getRoomFromPackman(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]).onFlood(exit);
             }
         }
     }

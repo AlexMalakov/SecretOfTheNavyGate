@@ -120,15 +120,15 @@ public class Room : MonoBehaviour
 
     public virtual void floodNeighbors(List<CanalEntrances> exits) {
         foreach(CanalEntrances exit in exits) {
-            if(this.layoutManager.getRoomAt(this.position.x + WaterRoom.CANAL_N_MAP[exit][0], this.position.y + WaterRoom.CANAL_N_MAP[exit][1]) != null) {
-                this.layoutManager.getRoomAt(this.position.x + WaterRoom.CANAL_N_MAP[exit][0], this.position.y + WaterRoom.CANAL_N_MAP[exit][1]).onFlood(exit);
+            if(this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]) != null) {
+                this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]).onFlood(exit);
             }
         }
     }
 
     private void rotateCanals90(bool clockwise) {
         for(int i = 0; i < this.canalEntrances.Count; i++) {
-            this.canalEntrances[i] = (CanalEntrances)((WaterRoom.CANAL_ENTRANCE_COUNT + (int)this.canalEntrances[i] + (clockwise ? 2 : -2)) % WaterRoom.CANAL_ENTRANCE_COUNT);
+            this.canalEntrances[i] = (CanalEntrances)((WaterSource.CANAL_ENTRANCE_COUNT + (int)this.canalEntrances[i] + (clockwise ? 2 : -2)) % WaterSource.CANAL_ENTRANCE_COUNT);
         }
         foreach(Canal c in this.canals) {
             c.rotate90(clockwise);

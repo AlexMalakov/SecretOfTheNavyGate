@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[System.Serializable]
-public class TileSwapPair {
-    public TileBase originalTile;
-    public TileBase floodedTile;
-}
-
 //canal endings can either be dams or wall
 public class Canal : MonoBehaviour
 {
@@ -18,8 +12,6 @@ public class Canal : MonoBehaviour
     private Room room;
 
     [SerializeField] private Tilemap canalTilemap; // Assign in inspector
-    [SerializeField] private List<TileSwapPair> tileSwaps; // Assign original -> flooded, flooded -> original
-    private Dictionary<TileBase, TileBase> swapDict;
 
     [SerializeField] private Collider2D canalCollider; //trigger when empty, collider when flooded
     [SerializeField] private GameObject edgeCollider; //collider attatched to external object
@@ -28,14 +20,6 @@ public class Canal : MonoBehaviour
 
     public void Awake() {
         this.room = GetComponentInParent<Room>();
-
-        swapDict = new Dictionary<TileBase, TileBase>();
-        foreach (var pair in tileSwaps) {
-            if (pair.originalTile != null && pair.floodedTile != null) {
-                swapDict[pair.originalTile] = pair.floodedTile;
-                swapDict[pair.floodedTile] = pair.originalTile;
-            }
-        }
     }
     
     public void onFlood(CanalEntrances? floodingFrom) {
@@ -82,7 +66,7 @@ public class Canal : MonoBehaviour
                 Vector3Int pos = new Vector3Int(x, y, 0);
                 TileBase currentTile = canalTilemap.GetTile(pos);
 
-                if (currentTile != null && swapDict.TryGetValue(currentTile, out TileBase floodedTile)) {
+                if (currentTile != null && WaterSource.swapDict.TryGetValue(currentTile, out TileBase floodedTile)) {
                     canalTilemap.SetTile(pos, floodedTile);
                 }
             }
@@ -105,7 +89,7 @@ public class Canal : MonoBehaviour
 
     public void rotate90(bool clockwise) {
         for(int i = 0; i < this.canalEntrances.Count; i++) {
-            this.canalEntrances[i] = (CanalEntrances)((WaterRoom.CANAL_ENTRANCE_COUNT + (int)this.canalEntrances[i] + (clockwise ? 2 : -2)) % WaterRoom.CANAL_ENTRANCE_COUNT);
+            this.canalEntrances[i] = (CanalEntrances)((WaterSource.CANAL_ENTRANCE_COUNT + (int)this.canalEntrances[i] + (clockwise ? 2 : -2)) % WaterSource.CANAL_ENTRANCE_COUNT);
         }
     }
 }
