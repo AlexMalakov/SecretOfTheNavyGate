@@ -22,44 +22,27 @@ public class WaterRoom : Room
 
     public static int CANAL_ENTRANCE_COUNT = 8;
 
+    private Dictionary<CanalEntrances, int[]> neighborMap = new Dictionary<CanalEntrances, int[]>() {
+        {CanalEntrances.NW, new int[]{-1, 1}},
+        {CanalEntrances.N, new int[]{0, 1}},
+        {CanalEntrances.NE, new int[]{1, 1}},
+        {CanalEntrances.E, new int[]{1, 0}},
+        {CanalEntrances.SE, new int[]{1, -1}},
+        {CanalEntrances.S, new int[]{0, -1}},
+        {CanalEntrances.SW, new int[]{-1, -1}},
+        {CanalEntrances.W, new int[]{-1, 0}},
+    }
+
     public void rotate(int turns) {
         //rotate which canal entrances are open/closed
     }
 
 
     public override void floodNeighbors(List<CanalEntrances> exits) {
-        List<CanalEntrances> northExits = new List<CanalEntrances>();
-        List<CanalEntrances> eastExits = new List<CanalEntrances>();
-        List<CanalEntrances> southExits = new List<CanalEntrances>();
-        List<CanalEntrances> westExits = new List<CanalEntrances>();
-        foreach(CanalEntrances c in exits) {
-            switch(((int)c)/4) {
-                case 0:
-                    northExits.Add(c);
-                    break;
-                case 1:
-                    eastExits.Add(c);
-                    break;
-                case 2:
-                    southExits.Add(c);
-                    break;
-                case 3:
-                    westExits.Add(c);
-                    break;
+        foreach(CanalEntrances exit in exits) {
+            if(this.layoutManager.getRoomAt(this.position.x + neighborMap[exit].x, this.position.y + neighorMap[exit].y) != null) {
+                this.layoutManager.getRoomAt(this.position.x + neighborMap[exit].x, this.position.y + neighorMap[exit].y).onFlood(exit);
             }
-        }
-
-        if(northExits.Count > 0) {
-            this.layoutManager.getRoomAt(this.position.x, this.position.y+1).onFlood(northExits);
-        }
-        if(eastExits.Count > 0) {
-            this.layoutManager.getRoomAt(this.position.x+1, this.position.y).onFlood(eastExits);
-        }
-        if(southExits.Count > 0) {
-            this.layoutManager.getRoomAt(this.position.x, this.position.y-1).onFlood(southExits);
-        }
-        if(westExits.Count > 0) {
-            this.layoutManager.getRoomAt(this.position.x-1, this.position.y+1).onFlood(westExits);
         }
     }
 

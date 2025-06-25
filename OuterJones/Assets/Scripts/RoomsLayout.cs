@@ -121,7 +121,17 @@ public class RoomsLayout : MonoBehaviour
     }
 
     public Room getRoomAt(int x, int y) {
+        if(x < 0 || x >= ROOM_GRID_X || y < 0 || y >= ROOM_GRID_X) {
+            if(this.rooms[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X] is PackmanRoom) {
+                return this.rooms[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X];
+            }
+            return null;
+        }
         return this.rooms[x,y];
+    }
+
+    public Room getRoomFromPackman(int x, int y) {
+        return this.rooms[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X];
     }
 
     public List<Room> getAllRooms() {
