@@ -128,12 +128,32 @@ public class Room : MonoBehaviour
 
     //////////////////////////////////////////////
     //functionality for L/D rooms
+    [SerializeField] protected List<BeamModel> beams = new List<BeamModel>();
 
-    public virtual void receiveBeam(DoorDirection incomingDirection) {}
+    //im assuming non L/D cannot have mirrors in them?
+    public virtual void receiveBeam(DoorDirection incomingDirection) {
+        if(this.hasDoorDirection(this.getEntrance(incomingDirection).getInverse())) {
+            BeamModel b = BeamPool.getBeam();
+            this.beams.Add(b);
+            b.initBeam(
+                this.getPointInDirection(incomingDirection).position,
+                this.getPointInDirection(this.getEntrance(incomingDirection).getInverse()).position);
+        }
+    }
 
-    public virtual void beamNeighbor(DoorDirection exitDirection) {}
+    public virtual void beamNeighbor(DoorDirection exitDirection) {
+        if(this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)) != null) {
+            this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)).receiveBeam(exitDirection);
+        }
+    }
 
-    public virtual void removeBeam() {}
+    public virtual void removeBeam() {
+        for(int i = 0; i < this.beams.Count; i++) {
+            this.beams[i].killBeam();
+        }
+
+        this.beams = new List<BeamModel>();
+    }
 
     ///////////////////////////////////////////////
     //rotation room functionality

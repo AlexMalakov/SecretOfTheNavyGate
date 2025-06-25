@@ -9,9 +9,9 @@ public class LightDarkRoom : Room
     [SerializeField] private float darkLevel;
 
     [SerializeField] private Sprite darkSprite;
-    [SerializeField] private Mirror mirror;
 
-    [SerializeField] private List<BeamModel> beams = new List<BeamModel>();
+    [SerializeField] private Mirror mirror;
+    
     private LightSource source;
 
     [SerializeField] private List<LightPassage> passages;
@@ -39,16 +39,7 @@ public class LightDarkRoom : Room
 
     public override void receiveBeam(DoorDirection incomingDirection) {
         if(this.mirror == null) {
-            if(this.hasDoorDirection(this.getEntrance(incomingDirection).getInverse())) {
-
-                BeamModel b = BeamPool.getBeam();
-                this.beams.Add(b);
-                b.initBeam(
-                    this.getPointInDirection(incomingDirection).position,
-                    this.getPointInDirection(this.getEntrance(incomingDirection).getInverse()).position);
-
-            }
-            
+            base.receiveBeam(incomingDirection);
         } else {
             DoorDirection exitDirection = this.mirror.reflect(this.getEntrance(incomingDirection).getInverse());
             if(this.hasDoorDirection(exitDirection)) {
@@ -71,19 +62,13 @@ public class LightDarkRoom : Room
         
     }
 
-    public override void beamNeighbor(DoorDirection exitDirection) {
-        if(this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)) != null) {
-            this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)).receiveBeam(exitDirection);
-        }
-    }
+    // public override void beamNeighbor(DoorDirection exitDirection) {
 
-    public override void removeBeam() {
-        for(int i = 0; i < this.beams.Count; i++) {
-            this.beams[i].killBeam();
-        }
+    // }
 
-        this.beams = new List<BeamModel>();
-    }
+    // public override void removeBeam() {
+
+    // }
 
     
     public override void rotate90(bool clockwise) {
