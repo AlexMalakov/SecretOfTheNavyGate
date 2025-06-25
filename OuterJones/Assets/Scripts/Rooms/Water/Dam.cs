@@ -17,7 +17,7 @@ public class Dam : MonoBehaviour
     }
 
 
-    public void onFlood(Canal c, List<CanalEntrances> floodingFrom) {
+    public void onFlood(Canal c, CanalEntrances? floodingFrom) {
         if(!open) {
             return;
         }

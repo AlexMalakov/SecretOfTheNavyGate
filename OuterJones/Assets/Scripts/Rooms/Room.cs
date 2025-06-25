@@ -94,7 +94,7 @@ public class Room : MonoBehaviour
     //since canals can exist in non water rooms, all water functionality gets to live in room :'(
 
 
-    public virtual void onFlood(List<CanalEntrances> floodingFrom) {
+    public virtual void onFlood(CanalEntrances floodingFrom) {
         foreach(Canal c in this.canals) {
             if(c.willFlood(floodingFrom)) {
                 c.onFlood(floodingFrom);
@@ -110,8 +110,8 @@ public class Room : MonoBehaviour
 
     public virtual void floodNeighbors(List<CanalEntrances> exits) {
         foreach(CanalEntrances exit in exits) {
-            if(this.layoutManager.getRoomAt(this.position.x + WaterRoom.CANAL_N_MAP[exit].x, this.position.y + WaterRoom.CANAL_N_MAP[exit].y) != null) {
-                this.layoutManager.getRoomAt(this.position.x + WaterRoom.CANAL_N_MAP[exit].x, this.position.y + WaterRoom.CANAL_N_MAP[exit].y).onFlood(exit);
+            if(this.layoutManager.getRoomAt(this.position.x + WaterRoom.CANAL_N_MAP[exit][0], this.position.y + WaterRoom.CANAL_N_MAP[exit][1]) != null) {
+                this.layoutManager.getRoomAt(this.position.x + WaterRoom.CANAL_N_MAP[exit][0], this.position.y + WaterRoom.CANAL_N_MAP[exit][1]).onFlood(exit);
             }
         }
     }
@@ -142,8 +142,8 @@ public class Room : MonoBehaviour
     }
 
     public virtual void beamNeighbor(DoorDirection exitDirection) {
-        if(this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)) != null) {
-            this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)).receiveBeam(exitDirection);
+        if(this.layoutManager.getRoomAt(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y) != null) {
+            this.layoutManager.getRoomAt(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y).receiveBeam(exitDirection);
         }
     }
 

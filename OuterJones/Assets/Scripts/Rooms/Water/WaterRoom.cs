@@ -29,6 +29,5 @@ public class WaterRoom : Room
         {CanalEntrances.S, new int[]{0, -1}},
         {CanalEntrances.SW, new int[]{-1, -1}},
         {CanalEntrances.W, new int[]{-1, 0}},
-    }
-
+    };
 }

@@ -38,7 +38,7 @@ public class Canal : MonoBehaviour
         }
     }
     
-    public void onFlood(List<CanalEntrances> floodingFrom) {
+    public void onFlood(CanalEntrances? floodingFrom) {
         if(this.flooded) {
             return;
         }
@@ -49,10 +49,8 @@ public class Canal : MonoBehaviour
 
         List<CanalEntrances> floodTo = new List<CanalEntrances>(this.canalEntrances);
 
-        foreach(CanalEntrances c in floodingFrom) {
-            if(floodTo.Contains(c)) {
-                floodTo.Remove(c);
-            }
+        if(floodingFrom != null) {
+            floodTo.Remove((CanalEntrances)floodingFrom);
         }
 
         foreach(Dam d in this.attatchedDams) {
@@ -62,17 +60,8 @@ public class Canal : MonoBehaviour
         this.room.floodNeighbors(floodTo);
     }
 
-    public bool willFlood(List<CanalEntrances> floodingFrom) {
-        if(flooded) {
-            return false;
-        }
-
-        foreach(CanalEntrances c in this.canalEntrances) {
-            if(floodingFrom.Contains(c)) {
-                return true;
-            }
-        }
-        return false;
+    public bool willFlood(CanalEntrances floodingFrom) {
+        return !flooded && this.canalEntrances.Contains(floodingFrom);
     }
 
 

@@ -23,7 +23,7 @@ public class WaterSource : MonoBehaviour, RoomUpdateListener
     }
 
     private void computeFlow() {
-        waterOrigin.onFlood(new List<CanalEntrances>());
+        waterOrigin.onFlood(null);
     }
 
     public void onRoomUpdate(List<Room> rooms) {
