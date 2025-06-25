@@ -11,6 +11,20 @@ public class PackmanRoom : Room
         this.buttons = GetComponentsInChildren<Button>();
     }
 
+    public override void init(RoomCoords position) {
+        base.init(position);
+
+        foreach(Door d in this.doors) {
+            if(d.getDestination() == null 
+                && this.layoutManager.getRoomFromPackman(this.position.getOffset(d.getDirection())) != null
+                && this.layoutManager.getRoomFromPackman(this.position.getOffset(d.getDirection())).hasDoorDirection(d.getInverse())) {
+
+                
+                d.setDestination(this.layoutManager.getRoomFromPackman(this.position.getOffset(d.getDirection())).getEntrance(d.getInverse()));
+            }
+        }
+    }
+
     public override void onEnter() {
         base.onEnter();
         mummy.wake();
