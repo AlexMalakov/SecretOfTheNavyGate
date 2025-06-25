@@ -85,7 +85,27 @@ public class Room : MonoBehaviour
         return null;
     }
 
-    //TODO: override with child obj rotations
+    /////////////////////////////////////////////
+    //adding this functionality to all rooms incase we want canals in non water rooms, or similar shananigans
+    public virtual void onFlood(List<CanalEntrances> entrances) {}
+
+    public virtual void drainWater() {}
+
+    public virtual void floodNeighbors(List<CanalEntrances> exits) {}
+
+
+    //////////////////////////////////////////////
+    //functionality for L/D rooms
+
+    public virtual void receiveBeam(DoorDirection incomingDirection) {}
+
+    public virtual void beamNeighbor(DoorDirection exitDirection) {}
+
+    public virtual void removeBeam() {}
+
+    ///////////////////////////////////////////////
+    //rotation room functionality
+
     public virtual void rotate90(bool clockwise) {
         //rotate game object
         transform.Rotate(0f, 0f, (clockwise ? -90f : 90f));
@@ -112,23 +132,5 @@ public class Room : MonoBehaviour
         //handles canal and light reset, and map rotate
         this.layoutManager.notifyRoomListeners(new List<Room>(){this});
     }
-
-    /////////////////////////////////////////////
-    //adding this functionality to all rooms incase we want canals in non water rooms, or similar shananigans
-    public virtual void onFlood(List<CanalEntrances> entrances) {}
-
-    public virtual void drainWater() {}
-
-    public virtual void floodNeighbors(List<CanalEntrances> exits) {}
-
-
-    //////////////////////////////////////////////
-    //functionality for L/D rooms
-
-    public virtual void receiveBeam(DoorDirection incomingDirection) {}
-
-    public virtual void beamNeighbor(DoorDirection exitDirection) {}
-
-    public virtual void removeBeam() {}
     
 }

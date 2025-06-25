@@ -72,27 +72,9 @@ public class LightDarkRoom : Room
     }
 
     public override void beamNeighbor(DoorDirection exitDirection) {
-        RoomCoords exit;
-
-        switch(exitDirection) {
-            case DoorDirection.North:
-                exit = new RoomCoords(this.position.x, this.position.y+1);
-                break;
-            case DoorDirection.East:
-                exit = new RoomCoords(this.position.x+1, this.position.y);
-                break;
-            case DoorDirection.South:
-                exit = new RoomCoords(this.position.x, this.position.y-1);
-                break;
-            case DoorDirection.West:
-                exit = new RoomCoords(this.position.x-1, this.position.y);
-                break;
-            default:
-                Debug.Log("IMPOSSIBLE COORDINATE");
-                return;
+        if(this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)) != null) {
+            this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)).receiveBeam(exitDirection);
         }
-
-        this.layoutManager.getRoomAt(exit.x, exit.y).receiveBeam(exitDirection);
     }
 
     public override void removeBeam() {
