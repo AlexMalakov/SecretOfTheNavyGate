@@ -9,6 +9,7 @@ public class Canal : MonoBehaviour
     //list of int 0 - 8
     [SerializeField] List<CanalEntrances> canalEntrances;
     [SerializeField] List<Dam> attatchedDams;
+    [SerializeField] List<Bridge> attatchedBridges;
     private Room room;
 
     [SerializeField] private Tilemap canalTilemap; // Assign in inspector
@@ -39,6 +40,10 @@ public class Canal : MonoBehaviour
 
         foreach(Dam d in this.attatchedDams) {
             d.onFlood(this, floodingFrom);
+        }
+
+        foreach(Bridge b in this.attatchedBridges) {
+            b.onFlood();
         }
 
         this.room.floodNeighbors(floodTo);

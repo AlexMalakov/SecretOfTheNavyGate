@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Bridge : MonoBehaviour
 {
-    [SerializeField]
-
+    [SerializeField] GameObject notFloodedSprite;
+    [SerializeField] GameObject floodedSprite;
 
     private bool flooded = false;
     private Canal canal;
 
     private void Start() {
+        notFloodedSprite.SetActive(true);
+        floodedSprite.SetActive(false);
         List<Collider2D> overlapping = new List<Collider2D>();
         ContactFilter2D filter = new ContactFilter2D();
         filter.useTriggers = true;
@@ -25,10 +27,14 @@ public class Bridge : MonoBehaviour
 
     public void onFlood() {
         flooded = true;
+        notFloodedSprite.SetActive(false);
+        floodedSprite.SetActive(true);
     }
 
     public void onDrain() {
         flooded = false;
+        notFloodedSprite.SetActive(true);
+        floodedSprite.SetActive(false);
     }
 
     void OnTriggerEnter2D(Collider2D other) {

@@ -138,7 +138,7 @@ public class Room : MonoBehaviour
 
     //////////////////////////////////////////////
     //functionality for L/D rooms
-    [SerializeField] protected List<BeamModel> beams = new List<BeamModel>();
+    protected List<BeamModel> beams = new List<BeamModel>();
 
     //im assuming non L/D cannot have mirrors in them?
     public virtual void receiveBeam(DoorDirection incomingDirection) {
