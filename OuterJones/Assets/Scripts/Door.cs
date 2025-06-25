@@ -24,6 +24,10 @@ public class Door : MonoBehaviour
         this.destination = newDestination;
     }
 
+    public Door getDestination() {
+        return this.destination;
+    }
+
     public void addDoorUseListener(DoorUseListener listener) {
         this.listeners.Add(listener);
     }
@@ -39,9 +43,9 @@ public class Door : MonoBehaviour
             Room next = player.getNextInDeck();
             if(room.getLayoutManager().canPlaceRoom(this, next)) {
                 player.removeNextInDeck();
-                room.getLayoutManager().placeRoom(this, next);
                 this.setDestination(next.getEntrance(this.getInverse()));
                 this.destination.setDestination(this);
+                room.getLayoutManager().placeRoom(this, next);
                 this.onExit();
             } else {
                 return;
@@ -75,7 +79,7 @@ public class Door : MonoBehaviour
         this.direction = rotateDirection(clockwise);
 
         RoomCoords neighborPos = this.room.getPosition().getOffset(this.direction);
-        Room neighbor = this.room.getLayoutManager().getRoomAt(neighborPos.x, neighborPos.y);
+        Room neighbor = this.room.getLayoutManager().getRoomAt(neighborPos);
         if(neighbor.hasDoorDirection(this.direction)) {
             this.setDestination(neighbor.getEntrance(this.direction));
             this.destination.setDestination(this);

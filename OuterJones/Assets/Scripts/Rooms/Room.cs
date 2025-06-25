@@ -24,6 +24,16 @@ public class Room : MonoBehaviour
 
     public virtual void init(RoomCoords position) {
         this.position = position;
+
+        foreach(Door d in this.doors) {
+            if(d.getDestination() == null 
+                && this.layoutManager.getRoomAt(this.position.getOffset(d.getDirection())) != null
+                && this.layoutManager.getRoomAt(this.position.getOffset(d.getDirection())).hasDoorDirection(d.getInverse())) {
+
+                
+                d.setDestination(this.layoutManager.getRoomAt(this.position.getOffset(d.getDirection())).getEntrance(d.getInverse()));
+            }
+        }
     }
 
     public virtual void onEnter() {
@@ -143,8 +153,8 @@ public class Room : MonoBehaviour
     }
 
     public virtual void beamNeighbor(DoorDirection exitDirection) {
-        if(this.layoutManager.getRoomAt(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y) != null) {
-            this.layoutManager.getRoomAt(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y).receiveBeam(exitDirection);
+        if(this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)) != null) {
+            this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)).receiveBeam(exitDirection);
         }
     }
 

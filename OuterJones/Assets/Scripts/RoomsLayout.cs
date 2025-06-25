@@ -120,6 +120,10 @@ public class RoomsLayout : MonoBehaviour
         return destPos;
     }
 
+    public Room getRoomAt(RoomCoords c) {
+        return this.getRoomAt(c.x, c.y);
+    }
+
     public Room getRoomAt(int x, int y) {
         if(x < 0 || x >= ROOM_GRID_X || y < 0 || y >= ROOM_GRID_X) {
             if(this.rooms[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X] is PackmanRoom) {
@@ -128,6 +132,10 @@ public class RoomsLayout : MonoBehaviour
             return null;
         }
         return this.rooms[x,y];
+    }
+
+    public Room getRoomFromPackman(RoomCoords c) {
+        return this.getRoomFromPackman(c.x, c.y);
     }
 
     public Room getRoomFromPackman(int x, int y) {
