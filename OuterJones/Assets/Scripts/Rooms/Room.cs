@@ -136,6 +136,7 @@ public class Room : MonoBehaviour
             BeamModel b = BeamPool.getBeam();
             this.beams.Add(b);
             b.initBeam(
+                this.transform,
                 this.getPointInDirection(incomingDirection).position,
                 this.getPointInDirection(this.getEntrance(incomingDirection).getInverse()).position);
         }

@@ -48,6 +48,7 @@ public class LightDarkRoom : Room
                 this.beams.Add(b);
 
                 b.initBeam(
+                    this.transform,
                     this.getPointInDirection(incomingDirection).position,
                     this.mirror.transform.position);
 
@@ -55,6 +56,7 @@ public class LightDarkRoom : Room
                 this.beams.Add(bb);
 
                 bb.initBeam(
+                    this.transform,
                     this.mirror.transform.position,
                     this.getPointInDirection(this.getEntrance(incomingDirection).getInverse()).position);
             }

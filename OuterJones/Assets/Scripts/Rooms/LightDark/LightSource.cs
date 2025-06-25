@@ -23,7 +23,7 @@ public class LightSource : MonoBehaviour, RoomUpdateListener
     }
 
     public void castBeam() {
-        this.beam.initBeam(this.transform.position, this.originRoom.getPointInDirection(castDirection).position);
+        this.beam.initBeam(this.originRoom.transform, this.transform.position, this.originRoom.getPointInDirection(castDirection).position);
 
         this.originRoom.beamNeighbor(castDirection);
     }

@@ -13,7 +13,8 @@ public class BeamModel : MonoBehaviour
         active = false;
     }
 
-    public void initBeam(Vector3 startingPos, Vector3 endingPos) {
+    public void initBeam(Transform roomParent, Vector3 startingPos, Vector3 endingPos) {
+        this.transform.parent = roomParent;
         active = true;
         gameObject.SetActive(true);
 

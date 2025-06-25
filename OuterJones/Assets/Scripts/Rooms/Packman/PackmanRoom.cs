@@ -33,4 +33,20 @@ public class PackmanRoom : Room
     public void onButtonEvent(Button b, bool isPressed) {
 
     }
+
+
+
+    public override void beamNeighbor(DoorDirection exitDirection) {
+        if(this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y) != null) {
+            this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y).receiveBeam(exitDirection);
+        }
+    }
+
+    public override void floodNeighbors(List<CanalEntrances> exits) {
+        foreach(CanalEntrances exit in exits) {
+            if(this.layoutManager.getRoomFromPackman(this.position.x + WaterRoom.CANAL_N_MAP[exit][0], this.position.y + WaterRoom.CANAL_N_MAP[exit][1]) != null) {
+                this.layoutManager.getRoomFromPackman(this.position.x + WaterRoom.CANAL_N_MAP[exit][0], this.position.y + WaterRoom.CANAL_N_MAP[exit][1]).onFlood(exit);
+            }
+        }
+    }
 }
