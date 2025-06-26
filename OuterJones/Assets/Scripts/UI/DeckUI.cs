@@ -33,7 +33,7 @@ public class DeckUI : MonoBehaviour, RoomUpdateListener, DoorUseListener
         this.onUpdate();
     }
 
-    private void onUpdate() {
+    public void onUpdate() {
         if(!canPlaceNextRoom()) {
             this.image.sprite = cannotPlace;
         } else {

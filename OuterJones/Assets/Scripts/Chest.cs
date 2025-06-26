@@ -20,6 +20,8 @@ public class Chest : MonoBehaviour
             other.gameObject.GetComponent<Player>().addToDeck(this.deck);
             open.SetActive(true);
             closed.SetActive(false);
+
+            FindObjectOfType<DeckUI>().onUpdate();
         }
     }
 
