@@ -10,6 +10,7 @@ public class Canal : MonoBehaviour
     [SerializeField] List<CanalEntrances> canalEntrances;
     [SerializeField] List<Dam> attatchedDams;
     [SerializeField] List<Bridge> attatchedBridges;
+    [SerializeField] List<Ladder> ladders;
     private Room room;
 
     [SerializeField] private Tilemap canalTilemap; // Assign in inspector
@@ -22,6 +23,11 @@ public class Canal : MonoBehaviour
     public void Awake() {
         this.room = GetComponentInParent<Room>();
         this.edgeCollider.SetActive(false);
+        this.canalCollider.isTrigger = true;
+
+        foreach(Ladder l in this.ladders) {
+            l.init(this);
+        }
     }
     
     public void onFlood(CanalEntrances? floodingFrom) {
@@ -79,18 +85,31 @@ public class Canal : MonoBehaviour
         }
     }
 
-    //when the player falls in
-    void OnTriggerEnter2D(Collider2D other) {
+    // //when the player falls in
+    // void OnTriggerEnter2D(Collider2D other) {
+    //     if(other.gameObject.GetComponent<Player>() != null) {
+    //         this.edgeCollider.SetActive(true);
+    //     }
+    // }
+
+    // //once the player takes the ladder, turn off the edge collider
+    // void OnTriggerExit2D(Collider2D other) {
+    //     if(other.gameObject.GetComponent<Player>() != null) {
+    //         this.edgeCollider.SetActive(false);
+    //     }
+    // }
+
+    void OnTriggerStay2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null) {
-            this.edgeCollider.SetActive(true);
+            if(this.canalCollider.bounds.Contains(other.bounds.min) 
+                && this.canalCollider.bounds.Contains(other.bounds.max)) {
+                    this.edgeCollider.SetActive(true);
+                }
         }
     }
 
-    //once the player takes the ladder, turn off the edge collider
-    void OnTriggerExit2D(Collider2D other) {
-        if(other.gameObject.GetComponent<Player>() != null) {
-            this.edgeCollider.SetActive(false);
-        }
+    public void onLadderUse() {
+        this.edgeCollider.SetActive(false);
     }
 
     public void rotate90(bool clockwise) {
