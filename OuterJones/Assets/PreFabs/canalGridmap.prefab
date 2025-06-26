@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2796751715423026787
 Transform:
   m_ObjectHideFlags: 0
@@ -131,7 +131,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1565388591885669051}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -186,9 +186,7 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 3246289962019941083}
-    m_ColliderPaths: []
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths: []
   m_VertexDistance: 0.0005
@@ -919,7 +917,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2557789010559615526}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1045,34 +1043,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canalEntrances: 
   attatchedDams: []
+  attatchedBridges: []
   canalTilemap: {fileID: 5678037187406743472}
-  tileSwaps:
-  - originalTile: {fileID: 11400000, guid: a10272702b98d4e4b83e3852f7b3d936, type: 2}
-    floodedTile: {fileID: 11400000, guid: 8016f5af8ab014a99a5f7af18f7c281e, type: 2}
-  - originalTile: {fileID: 11400000, guid: d074363ea2a204f2fafed246112df0d5, type: 2}
-    floodedTile: {fileID: 11400000, guid: 152633854d7214c84a8505c05a077b72, type: 2}
-  - originalTile: {fileID: 11400000, guid: 567d835c903024717bd0b3faabfdb1ee, type: 2}
-    floodedTile: {fileID: 11400000, guid: c091c54a0d453450d9151e495adf8bdf, type: 2}
-  - originalTile: {fileID: 11400000, guid: c97ec390a90754848b5761bdbfd9ecb3, type: 2}
-    floodedTile: {fileID: 11400000, guid: 9a55c9c9072a847b7a666f987d9ea282, type: 2}
-  - originalTile: {fileID: 11400000, guid: f964692de5f5849a89a59bef3de173ba, type: 2}
-    floodedTile: {fileID: 11400000, guid: ed5fc5405a84f48d29b553ea5d7c855b, type: 2}
-  - originalTile: {fileID: 11400000, guid: 8125ca89a1a54482aa901e8e4c808d4a, type: 2}
-    floodedTile: {fileID: 11400000, guid: b53ba300d6d584d6190f6fb485cbb6cd, type: 2}
-  - originalTile: {fileID: 11400000, guid: 3413bbafd5e2540b1a3e944d14fcc50c, type: 2}
-    floodedTile: {fileID: 11400000, guid: 4f67f17c207cb404cb5157951cc87964, type: 2}
-  - originalTile: {fileID: 11400000, guid: 47e9bacb0f2e740d4adf861b71dabf2e, type: 2}
-    floodedTile: {fileID: 11400000, guid: 31af1e48f9883481c9fbf13d39a423ce, type: 2}
-  - originalTile: {fileID: 11400000, guid: cc2a48a6d6d7d48ec8c625ed7483ca05, type: 2}
-    floodedTile: {fileID: 11400000, guid: ead0fb4775cfa4f79958c3906b2f3843, type: 2}
-  - originalTile: {fileID: 11400000, guid: e57637f4ffb8f45e9854e8c93a622cdb, type: 2}
-    floodedTile: {fileID: 11400000, guid: 9fcb680d880b549ceb7346107cf090af, type: 2}
-  - originalTile: {fileID: 11400000, guid: 75b3c7ac3182448b580a0eb223f76e7e, type: 2}
-    floodedTile: {fileID: 11400000, guid: e329e3da177b34cea9138542354478f2, type: 2}
-  - originalTile: {fileID: 11400000, guid: 90daa1f0f706e496aa28bf69d285adb3, type: 2}
-    floodedTile: {fileID: 11400000, guid: 8a3201bda167e48dba92a3a2d50912c4, type: 2}
-  - originalTile: {fileID: 11400000, guid: e35898f8912ac4354bce7291e107193b, type: 2}
-    floodedTile: {fileID: 11400000, guid: 8efb2828fbc424e9b9378d3d7d501f86, type: 2}
   canalCollider: {fileID: 6773038549209943396}
   edgeCollider: {fileID: 1565388591885669051}
 --- !u!1 &3392676824849818536

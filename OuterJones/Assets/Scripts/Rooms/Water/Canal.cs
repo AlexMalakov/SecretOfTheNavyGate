@@ -21,6 +21,7 @@ public class Canal : MonoBehaviour
 
     public void Awake() {
         this.room = GetComponentInParent<Room>();
+        this.edgeCollider.SetActive(false);
     }
     
     public void onFlood(CanalEntrances? floodingFrom) {
