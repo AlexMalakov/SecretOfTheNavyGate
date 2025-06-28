@@ -23,15 +23,20 @@ public class Bridge : MonoBehaviour
                 this.canal = c.gameObject.GetComponent<Canal>();
             }
         }
+
+        this.GetComponent<Collider2D>().enabled = false;
     }
 
     public void onFlood() {
         flooded = true;
         notFloodedSprite.SetActive(false);
         floodedSprite.SetActive(true);
+
+        this.GetComponent<Collider2D>().enabled = true;
     }
 
     public void onDrain() {
+        this.GetComponent<Collider2D>().enabled = false;
         flooded = false;
         notFloodedSprite.SetActive(true);
         floodedSprite.SetActive(false);
