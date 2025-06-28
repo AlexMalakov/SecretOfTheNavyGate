@@ -101,10 +101,31 @@ public class Canal : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null) {
-            if(this.canalCollider.bounds.Contains(other.bounds.min) 
-                && this.canalCollider.bounds.Contains(other.bounds.max)) {
-                    this.edgeCollider.SetActive(true);
-                }
+            bool allInside = true;
+            foreach(PlayerEdgeCollider e in other.gameObject.GetComponent<Player>().getEdgeColliders()) {
+                allInside = allInside && e.isCollidingWithCanal();
+            }
+
+            if(allInside) {
+                this.edgeCollider.SetActive(true);
+            }
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other) {
+
+        if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
+            other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(false);
+        }
+
+        if(other.gameObject.GetComponent<Player>() != null) {
+            this.edgeCollider.SetActive(false);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other) {
+        if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
+            other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true);
         }
     }
 

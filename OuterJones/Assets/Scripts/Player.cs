@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     private List<Room> deck;
     private Room currentRoom;
 
+    [SerializeField] List<PlayerEdgeCollider> edges = new List<PlayerEdgeCollider>();
+
 
     public void Start() {
         deck = new List<Room>();
@@ -45,5 +47,9 @@ public class Player : MonoBehaviour
     //throws out of bounds exception, should never occur tho so it going unhandled is best
     public void removeNextInDeck() {
         deck.Remove(deck[0]);
+    }
+
+    public List<PlayerEdgeCollider> getEdgeColliders() {
+        return this.edges;
     }
 }
