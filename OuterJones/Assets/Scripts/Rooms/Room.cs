@@ -32,6 +32,7 @@ public class Room : MonoBehaviour
 
                 
                 d.setDestination(this.layoutManager.getRoomAt(this.position.getOffset(d.getDirection())).getEntrance(d.getInverse()));
+                d.getDestination().getRoom().getEntrance(d.getInverse()).setDestination(d);
             }
         }
     }
