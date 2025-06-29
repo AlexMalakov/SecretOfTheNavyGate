@@ -64,3 +64,8 @@ public class PackmanRoom : Room
         }
     }
 }
+
+
+public interface PowerableObject {
+    void onPowered();
+}

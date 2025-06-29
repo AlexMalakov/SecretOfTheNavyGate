@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : MonoBehaviour
+public class Button : MonoBehaviour, PowerableObject
 {
     private PackmanRoom room;
+    [SerializeField] bool canBePressed;
 
     public void init(PackmanRoom r) {
         this.room = r;
@@ -20,5 +21,9 @@ public class Button : MonoBehaviour
         if(other.gameObject.GetComponent<Player>() != null || other.gameObject.GetComponent<Mummy>() != null) {
             this.room.onButtonEvent(this, false);
         }
+    }
+
+    public void onPowered() {
+        this.canBePressed = true;
     }
 }
