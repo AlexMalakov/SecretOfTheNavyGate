@@ -4,26 +4,37 @@ using UnityEngine;
 
 public class Button : MonoBehaviour, PowerableObject
 {
-    private PackmanRoom room;
-    [SerializeField] bool canBePressed;
+    [SerializeField] bool powered;
+    [SerializeField] bool startingButton;
+    [SerializeField] Wire nextWire;
 
-    public void init(PackmanRoom r) {
-        this.room = r;
+    private ButtonManager manager;
+
+    public void init(ButtonManager bm) {
+        this.manager = bm;
     }
 
     void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null || other.gameObject.GetComponent<Mummy>() != null) {
-            this.room.onButtonEvent(this, true);
+            if(this.powered) {
+                this.powered = false;
+                StartCoroutine(nextWire.followPath());
+            } else {
+                this.manager.canStartSequence(this);
+            }
+            
         }
     }
 
-    void OnTriggerExit2D(Collider2D other) {
-        if(other.gameObject.GetComponent<Player>() != null || other.gameObject.GetComponent<Mummy>() != null) {
-            this.room.onButtonEvent(this, false);
-        }
+    public bool isStartingButton() {
+        return this.startingButton;
+    }
+
+    public void reset() {
+        this.powered = false;
     }
 
     public void onPowered() {
-        this.canBePressed = true;
+        this.powered = true;
     }
 }

@@ -5,11 +5,9 @@ using UnityEngine;
 public class PackmanRoom : Room
 {
     [SerializeField] private Mummy mummy;
-    private Button[] buttons;
+    [SerializeField] private ButtonManager bManager;
 
-    public void Start() {
-        this.buttons = GetComponentsInChildren<Button>();
-    }
+
 
     public override void init(RoomCoords position) {
         base.init(position);
@@ -23,6 +21,8 @@ public class PackmanRoom : Room
                 d.setDestination(this.layoutManager.getRoomFromPackman(this.position.getOffset(d.getDirection())).getEntrance(d.getInverse()));
             }
         }
+
+        bManager.init();
     }
 
     public override void onEnter(Door enteredFrom) {
@@ -44,12 +44,6 @@ public class PackmanRoom : Room
                 || (origin.getDirection() == DoorDirection.South && origin.getPosition().getOffset(0, -1).y == 0);
     }
 
-    public void onButtonEvent(Button b, bool isPressed) {
-
-    }
-
-
-
     public override void beamNeighbor(DoorDirection exitDirection) {
         if(this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y) != null) {
             this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y).receiveBeam(exitDirection);
@@ -63,9 +57,4 @@ public class PackmanRoom : Room
             }
         }
     }
-}
-
-
-public interface PowerableObject {
-    void onPowered();
 }
