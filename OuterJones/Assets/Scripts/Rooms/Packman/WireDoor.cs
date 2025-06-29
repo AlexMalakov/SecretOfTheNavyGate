@@ -2,17 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WireDoor : MonoBehaviour
+public class WireDoor : MonoBehaviour, PowerableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    [SerializeField] private bool startsOpen;
+    [SerializeField] private GameObject openSprite;
+    [SerializeField] private GameObject closedSprite;
+
+    [SerializeField] private PowerableObject nextToPower;
+
+
+    public void onPowered() {
+        this.openSprite.SetActive(startsOpen);
+        this.closedSprite.SetActive(!startsOpen);
+
+        nextToPower.onPowered();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void reset() {
+        this.openSprite.SetActive(startsOpen);
+        this.closedSprite.SetActive(!startsOpen);
     }
+    
 }
