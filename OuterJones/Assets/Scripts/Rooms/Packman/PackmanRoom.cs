@@ -25,8 +25,8 @@ public class PackmanRoom : Room
         }
     }
 
-    public override void onEnter() {
-        base.onEnter();
+    public override void onEnter(Door enteredFrom) {
+        base.onEnter(enteredFrom);
         mummy.wake();
     }
 

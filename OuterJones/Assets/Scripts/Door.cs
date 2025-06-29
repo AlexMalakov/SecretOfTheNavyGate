@@ -38,7 +38,7 @@ public class Door : MonoBehaviour
         }
     }
 
-    private void useDoor(Player player) {
+    public void useDoor(Player player) {
         if(this.destination == null) {
             Room next = player.getNextInDeck();
             if(room.getLayoutManager().canPlaceRoom(this, next)) {
@@ -67,7 +67,7 @@ public class Door : MonoBehaviour
 
     public void onEnter(Player player) {
         player.transform.position = enterPosition.position;
-        this.room.onEnter();
+        this.room.onEnter(this);
     }
 
     //TODO: this won't really work for packman rooms.
