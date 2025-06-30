@@ -139,32 +139,93 @@ public class Room : MonoBehaviour
 
     //////////////////////////////////////////////
     //functionality for L/D rooms
+    [Header ("L/D")]
     protected List<BeamModel> beams = new List<BeamModel>();
+    [SerializeField] protected Mirror mirror;
+    [SerializeField] protected LightSink lSink;
 
-    //im assuming non L/D cannot have mirrors in them?
+    //this is a chungus of a method cuz of mirrors and non mirrors :'(
+    //since all rooms can have mirrors/sinks then a lot of code gets to be moved here yipee I love big classes!!!!!! :D
+    //incoming direction is the door from which the beam is coming from
     public virtual void receiveBeam(DoorDirection incomingDirection) {
+
+        //only receive beam if we have a door that it can enter through
         if(this.hasDoorDirection(this.getEntrance(incomingDirection).getInverse())) {
-            BeamModel b = BeamPool.getBeam();
-            this.beams.Add(b);
-            b.initBeam(
-                this.transform,
-                this.getPointInDirection(incomingDirection).position,
-                this.getPointInDirection(this.getEntrance(incomingDirection).getInverse()).position);
+    
+            //if we have a sink power it, then pass the b
+            if(this.lSink != null) {
+                this.lSink.activate();
+
+                BeamModel b = BeamPool.getBeam();
+                this.beams.Add(b);
+                b.initBeam(
+                    this.transform,
+                    this.getPointInDirection(incomingDirection).position,
+                    this.lSink.transform.position);
+                return; //the beam "ends here"
+            }
+
+            DoorDirection exitDirection;
+            if(this.mirror != null) { //if we have a mirror, we draw the light as if it bounces
+                exitDirection = this.mirror.reflect(incomingDirection); //exit direction is wherever we get reflected
+
+                BeamModel b = BeamPool.getBeam();
+                this.beams.Add(b);
+
+                b.initBeam(
+                    this.transform,
+                    this.getPointInDirection(incomingDirection).position,
+                    this.mirror.transform.position);
+
+                BeamModel bb = BeamPool.getBeam();
+                this.beams.Add(bb);
+
+                bb.initBeam(
+                    this.transform,
+                    this.mirror.transform.position,
+                    this.getPointInDirection(exitDirection).position);
+            } else {
+                exitDirection = this.getEntrance(incomingDirection).getInverse(); //exit direction is opposite of enter direction
+                BeamModel b = BeamPool.getBeam();
+                this.beams.Add(b);
+                b.initBeam(
+                    this.transform,
+                    this.getPointInDirection(incomingDirection).position,
+                    this.getPointInDirection(exitDirection).position);
+            }
+
+            //if we have a door at our exit direction, we'll send the beam through
+            if(this.hasDoorDirection(exitDirection)) {
+                this.beamNeighbor(exitDirection);
+            }
         }
     }
 
+    
     public virtual void beamNeighbor(DoorDirection exitDirection) {
         if(this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)) != null) {
-            this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)).receiveBeam(exitDirection);
+
+            DoorDirection arrivedFrom = Door.rotateDoorDirection(Door.rotateDoorDirection(exitDirection, true), true); //im too lazy to right a static inverse
+            this.layoutManager.getRoomAt(this.position.getOffset(exitDirection)).receiveBeam(arrivedFrom);
         }
     }
 
     public virtual void removeBeam() {
+        if(this.lSink != null) {
+            this.lSink.deactivate();
+        }
+
         for(int i = 0; i < this.beams.Count; i++) {
             this.beams[i].killBeam();
         }
 
         this.beams = new List<BeamModel>();
+    }
+
+    public virtual void rotateLight90(bool clockwise) {
+        if(this.mirror != null) {
+            this.mirror.rotate90();
+        }
     }
 
     ///////////////////////////////////////////////
@@ -194,6 +255,8 @@ public class Room : MonoBehaviour
         }
 
         rotateCanals90(clockwise);
+
+        rotateLight90(clockwise);
 
         //handles canal and light reset, and map rotate
         this.layoutManager.notifyRoomListeners(new List<Room>(){this});

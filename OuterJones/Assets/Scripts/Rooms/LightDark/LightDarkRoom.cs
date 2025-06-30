@@ -9,9 +9,6 @@ public class LightDarkRoom : Room
     [SerializeField] private float darkLevel;
 
     [SerializeField] private Sprite darkSprite;
-
-    [SerializeField] private Mirror mirror;
-    [SerializeField] private LightSink sink;
     
     private LightSource source;
 
@@ -37,54 +34,12 @@ public class LightDarkRoom : Room
         }
         return this.darkSprite;
     }
-
-    public override void receiveBeam(DoorDirection incomingDirection) {
-        if(this.sink != null) {
-            this.sink.activate();
-        } else if(this.mirror == null) {
-            base.receiveBeam(incomingDirection);
-        } else {
-            DoorDirection exitDirection = this.mirror.reflect(this.getEntrance(incomingDirection).getInverse());
-            if(this.hasDoorDirection(exitDirection)) {
-
-                BeamModel b = BeamPool.getBeam();
-                this.beams.Add(b);
-
-                b.initBeam(
-                    this.transform,
-                    this.getPointInDirection(incomingDirection).position,
-                    this.mirror.transform.position);
-
-                BeamModel bb = BeamPool.getBeam();
-                this.beams.Add(bb);
-
-                bb.initBeam(
-                    this.transform,
-                    this.mirror.transform.position,
-                    this.getPointInDirection(this.getEntrance(incomingDirection).getInverse()).position);
-            }
-        }
-        
-    }
-
-    public override void removeBeam() {
-        base.removeBeam();
-        if(this.sink != null) {
-            this.sink.deactivate();
-        }
-    }
-
-
     
     public override void rotate90(bool clockwise) {
         base.rotate90(clockwise);
 
         if(this.source != null) {
             this.source.rotate90(clockwise);
-        }
-
-        if(this.mirror != null) {
-            this.mirror.rotate90();
         }
     }
 
