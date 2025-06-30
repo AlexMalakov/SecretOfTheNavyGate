@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Button : MonoBehaviour, PowerableObject
 {
-    [SerializeField] bool powered;
     [SerializeField] bool startingButton;
     [SerializeField] Wire nextWire;
+    bool powered;
 
     private ButtonManager manager;
 

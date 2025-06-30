@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ButtonManager : MonoBehaviour
 {
-    [SerializeField] private Button[] buttons;
-    [SerializeField] private PowerableObject[] powerables;
+    private Button[] buttons;
+    private PowerableObject[] powerables;
 
     private bool startedSequence;
 

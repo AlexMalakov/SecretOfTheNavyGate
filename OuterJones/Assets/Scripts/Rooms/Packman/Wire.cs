@@ -11,7 +11,8 @@ public class Wire : MonoBehaviour, PowerableObject
 
     private float SPARK_SPEED = 2f;
 
-    [SerializeField] private PowerableObject nextToPower;
+    
+    [SerializeField] private GameObject nextToPower;
 
     private bool resetting = false;
 
@@ -46,7 +47,7 @@ public class Wire : MonoBehaviour, PowerableObject
 
         this.sparkSprite.SetActive(false);
         this.sparkSprite.transform.position = this.sparkPath[0].transform.position;
-        nextToPower.onPowered();
+        nextToPower.GetComponent<PowerableObject>().onPowered();
     }
 
     public void reset() {
