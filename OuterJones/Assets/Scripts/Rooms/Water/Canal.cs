@@ -9,8 +9,8 @@ public class Canal : MonoBehaviour
     //list of int 0 - 8
     [SerializeField] List<CanalEntrances> canalEntrances;
     [SerializeField] List<Dam> attatchedDams;
-    [SerializeField] List<Bridge> attatchedBridges;
-    [SerializeField] List<Ladder> ladders;
+
+    [SerializeField] List<Floodable> floodableObjects;
     private Room room;
 
     [SerializeField] private Tilemap canalTilemap; // Assign in inspector
@@ -25,8 +25,10 @@ public class Canal : MonoBehaviour
         this.edgeCollider.SetActive(false);
         this.canalCollider.isTrigger = true;
 
-        foreach(Ladder l in this.ladders) {
-            l.init(this);
+        foreach(Floodable f in this.floodableObjects) {
+            if(f is Ladder) {
+                ((Ladder)f).init(this);
+            }
         }
     }
     
@@ -49,8 +51,8 @@ public class Canal : MonoBehaviour
             d.onFlood(this, floodingFrom);
         }
 
-        foreach(Bridge b in this.attatchedBridges) {
-            b.onFlood();
+        foreach(Floodable f in this.floodableObjects) {
+            f.onFlood();
         }
 
         this.room.floodNeighbors(floodTo);
@@ -64,6 +66,10 @@ public class Canal : MonoBehaviour
     public void drainWater() {
         if(this.flooded) {
             swapTiles();
+        }
+
+        foreach(Floodable f in this.floodableObjects) {
+            f.drainWater();
         }
 
         this.canalCollider.isTrigger = true;
