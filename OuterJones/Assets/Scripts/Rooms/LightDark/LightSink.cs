@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class LightSink : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    private bool beamed = false;
+
+    public void activate() {
+        this.beamed = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void deactivate() {
+        this.beamed = false;
+    }
+
+    public bool getActive() {
+        return this.beamed;
     }
 }

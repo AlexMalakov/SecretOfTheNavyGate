@@ -11,6 +11,7 @@ public class LightDarkRoom : Room
     [SerializeField] private Sprite darkSprite;
 
     [SerializeField] private Mirror mirror;
+    [SerializeField] private LightSink sink;
     
     private LightSource source;
 
@@ -38,7 +39,9 @@ public class LightDarkRoom : Room
     }
 
     public override void receiveBeam(DoorDirection incomingDirection) {
-        if(this.mirror == null) {
+        if(this.sink != null) {
+            this.sink.activate();
+        } else if(this.mirror == null) {
             base.receiveBeam(incomingDirection);
         } else {
             DoorDirection exitDirection = this.mirror.reflect(this.getEntrance(incomingDirection).getInverse());
@@ -64,13 +67,13 @@ public class LightDarkRoom : Room
         
     }
 
-    // public override void beamNeighbor(DoorDirection exitDirection) {
+    public override void removeBeam() {
+        base.removeBeam();
+        if(this.sink != null) {
+            this.sink.deactivate();
+        }
+    }
 
-    // }
-
-    // public override void removeBeam() {
-
-    // }
 
     
     public override void rotate90(bool clockwise) {
