@@ -139,10 +139,10 @@ public class Room : MonoBehaviour
 
     //////////////////////////////////////////////
     //functionality for L/D rooms
-    [Header ("L/D")]
-    protected List<BeamModel> beams = new List<BeamModel>();
+    [Header ("LD Info")]
     [SerializeField] protected Mirror mirror;
     [SerializeField] protected LightSink lSink;
+    protected List<BeamModel> beams = new List<BeamModel>();
 
     //this is a chungus of a method cuz of mirrors and non mirrors :'(
     //since all rooms can have mirrors/sinks then a lot of code gets to be moved here yipee I love big classes!!!!!! :D
