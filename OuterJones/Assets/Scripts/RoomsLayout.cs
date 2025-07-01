@@ -154,6 +154,9 @@ public class RoomsLayout : MonoBehaviour
         return all;
     }
 
+
+
+    //TODO: FIX THE CASE WHERE UNPLACED ROOMS GET SHIFTED AROUND!!!!!!!!
     public void slideRoomsAroundCenter(RoomCoords center, bool clockwise) {
         //Enforces that the slide room must not be on an edge
         //delete to allow it to be on an edge
