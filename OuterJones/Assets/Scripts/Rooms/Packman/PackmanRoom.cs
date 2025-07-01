@@ -27,12 +27,15 @@ public class PackmanRoom : Room
 
     public override void onEnter(Door enteredFrom) {
         base.onEnter(enteredFrom);
-        mummy.wake();
+        if(mummy != null)
+            mummy.wake();
     }
 
     public override void onExit() {
         mummy.sleep();
-        base.onExit();
+
+        if(mummy != null)
+            base.onExit();
     }
 
 
