@@ -16,21 +16,15 @@ public class AlternatingSpitter : MonoBehaviour
 
     private bool playerInRoom = false;
 
-    private PlayerController controller;
-
-    private void Start() {
-        this.controller = FindObjectOfType<PlayerController>();
-    }
-
     private void OnTriggerEnter2D(Collider2D other) {
-        if(other.GetComponent<Player>() != null) {
-            StartCoroutine(rotateSpitter());
+        if(other.GetComponent<PlayerController>() != null) {
+            StartCoroutine(rotateSpitter(other.GetComponent<PlayerController>()));
         }
     }
 
-    private IEnumerator rotateSpitter() {
-        this.controller.isMovementEnabled(false);
-        this.controller.transform.parent = this.transform;
+    private IEnumerator rotateSpitter(PlayerController controller) {
+        controller.isMovementEnabled(false);
+        controller.transform.parent = this.transform;
 
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, clockwise? 90 : -90);
@@ -45,8 +39,8 @@ public class AlternatingSpitter : MonoBehaviour
 
         clockwise = !clockwise;
 
-        this.controller.transform.parent = null;
-        this.controller.isMovementEnabled(true);
+        controller.transform.parent = null;
+        controller.isMovementEnabled(true);
     }
 
 
