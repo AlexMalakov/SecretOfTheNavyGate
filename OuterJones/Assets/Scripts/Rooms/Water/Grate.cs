@@ -4,12 +4,29 @@ using UnityEngine;
 
 public class Grate : MonoBehaviour
 {
-    
-    public void onPlayerInCanal() {
+    [SerializeField] string enviromentLayer = "Enviroment";
+    [SerializeField] string foregroundLayer = "FrontForeground";
 
+    private Renderer rend;
+
+
+    public void Start() {
+        rend = GetComponent<Renderer>();
+        if (rend == null)
+        {
+            Debug.LogError("No Renderer component found!");
+        }
+        else
+        {
+            rend.sortingLayerName = this.enviromentLayer;
+        }
     }
 
-    public void onPlayerLeaveCanal() {
-        
+    public void onPlayerInCanal() {
+        rend.sortingLayerName = this.foregroundLayer;
+    }
+
+    public void onPlayerOutCanal() {
+        rend.sortingLayerName = this.enviromentLayer;
     }
 }

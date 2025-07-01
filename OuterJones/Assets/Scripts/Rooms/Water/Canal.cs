@@ -11,6 +11,7 @@ public class Canal : MonoBehaviour
     [SerializeField] List<Dam> attatchedDams;
 
     [SerializeField] List<Floodable> floodableObjects;
+    [SerializeField] List<Grate> grates;
     private Room room;
 
     [SerializeField] private Tilemap canalTilemap; // Assign in inspector
@@ -91,20 +92,6 @@ public class Canal : MonoBehaviour
         }
     }
 
-    // //when the player falls in
-    // void OnTriggerEnter2D(Collider2D other) {
-    //     if(other.gameObject.GetComponent<Player>() != null) {
-    //         this.edgeCollider.SetActive(true);
-    //     }
-    // }
-
-    // //once the player takes the ladder, turn off the edge collider
-    // void OnTriggerExit2D(Collider2D other) {
-    //     if(other.gameObject.GetComponent<Player>() != null) {
-    //         this.edgeCollider.SetActive(false);
-    //     }
-    // }
-
     void OnTriggerStay2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null) {
             bool allInside = true;
@@ -113,7 +100,7 @@ public class Canal : MonoBehaviour
             }
 
             if(allInside) {
-                this.edgeCollider.SetActive(true);
+                this.onPlayerInCanal();
             }
         }
     }
@@ -125,7 +112,7 @@ public class Canal : MonoBehaviour
         }
 
         if(other.gameObject.GetComponent<Player>() != null) {
-            this.edgeCollider.SetActive(false);
+            this.onPlayerOutCanal();
         }
     }
 
@@ -136,12 +123,28 @@ public class Canal : MonoBehaviour
     }
 
     public void onLadderUse() {
-        this.edgeCollider.SetActive(false);
+        this.onPlayerOutCanal();
     }
 
     public void rotate90(bool clockwise) {
         for(int i = 0; i < this.canalEntrances.Count; i++) {
             this.canalEntrances[i] = (CanalEntrances)((WaterSource.CANAL_ENTRANCE_COUNT + (int)this.canalEntrances[i] + (clockwise ? 2 : -2)) % WaterSource.CANAL_ENTRANCE_COUNT);
+        }
+    }
+
+    private void onPlayerInCanal() {
+        this.edgeCollider.SetActive(true);
+
+        foreach(Grate g in this.grates) {
+            g.onPlayerInCanal();
+        }
+    }
+
+    private void onPlayerOutCanal() {
+        this.edgeCollider.SetActive(false);
+
+        foreach(Grate g in this.grates) {
+            g.onPlayerOutCanal();
         }
     }
 }

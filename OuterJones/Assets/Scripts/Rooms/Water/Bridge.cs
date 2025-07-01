@@ -43,15 +43,19 @@ public class Bridge :  Floodable
     }
 
     void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log("ENTERED!" + other.gameObject.name);
         if(other.gameObject.GetComponent<Player>() != null && flooded) {
+            Debug.Log("YES?");
             // Collider2D playerCollider = other.GetComponent<Collider2D>();
             Physics2D.IgnoreCollision(other, this.canal.GetComponent<Collider2D>(), true);
         }   
+        Debug.Log("NO?");
     }
 
     void OnTriggerExit2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null && flooded) {
             // Collider2D playerCollider = other.GetComponent<Collider2D>();
+            Debug.Log("UNDO");
             Physics2D.IgnoreCollision(other, this.canal.GetComponent<Collider2D>(), false);
         }
     }
