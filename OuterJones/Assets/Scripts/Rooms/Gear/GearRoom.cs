@@ -4,5 +4,20 @@ using UnityEngine;
 
 public class GearRoom : Room
 {
-    
+    [SerializeField] private AlternatingSpitter spitter;
+
+    public override void onEnter(Door enteredFrom) {
+        base.onEnter(enteredFrom);
+
+        if(this.spitter != null) {
+            this.spitter.onPlayerEnter();
+        }
+    }
+
+    public override void onExit() {
+        if(spitter != null) {
+            this.spitter.onPlayerExit();
+        }
+        this.gameObject.SetActive(false);
+    }
 }

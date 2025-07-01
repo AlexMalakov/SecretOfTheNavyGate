@@ -10,13 +10,18 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 movementInput;
 
+    private bool movementEnabled;
 
     private void Start() { 
         rb = GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate() {
-        rb.velocity = getDirection() * moveSpeed;
+        if(movementEnabled) {
+            rb.velocity = getDirection() * moveSpeed;
+        } else {
+            rb.velocity = Vector2.zero;
+        }
     }
 
     private Vector2 getDirection() {
@@ -39,5 +44,9 @@ public class PlayerController : MonoBehaviour
         }
 
         return direction;
+    }
+
+    public void isMovementEnabled(bool enabled) {
+        this.movementEnabled = enabled;
     }
 }

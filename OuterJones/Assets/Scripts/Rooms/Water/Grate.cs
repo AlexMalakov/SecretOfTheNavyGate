@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Grate : MonoBehaviour
 {
-    [SerializeField] string enviromentLayer = "Enviroment";
-    [SerializeField] string foregroundLayer = "FrontForeground";
+    [SerializeField] private string enviromentLayer = "Enviroment";
+    [SerializeField] private string foregroundLayer = "FrontForeground";
+
+    [SerializeField] private Collider2D outOfCanalCollider;
 
     private Renderer rend;
     
@@ -27,17 +29,23 @@ public class Grate : MonoBehaviour
 
         rend = GetComponent<Renderer>();
         rend.sortingLayerName = this.enviromentLayer;
+        this.outOfCanalCollider.enabled = true;
     }
 
 
     public void onPlayerInCanal() {
         rend.sortingLayerName = this.foregroundLayer;
         this.playerInCanal = true;
+
+        this.outOfCanalCollider.enabled = false;
+        
     }
 
     public void onPlayerOutCanal() {
         rend.sortingLayerName = this.enviromentLayer;
         this.playerInCanal = false;
+
+        this.outOfCanalCollider.enabled = true;
 
         
     }

@@ -178,6 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enviromentLayer: Enviroment
   foregroundLayer: FrontForeground
+  outOfCanalCollider: {fileID: 7495043270867013729}
 --- !u!61 &2091559161184240301
 BoxCollider2D:
   m_ObjectHideFlags: 0
