@@ -44,25 +44,24 @@ public class Bridge :  Floodable
 
     void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null && flooded) {
-            Physics2D.IgnoreCollision(other, this.canal.GetComponents<Collider2D>()[0], true);
-            Physics2D.IgnoreCollision(other, this.canal.GetComponents<Collider2D>()[1], true);
-
-            foreach(PlayerEdgeCollider e in other.gameObject.GetComponent<Player>().getEdgeColliders()) {
-                Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[0], true);
-                Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[1], true);
-            }
+            this.setCollision(other.GetComponent<Player>(), true);
         }
     }
 
     void OnTriggerExit2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null && flooded) {
-            Physics2D.IgnoreCollision(other, this.canal.GetComponents<Collider2D>()[0], false);
-            Physics2D.IgnoreCollision(other, this.canal.GetComponents<Collider2D>()[1], false);
-            
-            foreach(PlayerEdgeCollider e in other.gameObject.GetComponent<Player>().getEdgeColliders()) {
-                Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[0], false);
-                Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[1], false);
-            }
+            this.setCollision(other.GetComponent<Player>(), false);
+        }
+    }
+
+
+    private void setCollision(Player p, bool status) {
+        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[0], status);
+        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[1], status);
+        
+        foreach(PlayerEdgeCollider e in p.getEdgeColliders()) {
+            Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[0], status);
+            Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[1], status);
         }
     }
 }
