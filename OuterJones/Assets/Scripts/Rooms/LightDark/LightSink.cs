@@ -5,9 +5,13 @@ using UnityEngine;
 public class LightSink : MonoBehaviour
 {
     private bool beamed = false;
+    [SerializeField] DoorDirection receiveBeamFrom;
 
-    public void activate() {
-        this.beamed = true;
+    public void activate(DoorDirection beamFrom) {
+
+        if(Door.rotateDoorDirection(Door.rotateDoorDirection(beamFrom, true), true) == this.receiveBeamFrom) {
+            this.beamed = true;
+        }
     }
 
     public void deactivate() {
@@ -17,4 +21,9 @@ public class LightSink : MonoBehaviour
     public bool getActive() {
         return this.beamed;
     }
+
+    public void rotate90(bool clockwise) {
+        this.receiveBeamFrom = Door.rotateDoorDirection(this.receiveBeamFrom, clockwise);
+    }
+
 }

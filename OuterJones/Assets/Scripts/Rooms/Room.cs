@@ -155,7 +155,7 @@ public class Room : MonoBehaviour
     
             //if we have a sink power it, then pass the b
             if(this.lSink != null) {
-                this.lSink.activate();
+                this.lSink.activate(incomingDirection);
 
                 BeamModel b = BeamPool.getBeam();
                 this.beams.Add(b);
@@ -226,6 +226,10 @@ public class Room : MonoBehaviour
     public virtual void rotateLight90(bool clockwise) {
         if(this.mirror != null) {
             this.mirror.rotate90();
+        }
+
+        if(this.lSink != null) {
+            this.lSink.rotate90(clockwise);
         }
     }
 
