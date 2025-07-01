@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bridge : MonoBehaviour, Floodable
+public class Bridge :  Floodable
 {
     [SerializeField] GameObject notFloodedSprite;
     [SerializeField] GameObject floodedSprite;
@@ -27,7 +27,7 @@ public class Bridge : MonoBehaviour, Floodable
         this.GetComponent<Collider2D>().enabled = false;
     }
 
-    public void onFlood() {
+    public override void onFlood() {
         flooded = true;
         notFloodedSprite.SetActive(false);
         floodedSprite.SetActive(true);
@@ -35,7 +35,7 @@ public class Bridge : MonoBehaviour, Floodable
         this.GetComponent<Collider2D>().enabled = true;
     }
 
-    public void drainWater() {
+    public override void drainWater() {
         this.GetComponent<Collider2D>().enabled = false;
         flooded = false;
         notFloodedSprite.SetActive(true);

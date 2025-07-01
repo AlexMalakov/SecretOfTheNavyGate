@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterSink : MonoBehaviour, Floodable
+public class WaterSink : Floodable
 {
     private bool flooded = false;
 
-    public void onFlood() {
+    public override void onFlood() {
         this.flooded = true;
     }
 
-    public void drainWater() {
+    public override void drainWater() {
         this.flooded = false;
     }
 

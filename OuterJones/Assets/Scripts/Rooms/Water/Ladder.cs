@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ladder : MonoBehaviour, Floodable
+public class Ladder : Floodable
 {
     [SerializeField] private Transform ladderExit;
     private Canal canal;
@@ -33,11 +33,11 @@ public class Ladder : MonoBehaviour, Floodable
         }
     }
 
-    public void onFlood() {
+    public override void onFlood() {
         this.flooded = true;
     }
 
-    public void drainWater() {
+    public override void drainWater() {
         this.flooded = false;
     }
 }
