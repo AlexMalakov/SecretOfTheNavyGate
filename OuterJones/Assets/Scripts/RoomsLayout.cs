@@ -195,20 +195,22 @@ public class RoomsLayout : MonoBehaviour
         for(int i = 0; i < roomsToShift.Count-1; i++) {
             //update list in internal grid
             this.rooms[roomsToShift[i].x, roomsToShift[i].y] = this.rooms[roomsToShift[i+1].x, roomsToShift[i+1].y];
-            this.rooms[roomsToShift[i].x, roomsToShift[i].y].init(roomsToShift[i]);
 
-            //change room physical position
-            this.moveRoomToSpot(this.rooms[roomsToShift[i].x, roomsToShift[i].y], roomsToShift[i]);
+            if(this.rooms[roomsToShift[i].x, roomsToShift[i].y] != null) {
+                this.rooms[roomsToShift[i].x, roomsToShift[i].y].init(roomsToShift[i]);
+                this.moveRoomToSpot(this.rooms[roomsToShift[i].x, roomsToShift[i].y], roomsToShift[i]);
+                toUpdate.Add(this.rooms[roomsToShift[i].x, roomsToShift[i].y]);
+            }
             
-            //update map
-            toUpdate.Add(this.rooms[roomsToShift[i].x, roomsToShift[i].y]);
         }
 
-        toUpdate.Add(swapper);
         this.rooms[roomsToShift[roomsToShift.Count-1].x, roomsToShift[roomsToShift.Count-1].y] = swapper;
-        swapper.init(roomsToShift[roomsToShift.Count-1]);
 
-        this.moveRoomToSpot(swapper, roomsToShift[roomsToShift.Count-1]);
+        if(swapper != null) {
+            swapper.init(roomsToShift[roomsToShift.Count-1]);
+            toUpdate.Add(swapper);
+            this.moveRoomToSpot(swapper, roomsToShift[roomsToShift.Count-1]);
+        }
             
         this.notifyRoomListeners(toUpdate);
     }
