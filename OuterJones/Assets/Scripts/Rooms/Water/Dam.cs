@@ -29,10 +29,20 @@ public class Dam : MonoBehaviour
         }
     }
 
-    void OnTriggerStay2D(Collider2D other) {
-        if(Input.GetKeyDown(KeyCode.Space) && other.gameObject.GetComponent<Player>() != null) {
-            this.open = !open;
-            source.onWaterUpdate();
-        }
+    // void OnTriggerStay2D(Collider2D other) {
+    //     if(Input.GetKeyDown(KeyCode.Space) && other.gameObject.GetComponent<Player>() != null) {
+    //         this.open = !open;
+    //         source.onWaterUpdate();
+    //     }
+    // }
+
+    public void openDam() {
+        this.open = true;
+        source.onWaterUpdate();
+    }
+
+    public void closeDam() {
+        this.open = false;
+        source.onWaterUpdate();
     }
 }

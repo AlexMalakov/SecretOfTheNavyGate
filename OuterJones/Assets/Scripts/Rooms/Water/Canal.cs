@@ -20,6 +20,7 @@ public class Canal : MonoBehaviour
     [SerializeField] private GameObject edgeCollider; //collider attatched to external object
 
     private bool flooded = false;
+    private Renderer renderer;
 
     public void Awake() {
         this.room = GetComponentInParent<Room>();
@@ -31,6 +32,8 @@ public class Canal : MonoBehaviour
                 ((Ladder)f).init(this);
             }
         }
+
+        this.renderer = GetComponent<Renderer>();
     }
     
     public void onFlood(CanalEntrances? floodingFrom) {
@@ -146,6 +149,17 @@ public class Canal : MonoBehaviour
         foreach(Grate g in this.grates) {
             g.onPlayerOutCanal();
         }
+    }
+
+    //this is scuffed but kinda needed for R4 to not make the room even worse
+    public bool hideCanal() {
+        this.renderer.enabled = false;
+        this.canalCollider.enabled = false;
+    }
+
+    public bool returnCanal() {
+        this.renderer.enabled = true;
+        this.canalCollider.enabled = true;
     }
 }
 
