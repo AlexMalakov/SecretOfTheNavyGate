@@ -19,8 +19,8 @@ public class CanalToggler : MonoBehaviour
     public List<Dam> vertDams;
 
 
-    public List<GameObject> horizCanals;
-    public List<GameObject> vertCanals;
+    public List<Canal> horizCanals;
+    public List<Canal> vertCanals;
 
     public void Start() {
         this.openVertical();

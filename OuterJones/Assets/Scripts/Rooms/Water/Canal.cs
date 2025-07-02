@@ -152,12 +152,12 @@ public class Canal : MonoBehaviour
     }
 
     //this is scuffed but kinda needed for R4 to not make the room even worse
-    public bool hideCanal() {
+    public void hideCanal() {
         this.renderer.enabled = false;
         this.canalCollider.enabled = false;
     }
 
-    public bool returnCanal() {
+    public void returnCanal() {
         this.renderer.enabled = true;
         this.canalCollider.enabled = true;
     }

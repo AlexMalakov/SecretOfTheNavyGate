@@ -11,9 +11,11 @@ public class Dam : MonoBehaviour
     [SerializeField] private bool open;
 
     private WaterSource source;
+    private Collider2D damCollider;
 
     public void Start() {
         this.source = FindObjectOfType<WaterSource>();
+        this.damCollider = GetComponent<Collider2D>();
     }
 
 
@@ -39,10 +41,12 @@ public class Dam : MonoBehaviour
     public void openDam() {
         this.open = true;
         source.onWaterUpdate();
+        this.damCollider.enabled = false;
     }
 
     public void closeDam() {
         this.open = false;
+        this.damCollider.enabled = true;
         source.onWaterUpdate();
     }
 }
