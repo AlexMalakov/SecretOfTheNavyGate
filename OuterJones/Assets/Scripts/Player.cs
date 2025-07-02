@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     private List<Room> deck;
     private Room currentRoom;
+    private bool rotateClockwise = true;
 
     [SerializeField] List<PlayerEdgeCollider> edges = new List<PlayerEdgeCollider>();
 
@@ -51,5 +52,13 @@ public class Player : MonoBehaviour
 
     public List<PlayerEdgeCollider> getEdgeColliders() {
         return this.edges;
+    }
+
+    public void setRotateDirection(bool rotateDirection) {
+        this.rotateDirection = rotateDirection;
+    }
+
+    public bool getRotationDirection() {
+        return this.rotateDirection;
     }
 }

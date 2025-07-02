@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 8210256192331951360}
   - component: {fileID: 8856001265654149295}
   - component: {fileID: 3009362686876774459}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: canal tile map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1043,8 +1043,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canalEntrances: 
   attatchedDams: []
-  attatchedBridges: []
-  ladders: []
+  floodableObjects: []
+  grates: []
   canalTilemap: {fileID: 5678037187406743472}
   canalCollider: {fileID: 8856001265654149295}
   edgeCollider: {fileID: 1565388591885669051}

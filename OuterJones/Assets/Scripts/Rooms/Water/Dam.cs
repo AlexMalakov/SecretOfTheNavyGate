@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Dam : MonoBehaviour
+public class Dam : MonoBehaviour, Effectable
 {
     [SerializeField] private Canal c1;
     [SerializeField] private Canal c2;
@@ -48,5 +48,17 @@ public class Dam : MonoBehaviour
         this.open = false;
         this.damCollider.enabled = true;
         source.onWaterUpdate();
+    }
+
+    public void onEffect() {
+        if(this.open) {
+            this.closeDam();
+        } else {
+            this.openDam();
+        }
+    }
+
+    public void reset() {
+
     }
 }
