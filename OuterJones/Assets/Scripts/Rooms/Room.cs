@@ -167,7 +167,7 @@ public class Room : MonoBehaviour
             }
 
             DoorDirection exitDirection;
-            if(this.mirror != null) { //if we have a mirror, we draw the light as if it bounces
+            if(this.mirror != null && !this.mirror.hasCobWebs()) { //if we have a mirror, we draw the light as if it bounces
                 exitDirection = this.mirror.reflect(incomingDirection); //exit direction is wherever we get reflected
 
                 BeamModel b = BeamPool.getBeam();
@@ -185,7 +185,17 @@ public class Room : MonoBehaviour
                     this.transform,
                     this.mirror.transform.position,
                     this.getPointInDirection(exitDirection).position);
-            } else {
+            } else if(this.mirror != null) {
+                BeamModel b = BeamPool.getBeam();
+                this.beams.Add(b);
+
+                b.initBeam(
+                    this.transform,
+                    this.getPointInDirection(incomingDirection).position,
+                    this.mirror.transform.position);
+                return;
+
+            }else {
                 exitDirection = this.getEntrance(incomingDirection).getInverse(); //exit direction is opposite of enter direction
                 BeamModel b = BeamPool.getBeam();
                 this.beams.Add(b);

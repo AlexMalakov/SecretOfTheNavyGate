@@ -8,9 +8,11 @@ public class Torch : MonoBehaviour
 
     public void equip() {
         torchObj.SetActive(true);
+        torchObj.GetComponent<TorchCollider>().setActiveStatus(true);
     }
 
     public void unequip() {
         torchObj.SetActive(false);
+        torchObj.GetComponent<TorchCollider>().setActiveStatus(false);
     }
 }
