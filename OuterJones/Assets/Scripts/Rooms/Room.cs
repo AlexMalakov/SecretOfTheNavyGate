@@ -236,7 +236,12 @@ public class Room : MonoBehaviour
     ///////////////////////////////////////////////
     //rotation room functionality
 
-    public virtual void rotate90(bool clockwise) {
+    public virtual bool rotate90() {
+        return this.rotate90(FindObjectOfType<Player>().getRotationDirection());
+    }
+
+    public virtual bool rotate90(bool clockwise) {
+        
         //rotate game object
         transform.Rotate(0f, 0f, (clockwise ? -90f : 90f));
     
@@ -265,6 +270,8 @@ public class Room : MonoBehaviour
 
         //handles canal and light reset, and map rotate
         this.layoutManager.notifyRoomListeners(new List<Room>(){this});
+
+        return clockwise;
     }
     
 }

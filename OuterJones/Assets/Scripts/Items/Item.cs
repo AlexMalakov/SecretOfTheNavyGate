@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public abstract class Item : MonoBehaviour
 {
-    public void equip() {
+    public virtual void equip() {
 
     }
 
-    public void unequip() {
-        
+    public virtual void unequip() {
+
     }
+
+    public virtual void onGain() {
+
+    }
+    
+    public abstract PossibleItems getItemType();
 }

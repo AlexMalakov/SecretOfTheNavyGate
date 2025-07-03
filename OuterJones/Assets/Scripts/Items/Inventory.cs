@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
+public enum PossibleItems {
+    Amulet, Floaties, GearItem, Torch, Whip, Key
+}
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private List<Item> items;
     [SerializeField] private int equipedItem = -1;
-
-
-
 
     public void Update() {
         if(Input.GetKeyDown(KeyCode.Alpha1) && items.Count > 0) {
@@ -36,12 +37,16 @@ public class Inventory : MonoBehaviour
             }
 
             this.equipedItem = n;
-            this.items[n].equip()
+            this.items[n].equip();
         }
     }
 
-
-
-
-    public bool hasItem()
+    public bool hasItem(PossibleItems t) {
+        foreach(Item i in this.items) {
+            if(i.getItemType() == t) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

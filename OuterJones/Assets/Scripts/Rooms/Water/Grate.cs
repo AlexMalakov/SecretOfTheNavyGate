@@ -23,8 +23,13 @@ public class Grate : MonoBehaviour
 
         foreach (Collider2D c in overlapping) {
             if(c.gameObject.GetComponent<Canal>() != null) {
+                Debug.Log("FOUND CANAL!");
                 this.canal = c.gameObject.GetComponent<Canal>();
             }
+        }
+
+        if(this.canal == null) {
+            Debug.Log("COULD NOT FIND CANAL!");
         }
 
         rend = GetComponent<Renderer>();
@@ -46,8 +51,6 @@ public class Grate : MonoBehaviour
         this.playerInCanal = false;
 
         this.outOfCanalCollider.enabled = true;
-
-        
     }
 
 
@@ -67,12 +70,12 @@ public class Grate : MonoBehaviour
     }
 
     private void setCollision(Player p, bool status) {
-        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[0], status);
-        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[1], status);
+        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
+        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
         
         foreach(PlayerEdgeCollider e in p.getEdgeColliders()) {
-            Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[0], status);
-            Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[1], status);
+            Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
+            Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
         }
     }
 }

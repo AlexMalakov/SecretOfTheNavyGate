@@ -7,8 +7,6 @@ public class PackmanRoom : Room
     [SerializeField] private Mummy mummy;
     [SerializeField] private ButtonManager bManager;
 
-
-
     public override void init(RoomCoords position) {
         base.init(position);
 

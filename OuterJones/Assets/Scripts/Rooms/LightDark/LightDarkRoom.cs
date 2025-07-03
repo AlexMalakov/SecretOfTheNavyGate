@@ -35,12 +35,14 @@ public class LightDarkRoom : Room
         return this.darkSprite;
     }
     
-    public override void rotate90(bool clockwise) {
-        base.rotate90(clockwise);
+    public override bool rotate90() {
+        bool clockwise = base.rotate90();
 
         if(this.source != null) {
             this.source.rotate90(clockwise);
         }
+
+        return clockwise;
     }
 
     public void setSource(LightSource s) {

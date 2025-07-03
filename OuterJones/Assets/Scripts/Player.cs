@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     private List<Room> deck;
     private Room currentRoom;
-    private bool rotateClockwise = true;
+    private bool rotateDirection = true;
 
     [SerializeField] List<PlayerEdgeCollider> edges = new List<PlayerEdgeCollider>();
 

@@ -6,8 +6,6 @@ public class Torch : MonoBehaviour
 {
     [SerializeField] GameObject torchObj;
 
-
-
     public void equip() {
         torchObj.SetActive(true);
     }

@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dropper : MonoBehaviour
+public class Dropper : MonoBehaviour, Effectable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    //give the player another key
+    [SerializeField] Key key;
+    public void onEffect() {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void reset() {
+
     }
 }

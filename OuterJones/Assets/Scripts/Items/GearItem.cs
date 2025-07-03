@@ -5,11 +5,15 @@ using UnityEngine;
 public class GearItem : Item
 {
     [SerializeField] Player p;
-    public void equip() {
+    public override void equip() {
         p.setRotateDirection(false);
     }
 
-    public void unequip() {
+    public override void unequip() {
         p.setRotateDirection(true);
+    }
+
+    public override PossibleItems getItemType() {
+        return PossibleItems.GearItem;
     }
 }

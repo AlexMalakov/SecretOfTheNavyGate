@@ -16,16 +16,16 @@ public class Canal : MonoBehaviour
 
     [SerializeField] private Tilemap canalTilemap; // Assign in inspector
 
-    [SerializeField] private Collider2D canalCollider; //trigger when empty, collider when flooded
+    [SerializeField] private CompositeCollider2D canalCollider; //trigger when empty, collider when flooded
+    [SerializeField] private GameObject waterCollider;
     [SerializeField] private GameObject edgeCollider; //collider attatched to external object
 
     private bool flooded = false;
-    private Renderer renderer;
+    private Renderer rend;
 
     public void Awake() {
         this.room = GetComponentInParent<Room>();
         this.edgeCollider.SetActive(false);
-        this.canalCollider.isTrigger = true;
 
         foreach(Floodable f in this.floodableObjects) {
             if(f is Ladder) {
@@ -33,7 +33,34 @@ public class Canal : MonoBehaviour
             }
         }
 
-        this.renderer = GetComponent<Renderer>();
+        this.rend = GetComponent<Renderer>();
+
+        StartCoroutine(this.copyCollider());
+        
+    }
+
+    //this is awful but i need it for floaties to not be a testing headache
+    private IEnumerator copyCollider() {
+
+        var tilemap = waterCollider.AddComponent<Tilemap>();
+        var tilemapRenderer = waterCollider.AddComponent<TilemapRenderer>();
+
+        var tilemapCollider = waterCollider.AddComponent<TilemapCollider2D>();
+        tilemapCollider.usedByComposite = true;
+
+        var compositeCollider = waterCollider.AddComponent<CompositeCollider2D>();
+        compositeCollider.geometryType = CompositeCollider2D.GeometryType.Polygons;
+
+        var rb = waterCollider.AddComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Static;
+
+        yield return new WaitForFixedUpdate();
+
+        tilemapCollider.enabled = false;
+
+        Destroy(tilemap);
+        Destroy(tilemapRenderer);
+
     }
     
     public void onFlood(CanalEntrances? floodingFrom) {
@@ -43,7 +70,8 @@ public class Canal : MonoBehaviour
 
         this.swapTiles();
         this.flooded = true;
-        this.canalCollider.isTrigger = false;
+        this.canalCollider.enabled = false;
+        this.waterCollider.SetActive(true);
 
         List<CanalEntrances> floodTo = new List<CanalEntrances>(this.canalEntrances);
 
@@ -76,7 +104,8 @@ public class Canal : MonoBehaviour
             f.drainWater();
         }
 
-        this.canalCollider.isTrigger = true;
+        this.canalCollider.enabled = true;
+        this.waterCollider.SetActive(false);
         this.flooded = false;
     }
 
@@ -153,13 +182,20 @@ public class Canal : MonoBehaviour
 
     //this is scuffed but kinda needed for R4 to not make the room even worse
     public void hideCanal() {
-        this.renderer.enabled = false;
+        this.rend.enabled = false;
         this.canalCollider.enabled = false;
+        this.waterCollider.SetActive(false);
     }
 
     public void returnCanal() {
-        this.renderer.enabled = true;
-        this.canalCollider.enabled = true;
+        this.rend.enabled = true;
+
+        this.canalCollider.enabled = !this.flooded;
+        this.waterCollider.SetActive(this.flooded);
+    }
+
+    public GameObject getWaterCollider() {
+        return this.waterCollider;
     }
 }
 

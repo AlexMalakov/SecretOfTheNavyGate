@@ -20,8 +20,13 @@ public class Bridge :  Floodable
 
         foreach (Collider2D c in overlapping) {
             if(c.gameObject.GetComponent<Canal>() != null) {
+                Debug.Log("FOUND CANAL!");
                 this.canal = c.gameObject.GetComponent<Canal>();
             }
+        }
+
+        if(this.canal == null) {
+            Debug.Log("COULD NOT FIND A CANAL");
         }
 
         this.GetComponent<Collider2D>().enabled = false;
@@ -56,12 +61,12 @@ public class Bridge :  Floodable
 
 
     private void setCollision(Player p, bool status) {
-        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[0], status);
-        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[1], status);
+        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
+        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
         
         foreach(PlayerEdgeCollider e in p.getEdgeColliders()) {
-            Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[0], status);
-            Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.GetComponents<Collider2D>()[1], status);
+            Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
+            Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
         }
     }
 }
