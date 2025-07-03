@@ -62,9 +62,21 @@ public class Canal : MonoBehaviour
         yield return new WaitForFixedUpdate();
 
         //dew it anakin, kill him
-        Destroy(tilemapCollider);
-        Destroy(tilemapRenderer);
-        Destroy(tilemap);
+
+
+        //ok so basically if i kill this, then when my object is disabled i the collider rebakes
+        //i can solve that by moving the collider out of the way instead of disabling it. 
+        //however i need to ensure that the game never rebakes which at the moment seems impossible considering underbellies and how rooms are currently implemented
+
+        // Destroy(tilemapCollider);
+        // Destroy(tilemapRenderer);
+        // Destroy(tilemap);
+
+        // tilemapCollider.enabled = false;
+        // tilemapRenderer.enabled = false;
+        // tilemap.enabled = false;
+
+        this.waterCollider.SetActive(false);
     }
 
     private void copyMap(Tilemap source, Tilemap destination) {

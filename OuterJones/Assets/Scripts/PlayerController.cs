@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 movementInput;
 
-    private bool movementEnabled;
+    private bool movementEnabled = true;
 
     private void Start() { 
         rb = GetComponent<Rigidbody2D>();
