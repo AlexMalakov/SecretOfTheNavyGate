@@ -45,22 +45,52 @@ public class Canal : MonoBehaviour
         var tilemap = waterCollider.AddComponent<Tilemap>();
         var tilemapRenderer = waterCollider.AddComponent<TilemapRenderer>();
 
+        this.copyMap(GetComponent<Tilemap>(), tilemap);
+
+        var rb = waterCollider.AddComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Static;
+
         var tilemapCollider = waterCollider.AddComponent<TilemapCollider2D>();
         tilemapCollider.usedByComposite = true;
 
         var compositeCollider = waterCollider.AddComponent<CompositeCollider2D>();
         compositeCollider.geometryType = CompositeCollider2D.GeometryType.Polygons;
 
-        var rb = waterCollider.AddComponent<Rigidbody2D>();
-        rb.bodyType = RigidbodyType2D.Static;
+        compositeCollider.generationType = CompositeCollider2D.GenerationType.Manual;
+        compositeCollider.GenerateGeometry();
 
         yield return new WaitForFixedUpdate();
 
-        tilemapCollider.enabled = false;
-
-        Destroy(tilemap);
+        //dew it anakin, kill him
+        Destroy(tilemapCollider);
         Destroy(tilemapRenderer);
+        Destroy(tilemap);
+    }
 
+    private void copyMap(Tilemap source, Tilemap destination) {
+        destination.ClearAllTiles();
+
+        // Get the bounds of all tiles in source
+        BoundsInt bounds = source.cellBounds;
+
+        // Loop through each position in the source bounds
+        for (int x = bounds.xMin; x < bounds.xMax; x++)
+        {
+            for (int y = bounds.yMin; y < bounds.yMax; y++)
+            {
+                Vector3Int pos = new Vector3Int(x, y, 0);
+                TileBase tile = source.GetTile(pos);
+
+                if (tile != null)
+                {
+                    destination.SetTile(pos, tile);
+
+                    // Optional: copy tile flags and color too
+                    destination.SetTileFlags(pos, source.GetTileFlags(pos));
+                    destination.SetColor(pos, source.GetColor(pos));
+                }
+            }
+        }
     }
     
     public void onFlood(CanalEntrances? floodingFrom) {
