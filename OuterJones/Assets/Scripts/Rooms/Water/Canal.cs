@@ -56,8 +56,8 @@ public class Canal : MonoBehaviour
         var compositeCollider = waterCollider.AddComponent<CompositeCollider2D>();
         compositeCollider.geometryType = CompositeCollider2D.GeometryType.Polygons;
 
-        compositeCollider.generationType = CompositeCollider2D.GenerationType.Manual;
-        compositeCollider.GenerateGeometry();
+        // compositeCollider.generationType = CompositeCollider2D.GenerationType.Manual;
+        // compositeCollider.GenerateGeometry();
 
         yield return new WaitForFixedUpdate();
 
@@ -73,7 +73,7 @@ public class Canal : MonoBehaviour
         // Destroy(tilemap);
 
         // tilemapCollider.enabled = false;
-        // tilemapRenderer.enabled = false;
+        tilemapRenderer.enabled = false;
         // tilemap.enabled = false;
 
         this.waterCollider.SetActive(false);
