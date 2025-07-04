@@ -5,12 +5,17 @@ using UnityEngine;
 public class Dropper : MonoBehaviour, Effectable
 {
     //give the player another key
-    [SerializeField] Key key;
+    [SerializeField] Item i;
+    private bool hasItem = true;
+
     public void onEffect() {
-        
+        if(hasItem) {
+            hasItem = false;
+            FindObjectOfType<Inventory>().gainItem(i);
+        }
     }
 
     public void reset() {
-
+        hasItem = true;
     }
 }

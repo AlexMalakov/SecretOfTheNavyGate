@@ -27,6 +27,19 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void gainItem(Item newItem) {
+        if(newItem is Key) {
+            foreach(Item i in this.items) {
+                if(i is Key) {
+                    ((Key) i).gainKey();
+                    return;
+                }
+            }
+        }
+
+        this.items.Add(newItem);
+    }
+
     private void equipItemN(int n) {
         if(this.equipedItem == n) {
             this.items[n].unequip();

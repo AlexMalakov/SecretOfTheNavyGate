@@ -19,4 +19,8 @@ public class Key : Item
     public override PossibleItems getItemType() {
         return PossibleItems.Key;
     }
+
+    public void gainKey() {
+        this.keyCount++;
+    }
 }
