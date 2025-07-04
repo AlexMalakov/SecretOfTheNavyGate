@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 
     private bool movementEnabled = true;
 
+    private bool isMoving = false;
+
     private void Start() { 
         rb = GetComponent<Rigidbody2D>();
     }
@@ -21,6 +23,12 @@ public class PlayerController : MonoBehaviour
             rb.velocity = getDirection() * moveSpeed;
         } else {
             rb.velocity = Vector2.zero;
+        }
+
+        if(rb.velocity.x == 0 && rb.velocity.y == 0) {
+            this.isMoving = false;
+        } else {
+            this.isMoving = true;
         }
     }
 
@@ -48,5 +56,9 @@ public class PlayerController : MonoBehaviour
 
     public void isMovementEnabled(bool enabled) {
         this.movementEnabled = enabled;
+    }
+
+    public bool isPlayerMoving() {
+        return this.isMoving;
     }
 }
