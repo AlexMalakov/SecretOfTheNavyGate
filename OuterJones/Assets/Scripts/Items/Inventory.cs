@@ -49,4 +49,13 @@ public class Inventory : MonoBehaviour
         }
         return false;
     }
+
+    public Item getItem(PossibleItems t) {
+        foreach(Item i in this.items) {
+            if(i.getItemType() == t) {
+                return i;
+            }
+        }
+        return null;
+    }
 }

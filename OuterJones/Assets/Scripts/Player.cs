@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     private List<Room> deck;
     private Room currentRoom;
     private bool rotateDirection = true;
+    private Inventory inventory;
 
     [SerializeField] List<PlayerEdgeCollider> edges = new List<PlayerEdgeCollider>();
 
@@ -21,6 +22,8 @@ public class Player : MonoBehaviour
         this.currentRoom = obj.GetComponent<Room>();
 
         FindObjectOfType<DeckUI>().init(this);
+
+        this.inventory = FindObjectOfType<Inventory>();
     }
 
     public void addToDeck(List<Room> newDeck) {
@@ -60,5 +63,19 @@ public class Player : MonoBehaviour
 
     public bool getRotationDirection() {
         return this.rotateDirection;
+    }
+
+
+
+    public bool hasKey() {
+        return this.inventory.hasItem(PossibleItems.Key) && ((Key)this.inventory.getItem(PossibleItems.Key)).hasKey();
+    }
+
+    public void useKey() {
+        if(!this.inventory.hasItem(PossibleItems.Key)) {
+            Debug.Log("WARNING: NO KEY!");
+        }
+
+        ((Key)this.inventory.getItem(PossibleItems.Key)).useKey();
     }
 }
