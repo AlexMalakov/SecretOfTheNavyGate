@@ -12,11 +12,12 @@ public class LandBridge : MonoBehaviour
 
     //basically if u want to cross the bridge u have to hit a collider first
     public void notifyOfPlayer(bool isUpperLevel) {
+        Renderer rend = GetComponent<Renderer>();
         if(playerLevel && !isUpperLevel) {
-            this.renderer.sortingLayerName = this.playerOnBottomLayer;
+            rend.sortingLayerName = this.playerOnBottomLayer;
             this.GetComponent<Collider2D>().enabled = false; //there shouldn't be a collider keeping the player on the bridge
         } else if(!playerLevel && isUpperLevel) {
-            this.renderer.sortingLayerName = this.playerOnUpperLayer;
+            rend.sortingLayerName = this.playerOnUpperLayer;
             this.GetComponent<Collider2D>().enabled = true; //there should be a collider keeping the player on the bridge
         }
     }
