@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CursedAmulet : MonoBehaviour
+public class CursedAmulet : Item
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    private Button[] allButtons;
+
+    public void Start() {
+        allButtons = FindObjectsOfType<Button>(true);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public override void equip() {
+        foreach(Button b in this.allButtons) {
+            b.setMummyButtonStatus(!b.getMummyStatus());
+        }
+    }
+
+    public override void unequip() {
+        foreach(Button b in this.allButtons) {
+            b.setMummyButtonStatus(!b.getMummyStatus());
+        }
+    }
+
+    public override PossibleItems getItemType() {
+        return PossibleItems.Amulet;
     }
 }

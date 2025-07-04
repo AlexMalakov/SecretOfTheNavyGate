@@ -6,16 +6,23 @@ public class Button : MonoBehaviour, PowerableObject
 {
     [SerializeField] bool startingButton;
     [SerializeField] Wire nextWire;
+    [SerializeField] bool isMummyButton = false;
+
+    [SerializeField] GameObject mummySprite;
+    [SerializeField] GameObject playerSprite;
     bool powered;
 
     private ButtonManager manager;
 
     public void init(ButtonManager bm) {
         this.manager = bm;
+
+        this.setMummyButtonStatus(isMummyButton);
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        if(other.gameObject.GetComponent<Player>() != null || other.gameObject.GetComponent<Mummy>() != null) {
+        if((other.gameObject.GetComponent<Player>() != null && !this.isMummyButton) 
+                    || (other.gameObject.GetComponent<Mummy>() != null && this.isMummyButton)) {
             if(this.powered) {
                 this.powered = false;
                 StartCoroutine(nextWire.followPath());
@@ -36,5 +43,21 @@ public class Button : MonoBehaviour, PowerableObject
 
     public void onPowered() {
         this.powered = true;
+    }
+
+    public void setMummyButtonStatus(bool mummyBSatus) {
+        this.isMummyButton = mummyBSatus;
+
+        if(isMummyButton) {
+            mummySprite.SetActive(true);
+            playerSprite.SetActive(false);
+        } else {
+            mummySprite.SetActive(false);
+            playerSprite.SetActive(true);
+        }
+    }
+    
+    public bool getMummyStatus() {
+        return this.isMummyButton;
     }
 }
