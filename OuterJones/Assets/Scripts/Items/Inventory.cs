@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public enum PossibleItems {
     Amulet, Floaties, GearItem, Torch, Whip, Key
@@ -10,8 +11,11 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField] private List<Item> items;
     [SerializeField] private int equipedItem = -1;
+    [SerializeField] private List<Image> hotbarImages;
 
     public void Update() {
+
+        float threshold = .05f;
         if(Input.GetKeyDown(KeyCode.Alpha1) && items.Count > 0) {
             equipItemN(0);
         } else if(Input.GetKeyDown(KeyCode.Alpha2) && items.Count > 0) {
@@ -24,6 +28,10 @@ public class Inventory : MonoBehaviour
             equipItemN(4);
         } else if(Input.GetKeyDown(KeyCode.Alpha6) && items.Count > 0) {
             equipItemN(5);
+        } else if(Input.GetAxis("Mouse ScrollWheel") > threshold) {
+            this.equipItemN((this.equipedItem + 1 + items.Count) % items.Count);
+        } else if(Input.GetAxis("Mouse ScrollWheel") < - threshold) {
+            this.equipItemN((this.equipedItem - 1 + items.Count) % items.Count);
         }
     }
 
@@ -37,10 +45,12 @@ public class Inventory : MonoBehaviour
             }
         }
 
+        this.hotbarImages[this.items.Count - 1].sprite = newItem.getItemIcon();
         this.items.Add(newItem);
     }
 
     private void equipItemN(int n) {
+        //visually display selected item in hotbar
         if(this.equipedItem == n) {
             this.items[n].unequip();
             this.equipedItem = -1;

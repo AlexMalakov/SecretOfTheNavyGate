@@ -25,4 +25,5 @@ public class CursedAmulet : Item
     public override PossibleItems getItemType() {
         return PossibleItems.Amulet;
     }
+
 }

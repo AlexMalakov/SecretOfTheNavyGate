@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour
 {
+    [SerializeField] private Sprite iconSprite;
+
     public virtual void equip() {
 
     }
@@ -17,4 +19,8 @@ public abstract class Item : MonoBehaviour
     }
     
     public abstract PossibleItems getItemType();
+
+    public Sprite getItemIcon() {
+        return this.iconSprite;
+    }
 }
