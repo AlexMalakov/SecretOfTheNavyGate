@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class LandBridge : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private string playerOnUpperLayer = "Enviroment";
+    [SerializeField] private string playerOnBottomLayer = "FrontForeground";
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+
+    private bool playerLevel;
+
+    //basically if u want to cross the bridge u have to hit a collider first
+    public void notifyOfPlayer(bool isUpperLevel) {
+        if(playerLevel && !isUpperLevel) {
+            this.renderer.sortingLayerName = this.playerOnBottomLayer;
+            this.GetComponent<Collider2D>().enabled = false; //there shouldn't be a collider keeping the player on the bridge
+        } else if(!playerLevel && isUpperLevel) {
+            this.renderer.sortingLayerName = this.playerOnUpperLayer;
+            this.GetComponent<Collider2D>().enabled = true; //there should be a collider keeping the player on the bridge
+        }
     }
 }
