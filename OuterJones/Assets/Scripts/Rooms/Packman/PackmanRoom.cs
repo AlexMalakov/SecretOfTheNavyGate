@@ -35,6 +35,9 @@ public class PackmanRoom : Room
 
         if(mummy != null)
             base.onExit();
+
+
+        base.onExit();
     }
 
 

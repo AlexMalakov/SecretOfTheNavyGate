@@ -78,4 +78,19 @@ public class Player : MonoBehaviour
 
         ((Key)this.inventory.getItem(PossibleItems.Key)).useKey();
     }
+
+    public void resetPlayer() {
+        deck = new List<Room>();
+
+        GameObject obj = GameObject.Find("deckRoom");
+        deck.Add(obj.GetComponent<Room>());
+
+        obj = GameObject.Find("startingRoom");
+        this.currentRoom = obj.GetComponent<Room>();
+
+        FindObjectOfType<DeckUI>().init(this);
+
+        this.inventory = FindObjectOfType<Inventory>();
+        this.inventory.reset();
+    }
 }

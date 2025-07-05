@@ -33,10 +33,11 @@ public class Mummy : MonoBehaviour
     public void FixedUpdate() {
         if(isAwake) {
             agent.SetDestination(this.player.transform.position);
-        }
 
-        if (agent.isStopped != this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving()) {
-            agent.isStopped = this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving();
+            if (agent.isStopped != this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving()) {
+                agent.isStopped = this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving();
+            }
         }
+        
     }
 }
