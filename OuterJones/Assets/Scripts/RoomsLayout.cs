@@ -68,7 +68,7 @@ public class RoomsLayout : MonoBehaviour
     }
 
     public void placeRoom(Door origin, Room dest) {
-
+        
         RoomCoords destPos;
         if(origin.getRoom() is PackmanRoom && PackmanRoom.isPackmanPlace(origin, ROOM_GRID_X, ROOM_GRID_X)) {
             destPos = getPackmanCoords(origin);

@@ -30,7 +30,8 @@ public class PackmanRoom : Room
     }
 
     public override void onExit() {
-        mummy.sleep();
+        if(mummy != null)
+            mummy.sleep();
 
         if(mummy != null)
             base.onExit();
