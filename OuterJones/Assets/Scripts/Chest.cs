@@ -10,8 +10,8 @@ public class Chest : MonoBehaviour
 
     private bool opened = false;
 
-    public void Awake() {
-        foreach(Room r in this.deck) {
+    public void Start() {
+        foreach(Room r in this.deck) { //IM SETTING EVERY ROOM TO NOT ACTIVE!
             r.gameObject.SetActive(false);
         }
     }

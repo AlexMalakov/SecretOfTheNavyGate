@@ -78,6 +78,8 @@ public class RoomsLayout : MonoBehaviour
 
         this.moveRoomToSpot(dest, destPos);
 
+        Debug.Log("BOUTA NOTIFY " + Time.time);
+
         this.notifyRoomListeners(new List<Room>(){dest});
     }
 
