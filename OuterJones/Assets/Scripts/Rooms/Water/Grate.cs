@@ -15,7 +15,7 @@ public class Grate : MonoBehaviour
     private Canal canal;
 
 
-    private void Start() {
+    private void Awake() {
         List<Collider2D> overlapping = new List<Collider2D>();
         ContactFilter2D filter = new ContactFilter2D();
         filter.useTriggers = true;

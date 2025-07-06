@@ -10,7 +10,7 @@ public class Bridge :  Floodable
     private bool flooded = false;
     private Canal canal;
 
-    private void Start() {
+    private void Awake() {
         notFloodedSprite.SetActive(true);
         floodedSprite.SetActive(false);
         List<Collider2D> overlapping = new List<Collider2D>();
@@ -19,7 +19,6 @@ public class Bridge :  Floodable
         Physics2D.OverlapCollider(GetComponent<Collider2D>(), filter, overlapping);
 
         foreach (Collider2D c in overlapping) {
-            Debug.Log("FOUND AN OBJECT!" + c.gameObject.name);
             if(c.gameObject.GetComponent<Canal>() != null) {
                 Debug.Log("FOUND CANAL!");
                 this.canal = c.gameObject.GetComponent<Canal>();
