@@ -47,12 +47,15 @@ public class Door : MonoBehaviour
     public void useDoor(Player player) {
         if(this.destination == null) {
             Room next = player.getNextInDeck();
-            if(room.getLayoutManager().canPlaceRoom(this, next)) {
+            if(next != null && room.getLayoutManager().canPlaceRoom(this, next)) {
                 player.removeNextInDeck();
                 this.setDestination(next.getEntrance(this.getInverse()));
                 this.destination.setDestination(this);
                 room.getLayoutManager().placeRoom(this, next);
                 this.onExit();
+            } else if(next == null){
+                //TODO: display a message on the screen maybe?
+                return;
             } else {
                 return;
             }

@@ -115,7 +115,7 @@ public class Room : MonoBehaviour
         //ok so basically every object needs a quaternion on it that gets saved at awake
         this.transform.rotation = this.initialRotation;
 
-        this.gameObject.SetActive(false);
+        // this.gameObject.SetActive(false); //TODO FIX ME!
     }
 
     ///////////////////////////////////////////// CANAL ROOMS
