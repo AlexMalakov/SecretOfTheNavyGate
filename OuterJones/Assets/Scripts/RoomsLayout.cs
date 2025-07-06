@@ -50,14 +50,17 @@ public class RoomsLayout : MonoBehaviour
     //needs to be overriden for packman rooms
     public bool canPlaceRoom(Door origin, Room destination) {
 
+        RoomCoords newPos = origin.getPosition().getOffset(origin.getDirection());
         if(origin.getRoom() is PackmanRoom) {
-            return destination.hasDoorDirection(origin.getInverse());
+            if(PackmanRoom.isPackmanPlace(origin, ROOM_GRID_X, ROOM_GRID_X)) {
+                newPos = getPackmanCoords(origin);
+            }
+
+            return this.rooms[newPos.x, newPos.y] == null && destination.hasDoorDirection(origin.getInverse());
         }
 
-        RoomCoords newPos = origin.getPosition().getOffset(origin.getDirection());
-
         if(newPos.x >= 0 && newPos.x < ROOM_GRID_X && newPos.y >= 0 && newPos.y < ROOM_GRID_X) {
-            return destination.hasDoorDirection(origin.getInverse());
+            return this.rooms[newPos.x, newPos.y] == null && destination.hasDoorDirection(origin.getInverse());
         }
         return false;
 
