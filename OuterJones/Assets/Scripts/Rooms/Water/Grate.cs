@@ -23,7 +23,6 @@ public class Grate : MonoBehaviour
 
         foreach (Collider2D c in overlapping) {
             if(c.gameObject.GetComponent<Canal>() != null) {
-                Debug.Log("FOUND CANAL!");
                 this.canal = c.gameObject.GetComponent<Canal>();
             }
         }

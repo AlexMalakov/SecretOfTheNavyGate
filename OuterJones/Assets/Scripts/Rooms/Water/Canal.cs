@@ -24,7 +24,7 @@ public class Canal : MonoBehaviour
     private Renderer rend;
     private List<CanalEntrances> initialCanalEntrances;
 
-    public void Awake() {
+    public void Start() {
         this.room = GetComponentInParent<Room>();
         this.edgeCollider.SetActive(false);
 
@@ -34,16 +34,17 @@ public class Canal : MonoBehaviour
             }
         }
 
+
         this.rend = GetComponent<Renderer>();
 
         StartCoroutine(this.copyCollider());
 
         this.initialCanalEntrances = new List<CanalEntrances>(this.canalEntrances);
-        
     }
 
     //this is awful but i need it for floaties to not be a testing headache
     private IEnumerator copyCollider() {
+
 
         var tilemap = waterCollider.AddComponent<Tilemap>();
         var tilemapRenderer = waterCollider.AddComponent<TilemapRenderer>();
@@ -61,6 +62,7 @@ public class Canal : MonoBehaviour
 
         // compositeCollider.generationType = CompositeCollider2D.GenerationType.Manual;
         // compositeCollider.GenerateGeometry();
+
 
         yield return new WaitForFixedUpdate();
 
@@ -116,7 +118,6 @@ public class Canal : MonoBehaviour
         this.swapTiles();
         this.flooded = true;
         this.canalCollider.enabled = false;
-        Debug.Log("WATER HAS FLOODED?");
         this.waterCollider.SetActive(true);
 
         List<CanalEntrances> floodTo = new List<CanalEntrances>(this.canalEntrances);
@@ -239,7 +240,6 @@ public class Canal : MonoBehaviour
         this.rend.enabled = true;
 
         this.canalCollider.enabled = !this.flooded;
-        Debug.Log("WATER COLLIDER MAY HAVE FLOODED?");
         this.waterCollider.SetActive(this.flooded);
     }
 
