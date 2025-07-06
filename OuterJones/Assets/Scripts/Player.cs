@@ -13,12 +13,11 @@ public class Player : MonoBehaviour
 
 
     public void Start() {
+        this.inventory = FindObjectOfType<Inventory>();
         this.resetPlayer();
     }
 
     public void addToDeck(List<Room> newDeck) {
-        this.inventory = FindObjectOfType<Inventory>();
-
         this.deck.AddRange(newDeck);
     }
 
