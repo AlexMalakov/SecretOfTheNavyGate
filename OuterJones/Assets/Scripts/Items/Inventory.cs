@@ -9,7 +9,7 @@ public enum PossibleItems {
 }
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private List<Item> items;
+    private List<Item> items = new List<Item>();
     [SerializeField] private int equipedItem = -1;
     [SerializeField] private List<Image> hotbarImages;
 
@@ -80,5 +80,13 @@ public class Inventory : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void reset() {
+        this.equipedItem = -1;
+        this.items = new List<Item>();
+        foreach(Image i in this.hotbarImages) {
+            i.sprite = null;
+        }
     }
 }

@@ -19,7 +19,13 @@ public class Door : MonoBehaviour
     [SerializeField] private Transform enterPosition;
 
     private List<DoorUseListener> listeners = new List<DoorUseListener>();
+
+    private DoorDirection initialDirection;
     
+    public void Awake() {
+        this.initialDirection = this.direction;
+    }
+
     public void setDestination(Door newDestination) {
         this.destination = newDestination;
     }
@@ -136,5 +142,10 @@ public class Door : MonoBehaviour
 
     public RoomCoords getPosition() {
         return this.room.getPosition();
+    }
+
+    public void resetDoor() {
+        this.destination = null;
+        this.direction = initialDirection;
     }
 }

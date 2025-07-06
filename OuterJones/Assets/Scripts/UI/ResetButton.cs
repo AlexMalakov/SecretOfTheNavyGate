@@ -10,7 +10,7 @@ public class ResetButton : MonoBehaviour
     [SerializeField] Game game;
 
     public void Start() {
-        Button btn = button.GetComponent<Button>();
+        UnityEngine.UI.Button btn = button.GetComponent<UnityEngine.UI.Button>();
 		btn.onClick.AddListener(onButtonClick);
     }
 

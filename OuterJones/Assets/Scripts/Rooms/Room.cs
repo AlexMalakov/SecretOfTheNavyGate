@@ -21,6 +21,11 @@ public class Room : MonoBehaviour
     [SerializeField] private Transform westPosition;
 
     protected RoomCoords position;
+    protected Quaternion initialRotation;
+
+    public void Awake() {
+        this.initialRotation = transform.rotation;
+    }
 
     public virtual void init(RoomCoords position) {
         this.position = position;
@@ -98,6 +103,19 @@ public class Room : MonoBehaviour
         return null;
     }
 
+    public void resetRoom() {
+        // this.position = null;
+        foreach(Door d in this.doors) {
+            d.resetDoor();
+        }
+
+        this.resetCanals();
+        this.resetLight();
+
+        //ok so basically every object needs a quaternion on it that gets saved at awake
+        this.transform.rotation = this.initialRotation;
+    }
+
     ///////////////////////////////////////////// CANAL ROOMS
     [Header ("Canal Info")]
     [SerializeField] protected List<CanalEntrances> canalEntrances;
@@ -134,6 +152,12 @@ public class Room : MonoBehaviour
         }
         foreach(Canal c in this.canals) {
             c.rotate90(clockwise);
+        }
+    }
+
+    public void resetCanals() {
+        foreach(Canal c in this.canals) {
+            c.reset();
         }
     }
 
@@ -243,6 +267,10 @@ public class Room : MonoBehaviour
         }
     }
 
+    public void resetLight() {
+        this.removeBeam();
+    }
+
     ///////////////////////////////////////////////
     //rotation room functionality
 
@@ -283,5 +311,4 @@ public class Room : MonoBehaviour
 
         return clockwise;
     }
-    
 }

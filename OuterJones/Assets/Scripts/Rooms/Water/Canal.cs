@@ -22,6 +22,7 @@ public class Canal : MonoBehaviour
 
     private bool flooded = false;
     private Renderer rend;
+    private List<CanalEntrances> initialCanalEntrances;
 
     public void Awake() {
         this.room = GetComponentInParent<Room>();
@@ -36,6 +37,8 @@ public class Canal : MonoBehaviour
         this.rend = GetComponent<Renderer>();
 
         StartCoroutine(this.copyCollider());
+
+        this.initialCanalEntrances = new List<CanalEntrances>(this.canalEntrances);
         
     }
 
@@ -137,6 +140,8 @@ public class Canal : MonoBehaviour
     }
 
 
+    //dont need to drain dams: this is because instead of draining sequentially all objects are
+    //drained and then flow is recalcualted
     public void drainWater() {
         if(this.flooded) {
             swapTiles();
@@ -238,6 +243,14 @@ public class Canal : MonoBehaviour
 
     public GameObject getWaterCollider() {
         return this.waterCollider;
+    }
+
+    public void reset() {
+        //reset rotation
+
+        this.drainWater();
+
+        this.canalEntrances = new List<CanalEntrances>(this.initialCanalEntrances);
     }
 }
 
