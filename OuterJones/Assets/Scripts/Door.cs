@@ -73,7 +73,7 @@ public class Door : MonoBehaviour
 
     public void onEnter(Player player) {
         player.transform.position = enterPosition.position;
-        this.room.onEnter(this);
+        this.room.onEnter();
     }
 
     //TODO: this won't really work for packman rooms.

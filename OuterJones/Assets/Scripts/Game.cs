@@ -18,7 +18,7 @@ public class Game : MonoBehaviour
 
         //reset player, contorller and inventory
         player.resetPlayer();
-        
+
     }
 }
 

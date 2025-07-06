@@ -6,6 +6,7 @@ using TMPro;
 
 public class ResetButton : MonoBehaviour
 {
+    //im a bozo and wrote my own script called "button"
     [SerializeField] UnityEngine.UI.Button button;
     [SerializeField] Game game;
 

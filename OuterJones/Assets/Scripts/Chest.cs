@@ -10,6 +10,12 @@ public class Chest : MonoBehaviour
 
     private bool opened = false;
 
+    public void Awake() {
+        foreach(Room r in this.deck) {
+            r.gameObject.SetActive(false);
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other) {
         if(opened) {
             return;

@@ -23,8 +23,8 @@ public class PackmanRoom : Room
         bManager.init();
     }
 
-    public override void onEnter(Door enteredFrom) {
-        base.onEnter(enteredFrom);
+    public override void onEnter() {
+        base.onEnter();
         if(mummy != null)
             mummy.wake();
     }

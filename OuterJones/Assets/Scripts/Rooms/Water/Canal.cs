@@ -116,6 +116,7 @@ public class Canal : MonoBehaviour
         this.swapTiles();
         this.flooded = true;
         this.canalCollider.enabled = false;
+        Debug.Log("WATER HAS FLOODED?");
         this.waterCollider.SetActive(true);
 
         List<CanalEntrances> floodTo = new List<CanalEntrances>(this.canalEntrances);
@@ -238,6 +239,7 @@ public class Canal : MonoBehaviour
         this.rend.enabled = true;
 
         this.canalCollider.enabled = !this.flooded;
+        Debug.Log("WATER COLLIDER MAY HAVE FLOODED?");
         this.waterCollider.SetActive(this.flooded);
     }
 

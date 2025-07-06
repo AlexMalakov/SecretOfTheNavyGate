@@ -34,6 +34,7 @@ public class RoomsLayout : MonoBehaviour
 {
     private Room[,] rooms;
     [SerializeField] private float positionOffset;
+    [SerializeField] private GameObject cameraObj;
     int ROOM_GRID_X = 5;
 
     private List<RoomUpdateListener> listeners = new List<RoomUpdateListener>();
@@ -217,5 +218,10 @@ public class RoomsLayout : MonoBehaviour
         GameObject obj = GameObject.Find("startingRoom");
         this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2] = obj.GetComponent<Room>();
         this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].init(new RoomCoords(ROOM_GRID_X/2, ROOM_GRID_X/2));
+        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].onEnter();
+    }
+
+    public GameObject getCam() {
+        return this.cameraObj;
     }
 }

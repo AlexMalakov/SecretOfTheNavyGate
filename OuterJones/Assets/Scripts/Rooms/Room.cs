@@ -9,7 +9,6 @@ public class Room : MonoBehaviour
     [Header ("Room info")]
     [SerializeField] protected float roomLighting = .5f;
     [SerializeField] private Light2D globalLighting;
-    // [SerializeField] private GameObject cameraObj;
     [SerializeField] protected RoomsLayout layoutManager;
     [SerializeField] protected List<Door> doors;
     [SerializeField] protected Sprite roomSprite;
@@ -28,6 +27,7 @@ public class Room : MonoBehaviour
     }
 
     public virtual void init(RoomCoords position) {
+        this.gameObject.SetActive(true);
         this.position = position;
 
         foreach(Door d in this.doors) {
@@ -42,14 +42,14 @@ public class Room : MonoBehaviour
         }
     }
 
-    public virtual void onEnter(Door enteredFrom) {
-        this.gameObject.SetActive(true);
-        // cameraObj.transform.position = new Vector3(this.transform.position.x, this.transform.position.y ,this.cameraObj.transform.position.z);
+    public virtual void onEnter() {
+        // this.gameObject.SetActive(true);
+        this.layoutManager.getCam().transform.position = new Vector3(this.transform.position.x, this.transform.position.y ,this.layoutManager.getCam().transform.position.z);
         globalLighting.intensity = this.roomLighting;
     }
 
     public virtual void onExit() {
-        this.gameObject.SetActive(false);
+        // this.gameObject.SetActive(false);
     }
 
 
@@ -114,6 +114,8 @@ public class Room : MonoBehaviour
 
         //ok so basically every object needs a quaternion on it that gets saved at awake
         this.transform.rotation = this.initialRotation;
+
+        this.gameObject.SetActive(false);
     }
 
     ///////////////////////////////////////////// CANAL ROOMS

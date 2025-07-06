@@ -6,8 +6,8 @@ public class GearRoom : Room
 {
     [SerializeField] private AlternatingSpitter spitter;
 
-    public override void onEnter(Door enteredFrom) {
-        base.onEnter(enteredFrom);
+    public override void onEnter() {
+        base.onEnter();
 
         if(this.spitter != null) {
             this.spitter.onPlayerEnter();
