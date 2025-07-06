@@ -28,9 +28,9 @@ public class Inventory : MonoBehaviour
             equipItemN(4);
         } else if(Input.GetKeyDown(KeyCode.Alpha6) && items.Count > 0) {
             equipItemN(5);
-        } else if(Input.GetAxis("Mouse ScrollWheel") > threshold) {
+        } else if(Input.GetAxis("Mouse ScrollWheel") > threshold && this.items.Count > 0) {
             this.equipItemN((this.equipedItem + 1 + items.Count) % items.Count);
-        } else if(Input.GetAxis("Mouse ScrollWheel") < - threshold) {
+        } else if(Input.GetAxis("Mouse ScrollWheel") < - threshold && this.items.Count > 0) {
             this.equipItemN((this.equipedItem - 1 + items.Count) % items.Count);
         }
     }

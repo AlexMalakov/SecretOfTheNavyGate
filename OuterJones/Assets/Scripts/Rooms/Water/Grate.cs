@@ -54,15 +54,12 @@ public class Grate : MonoBehaviour
 
 
     void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("MIGHT IT!");
         if(other.gameObject.GetComponent<Player>() != null && !playerInCanal) {
-            Debug.Log("MADE IT!");
             this.setCollision(other.GetComponent<Player>(), true);
         }
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        Debug.Log("GG!");
         if(other.gameObject.GetComponent<Player>() != null && !playerInCanal) {
             this.setCollision(other.GetComponent<Player>(), false);
         }

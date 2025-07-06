@@ -112,7 +112,6 @@ public class Canal : MonoBehaviour
     
     public void onFlood(CanalEntrances? floodingFrom) {
         if(this.flooded || !this.gameObject.activeInHierarchy) {
-            Debug.Log("ALREADY FLOODED OR NOT ACTIVE");
             return;
         }
 
@@ -134,9 +133,6 @@ public class Canal : MonoBehaviour
         foreach(Floodable f in this.floodableObjects) {
             f.onFlood();
         }
-
-        Debug.Log(this.room + "< ------ ?");
-        Debug.Log("BOUTA FLOOD NEIGHBROS " + Time.time + "I AM ROOM " + this.GetComponentInParent<Room>().gameObject.name);
 
         this.room.floodNeighbors(floodTo);
     }

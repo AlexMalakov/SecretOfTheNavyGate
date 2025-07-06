@@ -19,7 +19,9 @@ public class Bridge :  Floodable
         Physics2D.OverlapCollider(GetComponent<Collider2D>(), filter, overlapping);
 
         foreach (Collider2D c in overlapping) {
+            Debug.Log("FOUND AN OBJECT!" + c.gameObject.name);
             if(c.gameObject.GetComponent<Canal>() != null) {
+                Debug.Log("FOUND CANAL!");
                 this.canal = c.gameObject.GetComponent<Canal>();
             }
         }
