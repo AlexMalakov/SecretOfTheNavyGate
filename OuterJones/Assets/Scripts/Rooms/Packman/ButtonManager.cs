@@ -10,7 +10,7 @@ public class ButtonManager : MonoBehaviour
     private bool startedSequence;
 
 
-    public void Start() {
+    public void Awake() {
         this.buttons = GetComponentsInChildren<Button>();
         this.powerables = GetComponentsInChildren<PowerableObject>();
         this.startedSequence = false;
