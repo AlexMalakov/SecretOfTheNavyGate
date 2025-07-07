@@ -8,12 +8,21 @@ public class MonkeyStatue : MonoBehaviour
     private bool state = false;
     [SerializeField] GameObject onModel;
     [SerializeField] GameObject offModel;
+    [SerializeField] private string orderIdentifier;
+
+    private StatueManager manager;
 
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if(other.GetComponent<Player>() != null) {
+        if(other.GetComponent<Player>() != null && Input.GetKey(KeyCode.Space) && !this.manager.isSolved()) {
             this.toggleState();
+
+            this.manager.notify(this, this.state);
         }
+    }
+
+    public void init(StatueManager manager) {
+        this.manager = manager;
     }
 
 
@@ -27,5 +36,9 @@ public class MonkeyStatue : MonoBehaviour
         this.state = !this.state;
         this.offModel.SetActive(!this.state);
         this.onModel.SetActive(this.state);
+    }
+
+    public string getOrderVal() {
+        return this.orderIdentifier;
     }
 }
