@@ -33,10 +33,6 @@ public class PackmanRoom : Room
         if(mummy != null)
             mummy.sleep();
 
-        if(mummy != null)
-            base.onExit();
-
-
         base.onExit();
     }
 

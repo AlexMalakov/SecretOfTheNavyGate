@@ -10,7 +10,7 @@ public class Mummy : MonoBehaviour
 
     private bool isAwake;
 
-    public void Start() {
+    public void Awake() {
         this.player = FindObjectOfType<Player>();
         this.agent = GetComponent<NavMeshAgent>();
         
@@ -34,8 +34,8 @@ public class Mummy : MonoBehaviour
         if(isAwake) {
             agent.SetDestination(this.player.transform.position);
 
-            if (agent.isStopped != this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving()) {
-                agent.isStopped = this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving();
+            if (agent.isStopped != !this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving()) {
+                agent.isStopped = !this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving();
             }
         }
         
