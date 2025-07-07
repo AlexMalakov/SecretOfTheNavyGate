@@ -9,7 +9,7 @@ public class Mirror : MonoBehaviour
     [SerializeField] private GameObject webbedSprite;
     [SerializeField] private bool isWebbed = false;
 
-    void Start() {
+    void Awake() {
         if(isWebbed) {
             webbedSprite.SetActive(true);
             regSprite.SetActive(true);

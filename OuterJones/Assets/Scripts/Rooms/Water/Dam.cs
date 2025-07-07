@@ -13,7 +13,7 @@ public class Dam : MonoBehaviour, Effectable
     private WaterSource source;
     private Collider2D damCollider;
 
-    public void Start() {
+    public void Awake() {
         this.source = FindObjectOfType<WaterSource>();
         this.damCollider = GetComponent<Collider2D>();
     }

@@ -6,7 +6,7 @@ public class CursedAmulet : Item
 {
     private Button[] allButtons;
 
-    public void Start() {
+    public void Awake() {
         allButtons = FindObjectsOfType<Button>(true);
     }
 
