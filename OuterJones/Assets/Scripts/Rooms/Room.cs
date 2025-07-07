@@ -103,7 +103,7 @@ public class Room : MonoBehaviour
         return null;
     }
 
-    public void resetRoom() {
+    public virtual void resetRoom() {
         // this.position = null;
         foreach(Door d in this.doors) {
             d.resetDoor();

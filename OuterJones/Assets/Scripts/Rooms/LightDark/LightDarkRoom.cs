@@ -7,6 +7,7 @@ public class LightDarkRoom : Room
     [Header ("lightdark")]
     [SerializeField] private float lightLevel;
     [SerializeField] private float darkLevel;
+    [SerializeField] private StatueManager statueManager;
 
     [SerializeField] private Sprite darkSprite;
     
@@ -27,6 +28,11 @@ public class LightDarkRoom : Room
         }
     }
 
+    public override void resetRoom() {
+        base.resetRoom();
+
+        this.statueManager.reset();
+    }
 
     public override Sprite getRoomSprite() {
         if(Mathf.Abs(this.roomLighting - lightLevel) < .001) {

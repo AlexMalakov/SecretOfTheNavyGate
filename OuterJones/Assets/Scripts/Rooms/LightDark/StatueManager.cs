@@ -10,7 +10,7 @@ public class StatueManager : MonoBehaviour
     private bool solved;
     private int correct;
 
-    private bool order = true;
+    private bool lisOrder = true;
     
     [SerializeField] private List<string> order;
 
@@ -23,11 +23,7 @@ public class StatueManager : MonoBehaviour
             this.statueVals.Add(m.getOrderVal(), false);
         }
 
-        this.correct = 0
-    }
-
-    public void onStatueActive() {
-        if(correct)
+        this.correct = 0;
     }
 
     public void onRoomExit() {
@@ -45,7 +41,7 @@ public class StatueManager : MonoBehaviour
     public void notify(MonkeyStatue m, bool value) {
         this.statueVals[m.getOrderVal()] = value;
 
-        this.updateCorrect();
+        this.updateCorrect(m, value);
 
         if(correct == this.order.Count) {
             solved = true;
@@ -53,14 +49,15 @@ public class StatueManager : MonoBehaviour
         }
     }
 
-    private void updateCorrect() {
+    private void updateCorrect(MonkeyStatue m, bool value) {
         if(correct < 0) {
-            foreach(MonkeyStatue m in this.statues) {
-                if(this.statueVals[m.getOrderVal()]) {
+            foreach(MonkeyStatue monk in this.statues) {
+                if(this.statueVals[monk.getOrderVal()]) {
                     return;
                 }
             }
-            correct == 0;
+
+            correct = 0;
             return;
         }
 
@@ -72,13 +69,13 @@ public class StatueManager : MonoBehaviour
         if(correct == 0) {
             if(m.getOrderVal() == this.order[0] || m.getOrderVal() == this.order[this.order.Count - 1]) {
                 correct++;
-                order = m.getOrderVal() == this.order[0];
+                lisOrder = m.getOrderVal() == this.order[0];
             } else {
                 correct = -1;
             }
         } else if(correct > 0) {
-            if((order && m.getOrderVal() == this.order[correct])
-                    || (!order && m.getOrderVal() == this.order[this.order.Count - 1 - correct])) {
+            if((lisOrder && m.getOrderVal() == this.order[correct])
+                    || (!lisOrder && m.getOrderVal() == this.order[this.order.Count - 1 - correct])) {
                 
                 correct++;
             } else {
