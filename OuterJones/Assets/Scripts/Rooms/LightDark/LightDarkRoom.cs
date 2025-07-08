@@ -16,6 +16,8 @@ public class LightDarkRoom : Room
     [SerializeField] private List<LightPassage> passages;
 
     public override void init(RoomCoords position) {
+        base.init(position);
+        
         this.position = position;
         if((position.x + position.y) % 2 == 0) {
             this.roomLighting = lightLevel;

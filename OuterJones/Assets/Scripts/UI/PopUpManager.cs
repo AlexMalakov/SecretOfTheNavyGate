@@ -13,7 +13,7 @@ public class PopUpManager : MonoBehaviour
         GameObject newP = Instantiate(this.spacePopUp, popUpPos);
 
         newP.transform.position = newP.transform.position + new Vector3(0f, -2.5f, 0f);
-        newP.GetComponent<TMP_Text>().text = message;
+        newP.GetComponentInChildren<TMP_Text>().text = message;
 
         this.StartCoroutine(handleSpaceP(newP));
     }
@@ -43,7 +43,7 @@ public class PopUpManager : MonoBehaviour
 
     public void displayRoomPopUp(Transform popUpPos, string roomName) {
         GameObject newP = Instantiate(this.roomPopUp, popUpPos);
-        newP.GetComponent<TMP_Text>().text = roomName;
+        newP.GetComponentInChildren<TMP_Text>().text = roomName;
 
         this.StartCoroutine(handleRoomP(newP));
     }
