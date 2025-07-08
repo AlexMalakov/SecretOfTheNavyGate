@@ -13,6 +13,7 @@ public class StatueManager : MonoBehaviour
     private bool lisOrder = true;
     
     [SerializeField] private List<string> order;
+    [SerializeField] private Effectable powerMe;
 
 
     public void Awake() {
@@ -86,7 +87,7 @@ public class StatueManager : MonoBehaviour
 
 
     private void onSolved() {
-        //TODO: do solved stuff
+        powerMe.onEffect();
     }
 
     public bool isSolved() {

@@ -6,7 +6,9 @@ using UnityEngine.Rendering.Universal;
 
 public class Room : MonoBehaviour
 {
+
     [Header ("Room info")]
+    [SerializeField] private string roomName;
     [SerializeField] protected float roomLighting = .5f;
     [SerializeField] private Light2D globalLighting;
     [SerializeField] protected RoomsLayout layoutManager;
@@ -101,6 +103,10 @@ public class Room : MonoBehaviour
 
         Debug.Log("IMPOSSIBLE DIRECTION!");
         return null;
+    }
+
+    public string getRoomName() {
+        return this.roomName;
     }
 
     public virtual void resetRoom() {
