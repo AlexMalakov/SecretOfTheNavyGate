@@ -14,7 +14,7 @@ public class MonkeyStatue : MonoBehaviour
 
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if(other.GetComponent<Player>() != null && PlayerInput.getSpaceInput(this.transform) && !this.manager.isSolved()) {
+        if(other.GetComponent<Player>() != null && PlayerInput.getSpaceInput(this.transform, "activate statue") && !this.manager.isSolved()) {
             this.toggleState();
 
             this.manager.notify(this, this.state);

@@ -18,7 +18,7 @@ public class KeyDoor : MonoBehaviour
             //display space bar pop up message
         }
 
-        if(other.GetComponent<Player>() != null && PlayerInput.getSpaceInput(this.transform)) {
+        if(other.GetComponent<Player>() != null && PlayerInput.getSpaceInput(this.transform, "use key to open door")) {
             //attempt to open door
             if(other.GetComponent<Player>().hasKey()) {
                 other.GetComponent<Player>().useKey();

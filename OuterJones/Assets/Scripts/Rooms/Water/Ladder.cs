@@ -28,7 +28,7 @@ public class Ladder : Floodable
 
     public void Update() {
         //i don't like this for the use of
-        if(playerTransform != null && PlayerInput.getSpaceInput(this.transform)) {
+        if(playerTransform != null && PlayerInput.getSpaceInput(this.transform, "climb ladder")) {
             playerTransform.position = ladderExit.position;
             this.canal.onLadderUse();
         }
