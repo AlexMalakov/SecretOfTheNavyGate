@@ -12,10 +12,9 @@ public class PlayerInput : MonoBehaviour
     }
 
     public static bool getSpaceInput(Transform objRequesting, string message) {
+        manager.displaySpacePopUp(objRequesting, message);
+
         if(Input.GetKey(KeyCode.Space)) {
-
-            manager.displaySpacePopUp(objRequesting, message);
-
             return true;
         }
         return false;

@@ -7,15 +7,37 @@ public class PopUpManager : MonoBehaviour
 {
     [SerializeField] private GameObject spacePopUp;
     [SerializeField] private GameObject roomPopUp;
+    [SerializeField] private Camera cam;
+    [SerializeField] private Canvas canvas;
 
 
     public void displaySpacePopUp(Transform popUpPos, string message) {
-        GameObject newP = Instantiate(this.spacePopUp, popUpPos);
+        if(this.spacePopUp.activeSelf){
+            return;
+        }
 
-        newP.transform.position = newP.transform.position + new Vector3(0f, -2.5f, 0f);
-        newP.GetComponentInChildren<TMP_Text>().text = message;
+        this.placeSpacePopUp(popUpPos);
 
-        this.StartCoroutine(handleSpaceP(newP));
+        this.spacePopUp.SetActive(true);
+
+        this.spacePopUp.transform.position = this.spacePopUp.transform.position + new Vector3(0f, -2.5f, 0f);
+        this.spacePopUp.GetComponentInChildren<TMP_Text>().text = message;
+
+        this.StartCoroutine(handleSpaceP(this.spacePopUp));
+    }
+
+    private void placeSpacePopUp(Transform popUpPos) {
+        Vector3 screenPos = cam.WorldToScreenPoint(popUpPos.position);
+
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.transform as RectTransform,
+            screenPos,
+            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : cam,
+            out localPoint
+        );
+
+        this.spacePopUp.GetComponent<RectTransform>().anchoredPosition = localPoint;
     }
 
     private IEnumerator handleSpaceP(GameObject popup) {
@@ -37,15 +59,19 @@ public class PopUpManager : MonoBehaviour
             yield return null;
         }
 
-        Destroy(popup);
+        popup.SetActive(false);
     }
 
 
-    public void displayRoomPopUp(Transform popUpPos, string roomName) {
-        GameObject newP = Instantiate(this.roomPopUp, popUpPos);
-        newP.GetComponentInChildren<TMP_Text>().text = roomName;
+    public void displayRoomPopUp(string roomName) {
+        if(this.roomPopUp.activeSelf) {
+            return;
+        }
 
-        this.StartCoroutine(handleRoomP(newP));
+        this.roomPopUp.SetActive(true);
+        this.roomPopUp.GetComponentInChildren<TMP_Text>().text = roomName;
+
+        this.StartCoroutine(handleRoomP(this.roomPopUp));
     }
 
     private IEnumerator handleRoomP(GameObject popup) {
@@ -71,6 +97,6 @@ public class PopUpManager : MonoBehaviour
             yield return null;
         }
 
-        Destroy(popup);
+        popup.SetActive(false);
     }
 }
