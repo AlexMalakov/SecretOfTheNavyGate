@@ -11,10 +11,10 @@ public class PopUpManager : MonoBehaviour
     public void displaySpacePopUp(Transform popUpPos) {
         GameObject newP = Instantiate(this.spacePopUp, popUpPos);
 
-        this.StartCoroutine(displaySpacePopUp(newP));
+        this.StartCoroutine(handleSpaceP(newP));
     }
 
-    private IEnumerator displaySpacePopUp(GameObject popup) {
+    private IEnumerator handleSpaceP(GameObject popup) {
         CanvasGroup canvasG = popup.GetComponent<CanvasGroup>();
         float duration = .5f;
         float elapsed = 0f;
@@ -37,13 +37,13 @@ public class PopUpManager : MonoBehaviour
     }
 
 
-    public void displayRoomEnterPopUp(Transform popUpPos) {
+    public void displayRoomPopUp(Transform popUpPos) {
         GameObject newP = Instantiate(this.roomPopUp, popUpPos);
 
-        this.StartCoroutine(displaySpacePopUp(newP));
+        this.StartCoroutine(handleRoomP(newP));
     }
 
-    private IEnumerator displpayRoomPopUp(GameObject popup) {
+    private IEnumerator handleRoomP(GameObject popup) {
         yield return null;
     }
 }
