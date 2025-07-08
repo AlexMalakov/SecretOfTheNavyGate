@@ -31,7 +31,9 @@ public class LightDarkRoom : Room
     public override void resetRoom() {
         base.resetRoom();
 
-        this.statueManager.reset();
+        if(this.statueManager != null) {
+            this.statueManager.reset();
+        }
     }
 
     public override Sprite getRoomSprite() {
