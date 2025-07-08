@@ -27,7 +27,8 @@ public class Ladder : Floodable
     }
 
     public void Update() {
-        if(Input.GetKeyDown(KeyCode.Space) && playerTransform != null) {
+        //i don't like this for the use of
+        if(playerTransform != null && PlayerInput.getSpaceInput(this.transform)) {
             playerTransform.position = ladderExit.position;
             this.canal.onLadderUse();
         }
