@@ -15,6 +15,7 @@ public class LightSource : MonoBehaviour, RoomUpdateListener
     private int BEAM_POOL_SIZE = 15;
     
     public void Awake() {
+        //TODO: Shouldn't have a beam in a dark room
         BeamPool.init(beamPrefab, beamParent, BEAM_POOL_SIZE);
 
         //we don't use the pool because this room always has a beam

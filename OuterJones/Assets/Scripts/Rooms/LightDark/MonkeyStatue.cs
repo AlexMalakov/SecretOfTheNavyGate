@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonkeyStatue : MonoBehaviour
+public class MonkeyStatue : MonoBehaviour, InputSubscriber
 {
 
     private bool state = false;
@@ -11,13 +11,25 @@ public class MonkeyStatue : MonoBehaviour
     [SerializeField] private string orderIdentifier;
 
     private StatueManager manager;
+    private PlayerInput inputManager;
 
+
+    public void Awake() {
+        this.inputManager = FindObjectOfType<PlayerInput>();
+    }
 
     public void OnTriggerEnter2D(Collider2D other) {
         if(other.GetComponent<Player>() != null && PlayerInput.getSpaceInput(this.transform, "activate statue") && !this.manager.isSolved()) {
+
             this.toggleState();
 
             this.manager.notify(this, this.state);
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D other) {
+        if(other.GetComponent<Player>() != null) {
+            inputManager.cancelSpaceInputRequest(this);
         }
     }
 
