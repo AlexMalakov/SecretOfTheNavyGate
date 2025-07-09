@@ -9,6 +9,7 @@ public class PlayerInput : MonoBehaviour
     private InputSubscriber lastSubscriber; //only one insteard of a list, since ive decided only 
 
     public void requestSpaceInput(InputSubscriber i, Transform posOfObj, string message) {
+        this.manager.displaySpacePopUp(posOfObj, message);
         if(this.lastSubscriber != i) {
             this.lastSubscriber = i;
             this.manager.displaySpacePopUp(posOfObj, message);

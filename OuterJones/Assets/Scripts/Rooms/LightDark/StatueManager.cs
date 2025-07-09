@@ -17,7 +17,8 @@ public class StatueManager : MonoBehaviour
 
 
     public void Awake() {
-        this.statues = GetComponents<MonkeyStatue>();
+        this.statues = GetComponentsInChildren<MonkeyStatue>();
+        this.statueVals = new Dictionary<string, bool>();
 
         foreach(MonkeyStatue m in this.statues) {
             m.init(this);
@@ -91,7 +92,7 @@ public class StatueManager : MonoBehaviour
     }
 
     public bool isSolved() {
-        return this.isSolved();
+        return this.solved;
     }
 
     public void reset() {
