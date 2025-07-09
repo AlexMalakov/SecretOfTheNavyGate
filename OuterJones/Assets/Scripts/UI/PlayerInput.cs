@@ -7,6 +7,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private PopUpManager manager;
 
     private InputSubscriber lastSubscriber; //only one insteard of a list, since ive decided only 
+    private float lastInput = 0f;
 
     public void requestSpaceInput(InputSubscriber i, Transform posOfObj, string message) {
         if(this.lastSubscriber != i) {
@@ -24,13 +25,15 @@ public class PlayerInput : MonoBehaviour
     }
 
     public void Update() {
-        if(this.lastSubscriber != null && Input.GetKey(KeyCode.Space)) {
+        if(lastInput + .25f < Time.time && this.lastSubscriber != null && Input.GetKey(KeyCode.Space)) {
+            lastInput = Time.time;
             InputSubscriber s = this.lastSubscriber;
             this.manager.endSpacePopUp();
             this.lastSubscriber = null;
             s.onSpacePress();
         }
     }
+
 }
 
 public interface InputSubscriber {
