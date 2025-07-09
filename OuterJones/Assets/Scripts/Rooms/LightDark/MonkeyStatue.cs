@@ -18,12 +18,13 @@ public class MonkeyStatue : MonoBehaviour, InputSubscriber
         this.inputManager = FindObjectOfType<PlayerInput>();
     }
 
+    public void init(StatueManager manager) {
+        this.manager = manager;
+    }
+
     public void OnTriggerEnter2D(Collider2D other) {
-        if(other.GetComponent<Player>() != null && PlayerInput.getSpaceInput(this.transform, "activate statue") && !this.manager.isSolved()) {
-
-            this.toggleState();
-
-            this.manager.notify(this, this.state);
+        if(other.GetComponent<Player>() != null && !this.manager.isSolved()) {
+            inputManager.requestSpaceInput(this, this.transform, ((this.state) ? "deactivate statue" : "activate statue"));
         }
     }
 
@@ -33,10 +34,13 @@ public class MonkeyStatue : MonoBehaviour, InputSubscriber
         }
     }
 
-    public void init(StatueManager manager) {
-        this.manager = manager;
-    }
+    public void onSpacePress() {
+        if(!this.manager.isSolved()) {
+            this.toggleState();
 
+            this.manager.notify(this, this.state);
+        }
+    }
 
     public void reset() {
         this.state = false;

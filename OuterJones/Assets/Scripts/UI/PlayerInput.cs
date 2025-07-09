@@ -32,6 +32,6 @@ public class PlayerInput : MonoBehaviour
     }
 }
 
-public interface InputSubscriber() {
+public interface InputSubscriber {
     void onSpacePress();
 }
