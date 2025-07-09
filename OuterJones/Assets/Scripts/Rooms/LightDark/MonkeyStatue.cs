@@ -39,6 +39,7 @@ public class MonkeyStatue : MonoBehaviour, InputSubscriber
             this.toggleState();
 
             this.manager.notify(this, this.state);
+            inputManager.requestSpaceInput(this, this.transform, ((this.state) ? "deactivate statue" : "activate statue"));
         }
     }
 

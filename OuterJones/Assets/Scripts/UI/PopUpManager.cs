@@ -10,7 +10,6 @@ public class PopUpManager : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private Canvas canvas;
 
-
     public void displaySpacePopUp(Transform popUpPos, string message) {
         if(this.spacePopUp.activeSelf){
             return;
@@ -20,12 +19,10 @@ public class PopUpManager : MonoBehaviour
 
         this.spacePopUp.SetActive(true);
         this.spacePopUp.GetComponentInChildren<TMP_Text>().text = message;
-
-        // this.StartCoroutine(handleSpaceP(this.spacePopUp));
     }
 
     public void endSpacePopUp() {
-        this.StartCoroutine(handleSpaceP(this.spacePopUp));
+        this.spacePopUp.SetActive(false);
     }
 
     private void placeSpacePopUp(Transform popUpPos) {
@@ -41,29 +38,6 @@ public class PopUpManager : MonoBehaviour
 
         this.spacePopUp.GetComponent<RectTransform>().anchoredPosition = localPoint;
     }
-
-    private IEnumerator handleSpaceP(GameObject popup) {
-        CanvasGroup canvasG = popup.GetComponent<CanvasGroup>();
-        float duration = .5f;
-        float elapsed = 0f;
-
-        // while(elapsed < duration) {
-        //     elapsed += Time.deltaTime;
-        //     yield return null;
-        // }
-
-        // duration = .5f;
-        // elapsed = 0f;
-        while(elapsed < duration) {
-
-            canvasG.alpha = 1f - elapsed/duration;
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        popup.SetActive(false);
-    }
-
 
     public void displayRoomPopUp(string roomName) {
         if(this.roomPopUp.activeSelf) {
