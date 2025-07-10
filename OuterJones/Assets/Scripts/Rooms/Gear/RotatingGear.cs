@@ -27,6 +27,7 @@ public class RotatingGear : MonoBehaviour
         controller.isMovementEnabled(false);
 
         Quaternion startRotation = transform.rotation;
+        //TODO allow player to invert
         Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, rotationAmount);
 
         float elapsed = 0f;

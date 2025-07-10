@@ -8,6 +8,7 @@ public class Game : MonoBehaviour
     [SerializeField] Player player;
 
     public void resetGame() {
+        //TODO: maybe the sfcene can reset itself quickly?
         foreach(Room r in this.layout.getAllRooms()) {
             r.resetRoom();
         }
