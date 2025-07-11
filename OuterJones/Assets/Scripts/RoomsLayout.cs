@@ -38,6 +38,7 @@ public class RoomsLayout : MonoBehaviour
     int ROOM_GRID_X = 5;
 
     private List<RoomUpdateListener> listeners = new List<RoomUpdateListener>();
+    private List<RoomUpdateListener> postListeners = new List<RoomUpdateListener>();
 
     public void Awake() {
         this.reset();
@@ -45,6 +46,10 @@ public class RoomsLayout : MonoBehaviour
 
     public void addRoomUpdateListener(RoomUpdateListener l) {
         this.listeners.Add(l);
+    }
+
+    public void addPostRoomUpdateListener(RoomUpdateListener l) {
+        this.postListeners.Add(l);
     }
 
     //needs to be overriden for packman rooms
@@ -87,6 +92,10 @@ public class RoomsLayout : MonoBehaviour
     public void notifyRoomListeners(List<Room> r) {
         foreach(RoomUpdateListener l in this.listeners) {
             l.onRoomUpdate(r);
+        }
+
+        foreach(RoomUpdateListener pl in this.postListeners) {
+            pl.onRoomUpdate(r);
         }
     }
 
