@@ -13,13 +13,16 @@ public abstract class Floodable : MonoBehaviour {
     public abstract void drainWater();
 }
 
-public class WaterSource : MonoBehaviour, RoomUpdateListener
+public class WaterSource : MonoBehaviour
 {
-    [SerializeField] RoomsLayout layout;
     [SerializeField] Canal waterOrigin;
     
 
     public static int CANAL_ENTRANCE_COUNT = 8;
+
+    public void Awake() {
+       FindObjectOfType<WaterSourceManager>().addWaterSource(this);
+    }
 
     public static Dictionary<CanalEntrances, int[]> CANAL_N_MAP = new Dictionary<CanalEntrances, int[]>() {
         {CanalEntrances.NW, new int[]{-1, 1}},
@@ -32,26 +35,8 @@ public class WaterSource : MonoBehaviour, RoomUpdateListener
         {CanalEntrances.W, new int[]{-1, 0}},
     };
 
-    public void Start() {
-        layout.addRoomUpdateListener(this);
-    }
 
-    public void onWaterUpdate() {
-        this.drainAll();
-        this.computeFlow();
-    }
-
-    private void drainAll() {
-        foreach(Room r in this.layout.getAllRooms()) {
-            r.drainWater();
-        }
-    }
-
-    private void computeFlow() {
+    public void computeFlow() {
         waterOrigin.onFlood(null);
-    }
-
-    public void onRoomUpdate(List<Room> rooms) {
-        this.onWaterUpdate();
     }
 }

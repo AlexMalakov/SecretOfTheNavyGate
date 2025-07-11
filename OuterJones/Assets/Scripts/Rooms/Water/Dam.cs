@@ -8,14 +8,19 @@ public class Dam : MonoBehaviour, Effectable
     [SerializeField] private Canal c1;
     [SerializeField] private Canal c2;
 
-    [SerializeField] private bool open;
+    [SerializeField] private bool initiallyOpen;
+    private bool open;
 
-    private WaterSource source;
-    private Collider2D damCollider;
+    [SerializeField] private GameObject openObj;
+    [SerializeField] private GameObject closedObj;
+
+    private WaterSourceManager sourceMan;
 
     public void Awake() {
-        this.source = FindObjectOfType<WaterSource>();
-        this.damCollider = GetComponent<Collider2D>();
+        this.sourceMan = FindObjectOfType<WaterSourceManager>();
+        this.open = this.initiallyOpen;
+        this.openObj.SetActive(this.open);
+        this.closedObj.SetActive(!this.open);
     }
 
 
@@ -31,34 +36,30 @@ public class Dam : MonoBehaviour, Effectable
         }
     }
 
-    // void OnTriggerStay2D(Collider2D other) {
-    //     if(Input.GetKeyDown(KeyCode.Space) && other.gameObject.GetComponent<Player>() != null) {
-    //         this.open = !open;
-    //         source.onWaterUpdate();
-    //     }
-    // }
 
     public void openDam() {
-        this.open = true;
-        source.onWaterUpdate();
-        this.damCollider.enabled = false;
-    }
-
-    public void closeDam() {
-        this.open = false;
-        this.damCollider.enabled = true;
-        source.onWaterUpdate();
-    }
-
-    public void onEffect() {
-        if(this.open) {
-            this.closeDam();
-        } else {
-            this.openDam();
+        if(!this.open) {
+            this.onEffect();
         }
     }
 
-    public void reset() {
+    public void closeDam() {
+        if(this.open) {
+            this.onEffect();
+        }
+    }
 
+    public void onEffect() {
+        this.open = !this.open;
+
+        this.openObj.SetActive(this.open);
+        this.closedObj.SetActive(!this.open);
+        this.sourceMan.onRoomUpdate(new List<Room>());
+    }
+
+    public void reset() {
+        this.open = this.initiallyOpen;
+        this.openObj.SetActive(this.open);
+        this.closedObj.SetActive(!this.open);
     }
 }
