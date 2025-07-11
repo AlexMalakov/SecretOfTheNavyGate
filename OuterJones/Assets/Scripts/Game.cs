@@ -8,17 +8,17 @@ public class Game : MonoBehaviour
     [SerializeField] Player player;
 
     public void resetGame() {
-        //TODO: maybe the sfcene can reset itself quickly?
-        foreach(Room r in this.layout.getAllRooms()) {
-            r.resetRoom();
-        }
+        // //TODO: maybe the sfcene can reset itself quickly?
+        // foreach(Room r in this.layout.getAllRooms()) {
+        //     r.resetRoom();
+        // }
 
-        this.layout.reset();
+        // this.layout.reset();
 
-        //reset all UI elements
+        // //reset all UI elements
 
-        //reset player, contorller and inventory
-        player.resetPlayer();
+        // //reset player, contorller and inventory
+        // player.resetPlayer();
 
     }
 }
@@ -26,6 +26,4 @@ public class Game : MonoBehaviour
 
 public interface Effectable {
     void onEffect();
-
-    void reset();
 }

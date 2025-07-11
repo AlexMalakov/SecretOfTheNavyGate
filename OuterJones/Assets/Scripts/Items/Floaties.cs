@@ -7,6 +7,8 @@ public class Floaties : Item
     private Player player;
 
 
+    //TODO: player with floaties should be able to cross through
+
     //ignore collisions with canal Water
     public override void equip() {
         //should ignore collisions with canals

@@ -43,10 +43,5 @@ public class KeyDoor : MonoBehaviour, InputSubscriber
         }
     }
 
-    public void reset() {
-        isOpen = false;
-        this.open.SetActive(false);
-        this.closed.SetActive(true);
-    }
 
 }

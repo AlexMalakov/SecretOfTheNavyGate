@@ -15,7 +15,5 @@ public class Dropper : MonoBehaviour, Effectable
         }
     }
 
-    public void reset() {
-        hasItem = true;
-    }
+
 }

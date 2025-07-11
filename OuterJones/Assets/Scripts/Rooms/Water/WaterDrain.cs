@@ -29,7 +29,7 @@ public class WaterDrain : Floodable, RoomUpdateListener
             this.drainWater();
         }
 
-        //reset it so that every time rooms are updated they have to reach here...
+        //resset it so that every time rooms are updated they have to reach here...
         //TODO: concern that not flooding already "flooded rooms" will break this
         //hopefully the rewrite will not run into that problem
         this.reachedByFlood = false;

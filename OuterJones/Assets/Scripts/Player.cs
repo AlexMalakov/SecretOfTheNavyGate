@@ -14,7 +14,18 @@ public class Player : MonoBehaviour
 
     public void Start() {
         this.inventory = FindObjectOfType<Inventory>();
-        this.resetPlayer();
+        deck = new List<Room>();
+
+        GameObject obj = GameObject.Find("deckRoom");
+        deck.Add(obj.GetComponent<Room>());
+
+        obj = GameObject.Find("startingRoom");
+        this.currentRoom = obj.GetComponent<Room>();
+
+        FindObjectOfType<DeckUI>().init(this);
+
+
+
     }
 
     public void addToDeck(List<Room> newDeck) {
@@ -68,22 +79,5 @@ public class Player : MonoBehaviour
         }
 
         ((Key)this.inventory.getItem(PossibleItems.Key)).useKey();
-    }
-
-    public void resetPlayer() {
-        deck = new List<Room>();
-
-        GameObject obj = GameObject.Find("deckRoom");
-        deck.Add(obj.GetComponent<Room>());
-
-        obj = GameObject.Find("startingRoom");
-        this.currentRoom = obj.GetComponent<Room>();
-
-        FindObjectOfType<DeckUI>().init(this);
-
-        
-        this.inventory.reset();
-
-        this.gameObject.GetComponent<PlayerController>().reset();
     }
 }

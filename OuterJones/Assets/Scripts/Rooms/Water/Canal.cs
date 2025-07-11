@@ -194,14 +194,5 @@ public class Canal : MonoBehaviour
     public GameObject getWaterCollider() {
         return this.waterCollider;
     }
-
-    public void reset() {
-        //reset rotation
-
-        this.drainWater();
-        this.restartFlood();
-
-        this.canalEntrances = new List<CanalEntrances>(this.initialCanalEntrances);
-    }
 }
 

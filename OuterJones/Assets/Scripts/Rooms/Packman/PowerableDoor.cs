@@ -11,18 +11,14 @@ public class PowerableDoor : MonoBehaviour, Effectable
     private bool openState;
 
     public void Awake() {
-        this.reset();
-    }
+        this.openState  = initiallyOpen;
 
-    public void onEffect() {
-        openState = !openState;
         open.SetActive(openState);
         closed.SetActive(!openState);
     }
 
-    public void reset() {
-        this.openState  = initiallyOpen;
-
+    public void onEffect() {
+        openState = !openState;
         open.SetActive(openState);
         closed.SetActive(!openState);
     }

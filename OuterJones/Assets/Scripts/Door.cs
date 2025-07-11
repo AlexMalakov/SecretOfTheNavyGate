@@ -147,8 +147,5 @@ public class Door : MonoBehaviour
         return this.room.getPosition();
     }
 
-    public void resetDoor() {
-        this.destination = null;
-        this.direction = initialDirection;
-    }
+
 }

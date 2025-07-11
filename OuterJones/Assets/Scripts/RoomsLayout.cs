@@ -41,7 +41,13 @@ public class RoomsLayout : MonoBehaviour
     private List<RoomUpdateListener> postListeners = new List<RoomUpdateListener>();
 
     public void Awake() {
-        this.reset();
+        //place starting room in the grid
+        this.rooms = new Room[ROOM_GRID_X, ROOM_GRID_X];
+
+        GameObject obj = GameObject.Find("startingRoom");
+        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2] = obj.GetComponent<Room>();
+        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].init(new RoomCoords(ROOM_GRID_X/2, ROOM_GRID_X/2));
+        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].onEnter();
     }
 
     public void addRoomUpdateListener(RoomUpdateListener l) {
@@ -223,15 +229,7 @@ public class RoomsLayout : MonoBehaviour
         this.notifyRoomListeners(toUpdate);
     }
 
-    public void reset() {
-        //place starting room in the grid
-        this.rooms = new Room[ROOM_GRID_X, ROOM_GRID_X];
 
-        GameObject obj = GameObject.Find("startingRoom");
-        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2] = obj.GetComponent<Room>();
-        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].init(new RoomCoords(ROOM_GRID_X/2, ROOM_GRID_X/2));
-        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].onEnter();
-    }
 
     public GameObject getCam() {
         return this.cameraObj;

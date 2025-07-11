@@ -94,16 +94,4 @@ public class StatueManager : MonoBehaviour
     public bool isSolved() {
         return this.solved;
     }
-
-    public void reset() {
-        foreach(MonkeyStatue m in this.statues) {
-            m.reset();
-            this.statueVals[m.getOrderVal()] = false;
-        }
-
-        this.solved = false;
-        this.correct = 0;
-
-        effectableObj.GetComponent<Effectable>().reset();
-    }
 }

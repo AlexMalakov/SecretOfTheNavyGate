@@ -62,8 +62,5 @@ public class PlayerController : MonoBehaviour
         return this.isMoving;
     }
     
-    //just in case a reset happens mid gear platform
-    public void reset() {
-        this.movementEnabled = true;
-    }
+
 }

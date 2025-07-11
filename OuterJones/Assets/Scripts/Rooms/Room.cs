@@ -113,21 +113,6 @@ public class Room : MonoBehaviour
         return this.roomName;
     }
 
-    public virtual void resetRoom() {
-        // this.position = null;
-        foreach(Door d in this.doors) {
-            d.resetDoor();
-        }
-
-        this.resetCanals();
-        this.resetLight();
-
-        //ok so basically every object needs a quaternion on it that gets saved at awake
-        this.transform.rotation = this.initialRotation;
-
-        this.gameObject.SetActive(false); //TODO FIX ME!
-    }
-
     ///////////////////////////////////////////// CANAL ROOMS
     [Header ("Canal Info")]
     [SerializeField] protected List<CanalEntrances> canalEntrances;
@@ -173,11 +158,6 @@ public class Room : MonoBehaviour
         }
     }
 
-    public void resetCanals() {
-        foreach(Canal c in this.canals) {
-            c.reset();
-        }
-    }
 
 
     //////////////////////////////////////////////
@@ -285,10 +265,6 @@ public class Room : MonoBehaviour
         }
     }
 
-    public void resetLight() {
-        this.removeBeam();
-    }
-
     ///////////////////////////////////////////////
     //rotation room functionality
 
@@ -324,7 +300,7 @@ public class Room : MonoBehaviour
 
         rotateLight90(clockwise);
 
-        //handles canal and light reset, and map rotate
+        //handles canal and light re set, and map rotate
         this.layoutManager.notifyRoomListeners(new List<Room>(){this});
 
         return clockwise;

@@ -17,7 +17,7 @@ public class LightDarkRoom : Room
 
     public override void init(RoomCoords position) {
         base.init(position);
-        
+
         this.position = position;
         if((position.x + position.y) % 2 == 0) {
             this.roomLighting = lightLevel;
@@ -27,14 +27,6 @@ public class LightDarkRoom : Room
 
         foreach(LightPassage p in this.passages) {
             p.informLighting((position.x + position.y) % 2 == 0);
-        }
-    }
-
-    public override void resetRoom() {
-        base.resetRoom();
-
-        if(this.statueManager != null) {
-            this.statueManager.reset();
         }
     }
 
