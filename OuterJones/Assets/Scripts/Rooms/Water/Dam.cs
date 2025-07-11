@@ -8,8 +8,7 @@ public class Dam : MonoBehaviour, Effectable
     [SerializeField] private Canal c1;
     [SerializeField] private Canal c2;
 
-    [SerializeField] private bool initiallyOpen;
-    private bool open;
+    [SerializeField] private bool open;
 
     [SerializeField] private GameObject openObj;
     [SerializeField] private GameObject closedObj;
@@ -18,7 +17,6 @@ public class Dam : MonoBehaviour, Effectable
 
     public void Awake() {
         this.sourceMan = FindObjectOfType<WaterSourceManager>();
-        this.open = this.initiallyOpen;
         this.openObj.SetActive(this.open);
         this.closedObj.SetActive(!this.open);
     }
@@ -55,11 +53,5 @@ public class Dam : MonoBehaviour, Effectable
         this.openObj.SetActive(this.open);
         this.closedObj.SetActive(!this.open);
         this.sourceMan.onRoomUpdate(new List<Room>());
-    }
-
-    public void reset() {
-        this.open = this.initiallyOpen;
-        this.openObj.SetActive(this.open);
-        this.closedObj.SetActive(!this.open);
     }
 }

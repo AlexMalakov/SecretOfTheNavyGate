@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
@@ -8,18 +9,7 @@ public class Game : MonoBehaviour
     [SerializeField] Player player;
 
     public void resetGame() {
-        // //TODO: maybe the sfcene can reset itself quickly?
-        // foreach(Room r in this.layout.getAllRooms()) {
-        //     r.resetRoom();
-        // }
-
-        // this.layout.reset();
-
-        // //reset all UI elements
-
-        // //reset player, contorller and inventory
-        // player.resetPlayer();
-
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
 
