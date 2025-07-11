@@ -76,7 +76,6 @@ public class Canal : MonoBehaviour
             return;
         }
 
-        this.swapTiles();
         this.flooded = true;
         this.canalCollider.enabled = false;
         this.waterCollider.SetActive(true);
@@ -106,10 +105,6 @@ public class Canal : MonoBehaviour
     //dont need to drain dams: this is because instead of draining sequentially all objects are
     //drained and then flow is recalcualted
     public void drainWater() {
-        if(this.flooded) {
-            swapTiles();
-        }
-
         foreach(Floodable f in this.floodableObjects) {
             f.drainWater();
         }
@@ -117,21 +112,6 @@ public class Canal : MonoBehaviour
         this.canalCollider.enabled = true;
         this.waterCollider.SetActive(false);
         this.flooded = false;
-    }
-
-    public void swapTiles() {
-        BoundsInt bounds = canalTilemap.cellBounds;
-
-        for (int x = bounds.xMin; x < bounds.xMax; x++) {
-            for (int y = bounds.yMin; y < bounds.yMax; y++) {
-                Vector3Int pos = new Vector3Int(x, y, 0);
-                TileBase currentTile = canalTilemap.GetTile(pos);
-
-                if (currentTile != null && WaterSource.swapDict.TryGetValue(currentTile, out TileBase floodedTile)) {
-                    canalTilemap.SetTile(pos, floodedTile);
-                }
-            }
-        }
     }
 
     void OnTriggerStay2D(Collider2D other) {
