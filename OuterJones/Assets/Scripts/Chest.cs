@@ -11,6 +11,8 @@ public class Chest : MonoBehaviour
     private bool opened = false;
 
     public IEnumerator Start() {
+        this.open.SetActive(false);
+        this.closed.SetActive(true);
         yield return null;
         yield return null; //skips 2 frames before hiding every room
         foreach(Room r in this.deck) { //IM SETTING EVERY ROOM TO NOT ACTIVE!
@@ -33,9 +35,5 @@ public class Chest : MonoBehaviour
         }
     }
 
-    public void reset() {
-        this.opened = false;
-        this.open.SetActive(false);
-        this.closed.SetActive(true);
-    }
+
 }

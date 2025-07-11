@@ -149,6 +149,12 @@ public class Room : MonoBehaviour
         }
     }
 
+    public virtual void restartFlood() {
+        foreach(Canal c in this.canals) {
+            c.restartFlood();
+        }
+    }
+
     public virtual void floodNeighbors(List<CanalEntrances> exits) {
         foreach(CanalEntrances exit in exits) {
             if(this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]) != null) {

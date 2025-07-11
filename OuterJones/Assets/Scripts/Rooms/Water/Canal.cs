@@ -24,6 +24,9 @@ public class Canal : MonoBehaviour
     [SerializeField] private GameObject edgeCollider;
 
     private bool flooded = false;
+
+    private bool reachedThisFlood = false;
+
     private Renderer rend;
     private List<CanalEntrances> initialCanalEntrances;
 
@@ -127,6 +130,10 @@ public class Canal : MonoBehaviour
         }
     }
 
+    public void restartFlood() {
+        this.reachedThisFlood = false;
+    }
+
     void OnTriggerExit2D(Collider2D other) {
 
         if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
@@ -192,6 +199,7 @@ public class Canal : MonoBehaviour
         //reset rotation
 
         this.drainWater();
+        this.restartFlood();
 
         this.canalEntrances = new List<CanalEntrances>(this.initialCanalEntrances);
     }

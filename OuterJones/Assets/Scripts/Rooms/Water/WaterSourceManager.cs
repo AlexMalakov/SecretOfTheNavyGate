@@ -15,14 +15,14 @@ public class WaterSourceManager : MonoBehaviour, RoomUpdateListener
         this.sources.Add(source);
     }
 
-    private void drainAll() {
+    private void restartFlood() {
         foreach(Room r in this.layout.getAllRooms()) {
-            r.drainWater();
+            r.restartFlood();
         }
     }
 
     public void onRoomUpdate(List<Room> rooms) {
-        this.drainAll();
+        this.restartFlood();
 
         foreach(WaterSource s in this.sources) {
             s.computeFlow();
