@@ -75,13 +75,18 @@ public class Canal : MonoBehaviour
     }
     
     public void onFlood(CanalEntrances? floodingFrom) {
-        if(this.flooded || !this.gameObject.activeInHierarchy) {
+        if(this.reachedThisFlood || !this.gameObject.activeInHierarchy) {
             return;
         }
 
-        this.flooded = true;
-        this.canalCollider.enabled = false;
-        this.waterCollider.SetActive(true);
+        this.reachedThisFlood = true;
+
+        if(!this.flooded) {
+            this.flooded = true;
+
+            this.canalCollider.enabled = false;
+            this.waterCollider.SetActive(true);
+        }
 
         List<CanalEntrances> floodTo = new List<CanalEntrances>(this.canalEntrances);
 
@@ -101,22 +106,41 @@ public class Canal : MonoBehaviour
     }
 
     public bool willFlood(CanalEntrances floodingFrom) {
-        return !flooded && this.canalEntrances.Contains(floodingFrom);
+        return !reachedThisFlood && this.canalEntrances.Contains(floodingFrom);
     }
 
 
     //dont need to drain dams: this is because instead of draining sequentially all objects are
     //drained and then flow is recalcualted
-    public void drainWater() {
-        foreach(Floodable f in this.floodableObjects) {
-            f.drainWater();
+    public void drainWater(CanalEntrances? drainingFrom) {
+        if(!this.foooded) {
+            return;
         }
 
         this.canalCollider.enabled = true;
         this.waterCollider.SetActive(false);
         this.flooded = false;
+
+        List<CanalEntrances> drainTo = new List<CanalEntrances>(this.canalEntrances);
+
+        if(drainingFrom != null) {
+            drainTo.Remove((CanalEntrances)drainingFrom);
+        }
+
+        foreach(Floodable f in this.floodableObjects) {
+            f.drainWater();
+        }
+
+        foreach(Dam d in this.attatchedDams) {
+            d.drainWater(this, drainingFrom);
+        }
+
+        this.room.drainNeighbors(drainTo);
     }
 
+    public bool willDrain(CanalEntrances drainingFrom) {
+        return this.flooded && this.canalEntrances.Contains(drainingFrom);
+    }
     void OnTriggerStay2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null) {
             bool allInside = true;
