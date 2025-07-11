@@ -6,6 +6,9 @@ using UnityEngine.Tilemaps;
 //canal endings can either be dams or wall
 public class Canal : MonoBehaviour
 {
+
+    //TODO: 
+
     //list of int 0 - 8
     [SerializeField] List<CanalEntrances> canalEntrances;
     [SerializeField] List<Dam> attatchedDams;
@@ -18,7 +21,7 @@ public class Canal : MonoBehaviour
 
     [SerializeField] private CompositeCollider2D canalCollider; //trigger when empty, collider when flooded
     [SerializeField] private GameObject waterCollider;
-    [SerializeField] private GameObject edgeCollider; //collider attatched to external object
+    [SerializeField] private GameObject edgeCollider;
 
     private bool flooded = false;
     private Renderer rend;
@@ -37,52 +40,10 @@ public class Canal : MonoBehaviour
 
         this.rend = GetComponent<Renderer>();
 
-        StartCoroutine(this.copyCollider());
-
         this.initialCanalEntrances = new List<CanalEntrances>(this.canalEntrances);
     }
 
-    //this is awful but i need it for floaties to not be a testing headache
-    private IEnumerator copyCollider() {
 
-
-        var tilemap = waterCollider.AddComponent<Tilemap>();
-        var tilemapRenderer = waterCollider.AddComponent<TilemapRenderer>();
-
-        this.copyMap(GetComponent<Tilemap>(), tilemap);
-
-        var rb = waterCollider.AddComponent<Rigidbody2D>();
-        rb.bodyType = RigidbodyType2D.Static;
-
-        var tilemapCollider = waterCollider.AddComponent<TilemapCollider2D>();
-        tilemapCollider.usedByComposite = true;
-
-        var compositeCollider = waterCollider.AddComponent<CompositeCollider2D>();
-        compositeCollider.geometryType = CompositeCollider2D.GeometryType.Polygons;
-
-        // compositeCollider.generationType = CompositeCollider2D.GenerationType.Manual;
-        // compositeCollider.GenerateGeometry();
-
-
-        yield return new WaitForFixedUpdate();
-
-        //dew it anakin, kill him
-
-
-        //ok so basically if i kill this, then when my object is disabled i the collider rebakes
-        //i can solve that by moving the collider out of the way instead of disabling it. 
-        //however i need to ensure that the game never rebakes which at the moment seems impossible considering underbellies and how rooms are currently implemented
-
-        // Destroy(tilemapCollider);
-        // Destroy(tilemapRenderer);
-        // Destroy(tilemap);
-
-        // tilemapCollider.enabled = false;
-        tilemapRenderer.enabled = false;
-        // tilemap.enabled = false;
-
-        this.waterCollider.SetActive(false);
-    }
 
     private void copyMap(Tilemap source, Tilemap destination) {
         destination.ClearAllTiles();

@@ -51,7 +51,7 @@ public class Room : MonoBehaviour
         // this.gameObject.SetActive(true);
         this.layoutManager.getCam().transform.position = new Vector3(this.transform.position.x, this.transform.position.y ,this.layoutManager.getCam().transform.position.z);
         globalLighting.intensity = this.roomLighting;
-        this.manager.displayRoomPopUp(this.getRoomName());
+        // this.manager.displayRoomPopUp(this.getRoomName());
     }
 
     public virtual void onExit() {
