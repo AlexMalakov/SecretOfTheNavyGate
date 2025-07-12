@@ -9,7 +9,7 @@ public class Grate : MonoBehaviour
 
     [SerializeField] private Collider2D outOfCanalCollider;
 
-    private Renderer rend;
+    [SerializeField] private Renderer rend;
     
     private bool playerInCanal = false;
     private Canal canal;
@@ -31,8 +31,7 @@ public class Grate : MonoBehaviour
             Debug.Log("COULD NOT FIND CANAL!");
         }
 
-        rend = GetComponent<Renderer>();
-        rend.sortingLayerName = this.enviromentLayer;
+        this.rend.sortingLayerName = this.enviromentLayer;
         this.outOfCanalCollider.enabled = true;
     }
 
