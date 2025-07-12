@@ -34,6 +34,18 @@ public class Dam : MonoBehaviour, Effectable
         }
     }
 
+    public void drainWater(Canal c, CanalEntrances? floodingFrom) {
+        if(!open) {
+            return;
+        }
+
+        if(c == c1) {
+            c2.drainWater(floodingFrom);
+        }else if(c == c2) {
+            c1.drainWater(floodingFrom);
+        }
+    }
+
 
     public void openDam() {
         if(!this.open) {

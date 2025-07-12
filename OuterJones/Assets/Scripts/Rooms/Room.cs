@@ -128,9 +128,11 @@ public class Room : MonoBehaviour
         }
     }
 
-    public virtual void drainWater() {
+    public virtual void drainWater(CanalEntrances floodingFrom) {
         foreach(Canal c in this.canals) {
-            c.drainWater();
+            if(c.willDrain(floodingFrom)) {
+                c.drainWater(floodingFrom);
+            }
         }
     }
 
@@ -145,6 +147,15 @@ public class Room : MonoBehaviour
             if(this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]) != null) {
                 CanalEntrances opposite = (CanalEntrances)(((int)exit + (WaterSource.CANAL_ENTRANCE_COUNT/2)) % WaterSource.CANAL_ENTRANCE_COUNT);
                 this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]).onFlood(opposite);
+            }
+        }
+    }
+
+    public virtual void drainNeighbors(List<CanalEntrances> exits) {
+        foreach(CanalEntrances exit in exits) {
+            if(this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]) != null) {
+                CanalEntrances opposite = (CanalEntrances)(((int)exit + (WaterSource.CANAL_ENTRANCE_COUNT/2)) % WaterSource.CANAL_ENTRANCE_COUNT);
+                this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]).drainWater(opposite);
             }
         }
     }

@@ -113,7 +113,7 @@ public class Canal : MonoBehaviour
     //dont need to drain dams: this is because instead of draining sequentially all objects are
     //drained and then flow is recalcualted
     public void drainWater(CanalEntrances? drainingFrom) {
-        if(!this.foooded) {
+        if(!this.flooded) {
             return;
         }
 

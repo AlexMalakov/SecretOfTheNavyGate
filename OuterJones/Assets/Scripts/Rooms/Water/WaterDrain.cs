@@ -20,7 +20,7 @@ public class WaterDrain : Floodable, RoomUpdateListener
 
 
     public override void drainWater() {
-        origin.drainWater();
+        origin.drainWater(null);
     }
 
 
