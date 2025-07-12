@@ -80,4 +80,8 @@ public class Player : MonoBehaviour
 
         ((Key)this.inventory.getItem(PossibleItems.Key)).useKey();
     }
+
+    public Inventory getInventory() {
+        return this.inventory;
+    }
 }
