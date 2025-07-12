@@ -170,6 +170,17 @@ public class Room : MonoBehaviour
     }
 
 
+    //floods from all canals that have not already flooded and are able
+    public void floodAllRemainingCanals() {
+        foreach(Canal c in this.canals) {
+            if(c.isFlooded()) {
+                //if reachedThisFlood = true, then this will immediately exit
+                c.onFlood(null);
+            }
+        }
+    }
+
+
 
     //////////////////////////////////////////////
     //functionality for L/D rooms

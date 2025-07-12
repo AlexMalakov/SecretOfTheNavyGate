@@ -218,5 +218,9 @@ public class Canal : MonoBehaviour
     public GameObject getWaterCollider() {
         return this.waterCollider;
     }
+
+    public bool isFlooded() {
+        return this.flooded;
+    }
 }
 
