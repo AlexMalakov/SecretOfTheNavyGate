@@ -21,6 +21,14 @@ public class Button : MonoBehaviour, PowerableObject
     }
 
     void OnTriggerEnter2D(Collider2D other) {
+
+        //this is bad and should be rewritten some other time
+        if(other.gameObject.GetComponent<Player>() != null && this.manager == null) { //no manager exists, so i am a normal button
+            Debug.Log("NORMAL BUTTON PRESS!");
+
+            return;
+        }
+
         if((other.gameObject.GetComponent<Player>() != null && !this.isMummyButton) 
                     || (other.gameObject.GetComponent<Mummy>() != null && this.isMummyButton)) {
             if(this.powered) {

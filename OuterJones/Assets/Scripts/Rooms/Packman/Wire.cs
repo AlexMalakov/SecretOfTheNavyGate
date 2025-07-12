@@ -47,7 +47,11 @@ public class Wire : MonoBehaviour, PowerableObject
 
         this.sparkSprite.SetActive(false);
         this.sparkSprite.transform.position = this.sparkPath[0].transform.position;
-        nextToPower.GetComponent<PowerableObject>().onPowered();
+        if(nextToPower is PowerableObject) {
+            nextToPower.GetComponent<PowerableObject>().onPowered();
+        } else if(nextToPower is Effectable) {
+            nextToPower.GetComponent<Effectable>().onEffect();
+        }
     }
 
     public void reset() {
