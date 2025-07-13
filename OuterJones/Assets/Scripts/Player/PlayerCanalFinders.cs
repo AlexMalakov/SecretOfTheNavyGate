@@ -8,21 +8,24 @@ public class PlayerCanalFinders : MonoBehaviour
 
 
     private Canal colidingWith;
+    private bool collisionBlocked = false;
 
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if(other.GetComponent<Canal>() != null) {
-            this.colidingWith = other.GetComponent<Canal>();
+
+        if(other.GetComponent<CanalGround>() != null) {
+            this.colidingWith = other.GetComponent<CanalGround>().getCanal();
         }
     }
 
     public void OnTriggerExit2D(Collider2D other) {
-        if(other.GetComponent<Canal>() != null) {
+
+        if(other.GetComponent<CanalGround>() != null) {
             this.colidingWith = null;
         }
     }
 
     public bool collidingWithCanal(Canal c) {
-        return colidingWith == c;
+        return !collisionBlocked && colidingWith == c;
     }
 }

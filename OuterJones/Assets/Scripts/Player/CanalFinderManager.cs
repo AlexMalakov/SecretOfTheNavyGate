@@ -7,6 +7,8 @@ public class CanalFinderManager : MonoBehaviour
     [SerializeField] private PlayerController controller;
     private List<PlayerCanalFinders> canalFinders = new List<PlayerCanalFinders>();
 
+    private bool fallen = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +17,20 @@ public class CanalFinderManager : MonoBehaviour
         }
     }
 
+    public void OnTriggerExit2D(Collider2D other) {
+        if(other.GetComponent<Canal>() != null) {
+            fallen = false;
+        }
+
+    }
+
     public void OnTriggerEnter2D(Collider2D other) {
+        if(other.GetComponent<Canal>() == null || fallen) {
+            return;
+        }
+
+        fallen = true;
+
         List<PlayerCanalFinders> options = new List<PlayerCanalFinders>();
         if(other.GetComponent<Canal>() != null) {
             Canal c = other.GetComponent<Canal>();
@@ -28,7 +43,7 @@ public class CanalFinderManager : MonoBehaviour
         }
 
         if(options.Count == 0) {
-            Debug.Log("ERROR CANT DETECT CANAL COLLISION!");
+            StartCoroutine(shoveIntoCanal(other.GetComponent<Canal>().getClosestBackup(this.transform)));
             return;
         }
 
@@ -49,14 +64,16 @@ public class CanalFinderManager : MonoBehaviour
     }
 
     private IEnumerator shoveIntoCanal(Transform destination) {
+        Debug.Log("MOVING!");
         this.controller.isMovementEnabled(false);
 
         Vector3 initial = this.controller.transform.position;
+        Vector3 final = destination.position;
 
         float elapsed = 0f;
 
-        while(elapsed < 1f) {
-            this.controller.transform.position = Vector3.Lerp(initial, destination.position, elapsed);
+        while(elapsed < .25f) {
+            this.controller.transform.position = Vector3.Lerp(initial, final, elapsed/.25f);
 
             elapsed += Time.deltaTime;
             yield return null;

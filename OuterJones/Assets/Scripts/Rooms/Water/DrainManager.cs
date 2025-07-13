@@ -17,7 +17,6 @@ public class DrainManager : MonoBehaviour, RoomUpdateListener
     }
 
     public void onRoomUpdate(List<Room> rooms) {
-        Debug.Log("HELLO FROM MANAGER!");
         foreach(WaterDrain d in this.drains) {
             d.drainWater();
         }

@@ -22,6 +22,7 @@ public class Canal : MonoBehaviour
     [SerializeField] private CompositeCollider2D canalCollider; //trigger when empty, collider when flooded
     [SerializeField] private GameObject waterCollider;
     [SerializeField] private GameObject edgeCollider;
+    [SerializeField] private List<Transform> backupTransforms;
 
     [SerializeField] private bool flooded = false;
 
@@ -48,8 +49,6 @@ public class Canal : MonoBehaviour
 
         this.initialCanalEntrances = new List<CanalEntrances>(this.canalEntrances);
     }
-
-
 
     private void copyMap(Tilemap source, Tilemap destination) {
         destination.ClearAllTiles();
@@ -111,7 +110,6 @@ public class Canal : MonoBehaviour
     public bool willFlood(CanalEntrances floodingFrom) {
         return !this.reachedThisFlood && this.canalEntrances.Contains(floodingFrom);
     }
-
 
     //dont need to drain dams: this is because instead of draining sequentially all objects are
     //drained and then flow is recalcualted
@@ -229,6 +227,20 @@ public class Canal : MonoBehaviour
 
     public bool isFlooded() {
         return this.flooded;
+    }
+
+    public Transform getClosestBackup(Transform target) {
+        float closestVal = (this.backupTransforms[0].position - target.position).magnitude;
+        Transform closest = this.backupTransforms[0];
+
+        for(int i = 1; i < this.backupTransforms.Count; i++) {
+            if((this.backupTransforms[i].position - target.position).magnitude < closestVal) {
+                closestVal = (this.backupTransforms[i].position - target.position).magnitude;
+                closest = this.backupTransforms[i];
+            }
+        }
+
+        return closest;
     }
 }
 

@@ -28,5 +28,4 @@ public class WaterDrain : Floodable
     public void reset() {
         this.reachedByFlood = false;
     }
-
 }
