@@ -18,11 +18,17 @@ public class WaterDrain : Floodable
 
     public override void drainWater() {
         if(reachedByFlood) {
+            Debug.Log("REACHED AGAIN?");
             return;
         }
 
+        Debug.Log("ATTEMPTING DRAIN!");
         reachedByFlood = false;
         origin.drainWater(null);
+    }
+
+    public void reset() {
+        this.reachedByFlood = false;
     }
 
 }

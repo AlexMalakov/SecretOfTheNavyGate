@@ -86,6 +86,8 @@ public class Canal : MonoBehaviour
 
             this.canalCollider.enabled = false;
             this.waterCollider.SetActive(true);
+
+            Debug.Log("I AM FLOODED!" + this.gameObject.name);
         }
 
         List<CanalEntrances> floodTo = new List<CanalEntrances>(this.canalEntrances);
@@ -113,6 +115,7 @@ public class Canal : MonoBehaviour
     //dont need to drain dams: this is because instead of draining sequentially all objects are
     //drained and then flow is recalcualted
     public void drainWater(CanalEntrances? drainingFrom) {
+        Debug.Log("I AM DRAINED?" + this.gameObject.name + ", " + this.flooded);
         if(!this.flooded) {
             return;
         }

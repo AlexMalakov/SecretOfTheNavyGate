@@ -17,11 +17,16 @@ public class DrainManager : MonoBehaviour, RoomUpdateListener
     }
 
     public void onRoomUpdate(List<Room> rooms) {
+        Debug.Log("HELLO FROM MANAGER!");
         foreach(WaterDrain d in this.drains) {
             d.drainWater();
         }
 
         this.floodRemainingCanals();
+
+        foreach(WaterDrain d in this.drains) {
+            d.reset();
+        }
     }
 
     //floods from canals that are not reachable from a canal or a drain, and have water in them

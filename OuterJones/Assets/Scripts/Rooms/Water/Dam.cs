@@ -64,6 +64,6 @@ public class Dam : MonoBehaviour, Effectable
 
         this.openObj.SetActive(this.open);
         this.closedObj.SetActive(!this.open);
-        this.sourceMan.onRoomUpdate(new List<Room>());
+        this.sourceMan.recomputeFlow();
     }
 }

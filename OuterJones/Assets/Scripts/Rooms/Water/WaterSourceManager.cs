@@ -6,9 +6,12 @@ public class WaterSourceManager : MonoBehaviour, RoomUpdateListener
 {
     private List<WaterSource> sources = new List<WaterSource>();
     [SerializeField] RoomsLayout layout;
+    
+    private DrainManager drainM;
 
     public void Start() {
         layout.addRoomUpdateListener(this);
+        this.drainM = GetComponent<DrainManager>();
     }
 
     public void addWaterSource(WaterSource source) {
@@ -27,6 +30,11 @@ public class WaterSourceManager : MonoBehaviour, RoomUpdateListener
         foreach(WaterSource s in this.sources) {
             s.computeFlow();
         }
+    }
+
+    public void recomputeFlow() {
+        this.onRoomUpdate(new List<Room>());
+        this.drainM.onRoomUpdate(new List<Room>());
     }
 
 }
