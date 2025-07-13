@@ -105,7 +105,6 @@ public class Room : MonoBehaviour
                 return this.southPosition;
         }
 
-        Debug.Log("IMPOSSIBLE DIRECTION!");
         return null;
     }
 

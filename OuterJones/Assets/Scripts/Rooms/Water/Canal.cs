@@ -89,8 +89,6 @@ public class Canal : MonoBehaviour
 
             this.canalCollider.enabled = false;
             this.waterCollider.SetActive(true);
-
-            Debug.Log("I AM FLOODED!" + this.gameObject.name);
         }
 
         List<CanalEntrances> floodTo = new List<CanalEntrances>(this.canalEntrances);
