@@ -26,6 +26,7 @@ public class Canal : MonoBehaviour
     private bool flooded = false;
 
     private bool reachedThisFlood = false;
+    private bool reachedThisDrain = false;
 
     private Renderer rend;
     private List<CanalEntrances> initialCanalEntrances;
@@ -108,21 +109,24 @@ public class Canal : MonoBehaviour
     }
 
     public bool willFlood(CanalEntrances floodingFrom) {
-        return !reachedThisFlood && this.canalEntrances.Contains(floodingFrom);
+        return !this.reachedThisFlood && this.canalEntrances.Contains(floodingFrom);
     }
 
 
     //dont need to drain dams: this is because instead of draining sequentially all objects are
     //drained and then flow is recalcualted
     public void drainWater(CanalEntrances? drainingFrom) {
-        Debug.Log("I AM DRAINED?" + this.gameObject.name + ", " + this.flooded);
-        if(!this.flooded) {
+        if(this.reachedThisDrain) {
             return;
         }
 
-        this.canalCollider.enabled = true;
-        this.waterCollider.SetActive(false);
-        this.flooded = false;
+        this.reachedThisDrain = true;
+
+        if(this.flooded) {
+            this.canalCollider.enabled = true;
+            this.waterCollider.SetActive(false);
+            this.flooded = false;
+        }
 
         List<CanalEntrances> drainTo = new List<CanalEntrances>(this.canalEntrances);
 
@@ -142,7 +146,7 @@ public class Canal : MonoBehaviour
     }
 
     public bool willDrain(CanalEntrances drainingFrom) {
-        return this.flooded && this.canalEntrances.Contains(drainingFrom);
+        return !this.reachedThisDrain && this.canalEntrances.Contains(drainingFrom);
     }
     void OnTriggerStay2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null) {
@@ -159,6 +163,7 @@ public class Canal : MonoBehaviour
 
     public void restartFlood() {
         this.reachedThisFlood = false;
+        this.reachedThisDrain = false;
     }
 
     void OnTriggerExit2D(Collider2D other) {
