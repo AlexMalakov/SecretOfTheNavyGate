@@ -23,7 +23,7 @@ public class Canal : MonoBehaviour
     [SerializeField] private GameObject waterCollider;
     [SerializeField] private GameObject edgeCollider;
 
-    private bool flooded = false;
+    [SerializeField] private bool flooded = false;
 
     private bool reachedThisFlood = false;
     private bool reachedThisDrain = false;
@@ -41,6 +41,8 @@ public class Canal : MonoBehaviour
             }
         }
 
+        this.canalCollider.enabled = !this.flooded;
+        this.waterCollider.SetActive(this.flooded);
 
         this.rend = GetComponent<Renderer>();
 
