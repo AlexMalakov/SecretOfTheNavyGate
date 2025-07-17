@@ -18,6 +18,9 @@ public class Door : MonoBehaviour
     [SerializeField] private DoorDirection direction;
     [SerializeField] private Transform enterPosition;
 
+    [SerializeField] private GameObject openModel;
+    [SerializeField] private GameObject closedModel;
+
     private List<DoorUseListener> listeners = new List<DoorUseListener>();
 
     private DoorDirection initialDirection;
@@ -28,6 +31,8 @@ public class Door : MonoBehaviour
 
     public void setDestination(Door newDestination) {
         this.destination = newDestination;
+        this.openModel.SetActive(true);
+        this.closedModel.SetActive(false);
     }
 
     public Door getDestination() {
