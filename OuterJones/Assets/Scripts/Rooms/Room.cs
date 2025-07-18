@@ -321,9 +321,22 @@ public class Room : MonoBehaviour
 
         rotateLight90(clockwise);
 
+        rotatePowerables();
+
         //handles canal and light re set, and map rotate
         this.layoutManager.notifyRoomListeners(new List<Room>(){this});
 
         return clockwise;
+    }
+
+    ///////////////////////////////////////////////
+    //packman room functionality
+    [Header ("Packman")]
+    [SerializeField] private List<PowerableDoor> pDoors;
+
+    public virtual void rotatePowerables() {
+        foreach(PowerableDoor p in this.pDoors) {
+            p.rotate90();
+        }
     }
 }

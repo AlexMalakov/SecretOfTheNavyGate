@@ -7,7 +7,7 @@ public class LightSource : MonoBehaviour, RoomUpdateListener
     //room info
     [SerializeField] private LightDarkRoom originRoom;
     private BeamModel beam;
-    private DoorDirection castDirection = DoorDirection.North;
+    [SerializeField] private DoorDirection castDirection = DoorDirection.North;
 
 
     [SerializeField] private Transform beamParent;
