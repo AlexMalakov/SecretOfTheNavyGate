@@ -132,7 +132,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   open: {fileID: 9129841190344523182}
-  closed: {fileID: 2857478162454152791}
+  horizontalClosed: {fileID: 5711559324998001610}
+  verticalClosed: {fileID: 2857478162454152791}
+  vert: 1
   initiallyOpen: 0
 --- !u!1 &2857478162454152791
 GameObject:

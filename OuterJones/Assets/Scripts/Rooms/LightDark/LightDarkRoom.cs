@@ -13,7 +13,6 @@ public class LightDarkRoom : Room
     
     private LightSource source;
 
-    [SerializeField] private List<LightPassage> passages;
 
     public override void init(RoomCoords position) {
         base.init(position);
@@ -23,10 +22,6 @@ public class LightDarkRoom : Room
             this.roomLighting = lightLevel;
         } else {
             this.roomLighting = darkLevel;
-        }
-
-        foreach(LightPassage p in this.passages) {
-            p.informLighting((position.x + position.y) % 2 == 0);
         }
     }
 
