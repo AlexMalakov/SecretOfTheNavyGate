@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class KeyDoor : MonoBehaviour, InputSubscriber
 {
-    [SerializeField] GameObject open;
-    [SerializeField] GameObject closed;
+    [SerializeField] private GameObject open;
+    [SerializeField] private GameObject vertClosed;
+    [SerializeField] private GameObject horizClosed;
+
+    [SerializeField] private bool vert;
 
     private PlayerInput inputManager;
     private Player player;
@@ -15,6 +18,9 @@ public class KeyDoor : MonoBehaviour, InputSubscriber
     public void Awake() {
         this.inputManager = FindObjectOfType<PlayerInput>();
         this.player = FindObjectOfType<Player>();
+
+        vertClosed.SetActive(vert);
+        horizClosed.SetActive(!vert);
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
@@ -39,9 +45,15 @@ public class KeyDoor : MonoBehaviour, InputSubscriber
             this.isOpen = true;
 
             this.open.SetActive(true);
-            this.closed.SetActive(false);
+            this.vertClosed.SetActive(false);
+            this.horizClosed.SetActive(false);
         }
     }
 
+    public void rotate90() {
+        vert = !vert;
 
+        vertClosed.SetActive(vert);
+        horizClosed.SetActive(!vert);
+    }
 }

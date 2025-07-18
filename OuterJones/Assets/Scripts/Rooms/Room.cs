@@ -21,6 +21,9 @@ public class Room : MonoBehaviour
     [SerializeField] private Transform southPosition;
     [SerializeField] private Transform westPosition;
 
+    [Header("Other (key-doors)")]
+    [SerializeField] private List<KeyDoor> keyDoors;
+
     protected RoomCoords position;
     protected Quaternion initialRotation;
 
@@ -301,6 +304,10 @@ public class Room : MonoBehaviour
         //rotate doors
         foreach(Door d in this.doors) {
             d.rotate90(clockwise);
+        }
+
+        foreach(KeyDoor k in this.keyDoors) {
+            k.rotate90();
         }
 
         //rotate beam transforms :)
