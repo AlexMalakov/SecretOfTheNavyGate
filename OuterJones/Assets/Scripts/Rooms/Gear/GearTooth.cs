@@ -19,6 +19,12 @@ public class GearTooth : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D other) {
+        if(other.GetComponent<PlayerController>() != null) {
+            gParent.playerOffTooth();
+        }
+    }
+
     public int getID() {
         return this.ID;
     }

@@ -21,7 +21,9 @@ public class RotatingGear : MonoBehaviour
         }
     }
 
-    private IEnumerator rotateGear(PlayerController controller) {
+    public virtual void playerOffTooth() {}
+
+    protected IEnumerator rotateGear(PlayerController controller) {
 
         controller.transform.parent = this.transform;
         controller.isMovementEnabled(false);
@@ -43,7 +45,7 @@ public class RotatingGear : MonoBehaviour
 
     }
 
-    private GearTooth getClosest() {
+    protected GearTooth getClosest() {
         int closest = 0;
         float smallest = (this.teeth[0].transform.position - dropOffPoint.transform.position).magnitude;
 
