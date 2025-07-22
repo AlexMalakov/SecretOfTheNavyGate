@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class RotatingGear : MonoBehaviour
 {
-    [SerializeField] private List<GearTooth> teeth;
-    [SerializeField] private float rotationAmount;
+    [SerializeField] protected List<GearTooth> teeth;
+    [SerializeField] protected float rotationAmount;
 
-    [SerializeField] private Transform dropOffPoint;
+    [SerializeField] protected Transform dropOffPoint;
 
     private void Start() {
         for(int i = 0; i < teeth.Count; i++) {
@@ -15,7 +15,7 @@ public class RotatingGear : MonoBehaviour
         }
     }
 
-    public void playerOnTooth(GearTooth t, PlayerController controller) {
+    public virtual void playerOnTooth(GearTooth t, PlayerController controller) {
         if(t.getID() != getClosest().getID()) {
             StartCoroutine(this.rotateGear(controller));
         }
