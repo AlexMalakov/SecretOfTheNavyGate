@@ -36,12 +36,6 @@ public class Canal : MonoBehaviour
         this.room = GetComponentInParent<Room>();
         this.edgeCollider.SetActive(false);
 
-        foreach(Floodable f in this.floodableObjects) {
-            if(f is Ladder) {
-                ((Ladder)f).init(this);
-            }
-        }
-
         this.canalCollider.enabled = !this.flooded;
         this.waterCollider.SetActive(this.flooded);
 
@@ -181,9 +175,6 @@ public class Canal : MonoBehaviour
         }
     }
 
-    public void onLadderUse() {
-        this.onPlayerOutCanal();
-    }
 
     public void rotate90(bool clockwise) {
         for(int i = 0; i < this.canalEntrances.Count; i++) {
