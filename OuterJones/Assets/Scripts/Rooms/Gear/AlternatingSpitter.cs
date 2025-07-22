@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class AlternatingSpitter : MonoBehaviour
 {
-    [SerializeField] GameObject defaultSprite;
-    [SerializeField] GameObject cwSprite;
-    [SerializeField] GameObject ccwSprite;
+    [SerializeField] protected GameObject defaultSprite;
+    [SerializeField] protected GameObject cwSprite;
+    [SerializeField] protected GameObject ccwSprite;
 
-    [SerializeField] GameObject rotator;
-
-    [SerializeField] float blinkDelay = 1f;
+    [SerializeField] protected float blinkDelay = 1f;
 
     private bool clockwise = true;
 
@@ -18,8 +16,12 @@ public class AlternatingSpitter : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.GetComponent<PlayerController>() != null) {
-            StartCoroutine(rotateSpitter(other.GetComponent<PlayerController>()));
+            this.activateAlternatingSpitter();
         }
+    }
+
+    protected void activateAlternatingSpitter() {
+        StartCoroutine(rotateSpitter(other.GetComponent<PlayerController>()));
     }
 
     private IEnumerator rotateSpitter(PlayerController controller) {

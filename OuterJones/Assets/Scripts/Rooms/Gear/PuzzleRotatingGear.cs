@@ -6,17 +6,21 @@ public class PuzzleRotatingGear : RotatingGear, RotationPuzzleElement, InputSubs
 {
     private PlayerInput input;
     private Quaternion initialRot;
+    private PlayerController controller;
+    private GearTooth recent;
 
+    [SerializeField] bool oneWay;
 
-    public void Start() {
+    protected override void Start() {
         base.Start();
         this.input = FindObjectOfType<PlayerInput>();
 
         this.initialRot = this.transform.rotation;
-
     }
-    public override void playerOnTooth(GearTooth t, PlayerController controller) {
 
+    public override void playerOnTooth(GearTooth t, PlayerController controller) {
+        this.controller = controller;
+        this.recent = t;
         this.input.requestSpaceInput(this, this.transform, "rotate platform");
     }
 
@@ -25,7 +29,12 @@ public class PuzzleRotatingGear : RotatingGear, RotationPuzzleElement, InputSubs
     }
 
     public void onSpacePress() {
-        StartCoroutine(this.rotateGear(controller));
+        if(oneWay) {
+            base.playerOnTooth(this.recent, this.controller);
+        } else {
+            StartCoroutine(this.rotateGear(this.controller));
+        }
+
     }
 
     public void resetElement() {

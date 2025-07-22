@@ -9,7 +9,7 @@ public class RotatingGear : MonoBehaviour
 
     [SerializeField] protected Transform dropOffPoint;
 
-    private void Start() {
+    protected virtual void Start() {
         for(int i = 0; i < teeth.Count; i++) {
             this.teeth[i].init(this, i);
         }
