@@ -10,11 +10,15 @@ public class PuzzleAlternatingSpitter : AlternatingSpitter, RotationPuzzleElemen
 
     private PlayerController controller;
 
+    private bool startDirection;
+
     protected void Start() {
         this.input = FindObjectOfType<PlayerInput>();
         this.controller = FindObjectOfType<PlayerController>();
 
         this.initialRot = this.transform.rotation;
+
+        this.startDirection = this.clockwise;
     }
 
     protected override void activateAlternatingSpitter(PlayerController controller) {
@@ -28,7 +32,7 @@ public class PuzzleAlternatingSpitter : AlternatingSpitter, RotationPuzzleElemen
     }
 
     public void resetElement() {
-        this.transform.rotation = initialRot;
+        this.clockwise = this.startDirection;
     }
 
     public void onSpacePress() {

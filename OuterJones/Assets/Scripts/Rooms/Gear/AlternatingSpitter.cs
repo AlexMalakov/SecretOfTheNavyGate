@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class AlternatingSpitter : MonoBehaviour
 {
-    [SerializeField] protected GameObject defaultSprite;
+    [SerializeField] protected GameObject defaultcwSprite;
+    [SerializeField] protected GameObject defaultccwSprite;
     [SerializeField] protected GameObject cwSprite;
     [SerializeField] protected GameObject ccwSprite;
 
     [SerializeField] protected float blinkDelay = 1f;
 
-    private bool clockwise = true;
+    [SerializeField] protected bool clockwise = true;
 
     private bool playerInRoom = false;
 
@@ -58,12 +59,14 @@ public class AlternatingSpitter : MonoBehaviour
 
 
 
-    private void blinkSprites() {
+    protected void blinkSprites() {
         if(!playerInRoom) {
             return;
         }
 
-        this.defaultSprite.SetActive(false);
+
+        this.defaultcwSprite.SetActive(false);
+        this.defaultccwSprite.SetActive(false);
 
         if(clockwise) {
             this.cwSprite.SetActive(true);
@@ -82,7 +85,16 @@ public class AlternatingSpitter : MonoBehaviour
             return;
         }
 
-        this.defaultSprite.SetActive(true);
+        if(clockwise) {
+            this.defaultcwSprite.SetActive(true);
+            this.defaultccwSprite.SetActive(false);
+        } else {
+            this.defaultccwSprite.SetActive(true);
+            this.defaultcwSprite.SetActive(false);
+        }
+        
+
+
         this.cwSprite.SetActive(false);
         this.ccwSprite.SetActive(false);
 
