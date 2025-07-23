@@ -16,15 +16,15 @@ public class AlternatingSpitter : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.GetComponent<PlayerController>() != null) {
-            this.activateAlternatingSpitter();
+            this.activateAlternatingSpitter(other.GetComponent<PlayerController>());
         }
     }
 
-    protected void activateAlternatingSpitter() {
-        StartCoroutine(rotateSpitter(other.GetComponent<PlayerController>()));
+    protected virtual void activateAlternatingSpitter(PlayerController controller) {
+        StartCoroutine(rotateSpitter(controller));
     }
 
-    private IEnumerator rotateSpitter(PlayerController controller) {
+    protected IEnumerator rotateSpitter(PlayerController controller) {
         controller.isMovementEnabled(false);
         controller.transform.parent = this.transform;
 

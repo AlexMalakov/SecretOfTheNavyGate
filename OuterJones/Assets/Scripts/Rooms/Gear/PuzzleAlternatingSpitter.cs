@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PuzzleAlternatingSpitter : AlternatingSpitter, RotationPuzzleElement
+public class PuzzleAlternatingSpitter : AlternatingSpitter, RotationPuzzleElement, InputSubscriber
 {
 
     private PlayerInput input;
@@ -10,20 +10,21 @@ public class PuzzleAlternatingSpitter : AlternatingSpitter, RotationPuzzleElemen
 
     private PlayerController controller;
 
-    protected override void Start() {
-        base.Start();
+    protected void Start() {
         this.input = FindObjectOfType<PlayerInput>();
         this.controller = FindObjectOfType<PlayerController>();
 
         this.initialRot = this.transform.rotation;
     }
 
-    protected override void activateAlternatingSpitter() {
+    protected override void activateAlternatingSpitter(PlayerController controller) {
         this.input.requestSpaceInput(this, this.transform, "rotate spinner");
     }
 
     private void OnTriggerExit2D(Collider2D other) {
-        this.input.cancelSpaceInput(this);
+        if(other.GetComponent<PlayerController>() != null) {
+            this.input.cancelSpaceInputRequest(this);
+        }
     }
 
     public void resetElement() {
