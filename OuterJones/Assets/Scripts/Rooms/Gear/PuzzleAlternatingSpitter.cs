@@ -13,6 +13,7 @@ public class PuzzleAlternatingSpitter : AlternatingSpitter, RotationPuzzleElemen
     protected override void Start() {
         base.Start();
         this.input = FindObjectOfType<PlayerInput>();
+        this.controller = FindObjectOfType<PlayerController>();
 
         this.initialRot = this.transform.rotation;
     }
