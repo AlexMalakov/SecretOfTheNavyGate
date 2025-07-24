@@ -64,7 +64,7 @@ public class CanalFinderManager : MonoBehaviour
     }
 
     private IEnumerator shoveIntoCanal(Transform destination) {
-        Debug.Log("MOVING!");
+        Debug.Log("MOVING! AT " + Time.time);
         this.controller.isMovementEnabled(false);
 
         Vector3 initial = this.controller.transform.position;

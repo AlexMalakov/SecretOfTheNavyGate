@@ -690,7 +690,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b80313a8bb54f4da9b6137c06337b77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teeth: []
+  teeth:
+  - {fileID: 3296366517306008918}
+  - {fileID: 2348787666842019780}
+  - {fileID: 4014166022667642997}
+  - {fileID: 119453850610345934}
   rotationAmount: 90
   dropOffPoint: {fileID: 0}
   oneWay: 0
