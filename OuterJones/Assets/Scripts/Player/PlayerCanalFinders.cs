@@ -8,7 +8,6 @@ public class PlayerCanalFinders : MonoBehaviour
 
 
     private Canal colidingWith;
-    private bool collisionBlocked = false;
 
 
     public void OnTriggerEnter2D(Collider2D other) {
@@ -26,6 +25,6 @@ public class PlayerCanalFinders : MonoBehaviour
     }
 
     public bool collidingWithCanal(Canal c) {
-        return !collisionBlocked && colidingWith == c;
+        return colidingWith == c;
     }
 }

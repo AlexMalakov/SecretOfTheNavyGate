@@ -25,7 +25,7 @@ public class CanalFinderManager : MonoBehaviour
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if(other.GetComponent<Canal>() == null || fallen) {
+        if(other.GetComponent<Canal>() == null || other.GetComponent<Canal>().isFlooded() || fallen) {
             return;
         }
 

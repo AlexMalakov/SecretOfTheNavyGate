@@ -635,6 +635,7 @@ MonoBehaviour:
   grates: []
   canalTilemap: {fileID: 3260933045013561001}
   canalCollider: {fileID: 797804674739604576}
+  colliderRefresh: {fileID: 1393645888367912376}
   waterCollider: {fileID: 4712564821584083401}
   edgeCollider: {fileID: 4234304543670549944}
   backupTransforms:

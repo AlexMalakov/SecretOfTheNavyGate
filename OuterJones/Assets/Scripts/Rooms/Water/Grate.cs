@@ -19,7 +19,7 @@ public class Grate : MonoBehaviour
         List<Collider2D> overlapping = new List<Collider2D>();
         ContactFilter2D filter = new ContactFilter2D();
         filter.useTriggers = true;
-        Physics2D.OverlapCollider(GetComponent<Collider2D>(), filter, overlapping);
+        Physics2D.OverlapCollider(GetComponent<CompositeCollider2D>(), filter, overlapping);
 
         foreach (Collider2D c in overlapping) {
             if(c.gameObject.GetComponent<Canal>() != null) {
@@ -29,6 +29,8 @@ public class Grate : MonoBehaviour
 
         if(this.canal == null) {
             Debug.Log("COULD NOT FIND CANAL!");
+        } else {
+            Debug.Log("COULD FIND CANAL!");
         }
 
         this.rend.sortingLayerName = this.enviromentLayer;

@@ -7,8 +7,6 @@ using UnityEngine.Tilemaps;
 public class Canal : MonoBehaviour
 {
 
-    //TODO: 
-
     //list of int 0 - 8
     [SerializeField] List<CanalEntrances> canalEntrances;
     [SerializeField] List<Dam> attatchedDams;
@@ -19,7 +17,6 @@ public class Canal : MonoBehaviour
 
     [SerializeField] private Tilemap canalTilemap; // Assign in inspector
 
-    [SerializeField] private CompositeCollider2D canalCollider; //trigger when empty, collider when flooded
     [SerializeField] private GameObject waterCollider;
     [SerializeField] private GameObject edgeCollider;
     [SerializeField] private List<Transform> backupTransforms;
@@ -36,38 +33,11 @@ public class Canal : MonoBehaviour
         this.room = GetComponentInParent<Room>();
         this.edgeCollider.SetActive(false);
 
-        this.canalCollider.enabled = !this.flooded;
         this.waterCollider.SetActive(this.flooded);
 
         this.rend = GetComponent<Renderer>();
 
         this.initialCanalEntrances = new List<CanalEntrances>(this.canalEntrances);
-    }
-
-    private void copyMap(Tilemap source, Tilemap destination) {
-        destination.ClearAllTiles();
-
-        // Get the bounds of all tiles in source
-        BoundsInt bounds = source.cellBounds;
-
-        // Loop through each position in the source bounds
-        for (int x = bounds.xMin; x < bounds.xMax; x++)
-        {
-            for (int y = bounds.yMin; y < bounds.yMax; y++)
-            {
-                Vector3Int pos = new Vector3Int(x, y, 0);
-                TileBase tile = source.GetTile(pos);
-
-                if (tile != null)
-                {
-                    destination.SetTile(pos, tile);
-
-                    // Optional: copy tile flags and color too
-                    destination.SetTileFlags(pos, source.GetTileFlags(pos));
-                    destination.SetColor(pos, source.GetColor(pos));
-                }
-            }
-        }
     }
     
     public void onFlood(CanalEntrances? floodingFrom) {
@@ -80,7 +50,6 @@ public class Canal : MonoBehaviour
         if(!this.flooded) {
             this.flooded = true;
 
-            this.canalCollider.enabled = false;
             this.waterCollider.SetActive(true);
         }
 
@@ -115,7 +84,6 @@ public class Canal : MonoBehaviour
         this.reachedThisDrain = true;
 
         if(this.flooded) {
-            this.canalCollider.enabled = true;
             this.waterCollider.SetActive(false);
             this.flooded = false;
         }
@@ -141,6 +109,10 @@ public class Canal : MonoBehaviour
         return !this.reachedThisDrain && this.canalEntrances.Contains(drainingFrom);
     }
     void OnTriggerStay2D(Collider2D other) {
+        if(flooded) {
+            return;
+        }
+
         if(other.gameObject.GetComponent<Player>() != null) {
             bool allInside = true;
             foreach(PlayerEdgeCollider e in other.gameObject.GetComponent<Player>().getEdgeColliders()) {
@@ -159,6 +131,9 @@ public class Canal : MonoBehaviour
     }
 
     void OnTriggerExit2D(Collider2D other) {
+        if(flooded) {
+            return;
+        }
 
         if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
             other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(false);
@@ -170,6 +145,10 @@ public class Canal : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other) {
+        if(flooded) {
+            return;
+        }
+
         if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
             other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true);
         }
@@ -201,14 +180,12 @@ public class Canal : MonoBehaviour
     //this is scuffed but kinda needed for R4 to not make the room even worse
     public void hideCanal() {
         this.rend.enabled = false;
-        this.canalCollider.enabled = false;
         this.waterCollider.SetActive(false);
     }
 
     public void returnCanal() {
         this.rend.enabled = true;
-
-        this.canalCollider.enabled = !this.flooded;
+        
         this.waterCollider.SetActive(this.flooded);
     }
 
