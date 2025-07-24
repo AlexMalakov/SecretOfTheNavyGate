@@ -55,22 +55,22 @@ public class Grate : MonoBehaviour
 
 
     void OnTriggerEnter2D(Collider2D other) {
-        if(other.gameObject.GetComponent<Player>() != null && !playerInCanal) {
-            this.setCollision(other.GetComponent<Player>(), true);
+        if(other.gameObject.GetComponent<CanalFinderManager>() != null && !playerInCanal) {
+            this.setCollision(other.GetComponent<CanalFinderManager>(), true);
         }
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        if(other.gameObject.GetComponent<Player>() != null && !playerInCanal) {
-            this.setCollision(other.GetComponent<Player>(), false);
+        if(other.gameObject.GetComponent<CanalFinderManager>() != null && !playerInCanal) {
+            this.setCollision(other.GetComponent<CanalFinderManager>(), false);
         }
     }
 
-    private void setCollision(Player p, bool status) {
-        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
-        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
+    private void setCollision(CanalFinderManager c, bool status) {
+        Physics2D.IgnoreCollision(c.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
+        Physics2D.IgnoreCollision(c.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
         
-        foreach(PlayerEdgeCollider e in p.getEdgeColliders()) {
+        foreach(PlayerEdgeCollider e in c.GetComponentInParent<Player>().getEdgeColliders()) {
             Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
             Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
         }
