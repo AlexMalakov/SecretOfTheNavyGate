@@ -6,9 +6,7 @@ public class PlayerCanalFinders : MonoBehaviour
 {
     //ok so this object exists literally as a game object data container :'(
 
-
     private Canal colidingWith;
-
 
     public void OnTriggerEnter2D(Collider2D other) {
 

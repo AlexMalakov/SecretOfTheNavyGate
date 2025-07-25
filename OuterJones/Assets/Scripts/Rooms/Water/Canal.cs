@@ -23,6 +23,8 @@ public class Canal : MonoBehaviour
 
     [SerializeField] private bool flooded = false;
 
+    private bool playerInCanal = false;
+
     private bool reachedThisFlood = false;
     private bool reachedThisDrain = false;
 
@@ -118,7 +120,11 @@ public class Canal : MonoBehaviour
             return;
         }
 
-        if(other.gameObject.GetComponent<Player>() != null) {
+        if(other.gameObject.GetComponent<CanalFinderManager>() != null && !other.gameObject.GetComponent<CanalFinderManager>().isInCanal()) {
+            StartCoroutine(checkPlayerGrateStatus(other.gameObject.GetComponent<CanalFinderManager>()));
+        }
+
+        if(other.gameObject.GetComponent<Player>() != null && !this.playerInCanal) {
 
             bool playerOnGrate = false;
             foreach(Grate g in this.grates) {
@@ -128,7 +134,7 @@ public class Canal : MonoBehaviour
             if(playerOnGrate) {
                 return;
             }
-            
+
             bool allInside = true;
             foreach(PlayerEdgeCollider e in other.gameObject.GetComponent<Player>().getEdgeColliders()) {
                 allInside = allInside && e.isCollidingWithCanal();
@@ -196,6 +202,7 @@ public class Canal : MonoBehaviour
     }
 
     private void onPlayerInCanal() {
+        this.playerInCanal = true;
         this.edgeCollider.SetActive(true);
 
         foreach(Grate g in this.grates) {
@@ -205,6 +212,7 @@ public class Canal : MonoBehaviour
 
     private void onPlayerOutCanal() {
         this.edgeCollider.SetActive(false);
+        this.playerInCanal = false;
 
         foreach(Grate g in this.grates) {
             g.onPlayerOutCanal();

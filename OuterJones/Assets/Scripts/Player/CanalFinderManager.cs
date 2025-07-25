@@ -6,12 +6,19 @@ public class CanalFinderManager : MonoBehaviour
 {
     [SerializeField] private PlayerController controller;
     private List<PlayerCanalFinders> canalFinders = new List<PlayerCanalFinders>();
+    private bool inCanal = false;
 
     // Start is called before the first frame update
     void Start()
     {
         foreach(PlayerCanalFinders cf in this.GetComponentsInChildren<PlayerCanalFinders>()) {
             canalFinders.Add(cf);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other) {
+        if(other.GetComponent<Canal>() != null) {
+            this.inCanal = false;
         }
     }
 
@@ -46,7 +53,11 @@ public class CanalFinderManager : MonoBehaviour
     }
 
     public IEnumerator shoveIntoCanal(Transform destination) {
+        if(this.inCanal) {
+            yield break;
+        }
         Debug.Log("MOVING!");
+        this.inCanal = true;
         this.controller.isMovementEnabled(false);
 
         Vector3 initial = this.controller.transform.position;
@@ -62,5 +73,9 @@ public class CanalFinderManager : MonoBehaviour
         }
 
         this.controller.isMovementEnabled(true);
+    }
+
+    public bool isInCanal() {
+        return this.inCanal;
     }
 }
