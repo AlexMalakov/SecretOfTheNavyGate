@@ -7,34 +7,17 @@ public class Grate : MonoBehaviour
     [SerializeField] private string enviromentLayer = "Enviroment";
     [SerializeField] private string foregroundLayer = "FrontForeground";
 
-    [SerializeField] private Collider2D outOfCanalCollider;
+    [SerializeField] private CompositeCollider2D outOfCanalCollider;
 
     [SerializeField] private Renderer rend;
     
     private bool playerInCanal = false;
     private Canal canal;
 
-
-    private void Awake() {
-        List<Collider2D> overlapping = new List<Collider2D>();
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.useTriggers = true;
-        Physics2D.OverlapCollider(GetComponent<CompositeCollider2D>(), filter, overlapping);
-
-        foreach (Collider2D c in overlapping) {
-            if(c.gameObject.GetComponent<Canal>() != null) {
-                this.canal = c.gameObject.GetComponent<Canal>();
-            }
-        }
-
-        if(this.canal == null) {
-            Debug.Log("COULD NOT FIND CANAL!");
-        } else {
-            Debug.Log("COULD FIND CANAL!");
-        }
-
+    public void init(Canal c) {
         this.rend.sortingLayerName = this.enviromentLayer;
         this.outOfCanalCollider.enabled = true;
+        this.canal = c;
     }
 
 

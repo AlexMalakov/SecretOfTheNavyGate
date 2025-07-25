@@ -38,6 +38,10 @@ public class Canal : MonoBehaviour
         this.rend = GetComponent<Renderer>();
 
         this.initialCanalEntrances = new List<CanalEntrances>(this.canalEntrances);
+
+        foreach(Grate g in this.grates) {
+            g.init(this);
+        }
     }
     
     public void onFlood(CanalEntrances? floodingFrom) {
