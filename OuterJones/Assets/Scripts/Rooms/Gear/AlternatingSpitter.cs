@@ -2,41 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AlternatingSpitter : RotationPuzzleElement
+public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
 {
-    [SerializeField] protected GameObject defaultcwSprite;
-    [SerializeField] protected GameObject defaultccwSprite;
-    [SerializeField] protected GameObject cwSprite;
-    [SerializeField] protected GameObject ccwSprite;
+    [SerializeField] private GameObject defaultcwSprite;
+    [SerializeField] private GameObject defaultccwSprite;
+    [SerializeField] private GameObject cwSprite;
+    [SerializeField] private GameObject ccwSprite;
 
-    [SerializeField] protected float blinkDelay = 1f;
+    [SerializeField] private float blinkDelay = 1f;
 
-    [SerializeField] protected bool clockwise = true;
+    [SerializeField] private bool clockwise = true;
+    private bool startDirection;
 
-    private void PlayerInput;
+    private PlayerInput input;
+    private PlayerController controller;
 
     protected void Awake() {
         this.input = FindObjectOfType<PlayerInput>();
-        // this.controller = FindObjectOfType<PlayerController>();
+        this.controller = FindObjectOfType<PlayerController>();
 
-        this.startDirection = this.clockwise; //???????
+        this.startDirection = this.clockwise;
     }
 
     private bool playerInRoom = false;
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if(other.GetComponent<PlayerController>() != null) {
-            this.activateAlternatingSpitter(other.GetComponent<PlayerController>());
+        if(!this.playerInCanal && other.GetComponent<PlayerController>() != null) {
+            this.input.requestSpaceInput(this, this.transform, "rotate spinner");
         }
     }
 
-    protected virtual void activateAlternatingSpitter(PlayerController controller) {
-        StartCoroutine(rotateSpitter(controller));
+    private void OnTriggerExit2D(Collider2D other) {
+        if(other.GetComponent<PlayerController>() != null) {
+            this.input.cancelSpaceInputRequest(this);
+        }
     }
 
-    protected IEnumerator rotateSpitter(PlayerController controller) {
-        controller.isMovementEnabled(false);
-        controller.transform.parent = this.transform;
+    public override void onPlayerInCanal() {
+        base.onPlayerOutCanal();
+        this.input.cancelSpaceInputRequest(this);
+    }
+
+    public void onSpacePress() {
+        StartCoroutine(rotateSpitter());
+    }
+
+    protected IEnumerator rotateSpitter() {
+        this.controller.isMovementEnabled(false);
+        this.controller.transform.parent = this.transform;
 
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, clockwise? 90 : -90);
@@ -51,8 +64,8 @@ public class AlternatingSpitter : RotationPuzzleElement
 
         clockwise = !clockwise;
 
-        controller.transform.parent = null;
-        controller.isMovementEnabled(true);
+        this.controller.transform.parent = null;
+        this.controller.isMovementEnabled(true);
     }
 
 

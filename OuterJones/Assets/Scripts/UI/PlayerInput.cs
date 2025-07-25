@@ -21,7 +21,6 @@ public class PlayerInput : MonoBehaviour
             this.lastSubscriber = null;
             this.manager.endSpacePopUp();
         }
-
     }
 
     public void Update() {
