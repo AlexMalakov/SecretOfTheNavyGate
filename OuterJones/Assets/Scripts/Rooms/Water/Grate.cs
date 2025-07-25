@@ -39,7 +39,6 @@ public class Grate : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.GetComponent<CanalFinderManager>() != null && !playerInCanal) {
-            Debug.Log("BLOCKED COLLSIONS AT" + Time.time);
             this.setCollision(other.GetComponent<CanalFinderManager>(), true);
         }
     }

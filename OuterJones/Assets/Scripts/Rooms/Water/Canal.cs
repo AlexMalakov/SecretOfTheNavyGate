@@ -143,6 +143,10 @@ public class Canal : MonoBehaviour
             other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(false);
         }
 
+        // if(other.gameObject.GetComponent<CanalFinderManager>() != null) {
+        //     other.gameObject.GetComponent<CanalFinderManager>().fallInCanal();
+        // }
+
         if(other.gameObject.GetComponent<Player>() != null) {
             this.onPlayerOutCanal();
         }
@@ -151,6 +155,10 @@ public class Canal : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other) {
         if(flooded) {
             return;
+        }
+
+        if(other.gameObject.GetComponent<CanalFinderManager>() != null) {
+            other.gameObject.GetComponent<CanalFinderManager>().fallInCanal(this);
         }
 
         if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {

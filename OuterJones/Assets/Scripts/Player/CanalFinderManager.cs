@@ -7,8 +7,6 @@ public class CanalFinderManager : MonoBehaviour
     [SerializeField] private PlayerController controller;
     private List<PlayerCanalFinders> canalFinders = new List<PlayerCanalFinders>();
 
-    private bool fallen = false;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -17,33 +15,18 @@ public class CanalFinderManager : MonoBehaviour
         }
     }
 
-    public void OnTriggerExit2D(Collider2D other) {
-        if(other.GetComponent<Canal>() != null) {
-            fallen = false;
-        }
-
-    }
-
-    public void OnTriggerEnter2D(Collider2D other) {
-        if(other.GetComponent<Canal>() == null || other.GetComponent<Canal>().isFlooded() || fallen) {
-            return;
-        }
-
-        fallen = true;
+    public void fallInCanal(Canal c) {
 
         List<PlayerCanalFinders> options = new List<PlayerCanalFinders>();
-        if(other.GetComponent<Canal>() != null) {
-            Canal c = other.GetComponent<Canal>();
 
-            foreach(PlayerCanalFinders cf in this.canalFinders) {
-                if(cf.collidingWithCanal(other.GetComponent<Canal>())) {
-                    options.Add(cf);
-                }
+        foreach(PlayerCanalFinders cf in this.canalFinders) {
+            if(cf.collidingWithCanal(c)) {
+                options.Add(cf);
             }
         }
 
         if(options.Count == 0) {
-            StartCoroutine(shoveIntoCanal(other.GetComponent<Canal>().getClosestBackup(this.transform)));
+            StartCoroutine(shoveIntoCanal(c.getClosestBackup(this.transform)));
             return;
         }
 
@@ -64,7 +47,7 @@ public class CanalFinderManager : MonoBehaviour
     }
 
     private IEnumerator shoveIntoCanal(Transform destination) {
-        Debug.Log("MOVING! AT " + Time.time);
+        Debug.Log("MOVING!");
         this.controller.isMovementEnabled(false);
 
         Vector3 initial = this.controller.transform.position;
