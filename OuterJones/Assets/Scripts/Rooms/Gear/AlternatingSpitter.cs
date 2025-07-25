@@ -48,6 +48,11 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
         this.input.cancelSpaceInputRequest(this);
     }
 
+    public override void resetElement() {
+        base.resetElement();
+        this.clockwise = startDirection;
+    }
+
     public void onSpacePress() {
         StartCoroutine(rotateSpitter());
     }
@@ -61,7 +66,7 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
         this.controller.transform.parent = this.transform;
 
         Quaternion startRotation = transform.rotation;
-        Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, clockwise? 90 : -90);
+        Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, clockwise? -90 : 90);
 
         float elapsed = 0f;
         while(elapsed < ROTATION_DURATION) {
