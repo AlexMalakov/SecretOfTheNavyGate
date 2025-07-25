@@ -16,7 +16,7 @@ public class RotationPuzzleManager : MonoBehaviour, Effectable
 
     void Awake() {
         puzzleElements = new List<RotationPuzzleElement>();
-        
+
         foreach(GameObject obj in this.puzzleElementObjects) {
             this.puzzleElements.Add(obj.GetComponent<RotationPuzzleElement>());
         }
@@ -36,14 +36,16 @@ public class RotationPuzzleManager : MonoBehaviour, Effectable
         }
 
         buttonInOrder = 0;
+        this.rButtons[0].readyToPress();
     }
 
     public void onButtonPress(RotationPuzzleButton button) {
         if(button.getButtonNum() == buttonInOrder) {
             button.isPressed();
             buttonInOrder++;
+            this.rButtons[buttonInOrder].readyToPress();
 
-            if(buttonInOrder > rButtons.Count) {
+            if(buttonInOrder >= rButtons.Count) {
                 puzzleFinish.opencloseDoor(true);
             }
         }

@@ -13,6 +13,8 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
     private PlayerInput input;
     private PlayerController controller;
 
+    private float ROTATION_DURATION = .5f;
+
     void Awake() {
         this.input = FindObjectOfType<PlayerInput>();
         this.controller = FindObjectOfType<PlayerController>();
@@ -58,15 +60,18 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
         Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, -rotationAmount);
 
         float elapsed = 0f;
-        while(elapsed < .5f) {
+        while(elapsed < ROTATION_DURATION) {
             
-            transform.rotation = Quaternion.Slerp(startRotation, endRotation, elapsed / .5f);
+            transform.rotation = Quaternion.Slerp(startRotation, endRotation, elapsed / ROTATION_DURATION);
             elapsed += Time.deltaTime;
             yield return null;
         }
         
         this.controller.transform.parent = null;
         this.controller.isMovementEnabled(true);
+
+        //to chain once it's done
+        this.input.requestSpaceInput(this, this.transform, "rotate gear");
     }
 
     private GearTooth getClosest() {

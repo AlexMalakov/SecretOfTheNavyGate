@@ -11,6 +11,8 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
 
     [SerializeField] private float blinkDelay = 1f;
 
+    private float ROTATION_DURATION = .5f;
+
     [SerializeField] private bool clockwise = true;
     private bool startDirection;
 
@@ -62,9 +64,9 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
         Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, clockwise? 90 : -90);
 
         float elapsed = 0f;
-        while(elapsed < .5f) {
+        while(elapsed < ROTATION_DURATION) {
             
-            transform.rotation = Quaternion.Slerp(startRotation, endRotation, elapsed / .5f);
+            transform.rotation = Quaternion.Slerp(startRotation, endRotation, elapsed / ROTATION_DURATION);
             elapsed += Time.deltaTime;
             yield return null;
         }
@@ -73,8 +75,10 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
 
         this.controller.transform.parent = null;
         this.controller.isMovementEnabled(true);
-    }
 
+        //to chain once it's done
+        this.input.requestSpaceInput(this, this.transform, "rotate spinner");
+    }
 
 
     public void onPlayerEnter() {
