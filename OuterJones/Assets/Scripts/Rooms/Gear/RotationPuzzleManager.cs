@@ -2,13 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface RotationPuzzleElement {
-    void resetElement();
-
-    void init(Canal c);
-    void onPlayerInCanal();
-    void onPlayerOutCanal(); 
-} 
 
 public class RotationPuzzleManager : MonoBehaviour, Effectable
 {
@@ -21,7 +14,7 @@ public class RotationPuzzleManager : MonoBehaviour, Effectable
 
     private List<RotationPuzzleElement> puzzleElements;
 
-    public void Awake() {
+    void Awake() {
         foreach(GameObject obj in this.puzzleElementObjects) {
             this.puzzleElements.Add(obj.GetComponent<RotationPuzzleElement>());
         }

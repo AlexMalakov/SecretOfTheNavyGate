@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AlternatingSpitter : MonoBehaviour
+public class AlternatingSpitter : RotationPuzzleElement
 {
     [SerializeField] protected GameObject defaultcwSprite;
     [SerializeField] protected GameObject defaultccwSprite;

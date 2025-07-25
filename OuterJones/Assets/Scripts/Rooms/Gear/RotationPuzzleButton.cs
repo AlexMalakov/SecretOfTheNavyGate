@@ -2,12 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotationPuzzleButton : MonoBehaviour, RotationPuzzleElement
+public class RotationPuzzleButton : RotationPuzzleElement
 {
     [SerializeField] private GameObject effObj;
 
-    public void init(RotationPuzzleManager manager) {
+    private RotationPuzzleManager manager;
+    private int pressNum;
 
+
+
+
+    public void initButton(RotationPuzzleManager manager, int pressNum) {
+        this.manager = manager;
+        this.pressNum = pressNum;
     }
 
     void OnTriggerEnter2D(Collider2D other) {
