@@ -4,6 +4,10 @@ using UnityEngine;
 
 public interface RotationPuzzleElement {
     void resetElement();
+
+    void init(Canal c);
+    void onPlayerInCanal();
+    void onPlayerOutCanal(); 
 } 
 
 public class RotationPuzzleManager : MonoBehaviour

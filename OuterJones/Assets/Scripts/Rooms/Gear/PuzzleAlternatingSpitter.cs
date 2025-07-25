@@ -5,6 +5,13 @@ using UnityEngine;
 public class PuzzleAlternatingSpitter : AlternatingSpitter, RotationPuzzleElement, InputSubscriber
 {
 
+    [SerializeField] private string enviromentLayer = "Enviroment";
+    [SerializeField] private string foregroundLayer = "FrontForeground";
+
+    [SerializeField] private GameObject cheeseBlockers;
+    private Canal canal;
+    private bool playerInCanal = false;
+
     private PlayerInput input;
     private Quaternion initialRot;
 
@@ -21,8 +28,16 @@ public class PuzzleAlternatingSpitter : AlternatingSpitter, RotationPuzzleElemen
         this.startDirection = this.clockwise;
     }
 
+    public void init(Canal c) {
+        this.setSortingLayer(this.enviromentLayer);
+        this.canal = c;
+        this.playerInCanal = false;
+    }
+
+
     protected override void activateAlternatingSpitter(PlayerController controller) {
-        this.input.requestSpaceInput(this, this.transform, "rotate spinner");
+        if(!this.playerInCanal)
+            this.input.requestSpaceInput(this, this.transform, "rotate spinner");
     }
 
     private void OnTriggerExit2D(Collider2D other) {
@@ -35,7 +50,30 @@ public class PuzzleAlternatingSpitter : AlternatingSpitter, RotationPuzzleElemen
         this.clockwise = this.startDirection;
     }
 
+    public void onPlayerInCanal() {
+        this.cheeseBlockers.SetActive(false);
+        this.playerInCanal = false;
+        this.setSortingLayer(this.foregroundLayer);
+        this.input.cancelSpaceInputRequest(this);
+        
+    }
+
+    public void onPlayerOutCanal() {
+        this.cheeseBlockers.SetActive(true);
+        this.playerInCanal = true;
+        this.setSortingLayer(this.enviromentLayer);
+    }
+
     public void onSpacePress() {
-        StartCoroutine(rotateSpitter(this.controller));
+        if(!playerInCanal)
+            StartCoroutine(rotateSpitter(this.controller));
+    }
+
+    private void setSortingLayer(string layer) {
+        this.GetComponent<Renderer>().sortingLayerName = layer;
+
+        foreach(Renderer r in this.GetComponentsInChildren<Renderer>()) {
+            r.sortingLayerName = layer;
+        }
     }
 }

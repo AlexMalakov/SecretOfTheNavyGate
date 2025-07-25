@@ -13,6 +13,7 @@ public class Canal : MonoBehaviour
 
     [SerializeField] List<Floodable> floodableObjects;
     [SerializeField] List<Grate> grates;
+    [SerializeField] List<RotationPuzzleElement> rotationPuzzlePieces;
     private Room room;
 
     [SerializeField] private Tilemap canalTilemap; // Assign in inspector
