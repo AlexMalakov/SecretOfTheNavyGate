@@ -119,6 +119,16 @@ public class Canal : MonoBehaviour
         }
 
         if(other.gameObject.GetComponent<Player>() != null) {
+
+            bool playerOnGrate = false;
+            foreach(Grate g in this.grates) {
+                playerOnGrate = playerOnGrate || g.isPlayerOnGrate();
+            }
+
+            if(playerOnGrate) {
+                return;
+            }
+            
             bool allInside = true;
             foreach(PlayerEdgeCollider e in other.gameObject.GetComponent<Player>().getEdgeColliders()) {
                 allInside = allInside && e.isCollidingWithCanal();
@@ -159,16 +169,7 @@ public class Canal : MonoBehaviour
         }
 
         if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
-
-            bool onGrate = false;
-            foreach(Grate g in this.grates) {
-                onGrate = onGrate || g.isPlayerOnGrate();
-            }
- 
-            if(!onGrate) {
-                Debug.Log("EDGE COLLIDER ON GRATE!");
-                other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true);
-            }
+            other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true);
         }
     }
 
