@@ -15,6 +15,8 @@ public class RotationPuzzleManager : MonoBehaviour, Effectable
     private List<RotationPuzzleElement> puzzleElements;
 
     void Awake() {
+        puzzleElements = new List<RotationPuzzleElement>();
+        
         foreach(GameObject obj in this.puzzleElementObjects) {
             this.puzzleElements.Add(obj.GetComponent<RotationPuzzleElement>());
         }

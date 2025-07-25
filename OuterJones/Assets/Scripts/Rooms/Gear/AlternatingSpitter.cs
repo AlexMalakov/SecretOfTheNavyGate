@@ -27,7 +27,10 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
     private bool playerInRoom = false;
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if(!this.playerInCanal && other.GetComponent<PlayerController>() != null) {
+        if(this.playerInCanal) {
+            return;
+        }
+        if(other.GetComponent<PlayerController>() != null) {
             this.input.requestSpaceInput(this, this.transform, "rotate spinner");
         }
     }
@@ -39,7 +42,7 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
     }
 
     public override void onPlayerInCanal() {
-        base.onPlayerOutCanal();
+        base.onPlayerInCanal();
         this.input.cancelSpaceInputRequest(this);
     }
 
@@ -48,6 +51,10 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
     }
 
     protected IEnumerator rotateSpitter() {
+        if(this.playerInCanal) {
+            yield break;
+        }
+
         this.controller.isMovementEnabled(false);
         this.controller.transform.parent = this.transform;
 

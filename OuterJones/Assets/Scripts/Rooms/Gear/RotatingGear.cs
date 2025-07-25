@@ -23,6 +23,10 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
     }
 
     public void playerOnTooth(GearTooth t, PlayerController controller) {
+        if(this.playerInCanal) {
+            return;
+        }
+
         if(!oneWay || t.getID() != getClosest().getID()) {
             this.input.requestSpaceInput(this, this.transform, "rotate gear");
         }
@@ -42,6 +46,9 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
     }
 
     private IEnumerator rotateGear() {
+        if(this.playerInCanal) {
+            yield break;
+        }
 
         this.controller.transform.parent = this.transform;
         this.controller.isMovementEnabled(false);

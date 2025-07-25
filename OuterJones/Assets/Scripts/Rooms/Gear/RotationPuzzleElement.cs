@@ -30,10 +30,9 @@ public abstract class RotationPuzzleElement : MonoBehaviour
         this.playerInCanal = true;
         this.colliderObj.SetActive(false);
         this.setSortingLayer(this.foregroundLayer);
-        // this.input.cancelSpaceInputRequest(this);
     }
 
-    public virtual void onPlayerOutCanal() {
+    public void onPlayerOutCanal() {
         this.playerInCanal = false;
         this.colliderObj.SetActive(true);
         this.setSortingLayer(this.enviromentLayer);
