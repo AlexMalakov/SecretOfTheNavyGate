@@ -13,6 +13,15 @@ public class AlternatingSpitter : RotationPuzzleElement
 
     [SerializeField] protected bool clockwise = true;
 
+    private void PlayerInput;
+
+    protected void Awake() {
+        this.input = FindObjectOfType<PlayerInput>();
+        // this.controller = FindObjectOfType<PlayerController>();
+
+        this.startDirection = this.clockwise; //???????
+    }
+
     private bool playerInRoom = false;
 
     private void OnTriggerEnter2D(Collider2D other) {

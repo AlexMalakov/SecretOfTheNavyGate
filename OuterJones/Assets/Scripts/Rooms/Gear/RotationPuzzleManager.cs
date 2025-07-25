@@ -19,8 +19,12 @@ public class RotationPuzzleManager : MonoBehaviour, Effectable
             this.puzzleElements.Add(obj.GetComponent<RotationPuzzleElement>());
         }
 
+        foreach(RotationPuzzleElement r in this.puzzleElements) {
+            r.init();
+        }
+
         for(int i = 0; i < rButtons.Count; i++) {
-            rButtons[i].init(this, i);
+            rButtons[i].initButton(this, i);
         }
     }
 
@@ -40,12 +44,6 @@ public class RotationPuzzleManager : MonoBehaviour, Effectable
             if(buttonInOrder > rButtons.Count) {
                 puzzleFinish.opencloseDoor(true);
             }
-        }
-    }
-
-    public void initElements(Canal c) {
-        foreach(RotationPuzzleElement r in this.puzzleElements) {
-            r.init(c);
         }
     }
 

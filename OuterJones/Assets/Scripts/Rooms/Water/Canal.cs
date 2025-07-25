@@ -45,10 +45,6 @@ public class Canal : MonoBehaviour
         foreach(Grate g in this.grates) {
             g.init(this);
         }
-
-        if(this.rPuzzleManager != null) {
-            rPuzzleManager.initElements(this);
-        }
     }
     
     public void onFlood(CanalEntrances? floodingFrom) {

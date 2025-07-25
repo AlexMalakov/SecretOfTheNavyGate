@@ -14,11 +14,11 @@ public abstract class RotationPuzzleElement : MonoBehaviour
     private Quaternion initialRot;
     
     void Awake() {
-        this.initialRot = this.transform.rotation;
+        this.initialRot = this.transform.localRotation;
     }
 
-    public void resetElement() {
-        this.transform.rotation = this.initialRot;
+    public virtual void resetElement() {
+        this.transform.localRotation = this.initialRot;
     }
 
     public void init() {
@@ -26,14 +26,14 @@ public abstract class RotationPuzzleElement : MonoBehaviour
         this.playerInCanal = false;
     }
 
-    public void onPlayerInCanal() {
+    public virtual void onPlayerInCanal() {
         this.playerInCanal = true;
         this.colliderObj.SetActive(false);
         this.setSortingLayer(this.foregroundLayer);
-        this.input.cancelSpaceInputRequest(this);
+        // this.input.cancelSpaceInputRequest(this);
     }
 
-    public void onPlayerOutCanal() {
+    public virtual void onPlayerOutCanal() {
         this.playerInCanal = false;
         this.colliderObj.SetActive(true);
         this.setSortingLayer(this.enviromentLayer);
