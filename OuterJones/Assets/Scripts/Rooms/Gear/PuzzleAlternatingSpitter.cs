@@ -52,7 +52,7 @@ public class PuzzleAlternatingSpitter : AlternatingSpitter, RotationPuzzleElemen
 
     public void onPlayerInCanal() {
         this.cheeseBlockers.SetActive(false);
-        this.playerInCanal = false;
+        this.playerInCanal = true;
         this.setSortingLayer(this.foregroundLayer);
         this.input.cancelSpaceInputRequest(this);
         
@@ -60,7 +60,7 @@ public class PuzzleAlternatingSpitter : AlternatingSpitter, RotationPuzzleElemen
 
     public void onPlayerOutCanal() {
         this.cheeseBlockers.SetActive(true);
-        this.playerInCanal = true;
+        this.playerInCanal = false;
         this.setSortingLayer(this.enviromentLayer);
     }
 
@@ -70,7 +70,6 @@ public class PuzzleAlternatingSpitter : AlternatingSpitter, RotationPuzzleElemen
     }
 
     private void setSortingLayer(string layer) {
-        this.GetComponent<Renderer>().sortingLayerName = layer;
 
         foreach(Renderer r in this.GetComponentsInChildren<Renderer>()) {
             r.sortingLayerName = layer;

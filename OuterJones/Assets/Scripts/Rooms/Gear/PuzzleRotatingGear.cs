@@ -60,7 +60,7 @@ public class PuzzleRotatingGear : RotatingGear, RotationPuzzleElement, InputSubs
     }
 
     public void onPlayerInCanal() {
-        this.playerInCanal = false;
+        this.playerInCanal = true;
         this.cheeseBlockers.SetActive(false);
         this.setSortingLayer(this.foregroundLayer);
         this.input.cancelSpaceInputRequest(this);
@@ -68,13 +68,12 @@ public class PuzzleRotatingGear : RotatingGear, RotationPuzzleElement, InputSubs
     }
 
     public void onPlayerOutCanal() {
-        this.playerInCanal = true;
+        this.playerInCanal = false;
         this.cheeseBlockers.SetActive(true);
         this.setSortingLayer(this.enviromentLayer);
     }
 
     private void setSortingLayer(string layer) {
-        this.GetComponent<Renderer>().sortingLayerName = layer;
 
         foreach(Renderer r in this.GetComponentsInChildren<Renderer>()) {
             r.sortingLayerName = layer;
