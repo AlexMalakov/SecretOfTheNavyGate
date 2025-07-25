@@ -177,8 +177,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3258649134759043779}
-  - component: {fileID: 3594594052634120291}
   - component: {fileID: 1711829479217311638}
+  - component: {fileID: 1612557850706979561}
   m_Layer: 0
   m_Name: altSpitter
   m_TagString: Untagged
@@ -207,28 +207,6 @@ Transform:
   - {fileID: 7452630660055788277}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
---- !u!114 &3594594052634120291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1196753276604613179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c356ebc23df3e4e24895946c3e0a0b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultcwSprite: {fileID: 6740802124028337675}
-  defaultccwSprite: {fileID: 8661615276441626171}
-  cwSprite: {fileID: 2181890773205238331}
-  ccwSprite: {fileID: 7121740460636796456}
-  blinkDelay: 1
-  clockwise: 1
-  enviromentLayer: Enviroment
-  foregroundLayer: FrontForeground
-  cheeseBlockers: {fileID: 2416589013773384067}
-  rend: {fileID: 0}
 --- !u!61 &1711829479217311638
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -274,6 +252,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &1612557850706979561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196753276604613179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 384d3ec2bb59c4000b28fc1033bdb01f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enviromentLayer: Enviroment
+  foregroundLayer: FrontForeground
+  colliderObj: {fileID: 2416589013773384067}
+  defaultcwSprite: {fileID: 6740802124028337675}
+  defaultccwSprite: {fileID: 8661615276441626171}
+  cwSprite: {fileID: 2181890773205238331}
+  ccwSprite: {fileID: 7121740460636796456}
+  blinkDelay: 1
+  clockwise: 1
 --- !u!1 &1412457845685014660
 GameObject:
   m_ObjectHideFlags: 0

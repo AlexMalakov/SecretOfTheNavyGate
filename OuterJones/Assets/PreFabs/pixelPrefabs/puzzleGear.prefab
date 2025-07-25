@@ -727,7 +727,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2964761524369120700}
-  - component: {fileID: 2374984440794191301}
+  - component: {fileID: 7701703102243768265}
   m_Layer: 0
   m_Name: puzzleGear
   m_TagString: Untagged
@@ -756,7 +756,7 @@ Transform:
   - {fileID: 2837977106101688648}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2374984440794191301
+--- !u!114 &7701703102243768265
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -765,9 +765,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5499589551626186210}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b80313a8bb54f4da9b6137c06337b77f, type: 3}
+  m_Script: {fileID: 11500000, guid: c008f7778203c49b3b3b70d052bb821b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enviromentLayer: Enviroment
+  foregroundLayer: FrontForeground
+  colliderObj: {fileID: 7419085781514523621}
   teeth:
   - {fileID: 3296366517306008918}
   - {fileID: 2348787666842019780}
@@ -775,10 +778,6 @@ MonoBehaviour:
   - {fileID: 119453850610345934}
   rotationAmount: 90
   dropOffPoint: {fileID: 0}
-  enviromentLayer: Enviroment
-  foregroundLayer: FrontForeground
-  cheeseBlockers: {fileID: 7419085781514523621}
-  rend: {fileID: 0}
   oneWay: 0
 --- !u!1 &5636111970925231050
 GameObject:
