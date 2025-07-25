@@ -13,7 +13,7 @@ public class Canal : MonoBehaviour
 
     [SerializeField] List<Floodable> floodableObjects;
     [SerializeField] List<Grate> grates;
-    [SerializeField] List<GameObject> rotationPuzzleObjects;
+    [SerializeField] RotationPuzzleManager rPuzzleManager;
     private Room room;
 
     [SerializeField] private Tilemap canalTilemap; // Assign in inspector
@@ -46,8 +46,8 @@ public class Canal : MonoBehaviour
             g.init(this);
         }
 
-        foreach(GameObject obj in this.rotationPuzzleObjects) {
-            obj.GetComponent<RotationPuzzleElement>().init(this);
+        if(this.rPuzzleManager != null) {
+            rPuzzleManager.initElements(this);
         }
     }
     
@@ -214,9 +214,10 @@ public class Canal : MonoBehaviour
             g.onPlayerInCanal();
         }
 
-        foreach(GameObject obj in this.rotationPuzzleObjects) {
-            obj.GetComponent<RotationPuzzleElement>().onPlayerInCanal();
+        if(this.rPuzzleManager != null) {
+            rPuzzleManager.onPlayerInCanal();
         }
+
     }
 
     private void onPlayerOutCanal() {
@@ -227,8 +228,8 @@ public class Canal : MonoBehaviour
             g.onPlayerOutCanal();
         }
 
-        foreach(GameObject obj in this.rotationPuzzleObjects) {
-            obj.GetComponent<RotationPuzzleElement>().onPlayerOutCanal();
+        if(this.rPuzzleManager != null) {
+            rPuzzleManager.onPlayerOutCanal();
         }
     }
 
