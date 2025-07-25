@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Floaties : Item
 {
-    private Player player;
+    // private Player player;
 
 
     //TODO: player with floaties should be able to cross through
 
     //ignore collisions with canal Water
     public override void equip() {
-        //should ignore collisions with canals
+        //should ignore collisions with canals (so this wont work is the funny story... but ill dewal with this later)
         Physics.IgnoreLayerCollision(4, 7, true);
         // foreach()
 
@@ -23,7 +23,7 @@ public class Floaties : Item
 
 
     public override void onGain() {
-        this.player = FindObjectOfType<Player>();
+        // this.player = FindObjectOfType<Player>();
     }
 
     public override PossibleItems getItemType() {

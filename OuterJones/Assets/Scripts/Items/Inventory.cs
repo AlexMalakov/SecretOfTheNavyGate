@@ -28,9 +28,9 @@ public class Inventory : MonoBehaviour
             equipItemN(4);
         } else if(Input.GetKeyDown(KeyCode.Alpha6) && items.Count > 0) {
             equipItemN(5);
-        } else if(Input.GetAxis("Mouse ScrollWheel") > threshold && this.items.Count > 0) {
+        } else if(Input.GetAxis("Mouse ScrollWheel") > threshold && this.items.Count > 1) {
             this.equipItemN((this.equipedItem + 1 + items.Count) % items.Count);
-        } else if(Input.GetAxis("Mouse ScrollWheel") < - threshold && this.items.Count > 0) {
+        } else if(Input.GetAxis("Mouse ScrollWheel") < - threshold && this.items.Count > 1) {
             this.equipItemN((this.equipedItem - 1 + items.Count) % items.Count);
         }
     }
@@ -45,8 +45,8 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        this.hotbarImages[this.items.Count - 1].sprite = newItem.getItemIcon();
         this.items.Add(newItem);
+        this.hotbarImages[this.items.Count - 1].sprite = newItem.getItemIcon();
     }
 
     private void equipItemN(int n) {
