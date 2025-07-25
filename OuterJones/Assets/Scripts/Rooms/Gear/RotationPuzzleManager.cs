@@ -13,8 +13,11 @@ public interface RotationPuzzleElement {
 public class RotationPuzzleManager : MonoBehaviour, Effectable
 {
     [SerializeField] private List<GameObject> puzzleElementObjects;
+    [SerializeField] private List<RotationPuzzleButton> rButtons;
+    private int buttonInOrder = 0;
 
     [SerializeField] private PowerableDoor puzzleEntrance;
+    [SerializeField] private PowerableDoor puzzleFinish;
 
     private List<RotationPuzzleElement> puzzleElements;
 
@@ -22,11 +25,28 @@ public class RotationPuzzleManager : MonoBehaviour, Effectable
         foreach(GameObject obj in this.puzzleElementObjects) {
             this.puzzleElements.Add(obj.GetComponent<RotationPuzzleElement>());
         }
+
+        for(int i = 0; i < rButtons.Count; i++) {
+            rButtons[i].init(this, i);
+        }
     }
 
     public void resetPuzzle() {
         foreach(RotationPuzzleElement e in this.puzzleElements) {
             e.resetElement();
+        }
+
+        buttonInOrder = 0;
+    }
+
+    public void onButtonPress(RotationPuzzleButton button) {
+        if(button.getButtonNum() == buttonInOrder) {
+            button.isPressed();
+            buttonInOrder++;
+
+            if(buttonInOrder > rButtons.Count) {
+                puzzleFinish.opencloseDoor(true);
+            }
         }
     }
 
