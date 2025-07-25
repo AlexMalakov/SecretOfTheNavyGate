@@ -634,8 +634,6 @@ MonoBehaviour:
   floodableObjects: []
   grates: []
   canalTilemap: {fileID: 3260933045013561001}
-  canalCollider: {fileID: 797804674739604576}
-  colliderRefresh: {fileID: 1393645888367912376}
   waterCollider: {fileID: 4712564821584083401}
   edgeCollider: {fileID: 4234304543670549944}
   backupTransforms:
@@ -941,7 +939,7 @@ GameObject:
   - component: {fileID: 1443369625570494575}
   - component: {fileID: 8101987980193844323}
   - component: {fileID: 6629209512795118857}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: c1Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
