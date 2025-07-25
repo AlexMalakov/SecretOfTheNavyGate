@@ -43,11 +43,13 @@ public class RotationPuzzleManager : MonoBehaviour, Effectable
         if(button.getButtonNum() == buttonInOrder) {
             button.isPressed();
             buttonInOrder++;
-            this.rButtons[buttonInOrder].readyToPress();
 
             if(buttonInOrder >= rButtons.Count) {
                 puzzleFinish.opencloseDoor(true);
+                return;
             }
+
+            this.rButtons[buttonInOrder].readyToPress();
         }
     }
 

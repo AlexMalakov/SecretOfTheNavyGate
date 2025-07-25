@@ -71,7 +71,9 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
         this.controller.isMovementEnabled(true);
 
         //to chain once it's done
-        this.input.requestSpaceInput(this, this.transform, "rotate gear");
+        if(!oneWay) {
+            this.input.requestSpaceInput(this, this.transform, "rotate gear");
+        }
     }
 
     private GearTooth getClosest() {
