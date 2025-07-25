@@ -2,31 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotatingGear : MonoBehaviour
+public class RotatingGear : RotationPuzzleElement, InputSubscriber
 {
-    [SerializeField] protected List<GearTooth> teeth;
-    [SerializeField] protected float rotationAmount;
+    [SerializeField] private List<GearTooth> teeth;
+    [SerializeField] private float rotationAmount;
 
-    [SerializeField] protected Transform dropOffPoint;
+    [SerializeField] private Transform dropOffPoint;
+    [SerializeField] private bool oneWay;
 
-    protected virtual void Start() {
+    private PlayerInput input;
+    private PlayerController controller;
+
+    void Awake() {
+        this.input = FindObjectOfType<PlayerInput>();
+        this.controller = FindObjectOfType<PlayerController>();
+
         for(int i = 0; i < teeth.Count; i++) {
             this.teeth[i].init(this, i);
         }
     }
 
-    public virtual void playerOnTooth(GearTooth t, PlayerController controller) {
-        if(t.getID() != getClosest().getID()) {
-            StartCoroutine(this.rotateGear(controller));
+    public void playerOnTooth(GearTooth t, PlayerController controller) {
+        if(!oneWay || t.getID() != getClosest().getID()) {
+            this.input.requestSpaceInput(this, this.transform, "rotate gear");
         }
     }
 
-    public virtual void playerOffTooth() {}
+    public void playerOffTooth() {
+        this.input.cancelSpaceInputRequest(this);
+    }
 
-    protected IEnumerator rotateGear(PlayerController controller) {
+    public override void onPlayerInCanal() {
+        base.onPlayerInCanal();
+        this.input.cancelSpaceInputRequest(this);
+    }
 
-        controller.transform.parent = this.transform;
-        controller.isMovementEnabled(false);
+    public void onSpacePress() {
+        StartCoroutine(this.rotateGear());
+    }
+
+    private IEnumerator rotateGear() {
+
+        this.controller.transform.parent = this.transform;
+        this.controller.isMovementEnabled(false);
 
         Quaternion startRotation = transform.rotation;
         //TODO allow player to invert
@@ -40,12 +58,11 @@ public class RotatingGear : MonoBehaviour
             yield return null;
         }
         
-        controller.transform.parent = null;
-        controller.isMovementEnabled(true);
-
+        this.controller.transform.parent = null;
+        this.controller.isMovementEnabled(true);
     }
 
-    protected GearTooth getClosest() {
+    private GearTooth getClosest() {
         int closest = 0;
         float smallest = (this.teeth[0].transform.position - dropOffPoint.transform.position).magnitude;
 
