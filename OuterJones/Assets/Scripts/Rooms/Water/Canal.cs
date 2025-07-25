@@ -143,10 +143,6 @@ public class Canal : MonoBehaviour
             other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(false);
         }
 
-        // if(other.gameObject.GetComponent<CanalFinderManager>() != null) {
-        //     other.gameObject.GetComponent<CanalFinderManager>().fallInCanal();
-        // }
-
         if(other.gameObject.GetComponent<Player>() != null) {
             this.onPlayerOutCanal();
         }
@@ -158,11 +154,26 @@ public class Canal : MonoBehaviour
         }
 
         if(other.gameObject.GetComponent<CanalFinderManager>() != null) {
-            other.gameObject.GetComponent<CanalFinderManager>().fallInCanal(this);
+            StartCoroutine(checkPlayerGrateStatus(other.gameObject.GetComponent<CanalFinderManager>()));
         }
 
         if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
             other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true);
+        }
+    }
+
+    private IEnumerator checkPlayerGrateStatus(CanalFinderManager finder) {
+        Transform cTarget = finder.fallInCanal(this);
+
+        yield return new WaitForFixedUpdate();
+
+        bool playerOnGrate = false;
+        foreach(Grate g in this.grates) {
+            playerOnGrate = playerOnGrate || g.isPlayerOnGrate();
+        }
+
+        if(!playerOnGrate) {
+            StartCoroutine(finder.shoveIntoCanal(cTarget));
         }
     }
 

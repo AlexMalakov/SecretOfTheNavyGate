@@ -12,6 +12,7 @@ public class Grate : MonoBehaviour
     [SerializeField] private Renderer rend;
     
     private bool playerInCanal = false;
+    private bool playerOnGrate = false;
     private Canal canal;
 
     public void init(Canal c) {
@@ -50,6 +51,7 @@ public class Grate : MonoBehaviour
     }
 
     private void setCollision(CanalFinderManager c, bool status) {
+        this.playerOnGrate = status;
         Physics2D.IgnoreCollision(c.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
         Physics2D.IgnoreCollision(c.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
         
@@ -57,5 +59,9 @@ public class Grate : MonoBehaviour
             Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
             Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
         }
+    }
+
+    public bool isPlayerOnGrate() {
+        return this.playerOnGrate;
     }
 }

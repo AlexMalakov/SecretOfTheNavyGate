@@ -15,7 +15,7 @@ public class CanalFinderManager : MonoBehaviour
         }
     }
 
-    public void fallInCanal(Canal c) {
+    public Transform fallInCanal(Canal c) {
 
         List<PlayerCanalFinders> options = new List<PlayerCanalFinders>();
 
@@ -26,8 +26,7 @@ public class CanalFinderManager : MonoBehaviour
         }
 
         if(options.Count == 0) {
-            StartCoroutine(shoveIntoCanal(c.getClosestBackup(this.transform)));
-            return;
+            return c.getClosestBackup(this.transform);
         }
 
         int bestInd = 0;
@@ -43,10 +42,10 @@ public class CanalFinderManager : MonoBehaviour
             }
         }
 
-        StartCoroutine(shoveIntoCanal(options[bestInd].transform));
+        return options[bestInd].transform;
     }
 
-    private IEnumerator shoveIntoCanal(Transform destination) {
+    public IEnumerator shoveIntoCanal(Transform destination) {
         Debug.Log("MOVING!");
         this.controller.isMovementEnabled(false);
 
