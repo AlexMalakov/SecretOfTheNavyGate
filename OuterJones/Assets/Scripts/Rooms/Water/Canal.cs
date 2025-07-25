@@ -113,6 +113,7 @@ public class Canal : MonoBehaviour
         return !this.reachedThisDrain && this.canalEntrances.Contains(drainingFrom);
     }
     void OnTriggerStay2D(Collider2D other) {
+        //this should not be triggering
         if(flooded) {
             return;
         }
@@ -158,7 +159,16 @@ public class Canal : MonoBehaviour
         }
 
         if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
-            other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true);
+
+            bool onGrate = false;
+            foreach(Grate g in this.grates) {
+                onGrate = onGrate || g.isPlayerOnGrate();
+            }
+ 
+            if(!onGrate) {
+                Debug.Log("EDGE COLLIDER ON GRATE!");
+                other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true);
+            }
         }
     }
 

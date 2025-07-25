@@ -40,13 +40,15 @@ public class Grate : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.GetComponent<CanalFinderManager>() != null && !playerInCanal) {
-            this.setCollision(other.GetComponent<CanalFinderManager>(), true);
+            // this.setCollision(other.GetComponent<CanalFinderManager>(), true);
+            this.playerOnGrate = true;
         }
     }
 
     void OnTriggerExit2D(Collider2D other) {
         if(other.gameObject.GetComponent<CanalFinderManager>() != null && !playerInCanal) {
-            this.setCollision(other.GetComponent<CanalFinderManager>(), false);
+            // this.setCollision(other.GetComponent<CanalFinderManager>(), false);
+            this.playerOnGrate = false;
         }
     }
 
