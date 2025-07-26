@@ -270,7 +270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enviromentLayer: Enviroment
   foregroundLayer: FrontForeground
-  outOfCanalCollider: {fileID: 3593675447172997001}
+  outOfCanalCollider: {fileID: 8310260951687808787}
   rend: {fileID: 7102095071730049412}
 --- !u!1 &6091749650745665727
 GameObject:
