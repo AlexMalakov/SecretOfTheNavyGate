@@ -53,6 +53,7 @@ public class StatueManager : MonoBehaviour
 
     private void updateCorrect(MonkeyStatue m, bool value) {
         if(correct < 0) {
+            Debug.Log("?????");
             foreach(MonkeyStatue monk in this.statues) {
                 if(this.statueVals[monk.getOrderVal()]) {
                     return;
@@ -64,6 +65,7 @@ public class StatueManager : MonoBehaviour
         }
 
         if(!value) {
+            Debug.Log("erm what the flip");
             correct = -1;
             return;
         }
@@ -71,8 +73,10 @@ public class StatueManager : MonoBehaviour
         if(correct == 0) {
             if(m.getOrderVal() == this.order[0] || m.getOrderVal() == this.order[this.order.Count - 1]) {
                 correct++;
+                Debug.Log("+111111");
                 lisOrder = m.getOrderVal() == this.order[0];
             } else {
+                Debug.Log("failed :(");
                 correct = -1;
             }
         } else if(correct > 0) {
@@ -80,7 +84,9 @@ public class StatueManager : MonoBehaviour
                     || (!lisOrder && m.getOrderVal() == this.order[this.order.Count - 1 - correct])) {
                 
                 correct++;
+                Debug.Log("+1!!");
             } else {
+                Debug.Log("FAILED!");
                 correct = -1;
             }
         }
@@ -88,6 +94,7 @@ public class StatueManager : MonoBehaviour
 
 
     private void onSolved() {
+        Debug.Log("SOLVED!");
         effectableObj.GetComponent<Effectable>().onEffect();
     }
 

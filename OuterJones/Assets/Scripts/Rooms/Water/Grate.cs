@@ -56,7 +56,7 @@ public class Grate : MonoBehaviour
         // Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
 
         // Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Water"), status);
-        this.canal.getWaterCollider().GetComponent<CompositeCollider2D>().isTrigger = status; //i give up
+        this.canal.getWaterCollider().GetComponent<CompositeCollider2D>().isTrigger = status; //i give up lmao
     }
 
     public bool isPlayerOnGrate() {

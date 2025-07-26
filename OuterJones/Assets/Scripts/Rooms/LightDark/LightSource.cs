@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightSource : MonoBehaviour, RoomUpdateListener
+public class LightSource : MonoBehaviour, RoomUpdateListener, Effectable
 {
     //room info
     [SerializeField] private LightDarkRoom originRoom;
@@ -12,7 +12,9 @@ public class LightSource : MonoBehaviour, RoomUpdateListener
 
     [SerializeField] private Transform beamParent;
     [SerializeField] private GameObject beamPrefab;
+    [SerializeField] private RoomsLayout layout;
     private int BEAM_POOL_SIZE = 15;
+    private bool powered = false;
     
     public void Awake() {
         //TODO: Shouldn't have a beam in a dark room
@@ -21,12 +23,16 @@ public class LightSource : MonoBehaviour, RoomUpdateListener
         //we don't use the pool because this room always has a beam
         this.beam = Instantiate(beamPrefab, beamParent).GetComponent<BeamModel>();
         this.originRoom.setSource(this);
+
+        layout.addRoomUpdateListener(this);
     }
 
     public void castBeam() {
-        this.beam.initBeam(this.originRoom.transform, this.transform.position, this.originRoom.getPointInDirection(castDirection).position);
+        if(this.powered) {
+            this.beam.initBeam(this.originRoom.transform, this.transform.position, this.originRoom.getPointInDirection(castDirection).position);
 
-        this.originRoom.beamNeighbor(castDirection);
+            this.originRoom.beamNeighbor(castDirection);
+        }
     }
 
     public void onRoomUpdate(List<Room> rooms) {
@@ -41,6 +47,11 @@ public class LightSource : MonoBehaviour, RoomUpdateListener
 
     public void rotate90(bool clockwise) {
         this.castDirection = Door.rotateDoorDirection(this.castDirection, clockwise);
+    }
+
+    public void onEffect() {
+        this.powered = true;
+        this.layout.notifyRoomListeners(new List<Room>());
     }
 }
 
