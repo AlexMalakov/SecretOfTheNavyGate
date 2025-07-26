@@ -29,7 +29,7 @@ public class KeyDoor : MonoBehaviour, InputSubscriber
         }
 
         if(other.GetComponent<Player>() != null && other.GetComponent<Player>().hasKey()) {
-            inputManager.requestSpaceInput(this, this.transform, "use key to open door");
+            inputManager.requestSpaceInput(this, this.transform, "open door with key");
         }
     }
 
