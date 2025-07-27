@@ -5,14 +5,25 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
     [SerializeField] private List<Room> deck;
-    [SerializeField] private GameObject open;
-    [SerializeField] private GameObject closed;
+    [SerializeField] private Item item;
+
+    //this is a warcrime im so so so sorry
+    [Header ("direction")]
+    [SerializeField] private GameObject openNorth;
+    [SerializeField] private GameObject openEast;
+    [SerializeField] private GameObject openSouth;
+    [SerializeField] private GameObject openWest;
+    [SerializeField] private GameObject closedNorth;
+    [SerializeField] private GameObject closedEast;
+    [SerializeField] private GameObject closedSouth;
+    [SerializeField] private GameObject closedWest;
+
+    [SerializeField] private DoorDirection chestFacing;
 
     private bool opened = false;
 
     public IEnumerator Start() {
-        this.open.SetActive(false);
-        this.closed.SetActive(true);
+        this.updateSprite();
         yield return null;
         yield return null; //skips 2 frames before hiding every room
         foreach(Room r in this.deck) { //IM SETTING EVERY ROOM TO NOT ACTIVE!
@@ -25,15 +36,34 @@ public class Chest : MonoBehaviour
             return;
         }
 
-        if(other.gameObject.GetComponent<Player>() != null) {
-            opened = true;
+        if(this.deck != null && other.gameObject.GetComponent<Player>() != null) {
             other.gameObject.GetComponent<Player>().addToDeck(this.deck);
-            open.SetActive(true);
-            closed.SetActive(false);
-
             FindObjectOfType<DeckUI>().onUpdate();
+        } else if(this.item != null && other.gameObject.GetComponent<Player>() != null) {
+            opened = true;
+            other.GetComponent<Player>().getInventory().gainItem(this.item);
+        } else {
+            //failed to give the player anything
+            return;
         }
+
+        opened = true;
+        this.updateSprite();
     }
 
+    public void rotate90(bool clockwise) {
+        this.chestFacing = Door.rotateDoorDirection(this.chestFacing, clockwise);
+        this.updateSprite();
+    }
 
+    private void updateSprite() {
+        this.openNorth.SetActive(this.opened && this.chestFacing == DoorDirection.North);
+        this.openEast.SetActive(this.opened && this.chestFacing == DoorDirection.East);
+        this.openSouth.SetActive(this.opened && this.chestFacing == DoorDirection.South);
+        this.openWest.SetActive(this.opened && this.chestFacing == DoorDirection.West);
+        this.closedNorth.SetActive(!this.opened && this.chestFacing == DoorDirection.North);
+        this.closedEast.SetActive(!this.opened && this.chestFacing == DoorDirection.East);
+        this.closedSouth.SetActive(!this.opened && this.chestFacing == DoorDirection.South);
+        this.closedWest.SetActive(!this.opened && this.chestFacing == DoorDirection.West);
+    }
 }

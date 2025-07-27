@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Dropper : MonoBehaviour
 {
-    //give the player another key
     [SerializeField] Item i;
     private bool hasItem = true;
 
