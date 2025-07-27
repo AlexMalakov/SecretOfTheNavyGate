@@ -59,6 +59,7 @@ public class PopUpManager : MonoBehaviour
 
     private IEnumerator handleRoomP(GameObject popup) {
         CanvasGroup canvasG = popup.GetComponent<CanvasGroup>();
+        canvasG.alpha = 1f;
         float duration = 3.5f;
         float elapsed = 0f;
 
@@ -69,18 +70,23 @@ public class PopUpManager : MonoBehaviour
 
         while(elapsed < duration) {
             popup.transform.localScale = Vector3.Lerp(initial, target, elapsed/duration);
+
+            if(elapsed > 2f) {
+                canvasG.alpha = 1f - (elapsed - 2f)/(3.5f - 2f);
+            }
+
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        duration = 1.5f;
-        elapsed = 0f;
-        while(elapsed < duration) {
+        // duration = 1.5f;
+        // elapsed = 0f;
+        // while(elapsed < duration) {
 
-            canvasG.alpha = 1f - elapsed/duration;
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
+        //     canvasG.alpha = 1f - elapsed/duration;
+        //     elapsed += Time.deltaTime;
+        //     yield return null;
+        // }
 
         popup.transform.localScale = this.resetRoomPopUpSize;
         canvasG.alpha = 1f;
