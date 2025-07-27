@@ -10,6 +10,13 @@ public class PopUpManager : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private Canvas canvas;
 
+    private Coroutine roomEnterCoroutine;
+    private Vector3 resetRoomPopUpSize;
+
+    public void Start() {
+        this.resetRoomPopUpSize = roomPopUp.transform.localScale;
+    }
+
     public void displaySpacePopUp(Transform popUpPos, string message) {
         if(this.spacePopUp.activeSelf){
             return;
@@ -40,22 +47,23 @@ public class PopUpManager : MonoBehaviour
     }
 
     public void displayRoomPopUp(string roomName) {
-        if(this.roomPopUp.activeSelf) {
-            return;
+        if(this.roomPopUp.activeSelf && this.roomEnterCoroutine != null) {
+            StopCoroutine(this.roomEnterCoroutine);
         }
 
         this.roomPopUp.SetActive(true);
         this.roomPopUp.GetComponentInChildren<TMP_Text>().text = roomName;
 
-        this.StartCoroutine(handleRoomP(this.roomPopUp));
+        this.roomEnterCoroutine = this.StartCoroutine(handleRoomP(this.roomPopUp));
     }
 
     private IEnumerator handleRoomP(GameObject popup) {
         CanvasGroup canvasG = popup.GetComponent<CanvasGroup>();
         float duration = 3.5f;
         float elapsed = 0f;
+
+        popup.transform.localScale = this.resetRoomPopUpSize;
         
-        Vector3 reset = popup.transform.localScale;
         Vector3 initial = popup.transform.localScale/4f;
         Vector3 target = popup.transform.localScale * 1.5f;
 
@@ -74,7 +82,7 @@ public class PopUpManager : MonoBehaviour
             yield return null;
         }
 
-        popup.transform.localScale = reset;
+        popup.transform.localScale = this.resetRoomPopUpSize;
         canvasG.alpha = 1f;
         popup.SetActive(false);
     }
