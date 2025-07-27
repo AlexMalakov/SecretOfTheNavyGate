@@ -10,7 +10,7 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
     [SerializeField] Transform z1Landing;
     [SerializeField] Transform z2Landing;
 
-    private PlayerInput input;
+    private PlayerIO input;
     private PlayerController controller;
 
     private bool playerHasWhip = false;
@@ -25,7 +25,7 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
         z1.init(this, 1);
         z2.init(this, 2);
 
-        this.input = FindObjectOfType<PlayerInput>();
+        this.input = FindObjectOfType<PlayerIO>();
         this.controller = FindObjectOfType<PlayerController>();
     }
 

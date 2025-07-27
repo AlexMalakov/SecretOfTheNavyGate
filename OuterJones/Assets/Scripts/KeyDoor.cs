@@ -10,13 +10,13 @@ public class KeyDoor : MonoBehaviour, InputSubscriber
 
     [SerializeField] private bool vert;
 
-    private PlayerInput inputManager;
+    private PlayerIO inputManager;
     private Player player;
 
     private bool isOpen = false;
 
     public void Awake() {
-        this.inputManager = FindObjectOfType<PlayerInput>();
+        this.inputManager = FindObjectOfType<PlayerIO>();
         this.player = FindObjectOfType<Player>();
 
         vertClosed.SetActive(vert);

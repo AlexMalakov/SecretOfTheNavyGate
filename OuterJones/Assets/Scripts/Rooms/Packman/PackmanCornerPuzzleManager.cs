@@ -17,7 +17,7 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
 
 
 
-    public void onRoomUpdate() {
+    public void onRoomUpdate(List<Room> rooms) {
         bool TlrNeighbors = this.areNeighbors(this.topLeftPiece, this.topRightPiece);
         this.topLeftPiece.setActivationStatus(false, TlrNeighbors);
         this.topRightPiece.setActivationStatus(false, TlrNeighbors);
@@ -44,7 +44,7 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
     }
 
     private bool areNeighbors(PackmanCornerPiece p1, PackmanCornerPiece p2) {
-        return (Math.Abs(p1.getRoomCoords().x - p2.getRoomCoords()) == 1 && p1.getRoomCoords().y - p2.getRoomCoords() == 0)
-            || (p1.getRoomCoords().x - p2.getRoomCoords() == 0 && Math.Abs(p1.getRoomCoords() - p2.getRoomCoords()) == 1);
+        return (Mathf.Abs(p1.getRoomCoords().x - p2.getRoomCoords().x) == 1 && p1.getRoomCoords().y - p2.getRoomCoords().y == 0)
+            || (p1.getRoomCoords().x - p2.getRoomCoords().x == 0 && Mathf.Abs(p1.getRoomCoords().y - p2.getRoomCoords().y) == 1);
     }
 }

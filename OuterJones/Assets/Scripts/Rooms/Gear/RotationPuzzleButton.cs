@@ -12,10 +12,10 @@ public class RotationPuzzleButton : RotationPuzzleElement, InputSubscriber
     [SerializeField] private GameObject pressableObj;
     [SerializeField] private GameObject notPressedObj;
 
-    private PlayerInput input;
+    private PlayerIO input;
 
     public void Awake() {
-        this.input = FindObjectOfType<PlayerInput>();
+        this.input = FindObjectOfType<PlayerIO>();
     }
 
     public void initButton(RotationPuzzleManager manager, int pressNum) {

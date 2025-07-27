@@ -11,11 +11,11 @@ public class MonkeyStatue : MonoBehaviour, InputSubscriber
     [SerializeField] private string orderIdentifier;
 
     private StatueManager manager;
-    private PlayerInput inputManager;
+    private PlayerIO inputManager;
 
 
     public void Awake() {
-        this.inputManager = FindObjectOfType<PlayerInput>();
+        this.inputManager = FindObjectOfType<PlayerIO>();
     }
 
     public void init(StatueManager manager) {

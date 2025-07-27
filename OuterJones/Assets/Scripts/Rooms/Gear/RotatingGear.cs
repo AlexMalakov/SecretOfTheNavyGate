@@ -10,13 +10,13 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
     [SerializeField] private Transform dropOffPoint;
     [SerializeField] private bool oneWay;
 
-    private PlayerInput input;
+    private PlayerIO input;
     private PlayerController controller;
 
     private float ROTATION_DURATION = .5f;
 
     void Awake() {
-        this.input = FindObjectOfType<PlayerInput>();
+        this.input = FindObjectOfType<PlayerIO>();
         this.controller = FindObjectOfType<PlayerController>();
 
         for(int i = 0; i < teeth.Count; i++) {
