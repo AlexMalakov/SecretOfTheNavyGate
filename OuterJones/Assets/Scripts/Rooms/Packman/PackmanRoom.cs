@@ -20,7 +20,9 @@ public class PackmanRoom : Room
             }
         }
 
-        bManager.init();
+        if(bManager != null) {
+            bManager.init();
+        }
     }
 
     public override void onEnter() {
