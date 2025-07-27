@@ -50,7 +50,7 @@ public class Door : MonoBehaviour, InputSubscriber
 
     void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null) {
-            this.useDoor();
+            this.checkDoorPlacement();
         }
     }
 
