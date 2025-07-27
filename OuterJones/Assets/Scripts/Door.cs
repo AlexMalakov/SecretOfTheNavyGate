@@ -11,7 +11,7 @@ public interface DoorUseListener {
     void onRoomEnter();
 }
 
-public class Door : MonoBehaviour 
+public class Door : MonoBehaviour, InputSubscriber
 {
     [SerializeField] private Door destination;
     [SerializeField] private Room room;
@@ -24,9 +24,12 @@ public class Door : MonoBehaviour
     private List<DoorUseListener> listeners = new List<DoorUseListener>();
 
     private DoorDirection initialDirection;
+
+    [SerializeField] private PlayerIO input;
     
     public void Awake() {
         this.initialDirection = this.direction;
+        this.input = FindObjectOfType<PlayerIO>();
     }
 
     public void setDestination(Door newDestination) {
@@ -47,6 +50,10 @@ public class Door : MonoBehaviour
         if(/*Input.GetKeyDown(KeyCode.Space) && */other.gameObject.GetComponent<Player>() != null) {
             this.useDoor(other.gameObject.GetComponent<Player>());
         }
+    }
+
+    public void onSpacePress() {
+        //useDoor
     }
 
     public void useDoor(Player player) {
