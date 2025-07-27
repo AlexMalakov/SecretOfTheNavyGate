@@ -40,7 +40,7 @@ public class RoomsLayout : MonoBehaviour
     private List<RoomUpdateListener> listeners = new List<RoomUpdateListener>();
     private List<RoomUpdateListener> postListeners = new List<RoomUpdateListener>();
 
-    public void Awake() {
+    public void Start() {
         //place starting room in the grid
         this.rooms = new Room[ROOM_GRID_X, ROOM_GRID_X];
 
