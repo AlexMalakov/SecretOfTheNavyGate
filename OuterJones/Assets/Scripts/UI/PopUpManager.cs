@@ -6,6 +6,7 @@ using TMPro;
 public class PopUpManager : MonoBehaviour
 {
     [SerializeField] private GameObject spacePopUp;
+    [SerializeField] private GameObject popUpMessage;
     [SerializeField] private GameObject roomPopUp;
     [SerializeField] private Camera cam;
     [SerializeField] private Canvas canvas;
@@ -22,7 +23,7 @@ public class PopUpManager : MonoBehaviour
             return;
         }
 
-        this.placeSpacePopUp(popUpPos);
+        this.placePopUpMessage(this.spacePopUp, popUpPos);
 
         this.spacePopUp.SetActive(true);
         this.spacePopUp.GetComponentInChildren<TMP_Text>().text = message;
@@ -30,9 +31,21 @@ public class PopUpManager : MonoBehaviour
 
     public void endSpacePopUp() {
         this.spacePopUp.SetActive(false);
+        this.popUpMessage.SetActive(false);
     }
 
-    private void placeSpacePopUp(Transform popUpPos) {
+    public void displayPopUpMessage(Transform popUpPos, string message) {
+        if(this.popUpMessage.activeSelf) {
+            return;
+        }
+
+        this.placePopUpMessage(this.popUpMessage, popUpPos);
+
+        this.popUpMessage.SetActive(true);
+        this.popUpMessage.GetComponentInChildren<TMP_Text>().text = message;
+    }
+
+    private void placePopUpMessage(GameObject popUp, Transform popUpPos) {
         Vector3 screenPos = cam.WorldToScreenPoint(popUpPos.position + new Vector3(0f, -4f, 0f));
 
         Vector2 localPoint;
@@ -43,7 +56,7 @@ public class PopUpManager : MonoBehaviour
             out localPoint
         );
 
-        this.spacePopUp.GetComponent<RectTransform>().anchoredPosition = localPoint;
+        popUp.GetComponent<RectTransform>().anchoredPosition = localPoint;
     }
 
     public void displayRoomPopUp(string roomName) {

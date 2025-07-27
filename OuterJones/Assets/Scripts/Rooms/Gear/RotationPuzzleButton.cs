@@ -57,13 +57,13 @@ public class RotationPuzzleButton : RotationPuzzleElement, InputSubscriber
 
     void OnTriggerExit2D(Collider2D other) {
         if(other.GetComponent<Player>() != null) {
-            this.input.cancelSpaceInputRequest(this);
+            this.input.cancelRequest(this);
         }
     }
 
     public override void onPlayerInCanal() {
         base.onPlayerInCanal();
-        this.input.cancelSpaceInputRequest(this);
+        this.input.cancelRequest(this);
     }
 
     public void onSpacePress() {

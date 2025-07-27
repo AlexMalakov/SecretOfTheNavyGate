@@ -30,7 +30,7 @@ public class MonkeyStatue : MonoBehaviour, InputSubscriber
 
     public void OnTriggerExit2D(Collider2D other) {
         if(other.GetComponent<Player>() != null) {
-            inputManager.cancelSpaceInputRequest(this);
+            inputManager.cancelRequest(this);
         }
     }
 

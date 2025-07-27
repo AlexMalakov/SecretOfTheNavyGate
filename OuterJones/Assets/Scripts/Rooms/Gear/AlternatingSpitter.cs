@@ -39,13 +39,13 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
 
     private void OnTriggerExit2D(Collider2D other) {
         if(other.GetComponent<PlayerController>() != null) {
-            this.input.cancelSpaceInputRequest(this);
+            this.input.cancelRequest(this);
         }
     }
 
     public override void onPlayerInCanal() {
         base.onPlayerInCanal();
-        this.input.cancelSpaceInputRequest(this);
+        this.input.cancelRequest(this);
     }
 
     public override void resetElement() {

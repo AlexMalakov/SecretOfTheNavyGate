@@ -35,12 +35,12 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
     }
 
     public void playerOffTooth() {
-        this.input.cancelSpaceInputRequest(this);
+        this.input.cancelRequest(this);
     }
 
     public override void onPlayerInCanal() {
         base.onPlayerInCanal();
-        this.input.cancelSpaceInputRequest(this);
+        this.input.cancelRequest(this);
     }
 
     public void onSpacePress() {

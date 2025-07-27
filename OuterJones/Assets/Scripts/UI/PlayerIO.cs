@@ -16,7 +16,7 @@ public class PlayerIO : MonoBehaviour
         }
     }
 
-    public void cancelSpaceInputRequest(InputSubscriber i) {
+    public void cancelRequest(InputSubscriber i) {
         if(this.lastSubscriber == i) {
             this.lastSubscriber = null;
             this.manager.endSpacePopUp();
@@ -30,6 +30,15 @@ public class PlayerIO : MonoBehaviour
             this.manager.endSpacePopUp();
             this.lastSubscriber = null;
             s.onSpacePress();
+        }
+    }
+
+
+    public void requestPopUpMessage(InputSubscriber i, Transform posOfObj, string message) {
+        if(this.lastSubscriber != i) {
+            this.lastSubscriber = i;
+            this.manager.endSpacePopUp();
+            this.manager.displayPopUpMessage(posOfObj, message);
         }
     }
 

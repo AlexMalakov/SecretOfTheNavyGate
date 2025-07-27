@@ -37,7 +37,7 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
     }
 
     public void pointExit() {
-        this.input.cancelSpaceInputRequest(this);
+        this.input.cancelRequest(this);
     }
 
 

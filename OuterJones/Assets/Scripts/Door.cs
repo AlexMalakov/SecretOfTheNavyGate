@@ -25,11 +25,13 @@ public class Door : MonoBehaviour, InputSubscriber
 
     private DoorDirection initialDirection;
 
-    [SerializeField] private PlayerIO input;
+    private PlayerIO input;
+    private Player player;
     
     public void Awake() {
         this.initialDirection = this.direction;
         this.input = FindObjectOfType<PlayerIO>();
+        this.player = FindObjectOfType<Player>();
     }
 
     public void setDestination(Door newDestination) {
@@ -47,26 +49,46 @@ public class Door : MonoBehaviour, InputSubscriber
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        if(/*Input.GetKeyDown(KeyCode.Space) && */other.gameObject.GetComponent<Player>() != null) {
-            this.useDoor(other.gameObject.GetComponent<Player>());
+        if(other.gameObject.GetComponent<Player>() != null) {
+            this.useDoor();
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other) {
+        if(other.gameObject.GetComponent<Player>() != null) {
+            this.input.cancelRequest(this);
+        }
+    }
+
+    public void checkDoorPlacement() {
+        if(this.destination == null) {
+            Room next = this.player.getNextInDeck();
+            if(next != null && room.getLayoutManager().canPlaceRoom(this, next)) {
+                this.input.requestSpaceInput(this, this.transform, "place room!");
+            } else if(next == null) {
+                this.input.requestPopUpMessage(this, this.transform, "cannot place room from empty deck!");
+            } else {
+                this.input.requestPopUpMessage(this, this.transform, "next room cannot be placed here!");
+            }
+        } else {
+            this.input.requestSpaceInput(this, this.transform, "use door");
         }
     }
 
     public void onSpacePress() {
-        //useDoor
+        useDoor();
     }
 
-    public void useDoor(Player player) {
+    public void useDoor() {
         if(this.destination == null) {
-            Room next = player.getNextInDeck();
+            Room next = this.player.getNextInDeck();
             if(next != null && room.getLayoutManager().canPlaceRoom(this, next)) {
-                player.removeNextInDeck();
+                this.player.removeNextInDeck();
                 this.setDestination(next.getEntrance(this.getInverse()));
                 this.destination.setDestination(this);
                 room.getLayoutManager().placeRoom(this, next);
                 this.onExit();
             } else if(next == null){
-                //TODO: display a message on the screen maybe?
                 return;
             } else {
                 return;
@@ -74,9 +96,9 @@ public class Door : MonoBehaviour, InputSubscriber
         }
 
         this.onExit();
-        this.destination.onEnter(player);
+        this.destination.onEnter(this.player);
 
-        player.setCurrentRoom(this.destination.getRoom());
+        this.player.setCurrentRoom(this.destination.getRoom());
         foreach(DoorUseListener l in this.listeners) {
             l.onRoomEnter();
         }
@@ -86,8 +108,8 @@ public class Door : MonoBehaviour, InputSubscriber
         this.room.onExit();
     }
 
-    public void onEnter(Player player) {
-        player.transform.position = enterPosition.position;
+    public void onEnter(Player p) {
+        p.transform.position = enterPosition.position;
         this.room.onEnter();
     }
 

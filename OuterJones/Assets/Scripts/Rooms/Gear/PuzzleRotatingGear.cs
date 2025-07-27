@@ -38,7 +38,7 @@ using UnityEngine;
 //     }
 
 //     public override void playerOffTooth() {
-//         this.input.cancelSpaceInputRequest(this);
+//         this.input.cancelRequest(this);
 //     }
 
 //     public void onSpacePress() {
@@ -61,7 +61,7 @@ using UnityEngine;
 //         this.playerInCanal = true;
 //         this.cheeseBlockers.SetActive(false);
 //         this.setSortingLayer(this.foregroundLayer);
-//         this.input.cancelSpaceInputRequest(this);
+//         this.input.cancelRequest(this);
         
 //     }
 
