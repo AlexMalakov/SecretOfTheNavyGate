@@ -22,7 +22,8 @@ public class Room : MonoBehaviour
     [SerializeField] private Transform westPosition;
 
     [Header("Other (key-doors)")]
-    [SerializeField] private List<KeyDoor> keyDoors;
+    [SerializeField] private List<GateDoor> gateDoors;
+    [SerializeField] private List<Chest> chests;
 
     protected RoomCoords position;
     protected Quaternion initialRotation;
@@ -302,14 +303,17 @@ public class Room : MonoBehaviour
         transform.Rotate(0f, 0f, (clockwise ? -90f : 90f));
 
         //fix non-rotatatble game objects (chests, fences)
+        foreach(Chest c in this.chests) {
+            c.rotate90(clockwise);
+        }
+
+        foreach(GateDoor d in this.gateDoors) {
+            d.rotate90(clockwise);
+        }
     
         //rotate doors
         foreach(Door d in this.doors) {
             d.rotate90(clockwise);
-        }
-
-        foreach(KeyDoor k in this.keyDoors) {
-            k.rotate90();
         }
 
         //rotate beam transforms :)
@@ -330,22 +334,9 @@ public class Room : MonoBehaviour
 
         rotateLight90(clockwise);
 
-        rotatePowerables();
-
         //handles canal and light re set, and map rotate
         this.layoutManager.notifyRoomListeners(new List<Room>(){this});
 
         return clockwise;
-    }
-
-    ///////////////////////////////////////////////
-    //packman room functionality
-    [Header ("Packman")]
-    [SerializeField] private List<PowerableDoor> pDoors;
-
-    public virtual void rotatePowerables() {
-        foreach(PowerableDoor p in this.pDoors) {
-            p.rotate90();
-        }
     }
 }

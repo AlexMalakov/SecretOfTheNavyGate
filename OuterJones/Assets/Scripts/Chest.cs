@@ -19,10 +19,12 @@ public class Chest : MonoBehaviour
     [SerializeField] private GameObject closedWest;
 
     [SerializeField] private DoorDirection chestFacing;
-
+    
+    private Quaternion initialRot;
     private bool opened = false;
 
     public IEnumerator Start() {
+        this.initialRot = transform.rotation;
         this.updateSprite();
         yield return null;
         yield return null; //skips 2 frames before hiding every room
@@ -53,6 +55,7 @@ public class Chest : MonoBehaviour
 
     public void rotate90(bool clockwise) {
         this.chestFacing = Door.rotateDoorDirection(this.chestFacing, clockwise);
+        this.transform.rotation = this.initialRot;
         this.updateSprite();
     }
 
