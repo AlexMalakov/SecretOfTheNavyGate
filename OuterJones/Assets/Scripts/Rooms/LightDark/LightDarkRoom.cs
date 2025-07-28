@@ -10,6 +10,9 @@ public class LightDarkRoom : Room
     [SerializeField] private StatueManager statueManager;
 
     [SerializeField] private Sprite darkSprite;
+
+    [SerializeField] private LDPuzzle ldListener;
+    [SerializeField] private LightPuzzleRoom ldID;
     
     private LightSource source;
 
@@ -20,8 +23,16 @@ public class LightDarkRoom : Room
         this.position = position;
         if((position.x + position.y) % 2 == 0) {
             this.roomLighting = lightLevel;
+
+            if(this.ldListener != null) {
+                ldListener.informLight(true, this.ldID);
+            }
         } else {
             this.roomLighting = darkLevel;
+
+            if(this.ldListener != null) {
+                ldListener.informLight(false, this.ldID);
+            }
         }
     }
 
