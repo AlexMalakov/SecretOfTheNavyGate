@@ -7,6 +7,7 @@ public class PowerableDoor : GateDoor, Effectable
 
 
     [SerializeField] private bool initiallyOpen;
+    [SerializeField] private bool dontToggle;
 
 
     protected override void Awake() {
@@ -15,7 +16,11 @@ public class PowerableDoor : GateDoor, Effectable
     }
 
     public void onEffect() {
-        this.toggleOpen();
+        if(dontToggle) {
+            this.opencloseDoor(true);
+        } else {
+            this.toggleOpen();
+        }
     }
 
     //if specifically open/close is wanted
