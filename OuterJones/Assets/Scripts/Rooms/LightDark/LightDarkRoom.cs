@@ -11,7 +11,7 @@ public class LightDarkRoom : Room
 
     [SerializeField] private Sprite darkSprite;
 
-    [SerializeField] private LDPuzzle ldListener;
+    [SerializeField] private LDAlternatePuzzle ldListener;
     [SerializeField] private LightPuzzleRoom ldID;
     
     private LightSource source;
