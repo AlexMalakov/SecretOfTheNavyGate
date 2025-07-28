@@ -2,29 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyDoor : MonoBehaviour, InputSubscriber
+public class KeyDoor : GateDoor, InputSubscriber
 {
-    [SerializeField] private GameObject open;
-    [SerializeField] private GameObject vertClosed;
-    [SerializeField] private GameObject horizClosed;
-
-    [SerializeField] private bool vert;
-
     private PlayerIO inputManager;
     private Player player;
 
-    private bool isOpen = false;
-
-    public void Awake() {
+    protected override void Awake() {
+        base.Awake();
         this.inputManager = FindObjectOfType<PlayerIO>();
         this.player = FindObjectOfType<Player>();
-
-        vertClosed.SetActive(vert);
-        horizClosed.SetActive(!vert);
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if(isOpen) {
+        if(this.openState) {
             return;
         }
 
@@ -40,20 +30,6 @@ public class KeyDoor : MonoBehaviour, InputSubscriber
     }
 
     public void onSpacePress() {
-        if(player.hasKey()) {
-            player.useKey();
-            this.isOpen = true;
-
-            this.open.SetActive(true);
-            this.vertClosed.SetActive(false);
-            this.horizClosed.SetActive(false);
-        }
-    }
-
-    public void rotate90() {
-        vert = !vert;
-
-        vertClosed.SetActive(vert);
-        horizClosed.SetActive(!vert);
+        this.toggleOpen();
     }
 }
