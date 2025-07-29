@@ -132,10 +132,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   open: {fileID: 9129841190344523182}
-  horizontalClosed: {fileID: 5711559324998001610}
-  verticalClosed: {fileID: 2857478162454152791}
+  vertClosed: {fileID: 2857478162454152791}
+  horizClosed: {fileID: 5711559324998001610}
   vert: 1
   initiallyOpen: 0
+  dontToggle: 0
 --- !u!1 &2857478162454152791
 GameObject:
   m_ObjectHideFlags: 0
