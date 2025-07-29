@@ -633,8 +633,10 @@ MonoBehaviour:
   attatchedDams: []
   floodableObjects: []
   grates: []
+  rPuzzleManager: {fileID: 0}
   canalTilemap: {fileID: 3260933045013561001}
   waterCollider: {fileID: 4712564821584083401}
+  skinnySection: {fileID: 178305064796590194}
   edgeCollider: {fileID: 4234304543670549944}
   backupTransforms:
   - {fileID: 2466344746079473272}

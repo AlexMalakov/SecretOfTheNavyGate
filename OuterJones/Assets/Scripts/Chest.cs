@@ -38,10 +38,11 @@ public class Chest : MonoBehaviour
             return;
         }
 
-        if(this.deck != null && other.gameObject.GetComponent<Player>() != null) {
+        if(this.deck.Count > 0 && other.gameObject.GetComponent<Player>() != null) {
             other.gameObject.GetComponent<Player>().addToDeck(this.deck);
             FindObjectOfType<DeckUI>().onUpdate();
         } else if(this.item != null && other.gameObject.GetComponent<Player>() != null) {
+            Debug.Log("giving item to player");
             opened = true;
             other.GetComponent<Player>().getInventory().gainItem(this.item);
         } else {

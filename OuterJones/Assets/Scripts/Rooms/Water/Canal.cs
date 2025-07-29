@@ -19,6 +19,7 @@ public class Canal : MonoBehaviour
     [SerializeField] private Tilemap canalTilemap; // Assign in inspector
 
     [SerializeField] private GameObject waterCollider;
+    [SerializeField] private GameObject skinnySection;
     [SerializeField] private GameObject edgeCollider;
     [SerializeField] private List<Transform> backupTransforms;
 
@@ -243,6 +244,10 @@ public class Canal : MonoBehaviour
 
     public GameObject getWaterCollider() {
         return this.waterCollider;
+    }
+
+    public GameObject getSkinnySectionWhenFlooded() {
+        return this.flooded ? this.skinnySection : null;
     }
 
     public bool isFlooded() {

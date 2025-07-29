@@ -20,6 +20,10 @@ public class Floaties : Item
         foreach(Canal c in this.allCanals) {
             c.getWaterCollider().GetComponents<Collider2D>()[0].isTrigger = true;
             c.getWaterCollider().GetComponents<Collider2D>()[1].isTrigger = true;
+            if(c.getSkinnySectionWhenFlooded() != null) {
+                c.getSkinnySectionWhenFlooded().GetComponents<Collider2D>()[0].isTrigger = true;
+                c.getSkinnySectionWhenFlooded().GetComponents<Collider2D>()[1].isTrigger = true;
+            }
         }
 
     }
@@ -28,6 +32,11 @@ public class Floaties : Item
         foreach(Canal c in this.allCanals) {
             c.getWaterCollider().GetComponents<Collider2D>()[0].isTrigger = false;
             c.getWaterCollider().GetComponents<Collider2D>()[1].isTrigger = false;
+
+            if(c.getSkinnySectionWhenFlooded() != null) {
+                c.getSkinnySectionWhenFlooded().GetComponents<Collider2D>()[0].isTrigger = false;
+                c.getSkinnySectionWhenFlooded().GetComponents<Collider2D>()[1].isTrigger = false;
+            }
         }
     }
 

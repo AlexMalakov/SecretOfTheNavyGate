@@ -45,6 +45,7 @@ public class Inventory : MonoBehaviour
             }
         }
 
+        Debug.Log("added item to a player!");
         this.items.Add(newItem);
         this.hotbarImages[this.items.Count - 1].sprite = newItem.getItemIcon();
     }
