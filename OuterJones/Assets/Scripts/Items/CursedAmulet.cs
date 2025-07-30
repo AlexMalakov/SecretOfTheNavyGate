@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class CursedAmulet : Item
 {
-    private Button[] allButtons;
+    private PowerableButton[] allButtons;
 
     public void Awake() {
-        allButtons = FindObjectsOfType<Button>(true);
+        allButtons = FindObjectsOfType<PowerableButton>(true);
     }
 
     public override void equip() {
-        foreach(Button b in this.allButtons) {
+        foreach(PowerableButton b in this.allButtons) {
             b.setMummyButtonStatus(!b.getMummyStatus());
         }
     }
 
     public override void unequip() {
-        foreach(Button b in this.allButtons) {
+        foreach(PowerableButton b in this.allButtons) {
             b.setMummyButtonStatus(!b.getMummyStatus());
         }
     }

@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : MonoBehaviour, PowerableObject
+public class PowerableButton : MonoBehaviour
 {
     [Header ("config")]
-    [SerializeField] bool startingButton;
-
     [SerializeField] bool isMummyButton = false;
 
     [Header ("sprites")]
@@ -15,9 +13,8 @@ public class Button : MonoBehaviour, PowerableObject
 
     [Header ("for puzzles")]
     [SerializeField] string puzzleID;
-    [SerializeField] Wire nextWire;
+    // [SerializeField] Wire nextWire;
 
-    bool powered;
     private ButtonManager manager;
 
     public void init(ButtonManager bm) {
@@ -29,26 +26,9 @@ public class Button : MonoBehaviour, PowerableObject
     void OnTriggerEnter2D(Collider2D other) {
         if((other.gameObject.GetComponent<Player>() != null && !this.isMummyButton) 
                     || (other.gameObject.GetComponent<Mummy>() != null && this.isMummyButton)) {
-            if(this.powered) {
-                this.powered = false;
-                StartCoroutine(nextWire.followPath());
-            } else {
-                this.manager.canStartSequence(this);
-            }
             
+            this.manager.onBottonPress(this.puzzleID);
         }
-    }
-
-    public bool isStartingButton() {
-        return this.startingButton;
-    }
-
-    public void reset() {
-        this.powered = false;
-    }
-
-    public void onPowered() {
-        this.powered = true;
     }
 
     public void setMummyButtonStatus(bool mummyBSatus) {
