@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class Button : MonoBehaviour, PowerableObject
 {
+    [Header ("config")]
     [SerializeField] bool startingButton;
-    [SerializeField] Wire nextWire;
+
     [SerializeField] bool isMummyButton = false;
 
+    [Header ("sprites")]
     [SerializeField] GameObject mummySprite;
     [SerializeField] GameObject playerSprite;
-    bool powered;
 
+    [Header ("for puzzles")]
+    [SerializeField] string puzzleID;
+    [SerializeField] Wire nextWire;
+
+    bool powered;
     private ButtonManager manager;
 
     public void init(ButtonManager bm) {
