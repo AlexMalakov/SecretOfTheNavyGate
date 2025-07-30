@@ -10,6 +10,10 @@ public class TorchCollider : MonoBehaviour
         if(other.GetComponent<Mirror>() != null) {
             other.GetComponent<Mirror>().clearWebs();
         }
+
+        if(other.GetComponent<CobwebDoor>() != null) {
+            other.GetComponent<CobwebDoor>().clearWebs();
+        }
     }
 
     public void setActiveStatus(bool act) {
