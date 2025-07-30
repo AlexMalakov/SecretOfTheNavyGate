@@ -6,9 +6,12 @@ public class ButtonManager : MonoBehaviour
 {
     private PowerableButton[] buttons;
     // private PowerableObject[] powerables;
-
+    [Header("dam puzzle")]
     [SerializeField] private List<string> damSequence;
+    [SerializeField] private List<Wire> damWires;
+    [Header("wire puzzle")]
     [SerializeField] private List<string> puzzleSequence;
+    [SerializeField] private List<Wire> puzzleWires;
 
     [SerializeField] private List<GameObject> damEffectableTargets;
     [SerializeField] private List<GameObject> puzzleEffectableTargets;
@@ -16,6 +19,7 @@ public class ButtonManager : MonoBehaviour
     private int sequencePos;
     private bool isDamSequence;
 
+    private bool buttonsPressable = true;
 
     public void Awake() {
         this.buttons = GetComponentsInChildren<PowerableButton>();
@@ -31,6 +35,11 @@ public class ButtonManager : MonoBehaviour
 
 
     public void onBottonPress(string buttonStr) {
+        if(!buttonsPressable) {
+            //dispolay fail
+            return;
+        }
+
         if(sequencePos == 0 && buttonStr == damSequence[0]) {
             isDamSequence = true;
         } else if(sequencePos == 0 && buttonStr == puzzleSequence[0]) {
@@ -38,6 +47,11 @@ public class ButtonManager : MonoBehaviour
         }
         
         if((isDamSequence && buttonStr == puzzleSequence[sequencePos]) || (!isDamSequence && buttonStr == puzzleSequence[sequencePos])) {
+            if(sequencePos < damWires.Count && isDamSequence) {
+                StartCoroutine(damWires[sequencePos].wireAnimation(this));
+            } else if(sequencePos < puzzleWires.Count && !isDamSequence) {
+                StartCoroutine(puzzleWires[sequencePos].wireAnimation(this));
+            }
             sequencePos++;
         } else {
             sequencePos = 0;
@@ -47,12 +61,19 @@ public class ButtonManager : MonoBehaviour
 
         if(isDamSequence && sequencePos == damSequence.Count) {
             foreach(GameObject obj in this.damEffectableTargets) {
+                this.buttonsPressable = false;
                 obj.GetComponent<Effectable>().onEffect();
             }
         } else if(!isDamSequence && sequencePos == puzzleSequence.Count) {
             foreach(GameObject obj in this.puzzleEffectableTargets) {
+                this.buttonsPressable = false;
                 obj.GetComponent<Effectable>().onEffect();
             }
         }
     }  
+
+    public void onWireFinished() {
+        this.buttonsPressable = true;
+        //flash all buttons
+    }
 }
