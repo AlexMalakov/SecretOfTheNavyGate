@@ -31,12 +31,13 @@ public class ButtonManager : MonoBehaviour
         foreach(PowerableButton b in this.buttons) {
             b.init(this);
         }
+
     }
 
 
     public void onBottonPress(string buttonStr) {
         if(!buttonsPressable) {
-            //dispolay fail
+            this.failButtons();
             return;
         }
 
@@ -54,8 +55,7 @@ public class ButtonManager : MonoBehaviour
             }
             sequencePos++;
         } else {
-            sequencePos = 0;
-            //display fail
+            this.failButtons();
             return;
         }
 
@@ -72,8 +72,20 @@ public class ButtonManager : MonoBehaviour
         }
     }  
 
+    private void failButtons() {
+        this.sequencePos = 0;
+        foreach(PowerableButton b in this.buttons) {
+            b.flashFailed();
+        }
+    }
+
     public void onWireFinished() {
         this.buttonsPressable = true;
+        if(sequencePos > 0) {
+            foreach(PowerableButton b in this.buttons) {
+                b.flashPressable();
+            }
+        }
         //flash all buttons
     }
 }

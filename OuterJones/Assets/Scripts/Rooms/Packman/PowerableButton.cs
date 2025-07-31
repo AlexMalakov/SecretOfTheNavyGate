@@ -6,12 +6,14 @@ public class PowerableButton : MonoBehaviour
 {
     [Header ("config")]
     [SerializeField] bool isMummyButton = false;
+    [SerializeField] bool isStarting = false;
 
     [Header ("sprites")]
     [SerializeField] GameObject mummySprite;
     [SerializeField] GameObject playerSprite;
     [SerializeField] GameObject pressableSprite;
     [SerializeField] GameObject failedSprite;
+    [SerializeField] GameObject starting;
 
     [Header ("for puzzles")]
     [SerializeField] string puzzleID;
@@ -37,6 +39,12 @@ public class PowerableButton : MonoBehaviour
 
     public void setMummyButtonStatus() {
         this.setMummyButtonStatus(this.isMummyButton);
+
+        if(this.isStarting) {
+            this.starting.SetActive(true);
+            this.mummySprite.SetActive(false);
+            this.playerSprite.SetActive(false);
+        }
     }
 
     public void setMummyButtonStatus(bool mummyBSatus) {
@@ -48,13 +56,15 @@ public class PowerableButton : MonoBehaviour
         if(isMummyButton) {
             this.pressableSprite.SetActive(false);
             this.failedSprite.SetActive(false);
-            mummySprite.SetActive(true);
-            playerSprite.SetActive(false);
+            this.mummySprite.SetActive(true);
+            this.playerSprite.SetActive(false);
+            this.starting.SetActive(false);
         } else {
             this.pressableSprite.SetActive(false);
             this.failedSprite.SetActive(false);
-            mummySprite.SetActive(false);
-            playerSprite.SetActive(true);
+            this.mummySprite.SetActive(false);
+            this.playerSprite.SetActive(true);
+            this.starting.SetActive(false);
         }
     }
     
@@ -86,5 +96,11 @@ public class PowerableButton : MonoBehaviour
         this.mummySprite.SetActive(false);
         this.pressableSprite.SetActive(true);
         Invoke(nameof(setMummyButtonStatus), .4f);
+    }
+
+    public void setStarting() {
+        this.playerSprite.SetActive(false);
+        this.mummySprite.SetActive(false);
+        this.starting.SetActive(true);
     }
 }
