@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectableExtender : Effectable
+public class EffectableExtender : MonoBehaviour, Effectable
 {
     public List<GameObject> effectables;
 
