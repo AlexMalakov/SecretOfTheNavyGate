@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatueManager : MonoBehaviour
+public class StatueManager : MonoBehaviour, InputSubscriber
 {
     private MonkeyStatue[] statues;
     private Dictionary<string, bool> statueVals;
@@ -15,10 +15,18 @@ public class StatueManager : MonoBehaviour
     [SerializeField] private List<string> order;
     [SerializeField] private GameObject effectableObj;
 
+    [SerializeField] private GameObject defaultSprite;
+    [SerializeField] private GameObject successSprite;
+
+    private PlayerIO inputManager;
 
     public void Awake() {
+        this.inputManager = FindObjectOfType<PlayerIO>();
         this.statues = GetComponentsInChildren<MonkeyStatue>();
         this.statueVals = new Dictionary<string, bool>();
+
+        this.defaultSprite.SetActive(true);
+        this.successSprite.SetActive(false);
 
         foreach(MonkeyStatue m in this.statues) {
             m.init(this);
@@ -53,7 +61,6 @@ public class StatueManager : MonoBehaviour
 
     private void updateCorrect(MonkeyStatue m, bool value) {
         if(correct < 0) {
-            Debug.Log("?????");
             foreach(MonkeyStatue monk in this.statues) {
                 if(this.statueVals[monk.getOrderVal()]) {
                     return;
@@ -65,7 +72,6 @@ public class StatueManager : MonoBehaviour
         }
 
         if(!value) {
-            Debug.Log("erm what the flip");
             correct = -1;
             return;
         }
@@ -73,10 +79,8 @@ public class StatueManager : MonoBehaviour
         if(correct == 0) {
             if(m.getOrderVal() == this.order[0] || m.getOrderVal() == this.order[this.order.Count - 1]) {
                 correct++;
-                Debug.Log("+111111");
                 lisOrder = m.getOrderVal() == this.order[0];
             } else {
-                Debug.Log("failed :(");
                 correct = -1;
             }
         } else if(correct > 0) {
@@ -84,9 +88,7 @@ public class StatueManager : MonoBehaviour
                     || (!lisOrder && m.getOrderVal() == this.order[this.order.Count - 1 - correct])) {
                 
                 correct++;
-                Debug.Log("+1!!");
             } else {
-                Debug.Log("FAILED!");
                 correct = -1;
             }
         }
@@ -94,11 +96,31 @@ public class StatueManager : MonoBehaviour
 
 
     private void onSolved() {
-        Debug.Log("SOLVED!");
+        this.defaultSprite.SetActive(false);
+        this.successSprite.SetActive(true);
         effectableObj.GetComponent<Effectable>().onEffect();
     }
 
     public bool isSolved() {
         return this.solved;
+    }
+
+
+    public void OnTriggerEnter2D(Collider2D other) {
+        if(other.GetComponent<Player>() != null) {
+            inputManager.requestSpaceInput(this, this.transform, "reset statues");
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D other) {
+        if(other.GetComponent<Player>() != null) {
+            inputManager.cancelRequest(this);
+        }
+    }
+
+    public void onSpacePress() {
+        foreach(MonkeyStatue stat in this.statues) {
+            stat.reset();
+        }
     }
 }
