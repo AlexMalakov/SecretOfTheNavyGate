@@ -10,7 +10,7 @@ public class PowerableButton : MonoBehaviour
     [Header ("sprites")]
     [SerializeField] GameObject mummySprite;
     [SerializeField] GameObject playerSprite;
-    [SerialzieField] GameObject pressableSprite;
+    [SerializeField] GameObject pressableSprite;
     [SerializeField] GameObject failedSprite;
 
     [Header ("for puzzles")]
