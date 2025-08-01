@@ -132,6 +132,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomOfOrigin: {fileID: 0}
+  vertLit: {fileID: 0}
+  horizLit: {fileID: 0}
 --- !u!1 &4974625131298608649
 GameObject:
   m_ObjectHideFlags: 0
