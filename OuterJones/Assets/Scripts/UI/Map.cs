@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class Map: MonoBehaviour, RoomUpdateListener
 {
     private MapImageWrangler wrangler;
-
+    [SerializeField] Image exclamationImg;
+    private Coroutine exclamationBlink;
 
     public void Start() {
         this.wrangler = FindObjectOfType<MapImageWrangler>();
@@ -35,6 +36,35 @@ public class Map: MonoBehaviour, RoomUpdateListener
         i.gameObject.SetActive(true);
 
         i.transform.rotation = r.transform.rotation;
+    }
+
+    public void onUnderbellyUnlock(Room r) {
+        this.exclamationImg.GetComponent<RectTransform>().anchoredPosition = this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y).GetComponent<RectTransform>().anchoredPosition;
+        if(this.exclamationBlink != null) {
+            StopCoroutine(this.exclamationBlink);
+        }
+        this.exclamationBlink = StartCoroutine(flashExclamation());
+    }
+
+    private IEnumerator flashExclamation() {
+        int num_flashes = 5;
+        for(int i = 0; i < num_flashes; i++) {
+            float elapsed = 0f;
+            float duration = .5f;
+
+            this.exclamationImg.gameObject.SetActive(true);
+            while(elapsed < duration) {
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            this.exclamationImg.gameObject.SetActive(false);
+
+            while(elapsed < 2*duration) {
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
     }
 }
 
