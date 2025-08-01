@@ -16,9 +16,9 @@ public class LDPuzzle : MonoBehaviour
     private bool r6On;
 
     public void Awake() {
-        this.r3Sink.init(this, "r3");
-        this.l4Sink.init(this, "l4");
-        this.r6Sink.init(this, "r6");
+        // this.r3Sink.init(this, "r3");
+        // this.l4Sink.init(this, "l4");
+        // this.r6Sink.init(this, "r6");
     }
 
     public void onActive(string id) {

@@ -60,12 +60,15 @@ public class Bridge :  Floodable
 
 
     private void setCollision(Player p, bool status) {
-        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
-        Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
+        // Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
+        // Physics2D.IgnoreCollision(p.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
         
-        foreach(PlayerEdgeCollider e in p.getEdgeColliders()) {
-            Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
-            Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
-        }
+        // foreach(PlayerEdgeCollider e in p.getEdgeColliders()) {
+        //     Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[0], status);
+        //     Physics2D.IgnoreCollision(e.GetComponent<Collider2D>(), this.canal.getWaterCollider().GetComponents<Collider2D>()[1], status);
+        // }
+
+        Debug.Log("SET + " + status);
+        this.canal.getWaterCollider().GetComponent<CompositeCollider2D>().isTrigger = status; //i give up lmao
     }
 }
