@@ -52,6 +52,8 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
 
     private bool areNeighbors(PackmanCornerPiece p1, PackmanCornerPiece p2) {
         return (Mathf.Abs(p1.getRoomCoords().x - p2.getRoomCoords().x) == 1 && p1.getRoomCoords().y - p2.getRoomCoords().y == 0)
-            || (p1.getRoomCoords().x - p2.getRoomCoords().x == 0 && Mathf.Abs(p1.getRoomCoords().y - p2.getRoomCoords().y) == 1);
+            || (p1.getRoomCoords().x - p2.getRoomCoords().x == 0 && Mathf.Abs(p1.getRoomCoords().y - p2.getRoomCoords().y) == 1)
+            || (((p1.getRoomCoords().x == 0 && p2.getRoomCoords().x == RoomsLayout.ROOM_GRID_X-1) || (p1.getRoomCoords().x == RoomsLayout.ROOM_GRID_X-1 && p2.getRoomCoords().x == 0)) && p1.getRoomCoords().y - p2.getRoomCoords().y == 0)
+            || (p1.getRoomCoords().x - p2.getRoomCoords().x == 0 && ((p1.getRoomCoords().y == 0 && p2.getRoomCoords().y == RoomsLayout.ROOM_GRID_X-1) || (p1.getRoomCoords().y == RoomsLayout.ROOM_GRID_X-1 && p2.getRoomCoords().y == 0)));
     }
 }
