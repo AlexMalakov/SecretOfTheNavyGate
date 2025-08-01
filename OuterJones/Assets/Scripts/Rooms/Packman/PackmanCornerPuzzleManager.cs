@@ -11,6 +11,9 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
 
     [SerializeField] private RoomsLayout layout;
 
+    [SerializeField] private UnderbellyStaircase staircaseToOpen;
+    private bool completed = false;
+
     public void Awake() {
         this.layout.addRoomUpdateListener(this);
     }
@@ -18,6 +21,9 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
 
 
     public void onRoomUpdate(List<Room> rooms) {
+        if(completed) {
+            return;
+        }
         bool TlrNeighbors = this.areNeighbors(this.topLeftPiece, this.topRightPiece);
         this.topLeftPiece.setActivationStatus(false, TlrNeighbors);
         this.topRightPiece.setActivationStatus(false, TlrNeighbors);
@@ -39,7 +45,8 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
                 && this.bottomLeftPiece.isFullyActivated() 
                 && this.bottomRightPiece.isFullyActivated()) {
 
-            //OPEN ENTRANCE TO UNDERBELLY!!!!!
+            completed = true;
+            staircaseToOpen.onEffect();
         }
     }
 

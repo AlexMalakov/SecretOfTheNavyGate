@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PackmanCornerPiece : MonoBehaviour, Effectable
+public class PackmanCornerPiece : MonoBehaviour
 {
     [SerializeField] private PackmanRoom roomOfOrigin;
 
-    bool powered;
-    bool vertActivated;
-    bool horizActivated;
+    [SerializeField] private GameObject vertLit;
+    [SerializeField] private GameObject horizLit;
+
+    private bool vertActivated = false;
+    private bool horizActivated = false;
 
     public RoomCoords getRoomCoords() {
         return this.roomOfOrigin.getPosition();
@@ -17,19 +19,17 @@ public class PackmanCornerPiece : MonoBehaviour, Effectable
     public void setActivationStatus(bool verticalNeighbor, bool status) {
         if(verticalNeighbor) {
             vertActivated = status;
+            vertLit.SetActive(status);
             //light up
         } else {
             horizActivated = status;
+            horizLit.SetActive(status);
             //light up
         }
     }
 
-    public void onEffect() {
-        this.powered = true;
-        //light up
-    }
 
     public bool isFullyActivated() {
-        return powered && vertActivated && horizActivated;
+        return vertActivated && horizActivated;
     }
 }
