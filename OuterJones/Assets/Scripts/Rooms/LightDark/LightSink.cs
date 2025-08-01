@@ -9,6 +9,13 @@ public class LightSink : MonoBehaviour
     [SerializeField] private Effectable effectable;
     [SerializeField] private GameObject beamedSprite;
     [SerializeField] private GameObject notBeamedSprite;
+    
+    private LDPuzzle puzzle;
+    private string id;
+
+    public void init(LDPuzzle puzzle, string id) {
+        this.puzzle = puzzle;
+    }
 
     public void activate(DoorDirection beamFrom) {
         if(Door.rotateDoorDirection(Door.rotateDoorDirection(beamFrom, true), true) == this.receiveBeamFrom) {
@@ -16,6 +23,8 @@ public class LightSink : MonoBehaviour
             this.effectable.onEffect();
             this.beamedSprite.SetActive(true);
             this.beamedSprite.SetActive(false);
+
+            this.puzzle.onActive(this.id);
         }
     }
 
@@ -23,6 +32,7 @@ public class LightSink : MonoBehaviour
         this.beamed = false;
         this.beamedSprite.SetActive(false);
         this.beamedSprite.SetActive(true);
+        this.puzzle.onDeactivate(this.id);
     }
 
     public bool getActive() {
