@@ -11,6 +11,8 @@ public class PopUpManager : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private Canvas canvas;
 
+    [SerializeField] private Transform popUpBottomBorder;
+
     private Coroutine roomEnterCoroutine;
     private Vector3 resetRoomPopUpSize;
 
@@ -46,7 +48,8 @@ public class PopUpManager : MonoBehaviour
     }
 
     private void placePopUpMessage(GameObject popUp, Transform popUpPos) {
-        Vector3 screenPos = cam.WorldToScreenPoint(popUpPos.position + new Vector3(0f, -4f, 0f));
+
+        Vector3 screenPos = cam.WorldToScreenPoint(popUpPos.position + ((popUpPos.position.y > this.popUpBottomBorder.position.y) ? new Vector3(0f, -4f, 0f) : new Vector3(0f, 4f, 0f)));
 
         Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
