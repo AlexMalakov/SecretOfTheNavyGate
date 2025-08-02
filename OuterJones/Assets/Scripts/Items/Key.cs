@@ -12,7 +12,7 @@ public class Key : Item
 
     public void useKey() {
         this.keyCount--;
-
+        
         //update hotbar to show one less key
     }
 

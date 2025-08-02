@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
 
 
     public bool hasKey() {
+        Debug.Log("HAS KEY?" + (this.inventory.hasItem(PossibleItems.Key) && ((Key)this.inventory.getItem(PossibleItems.Key)).hasKey()));
         return this.inventory.hasItem(PossibleItems.Key) && ((Key)this.inventory.getItem(PossibleItems.Key)).hasKey();
     }
 

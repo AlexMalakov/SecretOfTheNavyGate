@@ -30,6 +30,7 @@ public class KeyDoor : GateDoor, InputSubscriber
     }
 
     public void onSpacePress() {
+        player.useKey();
         this.toggleOpen();
     }
 }

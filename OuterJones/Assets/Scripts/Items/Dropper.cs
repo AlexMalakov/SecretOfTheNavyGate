@@ -11,6 +11,8 @@ public class Dropper : MonoBehaviour
         if(hasItem && other.GetComponent<Player>() != null) {
             this.hasItem = false;
             other.GetComponent<Player>().getInventory().gainItem(i);
+
+            this.gameObject.SetActive(false);
         }
     }
 }
