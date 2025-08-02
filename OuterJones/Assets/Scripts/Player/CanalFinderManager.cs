@@ -33,6 +33,7 @@ public class CanalFinderManager : MonoBehaviour
         }
 
         if(options.Count == 0) {
+            Debug.Log("using backup!");
             return c.getClosestBackup(this.transform);
         }
 
