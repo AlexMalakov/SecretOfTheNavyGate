@@ -655,8 +655,8 @@ GameObject:
   - component: {fileID: 2365114708318308008}
   - component: {fileID: 4156279027480455636}
   - component: {fileID: 1737386530437333621}
-  m_Layer: 0
-  m_Name: border
+  m_Layer: 8
+  m_Name: canalBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
