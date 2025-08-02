@@ -9,7 +9,8 @@ public class LightSink : MonoBehaviour
     [SerializeField] private Effectable effectable;
     [SerializeField] private GameObject beamedSprite;
     [SerializeField] private GameObject notBeamedSprite;
-    
+
+
     private LDPuzzle puzzle;
     private string id;
 
@@ -41,6 +42,11 @@ public class LightSink : MonoBehaviour
 
     public void rotate90(bool clockwise) {
         this.receiveBeamFrom = Door.rotateDoorDirection(this.receiveBeamFrom, clockwise);
+    }
+
+    //gets the incoming direction needed to active the sink
+    public DoorDirection getIncomingDirectionToActivate() {
+        return Door.rotateDoorDirection(Door.rotateDoorDirection(this.receiveBeamFrom, true), true);
     }
 
 }

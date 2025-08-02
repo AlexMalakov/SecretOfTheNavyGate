@@ -201,7 +201,7 @@ public class Room : MonoBehaviour
         if(this.hasDoorDirection(this.getEntrance(incomingDirection).getInverse())) {
     
             //if we have a sink power it, then pass the b
-            if(this.lSink != null) {
+            if(this.lSink != null && this.lSink.getIncomingDirectionToActivate() == incomingDirection) {
                 this.lSink.activate(incomingDirection);
 
                 BeamModel b = BeamPool.getBeam();
