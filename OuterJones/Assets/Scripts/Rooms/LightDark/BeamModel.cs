@@ -32,4 +32,8 @@ public class BeamModel : MonoBehaviour
     public bool isActive() {
         return this.active;
     }
+
+    public void OnDestroy() {
+        Debug.Log("HOW iS THIS POSSUBLE??????");
+    }
 }

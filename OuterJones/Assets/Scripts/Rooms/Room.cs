@@ -281,7 +281,7 @@ public class Room : MonoBehaviour
         if(this.lSink != null) {
             this.lSink.deactivate();
         }
-
+        
         for(int i = 0; i < this.beams.Count; i++) {
             this.beams[i].killBeam();
         }
