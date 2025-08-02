@@ -20,6 +20,7 @@ public class LightSink : MonoBehaviour
 
     public void activate(DoorDirection beamFrom) {
         if(/*Door.rotateDoorDirection(Door.rotateDoorDirection(beamFrom, true), true)*/beamFrom == this.receiveBeamFrom) {
+            Debug.Log("equal?");
             this.beamed = true;
             this.effectableObj.GetComponent<Effectable>().onEffect();
             this.beamedSprite.SetActive(true);
