@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using TMPro;
 
 public enum PossibleItems {
     Amulet, Floaties, GearItem, Torch, Whip, Key
@@ -12,6 +13,12 @@ public class Inventory : MonoBehaviour
     private List<Item> items = new List<Item>();
     [SerializeField] private int equipedItem = -1;
     [SerializeField] private List<Image> hotbarImages;
+    [SerializeField] private Key startingKey;
+    [SerializeField] private TMP_Text key_count;
+
+    void Awake() {
+        this.gainItem(startingKey);
+    }
 
     public void Update() {
 
@@ -35,6 +42,10 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void onKeyUpdate() {
+        key_count.text = ""+((Key)this.items[0]).getKeyCount();
+    }
+
     public void gainItem(Item newItem) {
         if(newItem is Key) {
             foreach(Item i in this.items) {
@@ -45,7 +56,6 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        Debug.Log("added item to a player!");
         this.items.Add(newItem);
         this.hotbarImages[this.items.Count - 1].sprite = newItem.getItemIcon();
     }
