@@ -22,6 +22,6 @@ public class Torch : Item
         return PossibleItems.Torch;
     }
 
-    public override bool startsEquiped() {return true;}
+    public override bool startsEquiped() {return false;}
     public override bool canBeToggled() {return true;}
 }

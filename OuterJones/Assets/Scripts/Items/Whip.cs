@@ -29,6 +29,6 @@ public class Whip : Item
         return PossibleItems.Whip;
     }
 
-    public override bool startsEquiped() {return true;}
+    public override bool startsEquiped() {return false;}
     public override bool canBeToggled() {return true;}
 }

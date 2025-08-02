@@ -22,21 +22,22 @@ public class Inventory : MonoBehaviour
     }
 
     public void Update() {
-        if(Input.GetKeyDown(KeyCode.Alpha1) && items.Count > 0) {
+        if(Input.GetKeyDown(KeyCode.Alpha1) && items.Count >= 2) {
             equipItemN(1);
-        } else if(Input.GetKeyDown(KeyCode.Alpha2) && items.Count > 0) {
+        } else if(Input.GetKeyDown(KeyCode.Alpha2) && items.Count >= 3) {
             equipItemN(2);
-        } else if(Input.GetKeyDown(KeyCode.Alpha3) && items.Count > 0) {
+        } else if(Input.GetKeyDown(KeyCode.Alpha3) && items.Count >= 4) {
             equipItemN(3);
-        } else if(Input.GetKeyDown(KeyCode.Alpha4) && items.Count > 0) {
+        } else if(Input.GetKeyDown(KeyCode.Alpha4) && items.Count >= 5) {
             equipItemN(4);
-        } else if(Input.GetKeyDown(KeyCode.Alpha5) && items.Count > 0) {
+        } else if(Input.GetKeyDown(KeyCode.Alpha5) && items.Count >= 6) {
             equipItemN(5);
         }
     }
 
     public void onKeyUpdate() {
         key_count.text = ""+((Key)this.items[0]).getKeyCount();
+        this.setColorOfItemBg(0);
     }
 
     public void gainItem(Item newItem) {
@@ -51,6 +52,9 @@ public class Inventory : MonoBehaviour
 
         this.items.Add(newItem);
         this.hotbarImages[this.items.Count - 1].sprite = newItem.getItemIcon();
+        if(newItem.startsEquiped()) {
+            newItem.equip();
+        }
         setColorOfItemBg(this.items.Count - 1);
     }
 

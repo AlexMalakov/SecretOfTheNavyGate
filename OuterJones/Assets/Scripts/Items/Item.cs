@@ -15,7 +15,7 @@ public abstract class Item : MonoBehaviour
         this.equiped = false;
     }
 
-    public bool isEquiped() {
+    public virtual bool isEquiped() {
         return this.equiped;
     }
     

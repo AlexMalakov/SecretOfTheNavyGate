@@ -18,6 +18,10 @@ public class Key : Item
         //update hotbar to show one less key
     }
 
+    public override bool isEquiped() {
+        return this.hasKey();
+    }
+
     public override PossibleItems getItemType() {
         return PossibleItems.Key;
     }
