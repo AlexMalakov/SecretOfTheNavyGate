@@ -79,9 +79,4 @@ public class CanalFinderManager : MonoBehaviour
     public bool isInCanal() {
         return this.inCanal;
     }
-
-    //temprorayr
-    public void Update() {
-
-    }
 }
