@@ -18,4 +18,10 @@ public class GrappleZone : MonoBehaviour
             this.papa.grapleFrom(this.id);
         }
     }
+    
+    void OnTriggerExit2D(Collider2D other) {
+        if(other.GetComponent<Player>() != null) {
+            this.papa.pointExit();
+        }
+    }
 }

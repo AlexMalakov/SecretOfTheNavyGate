@@ -20,7 +20,7 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
 
     public void setWhipStatus(bool status) {
         this.playerHasWhip = status;
-        if(this.colliding) {
+        if(status && this.colliding) {
             this.input.requestSpaceInput(this, transform, "swing");
         }
     }
