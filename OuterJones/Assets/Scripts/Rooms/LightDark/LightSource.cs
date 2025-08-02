@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightSource : MonoBehaviour, RoomUpdateListener, Effectable
+public class LightSource : MonoBehaviour, Effectable
 {
     //room info
     [SerializeField] private LightDarkRoom originRoom;
@@ -23,8 +23,6 @@ public class LightSource : MonoBehaviour, RoomUpdateListener, Effectable
         //we don't use the pool because this room always has a beam
         this.beam = Instantiate(beamPrefab, beamParent).GetComponent<BeamModel>();
         this.originRoom.setSource(this);
-
-        layout.addRoomUpdateListener(this);
     }
 
     public void castBeam() {
@@ -33,16 +31,6 @@ public class LightSource : MonoBehaviour, RoomUpdateListener, Effectable
 
             this.originRoom.beamNeighbor(castDirection);
         }
-    }
-
-    public void onRoomUpdate(List<Room> rooms) {
-        //we don't kill our beam because it's ours and no one can take it from us 
-        
-        foreach(Room room in this.originRoom.getLayoutManager().getAllRooms()) {
-            room.removeBeam();
-        }
-
-        this.castBeam();
     }
 
     public void rotate90(bool clockwise) {
