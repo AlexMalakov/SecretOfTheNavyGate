@@ -47,7 +47,8 @@ public class LightSink : MonoBehaviour
 
     //gets the incoming direction needed to active the sink
     public DoorDirection getIncomingDirectionToActivate() {
-        return Door.rotateDoorDirection(Door.rotateDoorDirection(this.receiveBeamFrom, true), true);
+        // return Door.rotateDoorDirection(Door.rotateDoorDirection(this.receiveBeamFrom, true), true);
+        return this.receiveBeamFrom;
     }
 
 }
