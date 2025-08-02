@@ -11,34 +11,27 @@ public enum PossibleItems {
 public class Inventory : MonoBehaviour
 {
     private List<Item> items = new List<Item>();
-    [SerializeField] private int equipedItem = -1;
     [SerializeField] private List<Image> hotbarImages;
+    [SerializeField] private List<Image> hotbarImageBackgrounds;
     [SerializeField] private Key startingKey;
     [SerializeField] private TMP_Text key_count;
 
     void Awake() {
         this.gainItem(startingKey);
+        //TODO: equipd it in image <--------------------------
     }
 
     public void Update() {
-
-        float threshold = .05f;
         if(Input.GetKeyDown(KeyCode.Alpha1) && items.Count > 0) {
-            equipItemN(0);
-        } else if(Input.GetKeyDown(KeyCode.Alpha2) && items.Count > 0) {
             equipItemN(1);
-        } else if(Input.GetKeyDown(KeyCode.Alpha3) && items.Count > 0) {
+        } else if(Input.GetKeyDown(KeyCode.Alpha2) && items.Count > 0) {
             equipItemN(2);
-        } else if(Input.GetKeyDown(KeyCode.Alpha4) && items.Count > 0) {
+        } else if(Input.GetKeyDown(KeyCode.Alpha3) && items.Count > 0) {
             equipItemN(3);
-        } else if(Input.GetKeyDown(KeyCode.Alpha5) && items.Count > 0) {
+        } else if(Input.GetKeyDown(KeyCode.Alpha4) && items.Count > 0) {
             equipItemN(4);
-        } else if(Input.GetKeyDown(KeyCode.Alpha6) && items.Count > 0) {
+        } else if(Input.GetKeyDown(KeyCode.Alpha5) && items.Count > 0) {
             equipItemN(5);
-        } else if(Input.GetAxis("Mouse ScrollWheel") > threshold && this.items.Count > 1) {
-            this.equipItemN((this.equipedItem + 1 + items.Count) % items.Count);
-        } else if(Input.GetAxis("Mouse ScrollWheel") < - threshold && this.items.Count > 1) {
-            this.equipItemN((this.equipedItem - 1 + items.Count) % items.Count);
         }
     }
 
@@ -58,21 +51,22 @@ public class Inventory : MonoBehaviour
 
         this.items.Add(newItem);
         this.hotbarImages[this.items.Count - 1].sprite = newItem.getItemIcon();
+        setColorOfItemBg(this.items.Count - 1);
     }
 
     private void equipItemN(int n) {
-        //visually display selected item in hotbar
-        if(this.equipedItem == n) {
-            this.items[n].unequip();
-            this.equipedItem = -1;
-        } else {
-            if(this.equipedItem >= 0) {
+        if(this.items[n].canBeToggled()) {
+            if(this.items[n].isEquiped()) {
                 this.items[n].unequip();
+            } else {
+                this.items[n].equip();
             }
-
-            this.equipedItem = n;
-            this.items[n].equip();
+            this.setColorOfItemBg(n);
         }
+    }
+
+    private void setColorOfItemBg(int n) {
+        this.hotbarImageBackgrounds[n].color = (this.items[n].isEquiped()) ? new Color32(255, 177, 90, 255) : new Color32(0, 0, 0, 100);
     }
 
     public bool hasItem(PossibleItems t) {

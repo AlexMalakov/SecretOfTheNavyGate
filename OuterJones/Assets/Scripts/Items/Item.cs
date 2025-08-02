@@ -5,17 +5,18 @@ using UnityEngine;
 public abstract class Item : MonoBehaviour
 {
     [SerializeField] private Sprite iconSprite;
+    private bool equiped;
 
     public virtual void equip() {
-
+        this.equiped = true;
     }
 
     public virtual void unequip() {
-
+        this.equiped = false;
     }
 
-    public virtual void onGain() {
-
+    public bool isEquiped() {
+        return this.equiped;
     }
     
     public abstract PossibleItems getItemType();
@@ -23,4 +24,7 @@ public abstract class Item : MonoBehaviour
     public Sprite getItemIcon() {
         return this.iconSprite;
     }
+
+    public abstract bool startsEquiped();
+    public abstract bool canBeToggled();
 }

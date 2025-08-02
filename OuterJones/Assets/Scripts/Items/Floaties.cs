@@ -12,10 +12,10 @@ public class Floaties : Item
     public void Awake() {
         allCanals = FindObjectsOfType<Canal>(true);
     }
-    //TODO: player with floaties should be able to cross through
 
     //ignore collisions with canal Water
     public override void equip() {
+        base.equip();
         //should ignore collisions with canals (so this wont work is the funny story... but ill dewal with this later)
         foreach(Canal c in this.allCanals) {
             c.getWaterCollider().GetComponents<Collider2D>()[0].isTrigger = true;
@@ -29,6 +29,7 @@ public class Floaties : Item
     }
 
     public override void unequip() {
+        base.unequip();
         foreach(Canal c in this.allCanals) {
             c.getWaterCollider().GetComponents<Collider2D>()[0].isTrigger = false;
             c.getWaterCollider().GetComponents<Collider2D>()[1].isTrigger = false;
@@ -40,12 +41,10 @@ public class Floaties : Item
         }
     }
 
-
-    public override void onGain() {
-        // this.player = FindObjectOfType<Player>();
-    }
-
     public override PossibleItems getItemType() {
         return PossibleItems.Floaties;
     }
+
+    public override bool startsEquiped() {return true;}
+    public override bool canBeToggled() {return false;}
 }

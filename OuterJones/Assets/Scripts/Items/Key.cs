@@ -30,4 +30,7 @@ public class Key : Item
         this.keyCount++;
         this.inventory.onKeyUpdate();
     }
+
+    public override bool startsEquiped() {return true;}
+    public override bool canBeToggled() {return false;}
 }
