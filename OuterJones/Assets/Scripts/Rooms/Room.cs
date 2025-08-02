@@ -196,11 +196,8 @@ public class Room : MonoBehaviour
     //since all rooms can have mirrors/sinks then a lot of code gets to be moved here yipee I love big classes!!!!!! :D
     //incoming direction is the door from which the beam is coming from
     public virtual void receiveBeam(DoorDirection incomingDirection) {
-        Debug.Log("BEAM ARRIVING FROM " + incomingDirection);
-
         //only receive beam if we have a door that it can enter through
         if(this.hasDoorDirection(this.getEntrance(incomingDirection).getDirection()/*.getInverse()*/)) {
-            Debug.Log("can receive!");
     
             //if we have a sink power it, then pass the b
             if(this.lSink != null && this.lSink.getIncomingDirectionToActivate() == incomingDirection) {
@@ -213,7 +210,6 @@ public class Room : MonoBehaviour
                     this.getPointInDirection(incomingDirection).position,
                     this.lSink.transform.position);
 
-                Debug.Log("lsink arrived!");
                 return; //the beam "ends here"
             }
 
@@ -237,7 +233,6 @@ public class Room : MonoBehaviour
                     this.mirror.transform.position,
                     this.getPointInDirection(exitDirection).position);
 
-                    Debug.Log("unwebbed mirror!");
             } else if(this.mirror != null) {
                 BeamModel b = BeamPool.getBeam();
                 this.beams.Add(b);
@@ -246,7 +241,6 @@ public class Room : MonoBehaviour
                     this.transform,
                     this.getPointInDirection(incomingDirection).position,
                     this.mirror.transform.position);
-                Debug.Log("webbed mirror!");
                 return;
             }else {
                 exitDirection = this.getEntrance(incomingDirection).getInverse(); //exit direction is opposite of enter direction
@@ -257,12 +251,10 @@ public class Room : MonoBehaviour
                     this.getPointInDirection(incomingDirection).position,
                     this.getPointInDirection(exitDirection).position);
 
-                Debug.Log("no mirror!");
             }
 
             //if we have a door at our exit direction, we'll send the beam through
             if(this.hasDoorDirection(exitDirection)) {
-                Debug.Log("beaming neighbor" + exitDirection);
                 this.beamNeighbor(exitDirection);
             }
         }
@@ -281,7 +273,7 @@ public class Room : MonoBehaviour
         if(this.lSink != null) {
             this.lSink.deactivate();
         }
-        
+
         for(int i = 0; i < this.beams.Count; i++) {
             this.beams[i].killBeam();
         }
