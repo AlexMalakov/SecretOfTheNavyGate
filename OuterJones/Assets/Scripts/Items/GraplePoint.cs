@@ -14,11 +14,15 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
     private PlayerController controller;
 
     private bool playerHasWhip = false;
+    private bool colliding = false;
 
     int lastID = 0;
 
     public void setWhipStatus(bool status) {
         this.playerHasWhip = status;
+        if(this.colliding) {
+            this.input.requestSpaceInput(this, transform, "swing");
+        }
     }
     
     void Awake() {
@@ -30,13 +34,15 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
     }
 
     public void grapleFrom(int id) {
+        this.lastID = id;
+        this.colliding = true;
         if(this.playerHasWhip) {
-            this.lastID = id;
             this.input.requestSpaceInput(this, transform, "swing");
         }
     }
 
     public void pointExit() {
+        this.colliding = false;
         this.input.cancelRequest(this);
     }
 
