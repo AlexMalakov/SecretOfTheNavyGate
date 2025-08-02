@@ -121,6 +121,7 @@ public class StatueManager : MonoBehaviour, InputSubscriber
     public void onSpacePress() {
         foreach(MonkeyStatue stat in this.statues) {
             stat.reset();
+            correct = 0;
         }
     }
 }
