@@ -8,20 +8,14 @@ public class LightSource : MonoBehaviour, Effectable
     [SerializeField] private LightDarkRoom originRoom;
     private BeamModel beam;
     [SerializeField] private DoorDirection castDirection = DoorDirection.North;
-
-
-    [SerializeField] private Transform beamParent;
-    [SerializeField] private GameObject beamPrefab;
-    [SerializeField] private RoomsLayout layout;
-    private int BEAM_POOL_SIZE = 15;
+    [SerializeField] private LightSourceManager manager;
+    
     private bool powered = false;
     
-    public void Awake() {
-        //TODO: Shouldn't have a beam in a dark room
-        BeamPool.init(beamPrefab, beamParent, BEAM_POOL_SIZE);
 
+    public void Awake() {
         //we don't use the pool because this room always has a beam
-        this.beam = Instantiate(beamPrefab, beamParent).GetComponent<BeamModel>();
+        this.beam = this.manager.addLightSource(this);
         this.originRoom.setSource(this);
     }
 
@@ -39,46 +33,6 @@ public class LightSource : MonoBehaviour, Effectable
 
     public void onEffect() {
         this.powered = true;
-        this.layout.notifyRoomListeners(new List<Room>());
-    }
-}
-
-public static class BeamPool {
-    private static List<BeamModel> pool = new List<BeamModel>();
-    private static bool initialized = false;
-    private static int EXPAND_POOL_BY = 5;
-    
-    internal static void init(GameObject beamPrefab, Transform beamParent, int count) {
-        if (initialized) return;
-        initialized = true;
-
-        for (int i = 0; i < count; i++) {
-            pool.Add(GameObject.Instantiate(beamPrefab, beamParent).GetComponent<BeamModel>());
-        }
-    }
-
-    public static BeamModel getBeam() {
-
-        foreach (BeamModel b in pool) {
-            if(!b.isActive()) {
-                return b;
-            }
-        }
-
-        if(EXPAND_POOL_BY > 0) {
-            return growPool();
-        }
-
-        return null;
-    }
-
-    private static BeamModel growPool() {
-        int count = pool.Count;
-
-        for (int i = 0; i < EXPAND_POOL_BY; i++) {
-            pool.Add(GameObject.Instantiate(pool[0].gameObject, pool[0].transform.parent).GetComponent<BeamModel>());
-        }
-
-        return pool[count];
+        this.manager.onRoomUpdate(new List<Room>());
     }
 }
