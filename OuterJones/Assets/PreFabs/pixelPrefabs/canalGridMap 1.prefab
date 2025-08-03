@@ -941,6 +941,7 @@ GameObject:
   - component: {fileID: 1443369625570494575}
   - component: {fileID: 8101987980193844323}
   - component: {fileID: 6629209512795118857}
+  - component: {fileID: 6452360342337435130}
   m_Layer: 4
   m_Name: c1Water
   m_TagString: Untagged
@@ -1226,6 +1227,18 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 4712564821584083401}
+--- !u!114 &6452360342337435130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4712564821584083401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c1ef2e856ffd40f698992d9dd48b07c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5980146855188306814
 GameObject:
   m_ObjectHideFlags: 0
