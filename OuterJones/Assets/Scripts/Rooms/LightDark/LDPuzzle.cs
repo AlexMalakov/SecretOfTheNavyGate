@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class LDPuzzle : MonoBehaviour
 {
+    [Header ("sinks")]
     [SerializeField] private LightSink r3Sink;
     [SerializeField] private LightSink l4Sink;
     [SerializeField] private LightSink r6Sink;
+
+    [Header ("toggleable objs")]
+    [SerializeField] private GameObject r3OnObj;
+    [SerializeField] private GameObject r3OffObj;
+    [SerializeField] private GameObject l4OnObj;
+    [SerializeField] private GameObject l4OffObj;
+    [SerializeField] private GameObject r6OnObj;
+    [SerializeField] private GameObject r6OffObj;
 
     [SerializeField] private UnderbellyStaircase staircase;
 
@@ -37,6 +46,8 @@ public class LDPuzzle : MonoBehaviour
         if(this.r3On && this.l4On && this.r6On) {
             this.staircase.onEffect();
         }
+
+        this.updateObjs();
     }
 
     public void onDeactivate(string id) {
@@ -51,6 +62,17 @@ public class LDPuzzle : MonoBehaviour
                 this.r6On = false;
                 break;
         }
+
+        this.updateObjs();
+    }
+
+    private void updateObjs() {
+        this.r3OnObj.SetActive(this.r3On);
+        this.r3OffObj.SetActive(!this.r3On);
+        this.l4OnObj.SetActive(this.l4On);
+        this.l4OffObj.SetActive(!this.l4On);
+        this.r6OnObj.SetActive(this.r6On);
+        this.r6OffObj.SetActive(!this.r6On);
     }
     
 }
