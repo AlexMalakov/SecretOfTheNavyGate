@@ -8,6 +8,16 @@ public class RoomSpinner : MonoBehaviour
     [SerializeField] private GearRoom room;
     [SerializeField] private Door spinThrough;
 
+    private int rotationCounter = 0;
+
+    [SerializeField] private UnderbellyStaircase staircase;
+
+    [Header ("countdown sprites")]
+    [SerializeField] private GameObject threeLeft;
+    [SerializeField] private GameObject twoLeft;
+    [SerializeField] private GameObject oneLeft;
+    [SerializeField] private GameObject zeroLeft;
+
 
     public void onActivate(bool clockwise) {
 
@@ -16,5 +26,19 @@ public class RoomSpinner : MonoBehaviour
         }
 
         room.rotate90(clockwise);
+        this.rotationCounter++;
+
+        this.updateSprite();
+
+        if(this.rotationCounter == 3) {
+            staircase.onEffect();
+        }
+    }
+
+    private void updateSprite() {
+        this.threeLeft.SetActive(this.rotationCounter == 0);
+        this.twoLeft.SetActive(this.rotationCounter == 1);
+        this.oneLeft.SetActive(this.rotationCounter == 2);
+        this.zeroLeft.SetActive(this.rotationCounter >= 3);
     }
 }
