@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomSlider : Effectable
+public class RoomSlider : MonoBehaviour, Effectable
 {
     [SerializeField] private Room originRoom;
     [SerializeField] private Player player;
