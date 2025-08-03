@@ -10,7 +10,7 @@ public class RoomSpinner : MonoBehaviour
 
     private int rotationCounter = 0;
 
-    [SerializeField] private UnderbellyStaircase staircase;
+    [SerializeField] private GameObject effectableStaircasesObj;
 
     [Header ("countdown sprites")]
     [SerializeField] private GameObject threeLeft;
@@ -31,7 +31,7 @@ public class RoomSpinner : MonoBehaviour
         this.updateSprite();
 
         if(this.rotationCounter == 3) {
-            staircase.onEffect();
+            effectableStaircasesObj.GetComponent<Effectable>().onEffect();
         }
     }
 
