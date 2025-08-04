@@ -22,11 +22,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate() {
         getDirection();
+        this.transform.rotation = this.locRot;
 
         if(movementEnabled) {
             rb.velocity = this.movementInput * moveSpeed;
         } else {
-            this.transform.rotation = this.locRot;
             rb.velocity = Vector2.zero;
         }
 
@@ -65,7 +65,6 @@ public class PlayerController : MonoBehaviour
 
     public void isMovementEnabled(bool enabled) {
         this.movementEnabled = enabled;
-        this.transform.rotation = this.locRot;
     }
 
     public bool isPlayerMoving() {

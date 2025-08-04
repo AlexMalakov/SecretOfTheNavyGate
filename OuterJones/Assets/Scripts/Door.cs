@@ -116,15 +116,21 @@ public class Door : MonoBehaviour, InputSubscriber
     //TODO: this won't really work for packman rooms.
     //Actually not sure doors work for packman at all
     public void rotate90(bool clockwise) {
-        this.destination.setDestination(null);
-        this.destination = null;
+        if(this.destination != null) {
+            this.destination.setDestination(null);
+            this.destination = null;
+            this.openModel.SetActive(false);
+            this.closedModel.SetActive(true);
+        }
 
         this.direction = rotateDirection(clockwise);
+    }
 
+    public void updateNeighbors() {
         RoomCoords neighborPos = this.room.getPosition().getOffset(this.direction);
         Room neighbor = this.room.getLayoutManager().getRoomAt(neighborPos);
-        if(neighbor.hasDoorDirection(this.direction)) {
-            this.setDestination(neighbor.getEntrance(this.direction));
+        if(neighbor != null && neighbor.hasDoorDirection(this.direction)) {
+            this.setDestination(neighbor.getEntrance(this.getInverse()));
             this.destination.setDestination(this);
         }
     }

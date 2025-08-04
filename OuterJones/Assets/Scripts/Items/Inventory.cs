@@ -18,7 +18,6 @@ public class Inventory : MonoBehaviour
 
     void Awake() {
         this.gainItem(startingKey);
-        //TODO: equipd it in image <--------------------------
     }
 
     public void Update() {

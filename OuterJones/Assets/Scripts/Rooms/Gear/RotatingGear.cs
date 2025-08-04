@@ -58,7 +58,6 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
         this.controller.isMovementEnabled(false);
 
         Quaternion startRotation = transform.rotation;
-        //TODO allow player to invert
         float rotAmount = player.getRotationDirection()? -rotationAmount : rotationAmount;
 
         Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, rotAmount);
