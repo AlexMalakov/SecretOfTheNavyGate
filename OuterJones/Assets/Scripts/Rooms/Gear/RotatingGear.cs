@@ -6,8 +6,10 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
 {
     [SerializeField] private List<GearTooth> teeth;
     [SerializeField] private float rotationAmount;
+    [SerializeField] private Player player;
 
     [SerializeField] private Transform dropOffPoint;
+    [SerializeField] private Transform alternateDropOff; //for when gear item reverses the direction
     [SerializeField] private bool oneWay;
 
     private PlayerIO input;
@@ -57,7 +59,9 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
 
         Quaternion startRotation = transform.rotation;
         //TODO allow player to invert
-        Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, -rotationAmount);
+        float rotAmount = player.getRotationDirection()? -rotationAmount : rotationAmount;
+
+        Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, rotAmount);
 
         float elapsed = 0f;
         while(elapsed < ROTATION_DURATION) {
@@ -79,11 +83,12 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
     private GearTooth getClosest() {
         int closest = 0;
         float smallest = (this.teeth[0].transform.position - dropOffPoint.transform.position).magnitude;
+        Vector3 targetForClosest = this.player.getRotationDirection() ? this.dropOffPoint.transform.position : this.alternateDropOff.transform.position;
 
         for(int i = 1; i < this.teeth.Count; i++) {
-            if((this.teeth[i].transform.position - dropOffPoint.transform.position).magnitude < smallest) {
+            if((this.teeth[i].transform.position - targetForClosest).magnitude < smallest) {
                 closest = i;
-                smallest = (this.teeth[i].transform.position - dropOffPoint.transform.position).magnitude;
+                smallest = (this.teeth[i].transform.position - targetForClosest).magnitude;
             }
         }
 
