@@ -55,7 +55,7 @@ public class Door : MonoBehaviour, InputSubscriber
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        if(other.gameObject.GetComponent<Player>() != null) {
+        if(other.gameObject.GetComponent<Player>() != null && this.input != null) {
             this.input.cancelRequest(this);
         }
     }

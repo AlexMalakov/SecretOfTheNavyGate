@@ -242,8 +242,8 @@ public class Canal : MonoBehaviour
         this.waterCollider.SetActive(this.flooded);
     }
 
-    public GameObject getWaterCollider() {
-        return this.waterCollider;
+    public WaterColliderManager getWaterCollider() {
+        return this.waterCollider.GetComponent<WaterColliderManager>();
     }
 
     public GameObject getSkinnySectionWhenFlooded() {

@@ -16,10 +16,10 @@ public class Floaties : Item
     //ignore collisions with canal Water
     public override void equip() {
         base.equip();
-        //should ignore collisions with canals (so this wont work is the funny story... but ill dewal with this later)
+
         foreach(Canal c in this.allCanals) {
-            c.getWaterCollider().GetComponents<Collider2D>()[0].isTrigger = true;
-            c.getWaterCollider().GetComponents<Collider2D>()[1].isTrigger = true;
+            c.getWaterCollider().onFloatiesAquired();
+
             if(c.getSkinnySectionWhenFlooded() != null) {
                 c.getSkinnySectionWhenFlooded().GetComponents<Collider2D>()[0].isTrigger = true;
                 c.getSkinnySectionWhenFlooded().GetComponents<Collider2D>()[1].isTrigger = true;
@@ -28,18 +28,16 @@ public class Floaties : Item
 
     }
 
-    public override void unequip() {
-        base.unequip();
-        foreach(Canal c in this.allCanals) {
-            c.getWaterCollider().GetComponents<Collider2D>()[0].isTrigger = false;
-            c.getWaterCollider().GetComponents<Collider2D>()[1].isTrigger = false;
-
-            if(c.getSkinnySectionWhenFlooded() != null) {
-                c.getSkinnySectionWhenFlooded().GetComponents<Collider2D>()[0].isTrigger = false;
-                c.getSkinnySectionWhenFlooded().GetComponents<Collider2D>()[1].isTrigger = false;
-            }
-        }
-    }
+    // public override void unequip() {
+    //     base.unequip();
+    //     foreach(Canal c in this.allCanals) {
+    //         c.getWaterCollider().onFloatiesAquired(false);
+    //         if(c.getSkinnySectionWhenFlooded() != null) {
+    //             c.getSkinnySectionWhenFlooded().GetComponents<Collider2D>()[0].isTrigger = false;
+    //             c.getSkinnySectionWhenFlooded().GetComponents<Collider2D>()[1].isTrigger = false;
+    //         }
+    //     }
+    // }
 
     public override PossibleItems getItemType() {
         return PossibleItems.Floaties;
