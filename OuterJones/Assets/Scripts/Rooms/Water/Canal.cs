@@ -115,6 +115,13 @@ public class Canal : MonoBehaviour
             d.drainWater(this, drainingFrom);
         }
 
+        if(this.skinnySection == null) {
+            Debug.Log("CULPRIT IS: " + this.gameObject.name + ", " + this.room.gameObject.name);
+            this.skinnySection.onDrain();
+        }
+
+        Debug.Log("OFFENDER IS: " + this.gameObject.name + ", " + this.room.gameObject.name);
+        Debug.Log("TEST: " + this.skinnySection);
         this.skinnySection.onDrain();
 
         this.room.drainNeighbors(drainTo);
