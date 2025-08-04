@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8169939416553804696}
   - component: {fileID: 3958080585726301836}
   - component: {fileID: 1308659178530529624}
+  - component: {fileID: 8957189184405271709}
   m_Layer: 0
   m_Name: skinySecttionCover
   m_TagString: Untagged
@@ -255,6 +256,18 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 178305064796590194}
+--- !u!114 &8957189184405271709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178305064796590194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40003ff88a027498a86a839ec67533ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2133061249550550944
 GameObject:
   m_ObjectHideFlags: 0

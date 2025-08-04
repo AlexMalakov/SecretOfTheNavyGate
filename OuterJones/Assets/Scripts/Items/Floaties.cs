@@ -19,11 +19,7 @@ public class Floaties : Item
 
         foreach(Canal c in this.allCanals) {
             c.getWaterCollider().onFloatiesAquired();
-
-            if(c.getSkinnySectionWhenFlooded() != null) {
-                c.getSkinnySectionWhenFlooded().GetComponents<Collider2D>()[0].isTrigger = true;
-                c.getSkinnySectionWhenFlooded().GetComponents<Collider2D>()[1].isTrigger = true;
-            }
+            c.getSkinnyCollider().onFloatiesAquired();
         }
 
     }

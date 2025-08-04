@@ -19,7 +19,7 @@ public class Canal : MonoBehaviour
     [SerializeField] private Tilemap canalTilemap; // Assign in inspector
 
     [SerializeField] private GameObject waterCollider;
-    [SerializeField] private GameObject skinnySection;
+    [SerializeField] private SkinnySectionManager skinnySection;
     [SerializeField] private GameObject edgeCollider;
     [SerializeField] private List<Transform> backupTransforms;
 
@@ -55,8 +55,6 @@ public class Canal : MonoBehaviour
         if(this.reachedThisFlood || !this.gameObject.activeInHierarchy) {
             return;
         }
-        
-        Debug.Log("IN onFlood, I am " + this.gameObject.name);
 
         this.reachedThisFlood = true;
 
@@ -79,6 +77,8 @@ public class Canal : MonoBehaviour
         foreach(Floodable f in this.floodableObjects) {
             f.onFlood();
         }
+
+        this.skinnySection.onFlood();
 
         this.room.floodNeighbors(floodTo);
     }
@@ -114,6 +114,8 @@ public class Canal : MonoBehaviour
         foreach(Dam d in this.attatchedDams) {
             d.drainWater(this, drainingFrom);
         }
+
+        this.skinnySection.onDrain();
 
         this.room.drainNeighbors(drainTo);
     }
@@ -251,8 +253,8 @@ public class Canal : MonoBehaviour
         return this.waterCollider.GetComponent<WaterColliderManager>();
     }
 
-    public GameObject getSkinnySectionWhenFlooded() {
-        return this.flooded ? this.skinnySection : null;
+    public SkinnySectionManager getSkinnyCollider() {
+        return this.skinnySection;
     }
 
     public bool isFlooded() {
