@@ -37,6 +37,7 @@ public class WaterSource : MonoBehaviour
 
 
     public void computeFlow() {
+        Debug.Log("FLOODING WATER SOURCE ORIGIN: " + waterOrigin.gameObject.name);
         waterOrigin.onFlood(null);
     }
 }

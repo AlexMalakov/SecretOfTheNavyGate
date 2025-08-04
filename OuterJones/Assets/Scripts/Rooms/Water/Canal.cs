@@ -46,12 +46,17 @@ public class Canal : MonoBehaviour
         foreach(Grate g in this.grates) {
             g.init(this);
         }
+
+        // if(this.flooded)
     }
     
     public void onFlood(CanalEntrances? floodingFrom) {
+       
         if(this.reachedThisFlood || !this.gameObject.activeInHierarchy) {
             return;
         }
+        
+        Debug.Log("IN onFlood, I am " + this.gameObject.name);
 
         this.reachedThisFlood = true;
 

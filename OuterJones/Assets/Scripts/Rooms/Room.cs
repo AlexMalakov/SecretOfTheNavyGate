@@ -124,6 +124,7 @@ public class Room : MonoBehaviour
 
 
     public virtual void onFlood(CanalEntrances floodingFrom) {
+        Debug.Log("FLOODING CANALS THROUGH ON FLOOD" + this.gameObject.name);
         foreach(Canal c in this.canals) {
             if(c.willFlood(floodingFrom)) {
                 c.onFlood(floodingFrom);
@@ -146,6 +147,7 @@ public class Room : MonoBehaviour
     }
 
     public virtual void floodNeighbors(List<CanalEntrances> exits) {
+        Debug.Log("FLOODING CANALS THROUGH ON FLOOD" + this.gameObject.name);
         foreach(CanalEntrances exit in exits) {
             if(this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]) != null) {
                 CanalEntrances opposite = (CanalEntrances)(((int)exit + (WaterSource.CANAL_ENTRANCE_COUNT/2)) % WaterSource.CANAL_ENTRANCE_COUNT);
