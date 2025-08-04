@@ -35,10 +35,6 @@ public class RotationPuzzleManager : MonoBehaviour, Effectable
             e.resetElement();
         }
 
-        foreach(RotationPuzzleButton b in this.rButtons) {
-            b.resetElement();
-        }
-
         buttonInOrder = 0;
         this.rButtons[0].readyToPress();
     }
