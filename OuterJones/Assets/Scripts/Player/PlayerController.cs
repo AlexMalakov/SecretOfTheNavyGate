@@ -11,11 +11,13 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementInput;
 
     private bool movementEnabled = true;
+    private Quaternion locRot;
 
     private bool isMoving = false;
 
     private void Start() { 
         rb = GetComponent<Rigidbody2D>();
+        this.locRot = transform.rotation;
     }
 
     private void FixedUpdate() {
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
         if(movementEnabled) {
             rb.velocity = this.movementInput * moveSpeed;
         } else {
+            this.transform.rotation = this.locRot;
             rb.velocity = Vector2.zero;
         }
 
@@ -62,6 +65,7 @@ public class PlayerController : MonoBehaviour
 
     public void isMovementEnabled(bool enabled) {
         this.movementEnabled = enabled;
+        this.transform.rotation = this.locRot;
     }
 
     public bool isPlayerMoving() {
