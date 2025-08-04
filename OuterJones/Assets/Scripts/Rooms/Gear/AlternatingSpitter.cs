@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
 {
+    [SerializeField] private Player player;
+
     [SerializeField] private GameObject defaultcwSprite;
     [SerializeField] private GameObject defaultccwSprite;
     [SerializeField] private GameObject cwSprite;
@@ -21,7 +23,7 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
 
     protected void Awake() {
         this.input = FindObjectOfType<PlayerIO>();
-        this.controller = FindObjectOfType<PlayerController>();
+        this.controller = this.player.gameObject.GetComponent<PlayerController>();
 
         this.startDirection = this.clockwise;
     }
@@ -66,7 +68,11 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
         this.controller.transform.parent = this.transform;
 
         Quaternion startRotation = transform.rotation;
-        Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, clockwise? -90 : 90);
+
+        //if playerDirection = true, then clockwise.     if !playerDirection, then !clockwise
+        bool direction = !(clockwise ^ this.player.getRotationDirection());
+
+        Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, direction? -90 : 90);
 
         float elapsed = 0f;
         while(elapsed < ROTATION_DURATION) {
