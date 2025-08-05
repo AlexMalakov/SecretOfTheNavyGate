@@ -22,15 +22,19 @@ public class Room : MonoBehaviour
     [SerializeField] private Transform westPosition;
 
     [Header("Other (key-doors)")]
+    [SerializeField] private GameObject floorAndWallHolder;
+    private Quaternion floorAndWallHolderRot;
     [SerializeField] private List<GateDoor> gateDoors;
     [SerializeField] private List<Chest> chests;
 
     protected RoomCoords position;
     protected Quaternion initialRotation;
+    private bool playerInRoom = false;
 
     private PopUpManager manager;
 
     public void Awake() {
+        this.floorAndWallHolderRot = this.floorAndWallHolder.transform.rotation;
         this.initialRotation = transform.rotation;
         this.manager = FindObjectOfType<PopUpManager>();
     }
@@ -56,10 +60,12 @@ public class Room : MonoBehaviour
         this.layoutManager.getCam().transform.position = new Vector3(this.transform.position.x, this.transform.position.y ,this.layoutManager.getCam().transform.position.z);
         globalLighting.intensity = this.roomLighting;
         this.manager.displayRoomPopUp(this.getRoomName());
+        playerInRoom = true;
     }
 
     public virtual void onExit() {
         // this.gameObject.SetActive(false);
+        playerInRoom = false;
     }
 
 
@@ -299,9 +305,18 @@ public class Room : MonoBehaviour
     }
 
     public virtual bool rotate90(bool clockwise) {
-        
         //rotate game object
-        transform.Rotate(0f, 0f, (clockwise ? -90f : 90f));
+        PlayerController pc;
+        if(this.playerInRoom) {
+            pc = FindObjectOfType<PlayerController>();
+            pc.transform.parent = this.transform;
+            transform.Rotate(0f, 0f, (clockwise ? -90f : 90f));
+            pc.transform.parent = null;
+        } else {
+            transform.Rotate(0f, 0f, (clockwise ? -90f : 90f));
+        }
+
+        this.floorAndWallHolder.transform.rotation = this.floorAndWallHolderRot;
 
         //fix non-rotatatble game objects (chests, fences)
         foreach(Chest c in this.chests) {
