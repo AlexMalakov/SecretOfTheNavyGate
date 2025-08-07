@@ -7,6 +7,8 @@ public class PackmanRoom : Room
     [SerializeField] private Mummy mummy;
     [SerializeField] private ButtonManager bManager;
 
+    private Door enteredFrom;
+
     public override void init(RoomCoords position) {
         base.init(position);
 
@@ -25,10 +27,12 @@ public class PackmanRoom : Room
         }
     }
 
-    public override void onEnter() {
-        base.onEnter();
+    public override void onEnter(Door d) {
+        base.onEnter(d);
         if(mummy != null)
             mummy.wake();
+
+        this.enteredFrom = d;
     }
 
     public override void onExit() {
@@ -38,6 +42,12 @@ public class PackmanRoom : Room
         base.onExit();
     }
 
+    public void resetPackmanRoom(Player p) {
+        p.transform.postion = this.enteredFrom.getEnterPos();
+        if(this.bManager != null) {
+            this.bManager.failButtons();
+        }
+    }
 
     public static bool isPackmanPlace(Door origin, int maxX, int maxY) {
         //i think this is fine to use old getOffset since the direction is important to identify if it's a packman

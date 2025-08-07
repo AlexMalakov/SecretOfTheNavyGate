@@ -110,7 +110,11 @@ public class Door : MonoBehaviour, InputSubscriber
 
     public void onEnter(Player p) {
         p.transform.position = enterPosition.position;
-        this.room.onEnter();
+        this.room.onEnter(this);
+    }
+
+    public Transform getEnterPos() {
+        return this.enterPosition;
     }
 
     //TODO: this won't really work for packman rooms.

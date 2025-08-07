@@ -7,8 +7,8 @@ public class GearRoom : Room
     [SerializeField] private List<AlternatingSpitter> spitters;
     [SerializeField] private RotationListener rotListener;
 
-    public override void onEnter() {
-        base.onEnter();
+    public override void onEnter(Door d) {
+        base.onEnter(d);
 
         foreach(AlternatingSpitter s in this.spitters) {
             s.onPlayerEnter();

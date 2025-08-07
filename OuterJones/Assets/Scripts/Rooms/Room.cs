@@ -55,7 +55,7 @@ public class Room : MonoBehaviour
         }
     }
 
-    public virtual void onEnter() {
+    public virtual void onEnter(Door d) {
         // this.gameObject.SetActive(true);
         this.layoutManager.getCam().transform.position = new Vector3(this.transform.position.x, this.transform.position.y ,this.layoutManager.getCam().transform.position.z);
         globalLighting.intensity = this.roomLighting;
