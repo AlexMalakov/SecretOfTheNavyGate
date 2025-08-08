@@ -9,6 +9,7 @@ public class Mummy : MonoBehaviour
     private NavMeshAgent agent;
 
     private bool isAwake;
+    
 
     //mummy improvement features:
     //on collision - reset the packman room
@@ -21,6 +22,7 @@ public class Mummy : MonoBehaviour
         this.agent.updateUpAxis = false;
 
         this.agent.enabled = false;
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
 
     public void wake() {
