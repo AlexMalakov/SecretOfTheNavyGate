@@ -10,6 +10,9 @@ public class Mummy : MonoBehaviour
 
     private bool isAwake;
 
+    //mummy improvement features:
+    //on collision - reset the packman room
+
     public void Awake() {
         this.player = FindObjectOfType<Player>();
         this.agent = GetComponent<NavMeshAgent>();

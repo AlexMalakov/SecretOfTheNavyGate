@@ -36,7 +36,9 @@ public class ButtonManager : MonoBehaviour
 
 
     public void onBottonPress(string buttonStr) {
+        Debug.Log("HI!");
         if(!buttonsPressable) {
+            Debug.Log("NOT PRESSABLE!");
             this.failButtons();
             return;
         }
@@ -55,6 +57,7 @@ public class ButtonManager : MonoBehaviour
             }
             sequencePos++;
         } else {
+            Debug.Log("FAIL!");
             this.failButtons();
             return;
         }
@@ -70,9 +73,10 @@ public class ButtonManager : MonoBehaviour
                 obj.GetComponent<Effectable>().onEffect();
             }
         }
+        Debug.Log("DONE!");
     }  
 
-    private void failButtons() {
+    public void failButtons() {
         this.sequencePos = 0;
         foreach(PowerableButton b in this.buttons) {
             b.flashFailed();

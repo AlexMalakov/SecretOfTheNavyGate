@@ -43,7 +43,7 @@ public class PackmanRoom : Room
     }
 
     public void resetPackmanRoom(Player p) {
-        p.transform.postion = this.enteredFrom.getEnterPos();
+        p.transform.position = this.enteredFrom.getEnterPos().position;
         if(this.bManager != null) {
             this.bManager.failButtons();
         }
