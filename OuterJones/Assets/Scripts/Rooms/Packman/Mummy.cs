@@ -9,6 +9,11 @@ public class Mummy : MonoBehaviour
     private NavMeshAgent agent;
 
     private bool isAwake;
+
+    [SerializeField] private float closeSpeed;
+    [SerializeField] private float farSpeed;
+
+    [SerializeField] private float distanceToSpeedUp;
     
 
     //mummy improvement features:
@@ -37,6 +42,11 @@ public class Mummy : MonoBehaviour
 
     public void FixedUpdate() {
         if(isAwake) {
+            if((this.transform.position - this.player.transform.position).magnitude > this.distanceToSpeedUp) {
+                this.agent.speed = farSpeed;
+            } else {
+                this.agent.speed = closeSpeed;
+            }
             agent.SetDestination(this.player.transform.position);
 
             if (agent.isStopped != !this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving()) {
