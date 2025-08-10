@@ -27,7 +27,6 @@ public class Mummy : MonoBehaviour
         this.agent.updateUpAxis = false;
 
         this.agent.enabled = false;
-        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
 
     public void wake() {

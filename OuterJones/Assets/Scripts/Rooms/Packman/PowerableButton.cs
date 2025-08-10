@@ -30,6 +30,7 @@ public class PowerableButton : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log("HIT" + other.gameObject.name);
         if((other.gameObject.GetComponent<Player>() != null && !this.isMummyButton) 
                     || (other.gameObject.GetComponent<Mummy>() != null && this.isMummyButton)) {
             
