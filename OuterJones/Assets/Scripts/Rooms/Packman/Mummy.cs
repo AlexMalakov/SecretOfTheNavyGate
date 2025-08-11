@@ -34,18 +34,16 @@ public class Mummy : MonoBehaviour
     }
 
     public void navigateToTarget(Transform target, bool playerMoving) {
-        if(isAwake) {
-            if((this.transform.position - target.position).magnitude > this.distanceToSpeedUp) {
-                this.agent.speed = farSpeed;
-            } else {
-                this.agent.speed = closeSpeed;
-            }
+        if((this.transform.position - target.position).magnitude > this.distanceToSpeedUp) {
+            this.agent.speed = farSpeed;
+        } else {
+            this.agent.speed = closeSpeed;
+        }
 
-            agent.SetDestination(target.position);
+        agent.SetDestination(target.position);
 
-            if (agent.isStopped != !playerMoving) {
-                agent.isStopped = !playerMoving;
-            }
-        }   
+        if (agent.isStopped != !playerMoving) {
+            agent.isStopped = !playerMoving;
+        }
     }
 }

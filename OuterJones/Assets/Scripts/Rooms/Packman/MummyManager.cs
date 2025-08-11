@@ -10,23 +10,37 @@ public class MummyManager : MonoBehaviour
 
 
     [SerializeField] Mummy mummy;
+    private bool mummyIsAwake = false;
+
+    public void wakeMummy() {
+        this.mummyIsAwake = true;
+        this.mummy.wake();
+    }
+
+    public void sleepMummy() {
+        this.mummyIsAwake = true;
+        this.mummy.sleep();
+    }
 
 
     public void FixedUpdate() {
-
+        if(!mummyIsAwake) {
+            return;
+        }
+        
         if(targetPlayer) {
             this.mummy.navigateToTarget(player.transform, this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving());
         } else {
-            Transform closest = this.mummy.transform.position;
+            Transform closest = this.mummy.transform;
             float closestVal = (this.mummy.transform.position - this.player.transform.position).magnitude;
             foreach(Transform target in possibleTargets) {
                 if((target.position - this.player.transform.position).magnitude < closestVal) {
-                    closest = target.position;
+                    closest = target;
                     closestVal = (target.position - this.player.transform.position).magnitude;
                 }
             }
 
-            this.mummy.navigateToTarget(target, this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving());
+            this.mummy.navigateToTarget(closest, this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving());
         }
     }
 }
