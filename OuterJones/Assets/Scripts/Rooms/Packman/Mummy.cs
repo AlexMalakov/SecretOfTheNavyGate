@@ -5,10 +5,7 @@ using UnityEngine.AI;
 
 public class Mummy : MonoBehaviour
 {
-    private Player player;
     private NavMeshAgent agent;
-
-    private bool isAwake;
 
     [SerializeField] private float closeSpeed;
     [SerializeField] private float farSpeed;
@@ -20,7 +17,6 @@ public class Mummy : MonoBehaviour
     //on collision - reset the packman room
 
     public void Awake() {
-        this.player = FindObjectOfType<Player>();
         this.agent = GetComponent<NavMeshAgent>();
         
         this.agent.updateRotation = false;
@@ -30,28 +26,26 @@ public class Mummy : MonoBehaviour
     }
 
     public void wake() {
-        this.isAwake = true;
         this.agent.enabled = true;
     }
 
     public void sleep() {
-        this.isAwake = false;
         this.agent.enabled = false;
     }
 
-    public void FixedUpdate() {
+    public void navigateToTarget(Transform target, bool playerMoving) {
         if(isAwake) {
-            if((this.transform.position - this.player.transform.position).magnitude > this.distanceToSpeedUp) {
+            if((this.transform.position - target.position).magnitude > this.distanceToSpeedUp) {
                 this.agent.speed = farSpeed;
             } else {
                 this.agent.speed = closeSpeed;
             }
-            agent.SetDestination(this.player.transform.position);
 
-            if (agent.isStopped != !this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving()) {
-                agent.isStopped = !this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving();
+            agent.SetDestination(target.position);
+
+            if (agent.isStopped != !playerMoving) {
+                agent.isStopped = !playerMoving;
             }
-        }
-        
+        }   
     }
 }
