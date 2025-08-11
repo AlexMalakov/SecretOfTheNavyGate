@@ -8,6 +8,7 @@ public class MummyManager : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private List<Transform> possibleTargets;
 
+    private bool targetingLeft = true;
 
     [SerializeField] Mummy mummy;
     private bool mummyIsAwake = false;
@@ -27,12 +28,18 @@ public class MummyManager : MonoBehaviour
     }
 
     public void Update() {
-        if(!mummyIsAwake) {
+        if(this.mummy != null && !mummyIsAwake) {
             return;
         }
 
         if(targetPlayer) {
-            this.mummy.navigateToTarget(player.transform, this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving());
+            Transform target = this.targetingLeft ? this.player.getMummyTargets()[0] : this.player.getMummyTargets()[1];
+            if(Mathf.Abs(this.mummy.transform.position.x - target.position.x) < .001f) {
+                this.targetingLeft = !this.targetingLeft
+            }
+            Transform target = this.targetingLeft ? this.player.getMummyTargets()[0] : this.player.getMummyTargets()[1];
+
+            this.mummy.navigateToTarget(target, this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving());
         } else {
             Transform closest = this.mummy.transform;
             float closestVal = 9999;

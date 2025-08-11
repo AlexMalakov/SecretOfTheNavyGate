@@ -9,7 +9,8 @@ public class Player : MonoBehaviour
     private bool rotateDirection = true;
     private Inventory inventory;
 
-    [SerializeField] List<PlayerEdgeCollider> edges = new List<PlayerEdgeCollider>();
+    [SerializeField] private List<PlayerEdgeCollider> edges = new List<PlayerEdgeCollider>();
+    [SerializeField] private List<Transform> mummyTargets;
 
 
     public void Start() {
@@ -65,6 +66,10 @@ public class Player : MonoBehaviour
 
     public bool getRotationDirection() {
         return this.rotateDirection;
+    }
+
+    public List<Transform> getMummyTargets() {
+        return this.mummyTargets;
     }
 
 
