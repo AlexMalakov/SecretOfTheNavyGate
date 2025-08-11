@@ -13,13 +13,17 @@ public class MummyManager : MonoBehaviour
     private bool mummyIsAwake = false;
 
     public void wakeMummy() {
-        this.mummyIsAwake = true;
-        this.mummy.wake();
+        if(this.mummy != null) {
+            this.mummyIsAwake = true;
+            this.mummy.wake();
+        }
     }
 
     public void sleepMummy() {
-        this.mummyIsAwake = true;
-        this.mummy.sleep();
+        if(this.mummy != null) {
+            this.mummyIsAwake = true;
+            this.mummy.sleep();
+        }
     }
 
 
@@ -27,12 +31,12 @@ public class MummyManager : MonoBehaviour
         if(!mummyIsAwake) {
             return;
         }
-        
+
         if(targetPlayer) {
             this.mummy.navigateToTarget(player.transform, this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving());
         } else {
             Transform closest = this.mummy.transform;
-            float closestVal = (this.mummy.transform.position - this.player.transform.position).magnitude;
+            float closestVal = 9999;
             foreach(Transform target in possibleTargets) {
                 if((target.position - this.player.transform.position).magnitude < closestVal) {
                     closest = target;
