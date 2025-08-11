@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PackmanRoom : Room
 {
-    [SerializeField] private Mummy mummy;
+    [SerializeField] private MummyManager mummyManager;
     [SerializeField] private ButtonManager bManager;
 
     private Door enteredFrom;
@@ -29,15 +29,15 @@ public class PackmanRoom : Room
 
     public override void onEnter(Door d) {
         base.onEnter(d);
-        if(mummy != null)
-            mummy.wake();
+        if(mummyManager != null)
+            mummyManager.wakeMummy();
 
         this.enteredFrom = d;
     }
 
     public override void onExit() {
-        if(mummy != null)
-            mummy.sleep();
+        if(mummyManager != null)
+            mummyManager.sleepMummy();
 
         base.onExit();
     }
