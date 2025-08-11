@@ -28,16 +28,17 @@ public class MummyManager : MonoBehaviour
     }
 
     public void Update() {
-        if(this.mummy != null && !mummyIsAwake) {
+        if(this.mummy == null || !mummyIsAwake) {
             return;
         }
 
         if(targetPlayer) {
             Transform target = this.targetingLeft ? this.player.getMummyTargets()[0] : this.player.getMummyTargets()[1];
-            if(Mathf.Abs(this.mummy.transform.position.x - target.position.x) < .001f) {
-                this.targetingLeft = !this.targetingLeft
+            if(Mathf.Abs(this.mummy.transform.position.x - target.position.x) < .1f) {
+                Debug.Log("flipped!");
+                this.targetingLeft = !this.targetingLeft;
             }
-            Transform target = this.targetingLeft ? this.player.getMummyTargets()[0] : this.player.getMummyTargets()[1];
+            target = this.targetingLeft ? this.player.getMummyTargets()[0] : this.player.getMummyTargets()[1];
 
             this.mummy.navigateToTarget(target, this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving());
         } else {
