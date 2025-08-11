@@ -11,8 +11,6 @@ public class Mummy : MonoBehaviour
     [SerializeField] private float farSpeed;
 
     [SerializeField] private float distanceToSpeedUp;
-
-    private Transform curTarget;
     
 
     //mummy improvement features:
@@ -42,14 +40,20 @@ public class Mummy : MonoBehaviour
             this.agent.speed = closeSpeed;
         }
 
-        if(target != this.curTarget) {
+        // Debug.Log("DELTA: " + (this.transform.position.x - target.position.x));
+        if(Mathf.Abs(this.transform.position.x - target.position.x) < .1f) {
+            Debug.Log("ADJUSTING!");
+            agent.SetDestination((target.position + new Vector3(.1f, 0f, 0f)));
+        } else {
             agent.SetDestination(target.position);
-            this.curTarget = target;
         }
         
+        Debug.Log("desired: " + agent.desiredVelocity);
 
         if (agent.isStopped != !playerMoving) {
             agent.isStopped = !playerMoving;
         }
+
+        // Debug.Log("target is: " + target.gameObject.name);
     }
 }

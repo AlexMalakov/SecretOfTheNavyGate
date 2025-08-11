@@ -26,8 +26,7 @@ public class MummyManager : MonoBehaviour
         }
     }
 
-
-    public void FixedUpdate() {
+    public void Update() {
         if(!mummyIsAwake) {
             return;
         }
