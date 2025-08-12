@@ -51,10 +51,10 @@ public class PackmanRoom : Room
 
     public static bool isPackmanPlace(Door origin, int maxX, int maxY) {
         //i think this is fine to use old getOffset since the direction is important to identify if it's a packman
-        return (origin.getDirection() == DoorDirection.North  && origin.getPosition().getOffset(0, 1).y == maxY)
-                || (origin.getDirection() == DoorDirection.East && origin.getPosition().getOffset(1, 0).x == maxX)
-                || (origin.getDirection() == DoorDirection.West && origin.getPosition().getOffset(-1, 0).x == 0)
-                || (origin.getDirection() == DoorDirection.South && origin.getPosition().getOffset(0, -1).y == 0);
+        return (origin.getDirection() == DoorDirection.North  && origin.getPosition().getOffset(0, 1).y > maxY)
+                || (origin.getDirection() == DoorDirection.East && origin.getPosition().getOffset(1, 0).x > maxX)
+                || (origin.getDirection() == DoorDirection.West && origin.getPosition().getOffset(-1, 0).x < 0)
+                || (origin.getDirection() == DoorDirection.South && origin.getPosition().getOffset(0, -1).y < 0);
     }
 
     public override void beamNeighbor(DoorDirection exitDirection) {
