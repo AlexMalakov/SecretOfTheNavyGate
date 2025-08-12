@@ -22,7 +22,7 @@ public class MummyManager : MonoBehaviour
 
     public void sleepMummy() {
         if(this.mummy != null) {
-            this.mummyIsAwake = true;
+            this.mummyIsAwake = false;
             this.mummy.sleep();
         }
     }
