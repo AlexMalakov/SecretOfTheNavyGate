@@ -34,7 +34,7 @@ public class MummyManager : MonoBehaviour
 
         if(targetPlayer) {
             Transform target = this.targetingLeft ? this.player.getMummyTargets()[0] : this.player.getMummyTargets()[1];
-            if(Mathf.Abs(this.mummy.transform.position.x - target.position.x) < .1f) {
+            if(Mathf.Abs(this.mummy.transform.position.x - target.position.x) < .001f) {
                 Debug.Log("flipped!");
                 this.targetingLeft = !this.targetingLeft;
             }
