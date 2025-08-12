@@ -7,6 +7,7 @@ public class MummyManager : MonoBehaviour
     [SerializeField] private bool targetPlayer;
     [SerializeField] private Player player;
     [SerializeField] private List<Transform> possibleTargets;
+    [SerializeField] private PackmanRoom pRoom;
 
     private bool targetingLeft = true;
 
@@ -24,6 +25,7 @@ public class MummyManager : MonoBehaviour
         if(this.mummy != null) {
             this.mummyIsAwake = false;
             this.mummy.sleep();
+            this.mummy.resetPosition();
         }
     }
 
@@ -53,5 +55,10 @@ public class MummyManager : MonoBehaviour
 
             this.mummy.navigateToTarget(closest, this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving());
         }
+    }
+
+    public void resetRoom() {
+        this.pRoom.resetPackmanRoom(this.player);
+        this.mummy.resetPosition();
     }
 }

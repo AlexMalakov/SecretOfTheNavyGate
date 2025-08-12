@@ -12,6 +12,10 @@ public class Mummy : MonoBehaviour
 
     [SerializeField] private float distanceToSpeedUp;
     
+    [SerializeField] private MummyManager manager;
+
+    private Vector3 startingPos;
+    
 
     //mummy improvement features:
     //on collision - reset the packman room
@@ -23,6 +27,14 @@ public class Mummy : MonoBehaviour
         this.agent.updateUpAxis = false;
 
         this.agent.enabled = false;
+
+        this.startingPos = this.transform.position;
+    }
+
+    public void OnTriggerEnter2D(Collider2D other) {
+        if(other.GetComponent<Player>() != null) {
+            this.manager.resetRoom();
+        }
     }
 
     public void wake() {
@@ -40,20 +52,18 @@ public class Mummy : MonoBehaviour
             this.agent.speed = closeSpeed;
         }
 
-        // Debug.Log("DELTA: " + (this.transform.position.x - target.position.x));
         if(Mathf.Abs(this.transform.position.x - target.position.x) < .1f) {
-            Debug.Log("ADJUSTING!");
             agent.SetDestination((target.position + new Vector3(.1f, 0f, 0f)));
         } else {
             agent.SetDestination(target.position);
         }
-        
-        Debug.Log("desired: " + agent.desiredVelocity);
 
         if (agent.isStopped != !playerMoving) {
             agent.isStopped = !playerMoving;
         }
-
-        // Debug.Log("target is: " + target.gameObject.name);
     }
-}
+
+    public void resetPosition() {
+        this.transform.position = startingPos;
+    }
+} 
