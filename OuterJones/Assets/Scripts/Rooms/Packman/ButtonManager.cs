@@ -31,7 +31,10 @@ public class ButtonManager : MonoBehaviour
         foreach(PowerableButton b in this.buttons) {
             b.init(this);
         }
+    }
 
+    public int getSequencePos() {
+        return this.sequencePos;
     }
 
 

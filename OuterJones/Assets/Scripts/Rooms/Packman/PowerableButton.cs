@@ -9,11 +9,13 @@ public class PowerableButton : MonoBehaviour
     [SerializeField] bool isStarting = false;
 
     [Header ("sprites")]
-    [SerializeField] GameObject mummySprite;
-    [SerializeField] GameObject playerSprite;
-    [SerializeField] GameObject pressableSprite;
-    [SerializeField] GameObject failedSprite;
-    [SerializeField] GameObject starting;
+    [SerializeField] GameObject mummyFrame;
+    [SerializeField] GameObject defaultFrame;
+
+    [SerializeField] GameObject default_state;
+    [SerializeField] GameObject pressable_state;
+    [SerializeField] GameObject failed_state;
+    [SerializeField] GameObject successful_state;
 
     [Header ("for puzzles")]
     [SerializeField] string puzzleID;
@@ -30,7 +32,6 @@ public class PowerableButton : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("HIT" + other.gameObject.name);
         if((other.gameObject.GetComponent<Player>() != null && !this.isMummyButton) 
                     || (other.gameObject.GetComponent<Mummy>() != null && this.isMummyButton)) {
             
@@ -41,10 +42,9 @@ public class PowerableButton : MonoBehaviour
     public void setMummyButtonStatus() {
         this.setMummyButtonStatus(this.isMummyButton);
 
-        if(this.isStarting) {
-            this.starting.SetActive(true);
-            this.mummySprite.SetActive(false);
-            this.playerSprite.SetActive(false);
+        if(this.isStarting && this.manager.getSequencePos() == 0) {
+            this.pressable_state.SetActive(true);
+            this.default_state.SetActive(false);
         }
     }
 
@@ -54,19 +54,13 @@ public class PowerableButton : MonoBehaviour
         }
         this.isMummyButton = mummyBSatus;
 
-        if(isMummyButton) {
-            this.pressableSprite.SetActive(false);
-            this.failedSprite.SetActive(false);
-            this.mummySprite.SetActive(true);
-            this.playerSprite.SetActive(false);
-            this.starting.SetActive(false);
-        } else {
-            this.pressableSprite.SetActive(false);
-            this.failedSprite.SetActive(false);
-            this.mummySprite.SetActive(false);
-            this.playerSprite.SetActive(true);
-            this.starting.SetActive(false);
-        }
+        this.mummyFrame.SetActive(this.isMummyButton);
+        this.defaultFrame.SetActive(!this.isMummyButton);
+
+        this.default_state.SetActive(true);
+        this.pressable_state.SetActive(false);
+        this.failed_state.SetActive(false);
+        this.successful_state.SetActive(false);
     }
     
     public bool getMummyStatus() {
@@ -75,10 +69,12 @@ public class PowerableButton : MonoBehaviour
 
     public void flashFailed() {
         flashingFailed = true;
-        this.playerSprite.SetActive(false);
-        this.mummySprite.SetActive(false);
-        this.pressableSprite.SetActive(false);
-        this.failedSprite.SetActive(true);
+
+
+        default_state.SetActive(false);
+        pressable_state.SetActive(false);
+        failed_state.SetActive(true);
+        successful_state.SetActive(false);
 
         Invoke(nameof(unflashFailed), .7f);
     }
@@ -93,15 +89,11 @@ public class PowerableButton : MonoBehaviour
             return;
         }
 
-        this.playerSprite.SetActive(false);
-        this.mummySprite.SetActive(false);
-        this.pressableSprite.SetActive(true);
-        Invoke(nameof(setMummyButtonStatus), .4f);
-    }
+        default_state.SetActive(false);
+        pressable_state.SetActive(true);
+        failed_state.SetActive(false);
+        successful_state.SetActive(false);
 
-    public void setStarting() {
-        this.playerSprite.SetActive(false);
-        this.mummySprite.SetActive(false);
-        this.starting.SetActive(true);
+        Invoke(nameof(setMummyButtonStatus), .4f);
     }
 }
