@@ -36,9 +36,7 @@ public class ButtonManager : MonoBehaviour
 
 
     public void onBottonPress(string buttonStr) {
-        Debug.Log("HI!");
         if(!buttonsPressable) {
-            Debug.Log("NOT PRESSABLE!");
             this.failButtons();
             return;
         }
@@ -57,23 +55,23 @@ public class ButtonManager : MonoBehaviour
             }
             sequencePos++;
         } else {
-            Debug.Log("FAIL!");
             this.failButtons();
             return;
         }
 
         if(isDamSequence && sequencePos == damSequence.Count) {
+            this.buttonsPressable = false;
+            sequencePos = 0;
             foreach(GameObject obj in this.damEffectableTargets) {
-                this.buttonsPressable = false;
                 obj.GetComponent<Effectable>().onEffect();
             }
         } else if(!isDamSequence && sequencePos == puzzleSequence.Count) {
-            foreach(GameObject obj in this.puzzleEffectableTargets) {
-                this.buttonsPressable = false;
+            this.buttonsPressable = false;
+            sequencePos = 0;
+            foreach(GameObject obj in this.puzzleEffectableTargets) {  
                 obj.GetComponent<Effectable>().onEffect();
             }
         }
-        Debug.Log("DONE!");
     }  
 
     public void failButtons() {
