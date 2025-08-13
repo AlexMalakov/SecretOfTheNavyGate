@@ -21,7 +21,13 @@ public class LightSource : MonoBehaviour, Effectable
 
     public void castBeam() {
         if(this.powered) {
-            this.beam.initBeam(this.originRoom.transform, this.transform.position, this.originRoom.getPointInDirection(castDirection).position);
+            this.beam.initBeam(
+                this.originRoom.transform,
+                this.transform.position,
+                this.originRoom.getPointInDirection(castDirection).position,
+                null,
+                this.castDirection,
+            );
 
             this.originRoom.beamNeighbor(castDirection);
         }

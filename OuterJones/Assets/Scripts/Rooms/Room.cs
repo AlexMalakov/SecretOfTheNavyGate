@@ -209,13 +209,17 @@ public class Room : MonoBehaviour
             if(this.lSink != null && this.lSink.getIncomingDirectionToActivate() == incomingDirection) {
                 this.lSink.activate(incomingDirection);
 
+                if(!isUniqueBeam(incomingDirection, incomingDirection)) {
+                    return;
+                }
                 BeamModel b = BeamPool.getBeam();
-                this.beams.Add(b);
                 b.initBeam(
                     this.transform,
                     this.getPointInDirection(incomingDirection).position,
-                    this.lSink.transform.position);
-
+                    this.lSink.transform.position,
+                    incomingDirection,
+                    incomingDirection);
+                this.beams.Add(b);
                 return; //the beam "ends here"
             }
 
@@ -223,13 +227,19 @@ public class Room : MonoBehaviour
             if(this.mirror != null && !this.mirror.hasCobWebs()) { //if we have a mirror, we draw the light as if it bounces
                 exitDirection = this.mirror.reflect(incomingDirection); //exit direction is wherever we get reflected
 
+                if(!isUniqueBeam(null, exitDirection)) {
+                    return;
+                }
+
                 BeamModel b = BeamPool.getBeam();
                 this.beams.Add(b);
 
                 b.initBeam(
                     this.transform,
                     this.getPointInDirection(incomingDirection).position,
-                    this.mirror.transform.position);
+                    this.mirror.transform.position,
+                    incomingDirection,
+                    null);
 
                 BeamModel bb = BeamPool.getBeam();
                 this.beams.Add(bb);
@@ -237,16 +247,24 @@ public class Room : MonoBehaviour
                 bb.initBeam(
                     this.transform,
                     this.mirror.transform.position,
-                    this.getPointInDirection(exitDirection).position);
+                    this.getPointInDirection(exitDirection).position,
+                    null,
+                    exitDirection);
 
-            } else if(this.mirror != null) {
+            } else if(this.mirror != null) { //we have webs
+                if(!isUniqueBeam(incomingDirection, null)) {
+                    return;
+                }
                 BeamModel b = BeamPool.getBeam();
                 this.beams.Add(b);
 
                 b.initBeam(
                     this.transform,
                     this.getPointInDirection(incomingDirection).position,
-                    this.mirror.transform.position);
+                    this.mirror.transform.position,
+                    incomingDirection,
+                    null,
+                    );
                 return;
             }else {
                 exitDirection = this.getEntrance(incomingDirection).getInverse(); //exit direction is opposite of enter direction
@@ -255,7 +273,9 @@ public class Room : MonoBehaviour
                 b.initBeam(
                     this.transform,
                     this.getPointInDirection(incomingDirection).position,
-                    this.getPointInDirection(exitDirection).position);
+                    this.getPointInDirection(exitDirection).position,
+                    incomingDirection,
+                    exitDirection);
 
             }
 
@@ -264,6 +284,15 @@ public class Room : MonoBehaviour
                 this.beamNeighbor(exitDirection);
             }
         }
+    }
+
+    private bool isUniqueBeam(DoorDirection? start, DoorDirection? end) {
+        foreach(BeamModel b in this.beams) {
+            if(b.sameBeam(start, end)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     
