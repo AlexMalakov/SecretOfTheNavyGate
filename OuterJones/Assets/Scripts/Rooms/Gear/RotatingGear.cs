@@ -69,6 +69,20 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
             elapsed += Time.deltaTime;
             yield return null;
         }
+
+        if(oneWay) {
+            elapsed = 0f;
+            Vector3 targetForClosest = this.player.getRotationDirection() ? this.dropOffPoint.transform.position : this.alternateDropOff.transform.position;
+            float positionCorrectionTimer = .2f;
+            Vector3 startPos = this.controller.transform.position;
+            
+            while(elapsed < positionCorrectionTimer) {
+                this.controller.transform.position = Vector3.Lerp(startPos, targetForClosest, elapsed/positionCorrectionTimer);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
+        
         
         this.controller.transform.parent = null;
         this.controller.isMovementEnabled(true);

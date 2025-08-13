@@ -263,11 +263,16 @@ public class Room : MonoBehaviour
                     this.getPointInDirection(incomingDirection).position,
                     this.mirror.transform.position,
                     incomingDirection,
-                    null,
+                    null
                     );
                 return;
             }else {
                 exitDirection = this.getEntrance(incomingDirection).getInverse(); //exit direction is opposite of enter direction
+
+                if(!isUniqueBeam(incomingDirection, exitDirection)) {
+                    return;
+                }
+
                 BeamModel b = BeamPool.getBeam();
                 this.beams.Add(b);
                 b.initBeam(
