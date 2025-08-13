@@ -206,7 +206,8 @@ public class RoomsLayout : MonoBehaviour
                 toUpdate.Add(r);
             }
         }
-            
+        
+        FindObjectOfType<Map>().wipeSquares(keys);
         this.notifyRoomListeners(toUpdate);
     }
 

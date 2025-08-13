@@ -66,6 +66,12 @@ public class Map: MonoBehaviour, RoomUpdateListener
             }
         }
     }
+
+    public void wipeSquares(List<RoomCoords> wipeTargets) {
+        foreach(RoomCoords rc in wipeTargets) {
+            this.wrangler.getImageAt(rc.x, rc.y).gameObject.SetActive(false);
+        }
+    }
 }
 
 
