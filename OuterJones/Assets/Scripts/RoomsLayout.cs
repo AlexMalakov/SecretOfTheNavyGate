@@ -168,18 +168,8 @@ public class RoomsLayout : MonoBehaviour
         return all;
     }
 
-
-
-    //TODO: FIX THE CASE WHERE UNPLACED ROOMS GET SHIFTED AROUND!!!!!!!!
     public void slideRoomsAroundCenter(RoomCoords center, bool clockwise) {
-        //Enforces that the slide room must not be on an edge
-        //delete to allow it to be on an edge
-        Debug.Log("ORIGIN!" + center.x + ", " + center.y);
-        if(center.x == 0 || center.x == ROOM_GRID_X || center.y == 0 || center.y == ROOM_GRID_X) {
-            return;
-        }
-
-        List<RoomCoords> roomsToShift = new List<RoomCoords>();
+        Dictionary<RoomCoords, Room> roomsToShift = new Dictionary<RoomCoords, Room>();
         List<Room> toUpdate = new List<Room>();
 
         List<int[]> offsets = new List<int[]>(){
@@ -201,30 +191,20 @@ public class RoomsLayout : MonoBehaviour
             if(center.x - offset[0] >= 0 && center.x - offset[0] < ROOM_GRID_X
                 && center.y - offset[1] >= 0 && center.y - offset[1] < ROOM_GRID_X) {
 
-                roomsToShift.Add(center.getOffset(offset[0], offset[1]));
+                
+                roomsToShift.Add(center.getOffset(offset[0], offset[1]), this.getRoomAt(center.getOffset(offset[0], offset[1])));
             }
         }
 
-        Room swapper = this.rooms[roomsToShift[0].x, roomsToShift[0].y];
+        List<RoomCoords> keys = new List<RoomCoords>(roomsToShift.Keys);
 
-        for(int i = 0; i < roomsToShift.Count-1; i++) {
-            //update list in internal grid
-            this.rooms[roomsToShift[i].x, roomsToShift[i].y] = this.rooms[roomsToShift[i+1].x, roomsToShift[i+1].y];
-
-            if(this.rooms[roomsToShift[i].x, roomsToShift[i].y] != null) {
-                this.rooms[roomsToShift[i].x, roomsToShift[i].y].init(roomsToShift[i]);
-                this.moveRoomToSpot(this.rooms[roomsToShift[i].x, roomsToShift[i].y], roomsToShift[i]);
-                toUpdate.Add(this.rooms[roomsToShift[i].x, roomsToShift[i].y]);
+        for(int i = 0; i < keys.Count; i++) {
+            Room r = roomsToShift[keys[(i+1) % keys.Count]];
+            this.rooms[keys[i].x, keys[i].y] = r;
+            if(r != null) {
+                r.init(keys[i]);
+                toUpdate.Add(r);
             }
-            
-        }
-
-        this.rooms[roomsToShift[roomsToShift.Count-1].x, roomsToShift[roomsToShift.Count-1].y] = swapper;
-
-        if(swapper != null) {
-            swapper.init(roomsToShift[roomsToShift.Count-1]);
-            toUpdate.Add(swapper);
-            this.moveRoomToSpot(swapper, roomsToShift[roomsToShift.Count-1]);
         }
             
         this.notifyRoomListeners(toUpdate);
