@@ -183,15 +183,14 @@ public class RoomsLayout : MonoBehaviour
             new int[]{0,1},
         };
 
-        if(!clockwise) {
+        if(clockwise) {
             offsets.Reverse();
         }
 
         foreach(int[] offset in offsets) {
-            if(center.x - offset[0] >= 0 && center.x - offset[0] < ROOM_GRID_X
-                && center.y - offset[1] >= 0 && center.y - offset[1] < ROOM_GRID_X) {
+            if(center.x + offset[0] >= 0 && center.x + offset[0] < ROOM_GRID_X
+                && center.y + offset[1] >= 0 && center.y + offset[1] < ROOM_GRID_X) {
 
-                
                 roomsToShift.Add(center.getOffset(offset[0], offset[1]), this.getRoomAt(center.getOffset(offset[0], offset[1])));
             }
         }
@@ -203,6 +202,7 @@ public class RoomsLayout : MonoBehaviour
             this.rooms[keys[i].x, keys[i].y] = r;
             if(r != null) {
                 r.init(keys[i]);
+                this.moveRoomToSpot(r, keys[i]);
                 toUpdate.Add(r);
             }
         }
