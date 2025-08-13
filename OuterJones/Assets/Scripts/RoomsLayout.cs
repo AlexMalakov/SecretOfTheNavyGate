@@ -174,6 +174,7 @@ public class RoomsLayout : MonoBehaviour
     public void slideRoomsAroundCenter(RoomCoords center, bool clockwise) {
         //Enforces that the slide room must not be on an edge
         //delete to allow it to be on an edge
+        Debug.Log("ORIGIN!" + center.x + ", " + center.y);
         if(center.x == 0 || center.x == ROOM_GRID_X || center.y == 0 || center.y == ROOM_GRID_X) {
             return;
         }
