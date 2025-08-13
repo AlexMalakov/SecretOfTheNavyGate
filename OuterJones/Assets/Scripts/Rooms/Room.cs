@@ -367,7 +367,7 @@ public class Room : MonoBehaviour
         }
 
         foreach(Door d in this.doors) {
-            d.updateNeighbors();
+            d.updateNeighbor();
         }
 
         //rotate beam transforms :)
@@ -392,5 +392,12 @@ public class Room : MonoBehaviour
         this.layoutManager.notifyRoomListeners(new List<Room>(){this});
 
         return clockwise;
+    }
+
+    public void resetAllDoors() {
+        foreach(Door d in this.doors) {
+            d.resetDestination();
+            d.updateNeighbor();
+        }
     }
 }

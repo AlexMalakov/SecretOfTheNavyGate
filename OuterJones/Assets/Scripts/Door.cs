@@ -123,18 +123,22 @@ public class Door : MonoBehaviour, InputSubscriber
         this.openModel.SetActive(false);
         this.closedModel.SetActive(true);
 
-        if(this.destination != null) {
-            this.destination.setDestination(null);
-            this.destination = null;
-        }
+        this.resetDestination();
 
         this.direction = rotateDirection(clockwise);
     }
 
-    public void updateNeighbors() {
+    public void resetDestination() {
+        if(this.destination != null) {
+            this.destination.setDestination(null);
+            this.destination = null;
+        }
+    }
+
+    public void updateNeighbor() {
         RoomCoords neighborPos = this.room.getPosition().getOffset(this.direction);
         Room neighbor = this.room.getLayoutManager().getRoomAt(neighborPos);
-        if(neighbor != null && neighbor.hasDoorDirection(this.direction)) {
+        if(neighbor != null && neighbor.hasDoorDirection(this.getInverse())) {
             this.setDestination(neighbor.getEntrance(this.getInverse()));
             this.destination.setDestination(this);
         }

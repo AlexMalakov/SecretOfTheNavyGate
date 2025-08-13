@@ -207,6 +207,11 @@ public class RoomsLayout : MonoBehaviour
             }
         }
         
+        foreach(Room r in toUpdate) {
+            r.resetAllDoors();
+        }
+        this.rooms[center.x, center.y].resetAllDoors();
+
         FindObjectOfType<Map>().wipeSquares(keys);
         this.notifyRoomListeners(toUpdate);
     }
