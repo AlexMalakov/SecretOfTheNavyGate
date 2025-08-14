@@ -63,6 +63,20 @@ public class Mummy : MonoBehaviour
         }
     }
 
+    public void navigateFromTarget(Transform target, bool playerMoving) {
+        if((this.transform.position - target.position).magnitude < this.distanceToSpeedUp) { //move faster if closer to player
+            this.agent.speed = farSpeed;
+        } else {
+            this.agent.speed = closeSpeed;
+        }
+
+        agent.velocity = this.agent.speed * (this.transform.position - target.position).normalized;
+
+        if (agent.isStopped != !playerMoving) {
+            agent.isStopped = !playerMoving;
+        }
+    }
+
     public void resetPosition() {
         this.transform.position = startingPos;
     }
