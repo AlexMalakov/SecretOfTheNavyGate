@@ -9,6 +9,8 @@ public class MummyManager : MonoBehaviour
     [SerializeField] private List<Transform> possibleTargets;
     [SerializeField] private PackmanRoom pRoom;
 
+    private float timeBetweenFlip = .1f; //this is a really dumb idea but will probably work
+
     private bool targetingLeft = true;
 
     [SerializeField] Mummy mummy;
@@ -33,14 +35,14 @@ public class MummyManager : MonoBehaviour
         if(this.mummy == null || !mummyIsAwake) {
             return;
         }
+        this.targetingLeft = (((int)(Time.time / this.timeBetweenFlip))%2) == 0;
 
         if(targetPlayer) {
             Transform target = this.targetingLeft ? this.player.getMummyTargets()[0] : this.player.getMummyTargets()[1];
-            if(Mathf.Abs(this.mummy.transform.position.x - target.position.x) < .001f) {
-                Debug.Log("flipped!");
-                this.targetingLeft = !this.targetingLeft;
-            }
-            target = this.targetingLeft ? this.player.getMummyTargets()[0] : this.player.getMummyTargets()[1];
+            // if(Mathf.Abs(this.mummy.transform.position.x - target.position.x) < .01f) {
+            //     this.targetingLeft = !this.targetingLeft;
+            // }
+            // target = this.targetingLeft ? this.player.getMummyTargets()[0] : this.player.getMummyTargets()[1];
 
             this.mummy.navigateToTarget(target, this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving());
         } else {
