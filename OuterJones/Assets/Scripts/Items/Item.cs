@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface ItemListener {
+    void onItemEvent(bool itemStatus);
+}
+
 public abstract class Item : MonoBehaviour
 {
     [SerializeField] private Sprite iconSprite;

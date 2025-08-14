@@ -16,8 +16,18 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Key startingKey;
     [SerializeField] private TMP_Text key_count;
 
+    private Dictionary<PossibleItems, List<ItemListener>> itemListeners = new Dictionary<PossibleItems, ItemListener>();
+
     void Awake() {
         this.gainItem(startingKey);
+    }
+
+    public void addItemListener(PossibleItems itemType, ItemListener l) {
+        if(this.itemListeners.ContainsKey(itemType)) {
+            this.itemListeners[itemType].Add(l);
+        } else {
+            this.itemListeners.Add(itemType, new List<ItemListener>(){l});
+        }
     }
 
     public void Update() {
@@ -61,8 +71,19 @@ public class Inventory : MonoBehaviour
         if(this.items[n].canBeToggled()) {
             if(this.items[n].isEquiped()) {
                 this.items[n].unequip();
+                if(this.itemListeners.ContainsKey(this.items[n].getItemType())) {
+                    foreach(ItemListener l in this.itemListeners[this.items[n].getItemType()]) {
+                        l.onItemEvent(false);
+                    }
+                }
+                
             } else {
                 this.items[n].equip();
+                if(this.itemListeners.ContainsKey(this.items[n].getItemType())) {
+                    foreach(ItemListener l in this.itemListeners[this.items[n].getItemType()]) {
+                        l.onItemEvent(true);
+                    }
+                }
             }
             this.setColorOfItemBg(n);
         }
