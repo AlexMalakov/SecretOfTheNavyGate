@@ -27,8 +27,7 @@ public class Mummy : MonoBehaviour
         this.agent.updateUpAxis = false;
 
         this.agent.enabled = false;
-
-        this.startingPos = this.transform.position;
+        this.startingPos = this.transform.localPosition;
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
@@ -70,14 +69,18 @@ public class Mummy : MonoBehaviour
             this.agent.speed = closeSpeed;
         }
 
-        agent.velocity = this.agent.speed * (this.transform.position - target.position).normalized;
-
         if (agent.isStopped != !playerMoving) {
             agent.isStopped = !playerMoving;
+        }
+
+        if(!agent.isStopped) {
+            agent.velocity = this.agent.speed * (this.transform.position - target.position).normalized;
         }
     }
 
     public void resetPosition() {
-        this.transform.position = startingPos;
+        this.agent.enabled = false;
+        this.transform.localPosition = startingPos;
+        this.agent.enabled = true;
     }
 } 

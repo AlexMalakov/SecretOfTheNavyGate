@@ -24,7 +24,7 @@ public class MummyManager : MonoBehaviour, ItemListener
     }
 
     public void onItemEvent(bool status) {
-        this.amuletActive = status;
+        this.amuletActive = status; 
     }
 
     public void wakeMummy() {
@@ -58,7 +58,7 @@ public class MummyManager : MonoBehaviour, ItemListener
             }
         } else {
             Transform best = this.mummy.transform;
-            float bestVal = 9999;
+            float bestVal = amuletActive? -9999 : 9999;
             foreach(Transform target in possibleTargets) {
                 if((!this.amuletActive && ((target.position - this.player.transform.position).magnitude < bestVal))
                       || (this.amuletActive && ((target.position - this.player.transform.position).magnitude > bestVal))) {
