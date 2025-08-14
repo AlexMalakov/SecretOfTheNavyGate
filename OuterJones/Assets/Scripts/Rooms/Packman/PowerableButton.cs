@@ -31,6 +31,7 @@ public class PowerableButton : MonoBehaviour, ItemListener
         this.manager = bm;
 
         this.setMummyButtonStatus();
+        this.resetToDefault();
         FindObjectOfType<Inventory>().addItemListener(PossibleItems.Amulet, this);
     }
         
@@ -69,14 +70,16 @@ public class PowerableButton : MonoBehaviour, ItemListener
     }
 
     public void setMummyButtonStatus(bool mummyBSatus) {
-        if(flashingFailed) {
-            return;
-        }
         this.isMummyButton = mummyBSatus;
-
         this.mummyFrame.SetActive(this.isMummyButton);
         this.defaultFrame.SetActive(!this.isMummyButton);
 
+        if(flashingFailed) {
+            return;
+        }
+    }
+
+    private void resetToDefault() {
         this.default_state.SetActive(true);
         this.pressable_state.SetActive(false);
         this.failed_state.SetActive(false);
@@ -101,7 +104,7 @@ public class PowerableButton : MonoBehaviour, ItemListener
 
     private void unflashFailed() {
         this.flashingFailed = false;
-        setMummyButtonStatus();
+        this.resetToDefault();
     }
 
     public void flashPressable() {
