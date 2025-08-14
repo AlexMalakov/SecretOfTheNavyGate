@@ -14,6 +14,7 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
 
     private PlayerIO input;
     private PlayerController controller;
+    private bool isAlreadyRotating = false;
 
     private float ROTATION_DURATION = .5f;
 
@@ -26,8 +27,8 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
         }
     }
 
-    public void playerOnTooth(GearTooth t, PlayerController controller) {
-        if(this.playerInCanal) {
+    public void playerOnTooth(GearTooth t) {
+        if(this.playerInCanal || this.isAlreadyRotating) {
             return;
         }
 
@@ -53,6 +54,7 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
         if(this.playerInCanal || (this.oneWay && this.getClosestToPlayer().getID() == this.getClosestForOneWay().getID())) {
             yield break;
         }
+        this.isAlreadyRotating = true;
 
         //do that here to prveent gear item toggling from breaking anything
         GearTooth closest = this.getClosestForOneWay();
@@ -91,9 +93,13 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
         this.controller.isMovementEnabled(true);
 
         //to chain once it's done
-        if(!oneWay) {
+        //since closest is just the result of the method, if the closest point changes (can only happen from gear item)
+        //then that means we can keep rotating
+        if(!oneWay || (oneWay && closest.getID() != this.getClosestForOneWay().getID())) { 
             this.input.requestSpaceInput(this, this.transform, "rotate gear");
         }
+
+        this.isAlreadyRotating = false;
     }
 
     private GearTooth getClosestForOneWay() {

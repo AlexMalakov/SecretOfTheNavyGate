@@ -2,26 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GearTooth : MonoBehaviour
+public class GearTooth : MonoBehaviour, ItemListener
 {
 
     private RotatingGear gParent;
     private int ID;
+    private bool onTooth = false;
 
     public void init(RotatingGear gParent, int ID) {
         this.gParent = gParent;
         this.ID = ID;
+        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Floaties, this);
+    }
+
+    public void onItemEvent(bool itemStatus) {
+        if(this.onTooth) {
+            this.gParent.playerOnTooth(this);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.GetComponent<PlayerController>() != null) {
-            gParent.playerOnTooth(this, other.GetComponent<PlayerController>());
+            this.onTooth = true;
+            this.gParent.playerOnTooth(this);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
         if(other.GetComponent<PlayerController>() != null) {
-            gParent.playerOffTooth();
+            this.onTooth = false;
+            this.gParent.playerOffTooth();
         }
     }
 
