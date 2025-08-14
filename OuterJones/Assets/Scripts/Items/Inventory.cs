@@ -16,7 +16,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Key startingKey;
     [SerializeField] private TMP_Text key_count;
 
-    private Dictionary<PossibleItems, List<ItemListener>> itemListeners = new Dictionary<PossibleItems, ItemListener>();
+    private Dictionary<PossibleItems, List<ItemListener>> itemListeners = new Dictionary<PossibleItems, List<ItemListener>>();
 
     void Awake() {
         this.gainItem(startingKey);

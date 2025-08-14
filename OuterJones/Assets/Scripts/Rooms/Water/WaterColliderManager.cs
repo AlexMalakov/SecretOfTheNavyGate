@@ -2,15 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterColliderManager : MonoBehaviour
+public class WaterColliderManager : MonoBehaviour, ItemListener
 {
+    [SerializeField] private Inventory itemListenerManager;
+
     private bool floatiesAquired;
 
     private bool onGrate;
 
     private bool onBridge;
 
-    public void onFloatiesAquired() {
+    public void Awake() {
+        itemListenerManager.addItemListener(PossibleItems.Floaties, this);
+    }
+
+    public void onItemEvent(bool itemStatus) {
         this.floatiesAquired = true;
 
         this.setColliderTriggerStatus();

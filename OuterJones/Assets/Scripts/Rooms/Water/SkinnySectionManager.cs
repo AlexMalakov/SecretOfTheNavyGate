@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkinnySectionManager : MonoBehaviour
+public class SkinnySectionManager : MonoBehaviour, ItemListener
 {
+    [SerializeField] private Inventory itemListenerManager;
     bool hasFloaties = false;
-    
-    public void onFloatiesAquired() {
+
+    public void Awake() {
+        itemListenerManager.addItemListener(PossibleItems.Floaties, this);
+    }
+
+    public void onItemEvent(bool itemStatus) {
         this.hasFloaties = true;
     }
 
