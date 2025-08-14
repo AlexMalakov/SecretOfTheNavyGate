@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class SkinnySectionManager : MonoBehaviour, ItemListener
 {
-    [SerializeField] private Inventory itemListenerManager;
     bool hasFloaties = false;
 
     public void Awake() {
-        itemListenerManager.addItemListener(PossibleItems.Floaties, this);
+        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Floaties, this);
     }
 
     public void onItemEvent(bool itemStatus) {

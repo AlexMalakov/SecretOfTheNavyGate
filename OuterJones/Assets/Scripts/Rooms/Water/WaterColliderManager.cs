@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WaterColliderManager : MonoBehaviour, ItemListener
 {
-    [SerializeField] private Inventory itemListenerManager;
 
     private bool floatiesAquired;
 
@@ -13,7 +12,7 @@ public class WaterColliderManager : MonoBehaviour, ItemListener
     private bool onBridge;
 
     public void Awake() {
-        itemListenerManager.addItemListener(PossibleItems.Floaties, this);
+        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Floaties, this);
     }
 
     public void onItemEvent(bool itemStatus) {
