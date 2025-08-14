@@ -31,7 +31,7 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
             return;
         }
 
-        if(!oneWay || t.getID() != getClosest().getID()) {
+        if(!oneWay || t.getID() != getClosestForOneWay().getID()) {
             this.input.requestSpaceInput(this, this.transform, "rotate gear");
         }
     }
@@ -50,9 +50,12 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
     }
 
     private IEnumerator rotateGear() {
-        if(this.playerInCanal) {
+        if(this.playerInCanal || (this.oneWay && this.getClosestToPlayer().getID() == this.getClosestForOneWay().getID())) {
             yield break;
         }
+
+        //do that here to prveent gear item toggling from breaking anything
+        GearTooth closest = this.getClosestForOneWay();
 
         this.controller.transform.parent = this.transform;
         this.controller.isMovementEnabled(false);
@@ -70,7 +73,7 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
             yield return null;
         }
 
-        if(oneWay) {
+        if(oneWay && closest.getID() == this.getClosestToPlayer().getID()) {
             elapsed = 0f;
             Vector3 targetForClosest = this.player.getRotationDirection() ? this.dropOffPoint.transform.position : this.alternateDropOff.transform.position;
             float positionCorrectionTimer = .2f;
@@ -93,10 +96,17 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
         }
     }
 
-    private GearTooth getClosest() {
+    private GearTooth getClosestForOneWay() {
+        return getClosest(this.player.getRotationDirection() ? this.dropOffPoint.transform.position : this.alternateDropOff.transform.position);
+    }
+
+    private GearTooth getClosestToPlayer() {
+        return getClosest(this.player.transform.position);
+    }
+
+    private GearTooth getClosest(Vector3 targetForClosest) {
         int closest = 0;
         float smallest = (this.teeth[0].transform.position - dropOffPoint.transform.position).magnitude;
-        Vector3 targetForClosest = this.player.getRotationDirection() ? this.dropOffPoint.transform.position : this.alternateDropOff.transform.position;
 
         for(int i = 1; i < this.teeth.Count; i++) {
             if((this.teeth[i].transform.position - targetForClosest).magnitude < smallest) {
