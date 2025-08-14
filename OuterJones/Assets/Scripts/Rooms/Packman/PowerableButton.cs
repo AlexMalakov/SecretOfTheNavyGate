@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerableButton : MonoBehaviour
+public class PowerableButton : MonoBehaviour, ItemListener
 {
     [Header ("config")]
     [SerializeField] bool isMummyButton = false;
@@ -21,7 +21,9 @@ public class PowerableButton : MonoBehaviour
     [SerializeField] string puzzleID;
 
     private bool flashingFailed = false;
-    // [SerializeField] Wire nextWire;
+
+    private bool collidingWithPlayer = false;
+    private bool collidingWithMummy = false;
 
     private ButtonManager manager;
 
@@ -29,14 +31,32 @@ public class PowerableButton : MonoBehaviour
         this.manager = bm;
 
         this.setMummyButtonStatus();
+        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Amulet, this);
+    }
+        
+
+    public void onItemEvent(bool itemStatus) {
+        this.setMummyButtonStatus(!this.isMummyButton);
+        
+        if((this.isMummyButton && this.collidingWithMummy) || (!this.isMummyButton && this.collidingWithPlayer)) {
+            this.manager.onBottonPress(this.puzzleID);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other) {
+        this.collidingWithPlayer = this.collidingWithPlayer || (other.gameObject.GetComponent<Player>() != null);
+        this.collidingWithMummy = this.collidingWithMummy || (other.gameObject.GetComponent<Mummy>() != null);
+
         if((other.gameObject.GetComponent<Player>() != null && !this.isMummyButton) 
                     || (other.gameObject.GetComponent<Mummy>() != null && this.isMummyButton)) {
             
             this.manager.onBottonPress(this.puzzleID);
         }
+    }
+
+    void OnTriggerExit2D(Collider2D other) {
+        this.collidingWithPlayer = this.collidingWithPlayer && (!(other.gameObject.GetComponent<Player>() != null));
+        this.collidingWithMummy = this.collidingWithMummy && (!(other.gameObject.GetComponent<Mummy>() != null));
     }
 
     public void setMummyButtonStatus() {

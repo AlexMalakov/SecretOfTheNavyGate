@@ -58,6 +58,7 @@ public class PackmanRoom : Room
     }
 
     public override void beamNeighbor(DoorDirection exitDirection) {
+        //might have a bug where can't receive beam
         if(this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y) != null) {
             this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y).receiveBeam(exitDirection);
         }

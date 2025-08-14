@@ -12,7 +12,7 @@ public class GearTooth : MonoBehaviour, ItemListener
     public void init(RotatingGear gParent, int ID) {
         this.gParent = gParent;
         this.ID = ID;
-        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Floaties, this);
+        FindObjectOfType<Inventory>().addItemListener(PossibleItems.GearItem, this);
     }
 
     public void onItemEvent(bool itemStatus) {
