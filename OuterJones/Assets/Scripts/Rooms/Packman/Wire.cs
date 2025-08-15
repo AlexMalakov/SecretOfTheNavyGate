@@ -10,7 +10,7 @@ public class Wire : MonoBehaviour
     
     [SerializeField] private bool directionForward; 
 
-    private float SPARK_SPEED = 8f;
+    [SerializeField] private float SPARK_SPEED = 8f;
 
 
 
