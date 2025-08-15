@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chest : MonoBehaviour
+public class Chest : MonoBehaviour, InputSubscriber
 {
     [SerializeField] private List<Room> deck;
     [SerializeField] private Item item;
@@ -21,6 +21,8 @@ public class Chest : MonoBehaviour
     [SerializeField] private DoorDirection chestFacing;
 
     [SerializeField] private bool hideLast = false;
+
+    private PlayerIO playerIO;
     
     private Quaternion initialRot;
     private bool opened = false;
@@ -28,12 +30,14 @@ public class Chest : MonoBehaviour
     public IEnumerator Start() {
         this.initialRot = transform.rotation;
         this.updateSprite();
+        this.playerIO = FindObjectOfType<PlayerIO>();
         yield return null;
         yield return null; //skips 2 frames before hiding every room
 
         if(hideLast) {
             yield return null;
         }
+
         foreach(Room r in this.deck) { //IM SETTING EVERY ROOM TO NOT ACTIVE!
             r.gameObject.SetActive(false);
         }
@@ -47,10 +51,10 @@ public class Chest : MonoBehaviour
         if(this.deck.Count > 0 && other.gameObject.GetComponent<Player>() != null) {
             other.gameObject.GetComponent<Player>().addToDeck(this.deck);
             FindObjectOfType<DeckUI>().onUpdate();
+            this.playerIO.requestPopUpMessage(this, this.transform, ("Added " + this.deck.Count + " rooms into your deck!"));
         } else if(this.item != null && other.gameObject.GetComponent<Player>() != null) {
-            Debug.Log("giving item to player");
-            opened = true;
             other.GetComponent<Player>().getInventory().gainItem(this.item);
+            this.playerIO.requestPopUpMessage(this, this.transform, "You've found a " + this.item.getName());
         } else {
             //failed to give the player anything
             return;
@@ -76,4 +80,6 @@ public class Chest : MonoBehaviour
         this.closedSouth.SetActive(!this.opened && this.chestFacing == DoorDirection.South);
         this.closedWest.SetActive(!this.opened && this.chestFacing == DoorDirection.West);
     }
+
+    public void onSpacePress(){}
 }

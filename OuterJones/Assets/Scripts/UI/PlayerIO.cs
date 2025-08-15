@@ -33,6 +33,13 @@ public class PlayerIO : MonoBehaviour
         }
     }
 
+    public void requestPopUpAlert(InputSubscriber i, Transform posOfObj, string message) {
+        if(this.lastSubscriber != i) {
+            this.lastSubscriber = i;
+            this.manager.endSpacePopUp();
+            this.manager.displayPopUpAlert(posOfObj, message);
+        }
+    }
 
     public void requestPopUpMessage(InputSubscriber i, Transform posOfObj, string message) {
         if(this.lastSubscriber != i) {

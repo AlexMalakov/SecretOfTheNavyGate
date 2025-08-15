@@ -31,4 +31,5 @@ public class Whip : Item
 
     public override bool startsEquiped() {return false;}
     public override bool canBeToggled() {return true;}
+    public override string getName() {return "whip";}
 }

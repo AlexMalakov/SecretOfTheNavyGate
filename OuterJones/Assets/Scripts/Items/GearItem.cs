@@ -21,4 +21,5 @@ public class GearItem : Item
 
     public override bool startsEquiped() {return false;}
     public override bool canBeToggled() {return true;}
+    public override string getName() {return "spare gear";}
 }

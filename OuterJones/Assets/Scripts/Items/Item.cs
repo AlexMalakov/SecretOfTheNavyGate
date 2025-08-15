@@ -31,4 +31,5 @@ public abstract class Item : MonoBehaviour
 
     public abstract bool startsEquiped();
     public abstract bool canBeToggled();
+    public abstract string getName();
 }

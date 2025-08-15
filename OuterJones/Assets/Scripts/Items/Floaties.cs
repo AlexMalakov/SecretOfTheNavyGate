@@ -10,4 +10,5 @@ public class Floaties : Item
 
     public override bool startsEquiped() {return true;}
     public override bool canBeToggled() {return false;}
+    public override string getName() {return "floaties";}
 }

@@ -66,9 +66,9 @@ public class Door : MonoBehaviour, InputSubscriber
             if(next != null && room.getLayoutManager().canPlaceRoom(this, next)) {
                 this.input.requestSpaceInput(this, this.transform, "place room!");
             } else if(next == null) {
-                this.input.requestPopUpMessage(this, this.transform, "cannot place room from empty deck!");
+                this.input.requestPopUpAlert(this, this.transform, "cannot place room from empty deck!");
             } else {
-                this.input.requestPopUpMessage(this, this.transform, "next room cannot be placed here!");
+                this.input.requestPopUpAlert(this, this.transform, "next room cannot be placed here!");
             }
         } else {
             this.input.requestSpaceInput(this, this.transform, "use door");
