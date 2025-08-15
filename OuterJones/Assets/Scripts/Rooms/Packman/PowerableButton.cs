@@ -62,11 +62,6 @@ public class PowerableButton : MonoBehaviour, ItemListener
 
     public void setMummyButtonStatus() {
         this.setMummyButtonStatus(this.isMummyButton);
-
-        if(this.isStarting && this.manager.getSequencePos() == 0) {
-            this.pressable_state.SetActive(true);
-            this.default_state.SetActive(false);
-        }
     }
 
     public void setMummyButtonStatus(bool mummyBSatus) {
@@ -84,6 +79,11 @@ public class PowerableButton : MonoBehaviour, ItemListener
         this.pressable_state.SetActive(false);
         this.failed_state.SetActive(false);
         this.successful_state.SetActive(false);
+
+        if(this.isStarting && this.manager.getSequencePos() == 0) {
+            this.pressable_state.SetActive(true);
+            this.default_state.SetActive(false);
+        }
     }
     
     public bool getMummyStatus() {
