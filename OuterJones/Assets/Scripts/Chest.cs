@@ -19,6 +19,8 @@ public class Chest : MonoBehaviour
     [SerializeField] private GameObject closedWest;
 
     [SerializeField] private DoorDirection chestFacing;
+
+    [SerializeField] private bool hideLast = false;
     
     private Quaternion initialRot;
     private bool opened = false;
@@ -28,6 +30,10 @@ public class Chest : MonoBehaviour
         this.updateSprite();
         yield return null;
         yield return null; //skips 2 frames before hiding every room
+
+        if(hideLast) {
+            yield return null;
+        }
         foreach(Room r in this.deck) { //IM SETTING EVERY ROOM TO NOT ACTIVE!
             r.gameObject.SetActive(false);
         }

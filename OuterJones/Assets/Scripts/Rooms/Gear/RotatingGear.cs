@@ -57,7 +57,10 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
         this.isAlreadyRotating = true;
 
         //do that here to prveent gear item toggling from breaking anything
-        GearTooth closest = this.getClosestForOneWay();
+        GearTooth closest = null;
+        if(oneWay) {
+            closest = this.getClosestForOneWay();
+        }
 
         this.controller.transform.parent = this.transform;
         this.controller.isMovementEnabled(false);
