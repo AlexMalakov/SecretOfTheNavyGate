@@ -50,7 +50,7 @@ public class ButtonManager : MonoBehaviour
             isDamSequence = false;
         }
         
-        if((isDamSequence && buttonStr == puzzleSequence[sequencePos]) || (!isDamSequence && buttonStr == puzzleSequence[sequencePos])) {
+        if((isDamSequence && buttonStr == puzzleSequence[sequencePos]) || (!isDamSequence && buttonStr == damSequence[sequencePos])) {
             if(sequencePos < damWires.Count && isDamSequence) {
                 StartCoroutine(damWires[sequencePos].wireAnimation(this));
             } else if(sequencePos < puzzleWires.Count && !isDamSequence) {
