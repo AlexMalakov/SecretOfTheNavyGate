@@ -17,10 +17,10 @@ public class Player : MonoBehaviour
         this.inventory = FindObjectOfType<Inventory>();
         deck = new List<Room>();
 
-        GameObject obj = GameObject.Find("deckRoom");
-        deck.Add(obj.GetComponent<Room>());
+        // GameObject obj = GameObject.Find("deckRoom");
+        // deck.Add(obj.GetComponent<Room>());
 
-        obj = GameObject.Find("startingRoom");
+        GameObject obj = GameObject.Find("startingRoom");
         this.currentRoom = obj.GetComponent<Room>();
 
         FindObjectOfType<DeckUI>().init(this);
