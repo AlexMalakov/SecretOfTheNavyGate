@@ -24,6 +24,7 @@ public class Canal : MonoBehaviour
     [SerializeField] private List<Transform> backupTransforms;
 
     [SerializeField] private bool flooded = false;
+    [SerializeField] private bool keepsWaterWhenBlocked = false;
 
     private bool playerInCanal = false;
 
@@ -158,6 +159,17 @@ public class Canal : MonoBehaviour
     public void restartFlood() {
         this.reachedThisFlood = false;
         this.reachedThisDrain = false;
+
+        if(!this.keepsWaterWhenBlocked && this.flooded) {
+            this.waterCollider.SetActive(false);
+            this.flooded = false;
+
+            foreach(Floodable f in this.floodableObjects) {
+                f.drainWater();
+            }
+
+            this.skinnySection.onDrain();
+        }
     }
 
     void OnTriggerExit2D(Collider2D other) {
