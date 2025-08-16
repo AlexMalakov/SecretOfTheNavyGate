@@ -226,6 +226,8 @@ public class Canal : MonoBehaviour
         this.playerInCanal = true;
         this.edgeCollider.SetActive(true);
 
+        this.room.onPlayerInCanal();
+
         foreach(Grate g in this.grates) {
             g.onPlayerInCanal();
         }
@@ -239,6 +241,8 @@ public class Canal : MonoBehaviour
     private void onPlayerOutCanal() {
         this.edgeCollider.SetActive(false);
         this.playerInCanal = false;
+
+        this.room.onPlayerOutCanal();
 
         foreach(Grate g in this.grates) {
             g.onPlayerOutCanal();
