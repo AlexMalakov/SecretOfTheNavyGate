@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterDetector : MonoBehaviour, Floodable
+public class WaterDetector : Floodable
 {
     private bool flooded;
     [SerializeField] private GameObject effectableObj;
