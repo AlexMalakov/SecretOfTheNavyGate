@@ -9,8 +9,12 @@ public class RoomSpinner : MonoBehaviour, Effectable
     [SerializeField] private Door spinThrough;
 
     [SerializeField] private Player player;
+    [SerializeField] private WaterDetector detector;
 
     public void onEffect() {
+        if(!this.detector.isFlooded()) {
+            return;
+        }
         if(room.getLayoutManager().getRoomAt(room.getPosition().getOffset(spinThrough.getDirection())) != null) {
             room.getLayoutManager().getRoomAt(room.getPosition().getOffset(spinThrough.getDirection())).rotate90(!player.getRotationDirection());
         }
