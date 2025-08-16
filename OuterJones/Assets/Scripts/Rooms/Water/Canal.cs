@@ -52,7 +52,6 @@ public class Canal : MonoBehaviour
     }
     
     public void onFlood(CanalEntrances? floodingFrom) {
-       
         if(this.reachedThisFlood || !this.gameObject.activeInHierarchy) {
             return;
         }
