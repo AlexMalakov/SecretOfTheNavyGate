@@ -289,7 +289,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1000646972987149722}
-  - component: {fileID: 5225541529432162981}
   m_Layer: 0
   m_Name: swimBlocker
   m_TagString: Untagged
@@ -314,19 +313,6 @@ Transform:
   - {fileID: 1104999051336819977}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5225541529432162981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6880287128551143946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab98c141b64b84b27ad326a2c3ffb8a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floodCollider: {fileID: 3908497351174863724}
 --- !u!1 &8499064430595852404
 GameObject:
   m_ObjectHideFlags: 0
