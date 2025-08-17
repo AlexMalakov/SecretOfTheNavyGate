@@ -6,8 +6,7 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
 {
     [SerializeField] private Player player;
 
-    [SerializeField] private GameObject defaultcwSprite;
-    [SerializeField] private GameObject defaultccwSprite;
+    [SerializeField] private GameObject defaultSprite;
     [SerializeField] private GameObject cwSprite;
     [SerializeField] private GameObject ccwSprite;
 
@@ -109,8 +108,7 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
         }
 
 
-        this.defaultcwSprite.SetActive(false);
-        this.defaultccwSprite.SetActive(false);
+        this.defaultSprite.SetActive(false);
 
         if(clockwise) {
             this.cwSprite.SetActive(true);
@@ -129,15 +127,7 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
             return;
         }
 
-        if(clockwise) {
-            this.defaultcwSprite.SetActive(true);
-            this.defaultccwSprite.SetActive(false);
-        } else {
-            this.defaultccwSprite.SetActive(true);
-            this.defaultcwSprite.SetActive(false);
-        }
-        
-
+        defaultSprite.SetActive(true);
 
         this.cwSprite.SetActive(false);
         this.ccwSprite.SetActive(false);

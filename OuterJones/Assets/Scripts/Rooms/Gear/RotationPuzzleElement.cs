@@ -40,7 +40,7 @@ public abstract class RotationPuzzleElement : MonoBehaviour
 
     private void setSortingLayer(string layer) {
 
-        foreach(Renderer r in this.GetComponentsInChildren<Renderer>()) {
+        foreach(Renderer r in this.GetComponentsInChildren<Renderer>(true)) {
             r.sortingLayerName = layer;
         }
     }
