@@ -98,7 +98,7 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
         //to chain once it's done
         //since closest is just the result of the method, if the closest point changes (can only happen from gear item)
         //then that means we can keep rotating
-        if(!oneWay || (oneWay && closest.getID() != this.getClosestForOneWay().getID())) { 
+        if(!oneWay || (oneWay && closest.getID() == this.getClosestForOneWay().getID())) { 
             this.input.requestSpaceInput(this, this.transform, "rotate gear");
         }
 
