@@ -115,7 +115,7 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
 
     private GearTooth getClosest(Vector3 targetForClosest) {
         int closest = 0;
-        float smallest = (this.teeth[0].transform.position - dropOffPoint.transform.position).magnitude;
+        float smallest = (this.teeth[0].transform.position - targetForClosest).magnitude;
 
         for(int i = 1; i < this.teeth.Count; i++) {
             if((this.teeth[i].transform.position - targetForClosest).magnitude < smallest) {
@@ -123,7 +123,6 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
                 smallest = (this.teeth[i].transform.position - targetForClosest).magnitude;
             }
         }
-
         return this.teeth[closest];
     }
 
