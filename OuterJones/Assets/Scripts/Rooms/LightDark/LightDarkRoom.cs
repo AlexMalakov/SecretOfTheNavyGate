@@ -21,7 +21,7 @@ public class LightDarkRoom : Room
         base.init(position);
 
         this.position = position;
-        if((position.x + position.y) % 2 == 0) {
+        if((position.x + position.y) % 2 == 1) {
             this.roomLighting = lightLevel;
 
             if(this.ldListener != null) {
@@ -37,7 +37,7 @@ public class LightDarkRoom : Room
     }
 
     public override Sprite getRoomSprite() {
-        if(Mathf.Abs(this.roomLighting - lightLevel) < .001) {
+        if(isLight()) {
             return this.roomSprite;
         }
         return this.darkSprite;
@@ -55,5 +55,9 @@ public class LightDarkRoom : Room
 
     public void setSource(LightSource s) {
         this.source = s;
+    }
+
+    public bool isLight() {
+        return Mathf.Abs(this.roomLighting - lightLevel) < .001;
     }
 }

@@ -20,7 +20,7 @@ public class LightSource : MonoBehaviour, Effectable
     }
 
     public void castBeam() {
-        if(this.powered) {
+        if(this.powered && this.originRoom.isLight()) {
             this.beam.initBeam(
                 this.originRoom.transform,
                 this.transform.position,
