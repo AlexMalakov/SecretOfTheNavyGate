@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotatingGear : RotationPuzzleElement, InputSubscriber
+public class RotatingGear : RotationPuzzleElement, InputSubscriber, ItemListener
 {
     [SerializeField] private List<GearTooth> teeth;
     [SerializeField] private float rotationAmount;
     [SerializeField] private Player player;
 
+    [Header ("one way")]
     [SerializeField] private Transform dropOffPoint;
     [SerializeField] private Transform alternateDropOff; //for when gear item reverses the direction
     [SerializeField] private bool oneWay;
+    [SerializeField] private GameObject arrow;
+    [SerializeField] private GameObject flippedArrow;
 
     private PlayerIO input;
     private PlayerController controller;
@@ -25,7 +28,18 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber
         for(int i = 0; i < teeth.Count; i++) {
             this.teeth[i].init(this, i);
         }
+
+        if(this.oneWay) {
+            FindObjectOfType<Inventory>().addItemListener(PossibleItems.GearItem, this);
+        }
     }
+
+
+    public void onItemEvent(bool itemStatus) {
+        arrow.SetActive(!itemStatus);
+        flippedArrow.SetActive(itemStatus);
+    }
+
 
     public void playerOnTooth(GearTooth t) {
         if(this.playerInCanal || this.isAlreadyRotating) {
