@@ -58,7 +58,7 @@ public class Room : MonoBehaviour
         }
 
         if(this.getUnderbellyPair() != null) {
-            this.getUnderbellyPair.init(position);
+            this.getUnderbellyPair().init(position.swapFloor());
         }
     }
 
@@ -68,11 +68,18 @@ public class Room : MonoBehaviour
         globalLighting.intensity = this.roomLighting;
         this.manager.displayRoomPopUp(this.getRoomName());
         playerInRoom = true;
+
+        if(this.getUnderbellyPair() != null) {
+            this.getUnderbellyPair().onEnter(d);
+        }
     }
 
     public virtual void onExit() {
         // this.gameObject.SetActive(false);
         playerInRoom = false;
+        if(this.getUnderbellyPair() != null) {
+            this.getUnderbellyPair().onExit();
+        }
     }
 
 

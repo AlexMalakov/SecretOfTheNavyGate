@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public struct RoomCoords {
-    public int x; public int y;
+    public int x; public int y; public bool overworld;
 
-    public RoomCoords(int x, int y) {
-        this.x = x; this.y = y;
+    public RoomCoords(int x, int y, bool overworld) {
+        this.x = x; this.y = y; this.overworld = overworld;
     }
 
     public RoomCoords getOffset(int dX, int dY) {
-        return new RoomCoords(x + dX, y + dY);
+        return new RoomCoords(x + dX, y + dY, this.overworld);
     }
 
     public RoomCoords getOffset(DoorDirection d) {
@@ -27,6 +27,10 @@ public struct RoomCoords {
         }
 
         return this;
+    }
+
+    public RoomCoords swapFloor() {
+        return new RoomCoords(this.x, this.y, !this.overworld);
     }
 }
 
@@ -116,16 +120,16 @@ public class RoomsLayout : MonoBehaviour
         RoomCoords destPos;
         switch(origin.getDirection()) {
             case DoorDirection.North:
-                destPos = new RoomCoords(origin.getPosition().x, 0);
+                destPos = new RoomCoords(origin.getPosition().x, 0, origin.getPosition().overworld);
                 break;
             case DoorDirection.East:
-                destPos = new RoomCoords(0, origin.getPosition().y);
+                destPos = new RoomCoords(0, origin.getPosition().y, origin.getPosition().overworld);
                 break;
             case DoorDirection.West:
-                destPos = new RoomCoords(ROOM_GRID_X-1, origin.getPosition().y);
+                destPos = new RoomCoords(ROOM_GRID_X-1, origin.getPosition().y, origin.getPosition().overworld);
                 break;
             case DoorDirection.South:
-                destPos = new RoomCoords(origin.getPosition().y, ROOM_GRID_X-1);
+                destPos = new RoomCoords(origin.getPosition().y, ROOM_GRID_X-1, origin.getPosition().overworld);
                 break;
             default:
                 throw new InvalidOperationException("Invalid door direction!");
