@@ -27,12 +27,15 @@ public class Room : MonoBehaviour
     [SerializeField] private List<GateDoor> gateDoors;
     [SerializeField] private List<Chest> chests;
 
+    [SerializeField] private UnderbellyRoom underbellyRoom; //this is bad but like i didn't do rooms as a prefab (mistake) and don't want to manually
+    //swap 25 rooms so this is going to be the solution
+
     protected RoomCoords position;
     protected Quaternion initialRotation;
     private bool playerInRoom = false;
 
     private PopUpManager manager;
-
+    
     public void Awake() {
         this.floorAndWallHolderRot = this.floorAndWallHolder.transform.rotation;
         this.initialRotation = transform.rotation;
@@ -52,6 +55,10 @@ public class Room : MonoBehaviour
                 d.setDestination(this.layoutManager.getRoomAt(this.position.getOffset(d.getDirection())).getEntrance(d.getInverse()));
                 d.getDestination().getRoom().getEntrance(d.getInverse()).setDestination(d);
             }
+        }
+
+        if(this.getUnderbellyPair() != null) {
+            this.getUnderbellyPair.init(position);
         }
     }
 
@@ -117,6 +124,11 @@ public class Room : MonoBehaviour
 
         return null;
     }
+
+    public virtual UnderbellyRoom getUnderbellyPair() {
+        return this.underbellyRoom;
+    }
+
 
     public string getRoomName() {
         return this.roomName;
