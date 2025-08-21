@@ -51,13 +51,31 @@ public class RoomsLayout : MonoBehaviour
         this.underbelly = new Room[ROOM_GRID_X, ROOM_GRID_X];
 
         GameObject obj = GameObject.Find("startingRoom");
-        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2] = obj.GetComponent<Room>();
-        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].init(new RoomCoords(ROOM_GRID_X/2, ROOM_GRID_X/2, true));
+
+        RoomCoords startingPos = new RoomCoords(ROOM_GRID_X/2, ROOM_GRID_X/2, true);
+        this.helpPlaceRoom(obj.GetComponent<Room>(), startingPos);
+
         this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].onEnter(null);
     }
 
-    public void placeInUnderbelly(RoomCoords position, UnderbellyRoom room) {
-        this.underbelly[position.x, position.y] = room;
+    private helpPlaceRoom(Room r, RoomCoords pos) {
+        Room overR;
+        Room underR;
+        if(pos.overworld) {
+            overR = r;
+            underR = r.getPair();
+        } else {
+            overR = r.getPair();
+            underR = r;
+        }
+
+        this.rooms[pos.x, pos.y] = overR;
+        overR.init(pos.overworld ? pos : pos.swapFloor());
+        this.moveRoomToSpot(overR);
+
+        this.underbelly[pos.x, pos.y] = underR;
+        underR.init(!pos.overworld ? pos : pos.swapFloor());
+        this.moveRoomToSpot(underR);
     }
 
     public void addRoomUpdateListener(RoomUpdateListener l) {
@@ -96,11 +114,7 @@ public class RoomsLayout : MonoBehaviour
             destPos = origin.getPosition().getOffset(origin.getDirection());
         }
 
-        
-        this.rooms[destPos.x, destPos.y] = dest;
-        dest.init(destPos);
-
-        this.moveRoomToSpot(dest, destPos);
+        this.helpPlaceRoom(dest, destPos);
 
         this.notifyRoomListeners(new List<Room>(){dest});
     }
@@ -115,8 +129,9 @@ public class RoomsLayout : MonoBehaviour
         }
     }
 
-    private void moveRoomToSpot(Room r, RoomCoords c) {
+    private void moveRoomToSpot(Room r) {
         //possible bug in the position placing?
+        RoomCoords c = r.getPosition();
         RoomCoords centerPos = this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].getPosition();
         Vector3 offset = new Vector3(this.positionOffset * (c.x - centerPos.x), this.positionOffset * (c.y - centerPos.y), 0);
         r.transform.position = this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].transform.position + offset;
@@ -215,8 +230,7 @@ public class RoomsLayout : MonoBehaviour
             Room r = roomsToShift[keys[(i+1) % keys.Count]];
             this.rooms[keys[i].x, keys[i].y] = r;
             if(r != null) {
-                r.init(keys[i]);
-                this.moveRoomToSpot(r, keys[i]);
+                this.helpPlaceRoom(r, keys[i]);
                 toUpdate.Add(r);
             }
         }

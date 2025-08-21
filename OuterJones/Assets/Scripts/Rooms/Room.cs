@@ -133,7 +133,7 @@ public class Room : MonoBehaviour
         return null;
     }
 
-    public virtual UnderbellyRoom getUnderbellyPair() {
+    public virtual UnderbellyRoom getPair() {
         return this.underbellyRoom;
     }
 
