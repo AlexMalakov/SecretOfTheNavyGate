@@ -37,6 +37,7 @@ public struct RoomCoords {
 public class RoomsLayout : MonoBehaviour
 {
     private Room[,] rooms;
+    private Room[,] underbelly;
     [SerializeField] private float positionOffset;
     [SerializeField] private GameObject cameraObj;
     public static int ROOM_GRID_X = 5;
@@ -47,11 +48,16 @@ public class RoomsLayout : MonoBehaviour
     public void Start() {
         //place starting room in the grid
         this.rooms = new Room[ROOM_GRID_X, ROOM_GRID_X];
+        this.underbelly = new Room[ROOM_GRID_X, ROOM_GRIX_X];
 
         GameObject obj = GameObject.Find("startingRoom");
         this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2] = obj.GetComponent<Room>();
-        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].init(new RoomCoords(ROOM_GRID_X/2, ROOM_GRID_X/2));
+        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].init(new RoomCoords(ROOM_GRID_X/2, ROOM_GRID_X/2, true));
         this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].onEnter(null);
+    }
+
+    public void placeInUnderbelly(RoomCoords position, UnderbellyRoom room) {
+        this.underbelly[position.x, position.y] = room;
     }
 
     public void addRoomUpdateListener(RoomUpdateListener l) {
@@ -139,17 +145,18 @@ public class RoomsLayout : MonoBehaviour
     }
 
     public Room getRoomAt(RoomCoords c) {
-        return this.getRoomAt(c.x, c.y);
+        return this.getRoomAt(c.x, c.y, c.overworld);
     }
 
-    public Room getRoomAt(int x, int y) {
+    public Room getRoomAt(int x, int y, bool overworld) {
+        Room[,] checking = overworld? this.rooms : this.underbelly;
         if(x < 0 || x >= ROOM_GRID_X || y < 0 || y >= ROOM_GRID_X) {
-            if(this.rooms[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X] is PackmanRoom) {
-                return this.rooms[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X];
+            if(this.checking[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X] is PackmanRoom) {
+                return this.checking[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X];
             }
             return null;
         }
-        return this.rooms[x,y];
+        return this.checking[x,y];
     }
 
     public Room getRoomFromPackman(RoomCoords c) {

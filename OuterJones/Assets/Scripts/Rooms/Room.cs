@@ -59,6 +59,7 @@ public class Room : MonoBehaviour
 
         if(this.getUnderbellyPair() != null) {
             this.getUnderbellyPair().init(position.swapFloor());
+            this.layoutManager.placeInUnderbelly(position.swapFloor(), this.getUnderbellyPair());
         }
     }
 
