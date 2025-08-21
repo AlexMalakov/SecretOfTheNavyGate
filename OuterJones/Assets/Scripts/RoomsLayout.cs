@@ -58,7 +58,7 @@ public class RoomsLayout : MonoBehaviour
         this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].onEnter(null);
     }
 
-    private helpPlaceRoom(Room r, RoomCoords pos) {
+    private void helpPlaceRoom(Room r, RoomCoords pos) {
         Room overR;
         Room underR;
         if(pos.overworld) {

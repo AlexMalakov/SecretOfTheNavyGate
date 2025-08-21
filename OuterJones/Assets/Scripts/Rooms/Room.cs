@@ -15,6 +15,9 @@ public class Room : MonoBehaviour
     [SerializeField] protected List<Door> doors;
     [SerializeField] protected Sprite roomSprite;
 
+    [Header("underbelly")]
+    [SerializeField] private Room roomPair;
+
     [Header ("Beam target transforms")]
     [SerializeField] private Transform northPosition;
     [SerializeField] private Transform eastPosition;
@@ -26,9 +29,6 @@ public class Room : MonoBehaviour
     private Quaternion floorAndWallHolderRot;
     [SerializeField] private List<GateDoor> gateDoors;
     [SerializeField] private List<Chest> chests;
-
-    [SerializeField] private UnderbellyRoom underbellyRoom; //this is bad but like i didn't do rooms as a prefab (mistake) and don't want to manually
-    //swap 25 rooms so this is going to be the solution
 
     protected RoomCoords position;
     protected Quaternion initialRotation;
@@ -56,11 +56,6 @@ public class Room : MonoBehaviour
                 d.getDestination().getRoom().getEntrance(d.getInverse()).setDestination(d);
             }
         }
-
-        if(this.position.overworld && this.getUnderbellyPair() != null) {
-            this.getUnderbellyPair().init(position.swapFloor());
-            this.layoutManager.placeInUnderbelly(position.swapFloor(), this.getUnderbellyPair());
-        }
     }
 
     public virtual void onEnter(Door d) {
@@ -70,16 +65,16 @@ public class Room : MonoBehaviour
         this.manager.displayRoomPopUp(this.getRoomName());
         playerInRoom = true;
 
-        if(this.getUnderbellyPair() != null) {
-            this.getUnderbellyPair().onEnter(d);
+        if(this.getPosition().overworld) {
+            this.getPair().onEnter(d);
         }
     }
 
     public virtual void onExit() {
         // this.gameObject.SetActive(false);
         playerInRoom = false;
-        if(this.getUnderbellyPair() != null) {
-            this.getUnderbellyPair().onExit();
+        if(this.getPosition().overworld) {
+            this.getPair().onExit();
         }
     }
 
@@ -133,8 +128,8 @@ public class Room : MonoBehaviour
         return null;
     }
 
-    public virtual UnderbellyRoom getPair() {
-        return this.underbellyRoom;
+    public virtual Room getPair() {
+        return this.roomPair;
     }
 
 
@@ -421,8 +416,8 @@ public class Room : MonoBehaviour
 
         rotateLight90(clockwise);
 
-        if(this.position.overworld && this.getUnderbellyPair() != null) {
-            this.getUnderbellyPair().rotate90(clockwise); //flip if we want to change the direction
+        if(this.getPosition().overworld) {
+            this.getPair().rotate90(clockwise); //flip if we want to change the direction
         }
 
         //handles canal and light re set, and map rotate
