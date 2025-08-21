@@ -27,7 +27,11 @@ public class LightSourceManager : MonoBehaviour, RoomUpdateListener
     }
 
     private void resetBeams() {
-        foreach(Room r in this.layout.getAllRooms()) {
+        foreach(Room r in this.layout.getAllRooms(true)) {
+            r.removeBeam();
+        }
+
+        foreach(Room r in this.layout.getAllRooms(false)) {
             r.removeBeam();
         }
     }

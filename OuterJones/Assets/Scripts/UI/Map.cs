@@ -8,11 +8,13 @@ public class Map: MonoBehaviour, RoomUpdateListener
     private MapImageWrangler wrangler;
     [SerializeField] Image exclamationImg;
     private Coroutine exclamationBlink;
+    private RoomsLayout layout;
 
     public void Start() {
         this.wrangler = FindObjectOfType<MapImageWrangler>();
 
-        FindObjectOfType<RoomsLayout>().addRoomUpdateListener(this);
+        this.layout = FindObjectOfType<RoomsLayout>();
+        this.layout.addRoomUpdateListener(this);
 
         Room r = GameObject.Find("startingRoom").GetComponent<Room>();
         Image i = this.wrangler.getImageAt(2, 2);
@@ -24,7 +26,12 @@ public class Map: MonoBehaviour, RoomUpdateListener
     //TODO: Moved rooms that are null
     public void onRoomUpdate(List<Room> rooms) {
         foreach(Room r in rooms) {
-            displayRoom(r, this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y));
+            if(r.getPosition().overworld) {
+                displayRoom(r, this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y));
+            } else {
+                displayRoom(layout.getRoomAt(r.getPosition().swapFloor()), this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y));
+            }
+            
         }
 
     }

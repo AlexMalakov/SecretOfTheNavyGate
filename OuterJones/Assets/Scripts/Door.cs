@@ -62,7 +62,7 @@ public class Door : MonoBehaviour, InputSubscriber
 
     public void checkDoorPlacement() {
         if(this.destination == null) {
-            Room next = this.player.getNextInDeck();
+            Room next = this.player.getNextInDeck(this.room.getPosition().overworld);
             if(next != null && room.getLayoutManager().canPlaceRoom(this, next)) {
                 this.input.requestSpaceInput(this, this.transform, "place room!");
             } else if(next == null) {
@@ -81,7 +81,7 @@ public class Door : MonoBehaviour, InputSubscriber
 
     public void useDoor() {
         if(this.destination == null) {
-            Room next = this.player.getNextInDeck();
+            Room next = this.player.getNextInDeck(this.room.getPosition().overworld);
             if(next != null && room.getLayoutManager().canPlaceRoom(this, next)) {
                 this.player.removeNextInDeck();
                 this.setDestination(next.getEntrance(this.getInverse()));

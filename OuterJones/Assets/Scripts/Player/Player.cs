@@ -33,10 +33,10 @@ public class Player : MonoBehaviour
         this.deck.AddRange(newDeck);
     }
 
-    public Room getNextInDeck() {
+    public Room getNextInDeck(bool overworld) {
         if(deck.Count == 0)
             return null;
-        return deck[0];
+        return overworld ? deck[0] : deck[0].getUnderbellyPair();
     }
 
     public int getDeckSize() {

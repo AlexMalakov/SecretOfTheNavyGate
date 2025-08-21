@@ -421,6 +421,10 @@ public class Room : MonoBehaviour
 
         rotateLight90(clockwise);
 
+        if(this.position.overworld && this.getUnderbellyPair() != null) {
+            this.getUnderbellyPair().rotate90(clockwise); //flip if we want to change the direction
+        }
+
         //handles canal and light re set, and map rotate
         this.layoutManager.notifyRoomListeners(new List<Room>(){this});
 

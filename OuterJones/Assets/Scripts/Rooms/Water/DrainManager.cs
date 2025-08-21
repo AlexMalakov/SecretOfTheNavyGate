@@ -30,7 +30,7 @@ public class DrainManager : MonoBehaviour, RoomUpdateListener
 
     //floods from canals that are not reachable from a canal or a drain, and have water in them
     private void floodRemainingCanals() {
-        foreach(Room r in this.layout.getAllRooms()) {
+        foreach(Room r in this.layout.getAllRooms(true)) {
             r.floodAllRemainingCanals();
         }
     }

@@ -19,7 +19,11 @@ public class WaterSourceManager : MonoBehaviour, RoomUpdateListener
     }
 
     private void restartFlood() {
-        foreach(Room r in this.layout.getAllRooms()) {
+        foreach(Room r in this.layout.getAllRooms(true)) {
+            r.restartFlood();
+        }
+
+        foreach(Room r in this.layout.getAllRooms(false)) {
             r.restartFlood();
         }
     }
