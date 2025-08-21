@@ -48,7 +48,7 @@ public class RoomsLayout : MonoBehaviour
     public void Start() {
         //place starting room in the grid
         this.rooms = new Room[ROOM_GRID_X, ROOM_GRID_X];
-        this.underbelly = new Room[ROOM_GRID_X, ROOM_GRIX_X];
+        this.underbelly = new Room[ROOM_GRID_X, ROOM_GRID_X];
 
         GameObject obj = GameObject.Find("startingRoom");
         this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2] = obj.GetComponent<Room>();
@@ -151,34 +151,37 @@ public class RoomsLayout : MonoBehaviour
     public Room getRoomAt(int x, int y, bool overworld) {
         Room[,] checking = overworld? this.rooms : this.underbelly;
         if(x < 0 || x >= ROOM_GRID_X || y < 0 || y >= ROOM_GRID_X) {
-            if(this.checking[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X] is PackmanRoom) {
-                return this.checking[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X];
+            if(checking[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X] is PackmanRoom) {
+                return checking[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X];
             }
             return null;
         }
-        return this.checking[x,y];
+        return checking[x,y];
     }
 
     public Room getRoomFromPackman(RoomCoords c) {
-        return this.getRoomFromPackman(c.x, c.y);
+        return this.getRoomFromPackman(c.x, c.y, c.overworld);
     }
 
-    public Room getRoomFromPackman(int x, int y) {
-        return this.rooms[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X];
+    public Room getRoomFromPackman(int x, int y, bool overworld) {
+        return overworld ? 
+                this.rooms[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X] : 
+                this.underbelly[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X];
     }
 
-    public List<Room> getAllRooms() {
+    public List<Room> getAllRooms(bool overworld) {
         List<Room> all = new List<Room>();
         for(int i = 0; i < ROOM_GRID_X; i++) {
             for(int j = 0; j < ROOM_GRID_X; j++) {
                 if(this.rooms[i,j] != null) {
-                    all.Add(this.rooms[i,j]);
+                    all.Add(overworld ? this.rooms[i,j] : this.underbelly[i,j]);
                 }
             }
         }
         return all;
     }
 
+    //not changing this with underbelly rewrite because it doesn't matter if im rotating the top or the bottom since they move together
     public void slideRoomsAroundCenter(RoomCoords center, bool clockwise) {
         Dictionary<RoomCoords, Room> roomsToShift = new Dictionary<RoomCoords, Room>();
         List<Room> toUpdate = new List<Room>();
