@@ -55,7 +55,7 @@ public class RoomsLayout : MonoBehaviour
         RoomCoords startingPos = new RoomCoords(ROOM_GRID_X/2, ROOM_GRID_X/2, true);
         this.helpPlaceRoom(obj.GetComponent<Room>(), startingPos);
 
-        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].onEnter(null);
+        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].onEnter((Door)null);
     }
 
     private void helpPlaceRoom(Room r, RoomCoords pos) {
@@ -132,9 +132,9 @@ public class RoomsLayout : MonoBehaviour
     private void moveRoomToSpot(Room r) {
         //possible bug in the position placing?
         RoomCoords c = r.getPosition();
-        RoomCoords centerPos = this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].getPosition();
-        Vector3 offset = new Vector3(this.positionOffset * (c.x - centerPos.x), this.positionOffset * (c.y - centerPos.y), 0);
-        r.transform.position = this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].transform.position + offset;
+        Room reff = ((c.overworld) ? this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2] : this.underbelly[ROOM_GRID_X/2, ROOM_GRID_X/2]);
+        Vector3 offset = new Vector3(this.positionOffset * (c.x - reff.getPosition().x), this.positionOffset * (c.y - reff.getPosition().y), 0);
+        r.transform.position = reff.transform.position + offset;
     }
 
     private RoomCoords getPackmanCoords(Door origin) {

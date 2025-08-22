@@ -15,6 +15,14 @@ public class GearRoom : Room
         }
     }
 
+    public override void onEnter(UnderbellyStaircase u) {
+        base.onEnter(u);
+
+        foreach(AlternatingSpitter s in this.spitters) {
+            s.onPlayerEnter();
+        }
+    }
+
     public override void onExit() {
         base.onExit(); 
 

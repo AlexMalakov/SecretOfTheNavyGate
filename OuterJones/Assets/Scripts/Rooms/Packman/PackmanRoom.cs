@@ -7,7 +7,7 @@ public class PackmanRoom : Room
     [SerializeField] private MummyManager mummyManager;
     [SerializeField] private ButtonManager bManager;
 
-    private Door enteredFrom;
+    private Transform enteredFromPos;
 
     public override void init(RoomCoords position) {
         base.init(position);
@@ -32,7 +32,15 @@ public class PackmanRoom : Room
         if(mummyManager != null)
             mummyManager.wakeMummy();
 
-        this.enteredFrom = d;
+        this.enteredFromPos = d.getEnterPos();
+    }
+
+    public override void onEnter(UnderbellyStaircase u) {
+        base.onEnter(u);
+        if(mummyManager != null)
+            mummyManager.wakeMummy();
+
+        this.enteredFromPos = u.getEnterPos();
     }
 
     public override void onExit() {
@@ -43,7 +51,7 @@ public class PackmanRoom : Room
     }
 
     public void resetPackmanRoom(Player p) {
-        p.transform.position = this.enteredFrom.getEnterPos().position;
+        p.transform.position = this.enteredFromPos.position;
         if(this.bManager != null) {
             this.bManager.failButtons();
         }

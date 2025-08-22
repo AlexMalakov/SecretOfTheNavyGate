@@ -59,15 +59,26 @@ public class Room : MonoBehaviour
     }
 
     public virtual void onEnter(Door d) {
-        // this.gameObject.SetActive(true);
+        this.enterAbstraction();
+        
+        if(this.getPosition().overworld) {
+            this.getPair().onEnter(d);
+        }
+    }
+
+    public virtual void onEnter(UnderbellyStaircase staircase) {
+        this.enterAbstraction();
+
+        if(this.getPosition().overworld) {
+            this.getPair().onEnter(staircase);
+        }
+    }
+
+    private void enterAbstraction() {
         this.layoutManager.getCam().transform.position = new Vector3(this.transform.position.x, this.transform.position.y ,this.layoutManager.getCam().transform.position.z);
         globalLighting.intensity = this.roomLighting;
         this.manager.displayRoomPopUp(this.getRoomName());
         playerInRoom = true;
-
-        if(this.getPosition().overworld) {
-            this.getPair().onEnter(d);
-        }
     }
 
     public virtual void onExit() {

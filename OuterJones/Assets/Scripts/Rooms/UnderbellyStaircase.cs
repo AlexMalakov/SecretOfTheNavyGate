@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class UnderbellyStaircase : MonoBehaviour, Effectable, InputSubscriber
 {
+    [SerializeField] private UnderbellyStaircase destination;
+    [SerializeField] private Player player;
+
+    [SerializeField] private Transform exitPos;
+
     [SerializeField] private GameObject lid;
     [SerializeField] private GameObject stairs;
 
@@ -27,6 +32,10 @@ public class UnderbellyStaircase : MonoBehaviour, Effectable, InputSubscriber
         }
     }
 
+    public Transform getEnterPos() {
+        return this.exitPos;
+    }
+
     public void OnTriggerEnter2D(Collider2D other) {
         if(this.opened && other.GetComponent<Player>() != null) {
             this.input.requestSpaceInput(this, this.transform, "descend");
@@ -34,7 +43,14 @@ public class UnderbellyStaircase : MonoBehaviour, Effectable, InputSubscriber
     }
 
     public void onSpacePress() {
-        Debug.Log("ENTERING THE UNDERBELLY!");
-        //enter the underbelly
+        this.originRoom.onExit();
+        this.destination.onEntered();
+    }
+
+    public void onEntered() {
+        this.originRoom.onEnter(this);
+        this.player.setCurrentRoom(this.originRoom);
+
+        //door use listenering :)
     }
 }
