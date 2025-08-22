@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     public Room getNextInDeck(bool overworld) {
         if(deck.Count == 0)
             return null;
-        return overworld == deck[0].getPosition().overworld ? deck[0] : deck[0].getPair();
+        return overworld ? deck[0] : deck[0].getPair();
     }
 
     public int getDeckSize() {

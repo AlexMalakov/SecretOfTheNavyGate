@@ -60,18 +60,15 @@ public class Room : MonoBehaviour
 
     public virtual void onEnter(Door d) {
         this.enterAbstraction();
-        
-        if(this.getPosition().overworld) {
-            this.getPair().onEnter(d);
-        }
+    }
+
+    public void hideRoom() {
+        this.getPair().gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
     public virtual void onEnter(UnderbellyStaircase staircase) {
         this.enterAbstraction();
-
-        if(this.getPosition().overworld) {
-            this.getPair().onEnter(staircase);
-        }
     }
 
     private void enterAbstraction() {

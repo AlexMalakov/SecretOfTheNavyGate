@@ -39,7 +39,7 @@ public class Chest : MonoBehaviour, InputSubscriber
         }
 
         foreach(Room r in this.deck) { //IM SETTING EVERY ROOM TO NOT ACTIVE!
-            r.gameObject.SetActive(false);
+            r.hideRoom();
         }
     }
 

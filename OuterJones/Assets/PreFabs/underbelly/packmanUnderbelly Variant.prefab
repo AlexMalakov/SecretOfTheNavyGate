@@ -2165,7 +2165,7 @@ MonoBehaviour:
   eastPosition: {fileID: 4881876341275251666}
   southPosition: {fileID: 93223008344133760}
   westPosition: {fileID: 6183466519098544782}
-  floorAndWallHolder: {fileID: 0}
+  floorAndWallHolder: {fileID: 8611956230294400953}
   gateDoors: []
   chests: []
   canalEntrances: 
@@ -2250,5 +2250,10 @@ Transform:
 --- !u!4 &6960195415914686381 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 462065661627646532, guid: 685c359bc78bf40f4b20509a89df6091, type: 3}
+  m_PrefabInstance: {fileID: 7421372121313273321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8611956230294400953 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1260394436814539344, guid: 685c359bc78bf40f4b20509a89df6091, type: 3}
   m_PrefabInstance: {fileID: 7421372121313273321}
   m_PrefabAsset: {fileID: 0}

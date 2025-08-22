@@ -378,7 +378,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5, y: 3}
+  m_Size: {x: 4.5, y: 3}
   m_EdgeRadius: 0
 --- !u!1 &4992542148680767523
 GameObject:
@@ -422,6 +422,7 @@ GameObject:
   - component: {fileID: 4962845359703130582}
   - component: {fileID: 1410983982656716931}
   - component: {fileID: 7381014023790219151}
+  - component: {fileID: 2190400477505073371}
   m_Layer: 0
   m_Name: underbellyStaircase
   m_TagString: Untagged
@@ -477,6 +478,51 @@ MonoBehaviour:
   lid: {fileID: 5729464725045261732}
   stairs: {fileID: 3595696165508667271}
   originRoom: {fileID: 0}
+--- !u!61 &2190400477505073371
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5090232271709717513}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -64.7, y: 72.25}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.5, y: 2.25}
+  m_EdgeRadius: 0
 --- !u!1 &5729464725045261732
 GameObject:
   m_ObjectHideFlags: 0
@@ -851,5 +897,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5, y: 3}
+  m_Size: {x: 4.5, y: 3}
   m_EdgeRadius: 0

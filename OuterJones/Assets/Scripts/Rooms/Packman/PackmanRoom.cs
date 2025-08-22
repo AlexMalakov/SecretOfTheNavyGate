@@ -29,18 +29,22 @@ public class PackmanRoom : Room
 
     public override void onEnter(Door d) {
         base.onEnter(d);
-        if(mummyManager != null)
-            mummyManager.wakeMummy();
-
+        this.wakeMummy();
         this.enteredFromPos = d.getEnterPos();
     }
 
     public override void onEnter(UnderbellyStaircase u) {
         base.onEnter(u);
+        this.wakeMummy();
+        this.enteredFromPos = u.getEnterPos();
+    }
+
+    private void wakeMummy() {
         if(mummyManager != null)
             mummyManager.wakeMummy();
 
-        this.enteredFromPos = u.getEnterPos();
+        if(((PackmanRoom)this.getPair()).getMummyManager() != null)
+            ((PackmanRoom)this.getPair()).getMummyManager().wakeMummy();
     }
 
     public override void onExit() {
@@ -79,5 +83,9 @@ public class PackmanRoom : Room
                 this.layoutManager.getRoomFromPackman(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1], this.position.overworld).onFlood(opposite);
             }
         }
+    }
+
+    public MummyManager getMummyManager() {
+        return this.mummyManager;
     }
 }
