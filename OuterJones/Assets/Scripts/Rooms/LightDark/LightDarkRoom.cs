@@ -21,7 +21,7 @@ public class LightDarkRoom : Room
         base.init(position);
 
         this.position = position;
-        if((position.x + position.y) % 2 == 1) {
+        if((position.x + position.y) % 2 == (position.overworld) ? 1 : 0) {
             this.roomLighting = lightLevel;
 
             if(this.ldListener != null) {
