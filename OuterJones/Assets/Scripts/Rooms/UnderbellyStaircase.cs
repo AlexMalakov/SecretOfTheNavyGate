@@ -38,9 +38,14 @@ public class UnderbellyStaircase : MonoBehaviour, Effectable, InputSubscriber
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("TRIGGERED AND I AM OPENED?" + this.opened);
         if(this.opened && other.GetComponent<Player>() != null) {
-            this.input.requestSpaceInput(this, this.transform, "descend");
+            this.input.requestSpaceInput(this, this.exitPos, (this.originRoom.getPosition().overworld ? "descend" : "ascend"));
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D other) {
+        if(this.opened && other.GetComponent<Player>() != null) {
+            this.input.cancelRequest(this);
         }
     }
 
@@ -52,6 +57,7 @@ public class UnderbellyStaircase : MonoBehaviour, Effectable, InputSubscriber
     public void onEntered() {
         this.originRoom.onEnter(this);
         this.player.setCurrentRoom(this.originRoom);
+        this.player.transform.position = this.exitPos.position;
 
         //door use listenering :)
     }
