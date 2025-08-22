@@ -11,10 +11,6 @@ public class WaterColliderManager : MonoBehaviour, ItemListener
 
     private bool onBridge;
 
-    public void Awake() {
-        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Floaties, this);
-    }
-
     public void onItemEvent(bool itemStatus) {
         this.floatiesAquired = true;
 

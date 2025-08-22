@@ -48,6 +48,8 @@ public class Canal : MonoBehaviour
             g.init(this);
         }
 
+        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Floaties, this.waterCollider.GetComponent<WaterColliderManager>());
+
         // if(this.flooded)
     }
     

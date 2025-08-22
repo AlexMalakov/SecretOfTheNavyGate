@@ -63,6 +63,8 @@ public class Inventory : MonoBehaviour
         this.hotbarImages[this.items.Count - 1].sprite = newItem.getItemIcon();
         if(newItem.startsEquiped()) {
             newItem.equip();
+
+            this.notifyOfEvent(true, newItem);
         }
         setColorOfItemBg(this.items.Count - 1);
     }
@@ -71,21 +73,21 @@ public class Inventory : MonoBehaviour
         if(this.items[n].canBeToggled()) {
             if(this.items[n].isEquiped()) {
                 this.items[n].unequip();
-                if(this.itemListeners.ContainsKey(this.items[n].getItemType())) {
-                    foreach(ItemListener l in this.itemListeners[this.items[n].getItemType()]) {
-                        l.onItemEvent(false);
-                    }
-                }
+                this.notifyOfEvent(false, this.items[n]);
                 
             } else {
                 this.items[n].equip();
-                if(this.itemListeners.ContainsKey(this.items[n].getItemType())) {
-                    foreach(ItemListener l in this.itemListeners[this.items[n].getItemType()]) {
-                        l.onItemEvent(true);
-                    }
-                }
+                this.notifyOfEvent(true, this.items[n]);
             }
             this.setColorOfItemBg(n);
+        }
+    }
+
+    private void notifyOfEvent(bool equiped, Item i) {
+        if(this.itemListeners.ContainsKey(i.getItemType())) {
+            foreach(ItemListener l in this.itemListeners[i.getItemType()]) {
+                l.onItemEvent(equiped);
+            }
         }
     }
 

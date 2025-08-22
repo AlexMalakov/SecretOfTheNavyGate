@@ -38,6 +38,7 @@ public class UnderbellyStaircase : MonoBehaviour, Effectable, InputSubscriber
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log("TRIGGERED AND I AM OPENED?" + this.opened);
         if(this.opened && other.GetComponent<Player>() != null) {
             this.input.requestSpaceInput(this, this.transform, "descend");
         }
