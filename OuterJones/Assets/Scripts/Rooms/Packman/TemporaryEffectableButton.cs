@@ -15,6 +15,10 @@ public class TemporaryEffectableButton : MonoBehaviour, Effectable
     [SerializeField] private GameObject defaultSprite;
     [SerializeField] private GameObject pressedSprite;
 
+    void Awake() {
+        this.defaultSprite.SetActive(true);
+        this.pressedSprite.SetActive(false);
+    }
 
     void OnTriggerEnter2D(Collider2D other) {
         if(!this.requiresActivation && other.gameObject.GetComponent<Player>() != null) {
