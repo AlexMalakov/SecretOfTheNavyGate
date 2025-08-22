@@ -28,6 +28,7 @@ public class UnderbellyStaircase : MonoBehaviour, Effectable, InputSubscriber
             this.lid.SetActive(false);
             this.stairs.SetActive(true);
             FindObjectOfType<Map>().onUnderbellyUnlock(this.originRoom);
+            this.destination.onEffect();
             //ping map to show room change
         }
     }
