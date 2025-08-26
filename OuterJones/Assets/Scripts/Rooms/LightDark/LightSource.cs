@@ -10,7 +10,7 @@ public class LightSource : MonoBehaviour, Effectable
     [SerializeField] private DoorDirection castDirection = DoorDirection.North;
     [SerializeField] private LightSourceManager manager;
     
-    private bool powered = false;
+    [SerializeField] private bool powered = false;
     
 
     public void Awake() {
