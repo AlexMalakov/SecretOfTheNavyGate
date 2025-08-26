@@ -5,7 +5,7 @@ using UnityEngine;
 public class LightSource : MonoBehaviour, Effectable
 {
     //room info
-    [SerializeField] private LightDarkRoom originRoom;
+    [SerializeField] private Room originRoom;
     private BeamModel beam;
     [SerializeField] private DoorDirection castDirection = DoorDirection.North;
     [SerializeField] private LightSourceManager manager;
@@ -20,7 +20,7 @@ public class LightSource : MonoBehaviour, Effectable
     }
 
     public void castBeam() {
-        if(this.powered && this.originRoom.isLight()) {
+        if(this.powered && this.originRoom.canCastBeam()) {
             this.beam.initBeam(
                 this.originRoom.transform,
                 this.transform.position,

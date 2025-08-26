@@ -41,10 +41,10 @@ public class PackmanRoom : Room
 
     private void wakeMummy() {
         if(mummyManager != null)
-            mummyManager.wakeMummy();
+            mummyManager.wakeMummy(false);
 
         if(((PackmanRoom)this.getPair()).getMummyManager() != null)
-            ((PackmanRoom)this.getPair()).getMummyManager().wakeMummy();
+            ((PackmanRoom)this.getPair()).getMummyManager().wakeMummy(true);
     }
 
     public override void onExit() {

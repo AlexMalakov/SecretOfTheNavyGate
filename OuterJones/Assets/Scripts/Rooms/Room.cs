@@ -233,6 +233,7 @@ public class Room : MonoBehaviour
     [SerializeField] protected Mirror mirror;
     [SerializeField] protected LightSink lSink;
     protected List<BeamModel> beams = new List<BeamModel>();
+    private LightSource source;
 
     //this is a chungus of a method cuz of mirrors and non mirrors :'(
     //since all rooms can have mirrors/sinks then a lot of code gets to be moved here yipee I love big classes!!!!!! :D
@@ -362,9 +363,21 @@ public class Room : MonoBehaviour
             this.mirror.rotate90();
         }
 
+        if(this.source != null) {
+            this.source.rotate90(clockwise);
+        }
+
         if(this.lSink != null) {
             this.lSink.rotate90(clockwise);
         }
+    }
+
+    public void setSource(LightSource s) {
+        this.source = s;
+    }
+
+    public virtual bool canCastBeam() {
+        return true;
     }
 
     ///////////////////////////////////////////////
