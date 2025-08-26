@@ -10,7 +10,7 @@ public class LightSourceManager : MonoBehaviour, RoomUpdateListener
     [Header ("beam pool")]
     [SerializeField] private Transform beamParent;
     [SerializeField] private GameObject beamPrefab;
-    private int BEAM_POOL_SIZE = 15;
+    private int BEAM_POOL_SIZE = 20;
 
     public void Awake() {
         //TODO: Shouldn't have a beam in a dark room

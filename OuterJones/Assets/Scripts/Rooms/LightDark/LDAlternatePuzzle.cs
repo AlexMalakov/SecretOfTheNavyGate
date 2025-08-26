@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum LightPuzzleRoom {
-    L1, L2, L3
+    L3, L4, L5
 }
 public class LDAlternatePuzzle : MonoBehaviour
 {
     [Header ("sprites")]
-    [SerializeField] private GameObject l1LightSprite;
-    [SerializeField] private GameObject l1DarkSprite;
-    private bool l1On = false;
-
-    [SerializeField] private GameObject l2LightSprite;
-    [SerializeField] private GameObject l2DarkSprite;
-    private bool l2On = false;
-
     [SerializeField] private GameObject l3LightSprite;
     [SerializeField] private GameObject l3DarkSprite;
     private bool l3On = false;
+
+    [SerializeField] private GameObject l4LightSprite;
+    [SerializeField] private GameObject l4DarkSprite;
+    private bool l4On = false;
+
+    [SerializeField] private GameObject l5LightSprite;
+    [SerializeField] private GameObject l5DarkSprite;
+    private bool l5On = false;
 
     [Header ("stairs")]
     [SerializeField] private UnderbellyStaircase staircase;
@@ -31,26 +31,26 @@ public class LDAlternatePuzzle : MonoBehaviour
         }
 
         switch(ldID) {
-            case LightPuzzleRoom.L1:
-                this.l1On = !light;
-                this.l1LightSprite.SetActive(this.l1On);
-                this.l1DarkSprite.SetActive(!this.l1On);
-                break;
-
-            case LightPuzzleRoom.L2:
-                this.l2On = !light;
-                this.l2LightSprite.SetActive(this.l2On);
-                this.l2DarkSprite.SetActive(!this.l2On);
-                break;
-
             case LightPuzzleRoom.L3:
-                this.l3On = !light;
+                this.l3On = light;
                 this.l3LightSprite.SetActive(this.l3On);
                 this.l3DarkSprite.SetActive(!this.l3On);
                 break;
+
+            case LightPuzzleRoom.L4:
+                this.l4On = light;
+                this.l4LightSprite.SetActive(this.l4On);
+                this.l4DarkSprite.SetActive(!this.l4On);
+                break;
+
+            case LightPuzzleRoom.L5:
+                this.l5On = light;
+                this.l5LightSprite.SetActive(this.l5On);
+                this.l5DarkSprite.SetActive(!this.l5On);
+                break;
         }
 
-        if(this.l1On && this.l2On && this.l3On) {
+        if(this.l3On && this.l4On && this.l5On) {
             this.staircase.onEffect();
             this.activated = true;
         }
