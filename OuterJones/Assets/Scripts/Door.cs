@@ -20,6 +20,7 @@ public class Door : MonoBehaviour, InputSubscriber
 
     [SerializeField] private GameObject openModel;
     [SerializeField] private GameObject closedModel;
+    [SerializeField] private GameObject forceField;
 
     private List<DoorUseListener> listeners = new List<DoorUseListener>();
 
@@ -27,6 +28,7 @@ public class Door : MonoBehaviour, InputSubscriber
 
     private PlayerIO input;
     private Player player;
+    private bool forceFieldOn;
     
     public void Awake() {
         this.initialDirection = this.direction;
@@ -61,6 +63,9 @@ public class Door : MonoBehaviour, InputSubscriber
     }
 
     public void checkDoorPlacement() {
+        if(this.forceFieldOn) {
+            this.input.requestPopUpAlert(this, this.transform, "something is stopping you from entering this room!");
+        }
         if(this.destination == null) {
             Room next = this.player.getNextInDeck(this.room.getPosition().overworld);
             if(next != null && room.getLayoutManager().canPlaceRoom(this, next)) {
@@ -194,6 +199,12 @@ public class Door : MonoBehaviour, InputSubscriber
 
     public RoomCoords getPosition() {
         return this.room.getPosition();
+    }
+
+    public void setForceField(bool active) {
+        this.forceFieldOn = active;
+
+        this.forceField.SetActive(this.forceFieldOn);
     }
 
 
