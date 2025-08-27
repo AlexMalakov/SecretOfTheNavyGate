@@ -12,6 +12,8 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
 
     [SerializeField] private float blinkDelay = 1f;
 
+    [SerializeField] private AlternatingSpitterListener listener;
+
     private float ROTATION_DURATION = .5f;
 
     [SerializeField] private bool clockwise = true;
@@ -70,6 +72,10 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
 
         //if playerDirection = true, then clockwise.     if !playerDirection, then !clockwise
         bool direction = !(clockwise ^ this.player.getRotationDirection());
+
+        if(this.listener != null) {
+            this.listener.onSpin(direction);
+        }
 
         Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, direction? -90 : 90);
 

@@ -206,6 +206,4 @@ public class Door : MonoBehaviour, InputSubscriber
 
         this.forceField.SetActive(this.forceFieldOn);
     }
-
-
 }
