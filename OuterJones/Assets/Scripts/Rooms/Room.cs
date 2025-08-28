@@ -230,7 +230,7 @@ public class Room : MonoBehaviour
     //////////////////////////////////////////////
     //functionality for L/D rooms
     [Header ("LD Info")]
-    [SerializeField] protected Mirror mirror;
+    [SerializeField] protected Mirrors mirrors;
     [SerializeField] protected LightSink lSink;
     protected List<BeamModel> beams = new List<BeamModel>();
     private LightSource source;
@@ -261,8 +261,8 @@ public class Room : MonoBehaviour
             }
 
             DoorDirection exitDirection;
-            if(this.mirror != null && !this.mirror.hasCobWebs()) { //if we have a mirror, we draw the light as if it bounces
-                exitDirection = this.mirror.reflect(incomingDirection); //exit direction is wherever we get reflected
+            if(this.mirrors != null && !this.mirrors.hasCobWebs(incomingDirection)) { //if we have a mirror, we draw the light as if it bounces
+                exitDirection = this.mirrors.reflect(incomingDirection); //exit direction is wherever we get reflected
 
                 if(!isUniqueBeam(null, exitDirection)) {
                     return;
@@ -274,7 +274,7 @@ public class Room : MonoBehaviour
                 b.initBeam(
                     this.transform,
                     this.getPointInDirection(incomingDirection).position,
-                    this.mirror.transform.position,
+                    this.mirrors.getStartingPoint(incomingDirection).position,
                     incomingDirection,
                     null);
 
@@ -283,22 +283,25 @@ public class Room : MonoBehaviour
 
                 bb.initBeam(
                     this.transform,
-                    this.mirror.transform.position,
+                    this.mirrors.getEndingPoint(incomingDirection).position,
                     this.getPointInDirection(exitDirection).position,
                     null,
                     exitDirection);
 
-            } else if(this.mirror != null) { //we have webs
+            } else if(this.mirrors != null) { //we have webs
                 if(!isUniqueBeam(incomingDirection, null)) {
                     return;
                 }
+
+                this.mirrors.reflect(incomingDirection);
+
                 BeamModel b = BeamPool.getBeam();
                 this.beams.Add(b);
 
                 b.initBeam(
                     this.transform,
                     this.getPointInDirection(incomingDirection).position,
-                    this.mirror.transform.position,
+                    this.mirrors.getStartingPoint(incomingDirection).position,
                     incomingDirection,
                     null
                     );
@@ -355,12 +358,16 @@ public class Room : MonoBehaviour
             this.beams[i].killBeam();
         }
 
+        if(this.mirrors != null) {
+            this.mirrors.resetMirrorBeams();
+        }
+
         this.beams = new List<BeamModel>();
     }
 
     public virtual void rotateLight90(bool clockwise) {
-        if(this.mirror != null) {
-            this.mirror.rotate90();
+        if(this.mirrors != null) {
+            this.mirrors.rotate90(clockwise);
         }
 
         if(this.source != null) {
