@@ -18,7 +18,7 @@ public class WaterSourceManager : MonoBehaviour, RoomUpdateListener
         this.sources.Add(source);
     }
 
-    private void restartFlood() {
+    public void restartFlood() {
         foreach(Room r in this.layout.getAllRooms(true)) {
             r.restartFlood();
         }

@@ -26,7 +26,7 @@ public class LightSourceManager : MonoBehaviour, RoomUpdateListener
         return Instantiate(beamPrefab, beamParent).GetComponent<BeamModel>();
     }
 
-    private void resetBeams() {
+    public void resetBeams() {
         foreach(Room r in this.layout.getAllRooms(true)) {
             r.removeBeam();
         }
