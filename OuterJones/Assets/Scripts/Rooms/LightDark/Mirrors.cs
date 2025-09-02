@@ -15,21 +15,21 @@ public class Mirrors : MonoBehaviour
         if(enter == this.topMirrorsDirection) {
             return this.topMirrors[0].transform;
         } else if(enter == this.topMirrorsReflectTo) {
-            return this.topMirrors[this.topMirrors.Count].transform;
+            return this.topMirrors[this.topMirrors.Count-1].transform;
         } else if(enter == Door.rotateDoorDirection(Door.rotateDoorDirection(this.topMirrorsDirection, true), true)) {
             return this.botMirrors[0].transform;
         } else {
-            return this.botMirrors[this.botMirrors.Count].transform;
+            return this.botMirrors[this.botMirrors.Count-1].transform;
         }
     }
 
     public Transform getEndingPoint(DoorDirection enter) { //this may not work
         if(enter == this.topMirrorsDirection) {
-            return this.topMirrors[this.topMirrors.Count].transform;
+            return this.topMirrors[this.topMirrors.Count-1].transform;
         } else if(enter == this.topMirrorsReflectTo) {
             return this.topMirrors[0].transform;
         } else if(enter == Door.rotateDoorDirection(Door.rotateDoorDirection(this.topMirrorsDirection, true), true)) {
-            return this.botMirrors[this.botMirrors.Count].transform;
+            return this.botMirrors[this.botMirrors.Count-1].transform;
         } else {
             return this.botMirrors[0].transform;
         }
