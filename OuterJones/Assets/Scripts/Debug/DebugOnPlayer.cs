@@ -39,6 +39,12 @@ public class DebugOnPlayer : MonoBehaviour
             this.player.getCurrentRoom().receiveBeam(DoorDirection.East);
         }
 
+        if(Input.GetKeyDown(KeyCode.U)) {
+            foreach(UnderbellyStaircase u in FindObjectsOfType<UnderbellyStaircase>()) {
+                u.onEffect();
+            }
+        }
+
 
         if(Input.GetKeyDown(KeyCode.Backspace)) {
             FindObjectOfType<WaterSourceManager>().restartFlood();

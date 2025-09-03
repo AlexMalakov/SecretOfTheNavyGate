@@ -33,13 +33,10 @@ public class Room : MonoBehaviour
     protected RoomCoords position;
     protected Quaternion initialRotation;
     private bool playerInRoom = false;
-
-    private PopUpManager manager;
     
     public void Awake() {
         this.floorAndWallHolderRot = this.floorAndWallHolder.transform.rotation;
         this.initialRotation = transform.rotation;
-        this.manager = FindObjectOfType<PopUpManager>();
     }
 
     public virtual void init(RoomCoords position) {
@@ -74,7 +71,7 @@ public class Room : MonoBehaviour
     private void enterAbstraction() {
         this.layoutManager.getCam().transform.position = new Vector3(this.transform.position.x, this.transform.position.y ,this.layoutManager.getCam().transform.position.z);
         globalLighting.intensity = this.roomLighting;
-        this.manager.displayRoomPopUp(this.getRoomName());
+        //TODO update cuerrent room name
         playerInRoom = true;
     }
 
