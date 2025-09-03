@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Map: MonoBehaviour, RoomUpdateListener
 {
     private MapImageWrangler wrangler;
     [SerializeField] Image exclamationImg;
+    [SerializeField] TMP_Text curRoom;
     private Coroutine exclamationBlink;
     private RoomsLayout layout;
 
@@ -33,7 +35,10 @@ public class Map: MonoBehaviour, RoomUpdateListener
             }
             
         }
+    }
 
+    public void onNewRoomEntered(Room r) {
+        this.curRoom.text = "Current: " + r.getRoomName();
     }
 
     private void displayRoom(Room r, Image i) {
