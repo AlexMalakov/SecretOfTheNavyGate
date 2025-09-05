@@ -49,6 +49,14 @@ public class PlayerIO : MonoBehaviour
         }
     }
 
+    public void displayEndGamePopUp(InputSubscriber i, Transform posOfObj) {
+        if(this.lastSubscriber != i) {
+            this.lastSubscriber = i;
+            this.manager.endSpacePopUp();
+            this.manager.displayEndGamePopUp(posOfObj, message);
+        }
+    }
+
 }
 
 public interface InputSubscriber {

@@ -70,7 +70,7 @@ public class Chest : MonoBehaviour, InputSubscriber
 
     void OnTriggerExit2D(Collider2D other) {
         if(this.popUp != null) {
-            this.playerIO.cancelRequest();
+            this.playerIO.cancelRequest(this);
         }
     }
 
