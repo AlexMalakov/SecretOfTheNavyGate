@@ -14,26 +14,26 @@ public class ForcefieldManager : MonoBehaviour
     [SerializeField] List<Room> lightDarkRooms;
 
     public void Awake() {
-        this.controlForceFields(waterRooms, false);
-        this.controlForceFields(gearRooms, false);
-        this.controlForceFields(packmanRooms, false);
-        this.controlForceFields(lightDarkRooms, false);
+        this.controlForceFields(waterRooms, true);
+        this.controlForceFields(gearRooms, true);
+        this.controlForceFields(packmanRooms, true);
+        this.controlForceFields(lightDarkRooms, true);
     }
 
 
     public void deactivateForceField(RoomType type) {
         switch(type) {
             case RoomType.water:
-                this.controlForceFields(this.waterRooms, true);
+                this.controlForceFields(this.waterRooms, false);
                 break;
             case RoomType.gear:
-                this.controlForceFields(this.gearRooms, true);
+                this.controlForceFields(this.gearRooms, false);
                 break;
             case RoomType.packman:
-                this.controlForceFields(this.packmanRooms, true);
+                this.controlForceFields(this.packmanRooms, false);
                 break;
             case RoomType.lightDark:
-                this.controlForceFields(this.lightDarkRooms, true);
+                this.controlForceFields(this.lightDarkRooms, false);
                 break;
         }
     }
