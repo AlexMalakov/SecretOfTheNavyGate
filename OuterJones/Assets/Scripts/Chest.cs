@@ -20,7 +20,7 @@ public class Chest : MonoBehaviour, InputSubscriber
 
     [SerializeField] private DoorDirection chestFacing;
 
-    [SerializeField] private GameObject popUp;
+    [SerializeField] private bool endGamePopUp = false;
 
     [SerializeField] private bool hideLast = false;
 
@@ -57,7 +57,7 @@ public class Chest : MonoBehaviour, InputSubscriber
         } else if(this.item != null && other.gameObject.GetComponent<Player>() != null) {
             other.GetComponent<Player>().getInventory().gainItem(this.item);
             this.playerIO.requestPopUpMessage(this, this.transform, "You've found a " + this.item.getName());
-        } else if(this.popUp != null && other.gameObject.GetComponent<Player>() != null){
+        } else if(this.endGamePopUp && other.gameObject.GetComponent<Player>() != null){
             this.playerIO.displayEndGamePopUp(this, this.transform);
         } else {
             //failed to give the player anything
@@ -69,7 +69,7 @@ public class Chest : MonoBehaviour, InputSubscriber
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        if(this.popUp != null) {
+        if(this.endGamePopUp) {
             this.playerIO.cancelRequest(this);
         }
     }

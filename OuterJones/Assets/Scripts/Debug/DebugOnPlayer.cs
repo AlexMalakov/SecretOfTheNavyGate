@@ -45,6 +45,10 @@ public class DebugOnPlayer : MonoBehaviour
             }
         }
 
+        if(Input.GetKeyDown(KeyCode.N)) {
+            FindObjectOfType<RoomsLayout>().notifyRoomListeners(null);
+        }
+
 
         if(Input.GetKeyDown(KeyCode.Backspace)) {
             FindObjectOfType<WaterSourceManager>().restartFlood();

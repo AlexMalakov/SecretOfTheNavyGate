@@ -9,6 +9,7 @@ public class PopUpManager : MonoBehaviour
     [SerializeField] private GameObject popUpMessage;
     [SerializeField] private GameObject popUpAlertMessage;
     [SerializeField] private GameObject roomPopUp;
+    [SerializeField] private GameObject finalPopUp;
     [SerializeField] private Camera cam;
     [SerializeField] private Canvas canvas;
 
@@ -35,6 +36,8 @@ public class PopUpManager : MonoBehaviour
     public void endSpacePopUp() {
         this.spacePopUp.SetActive(false);
         this.popUpMessage.SetActive(false);
+        this.popUpAlertMessage.SetActive(false);
+        this.finalPopUp.SetActive(false);
     }
 
     public void displayPopUpAlert(Transform popUpPos, string message) {
@@ -57,6 +60,16 @@ public class PopUpManager : MonoBehaviour
 
         this.popUpMessage.SetActive(true);
         this.popUpMessage.GetComponentInChildren<TMP_Text>().text = message;
+    }
+
+    public void displayEndGamePopUp(Transform popUpPos) {
+        if(this.finalPopUp.activeSelf) {
+            return;
+        }
+
+        this.placePopUpMessage(this.finalPopUp, popUpPos);
+
+        this.popUpMessage.SetActive(true);
     }
 
     private void placePopUpMessage(GameObject popUp, Transform popUpPos) {
