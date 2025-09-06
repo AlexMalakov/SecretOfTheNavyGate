@@ -51,7 +51,7 @@ public static class BeamPool {
     private static int EXPAND_POOL_BY = 5;
     
     internal static void init(GameObject beamPrefab, Transform beamParent, int count) {
-
+        pool = new List<BeamModel>();
         for (int i = 0; i < count; i++) {
             pool.Add(GameObject.Instantiate(beamPrefab, beamParent).GetComponent<BeamModel>());
         }

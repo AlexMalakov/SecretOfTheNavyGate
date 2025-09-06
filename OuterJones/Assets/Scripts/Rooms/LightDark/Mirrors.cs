@@ -59,7 +59,7 @@ public class Mirrors : MonoBehaviour
 
         
 
-        for(int i = start; (i < listToUse.Count) || i >= 0; i = i + next) {
+        for(int i = start; (i < listToUse.Count-1) || i >= 1; i = i + next) {
             if(listToUse[start].hasCobWebs())
                 return enter;
 
