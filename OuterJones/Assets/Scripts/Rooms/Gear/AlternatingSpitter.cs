@@ -18,6 +18,7 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
 
     [SerializeField] private bool clockwise = true;
     private bool startDirection;
+    private bool rotatingPlayer = false;
 
     private PlayerIO input;
     private PlayerController controller;
@@ -61,10 +62,11 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
     }
 
     protected IEnumerator rotateSpitter() {
-        if(this.playerInCanal) {
+        if(this.playerInCanal || this.rotatingPlayer) {
             yield break;
         }
 
+        this.rotatingPlayer = true;
         this.controller.isMovementEnabled(false);
         this.controller.transform.parent = this.transform;
 
@@ -87,7 +89,11 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
             yield return null;
         }
 
+        yield return new WaitForSeconds(.1f);
+        transform.rotation = endRotation; //helps with float impression
+
         clockwise = !clockwise;
+        this.rotatingPlayer = false;
 
         this.controller.transform.parent = null;
         this.controller.isMovementEnabled(true);
@@ -116,7 +122,7 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
 
         this.defaultSprite.SetActive(false);
 
-        if(clockwise) {
+        if((this.clockwise && this.player.getRotationDirection()) || (!this.clockwise && ! this.player.getRotationDirection())) {
             this.cwSprite.SetActive(true);
             this.ccwSprite.SetActive(false);
         } else {
