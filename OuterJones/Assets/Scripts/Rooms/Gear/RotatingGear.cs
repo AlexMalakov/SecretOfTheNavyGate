@@ -68,6 +68,7 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber, ItemListener
         if(this.playerInCanal || (this.oneWay && this.getClosestToPlayer().getID() == this.getClosestForOneWay().getID())) {
             yield break;
         }
+
         this.isAlreadyRotating = true;
 
         //do that here to prveent gear item toggling from breaking anything
@@ -91,6 +92,8 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber, ItemListener
             elapsed += Time.deltaTime;
             yield return null;
         }
+
+        transform.rotation = endRotation;
 
         if(oneWay && closest.getID() == this.getClosestToPlayer().getID()) {
             elapsed = 0f;

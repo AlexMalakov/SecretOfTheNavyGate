@@ -78,6 +78,7 @@ public class RotationPuzzleManager : Floodable, Effectable
     void OnTriggerEnter2D(Collider2D other) {
         if(other.GetComponent<Player>() != null) {
             puzzleEntrance.opencloseDoor(false);
+            puzzleFinish.opencloseDoor(false);
         }
     }
 

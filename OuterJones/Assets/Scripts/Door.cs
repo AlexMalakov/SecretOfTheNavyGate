@@ -135,6 +135,8 @@ public class Door : MonoBehaviour, InputSubscriber
 
     public void resetDestination() {
         if(this.destination != null) {
+            this.openModel.SetActive(false);
+            this.closedModel.SetActive(true);
             this.destination.setDestination(null);
             this.destination = null;
         }
@@ -146,6 +148,9 @@ public class Door : MonoBehaviour, InputSubscriber
         if(neighbor != null && neighbor.hasDoorDirection(this.getInverse())) {
             this.setDestination(neighbor.getEntrance(this.getInverse()));
             this.destination.setDestination(this);
+        } else {
+            this.openModel.SetActive(false);
+            this.closedModel.SetActive(true);
         }
     }
 
