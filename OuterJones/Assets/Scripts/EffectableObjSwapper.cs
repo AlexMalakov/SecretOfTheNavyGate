@@ -12,6 +12,7 @@ public class EffectableObjSwapper : MonoBehaviour, Effectable
 
 
     public void onEffect() {
+        Debug.Log("swapping!");
         if(toggleBetween) {
             firstActive = !firstActive;
             startingObj.SetActive(firstActive);

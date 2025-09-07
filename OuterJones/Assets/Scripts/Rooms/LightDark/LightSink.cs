@@ -19,6 +19,7 @@ public class LightSink : MonoBehaviour
     }
 
     public void activate(DoorDirection beamFrom) {
+        Debug.Log("CHECKING");
         if(/*Door.rotateDoorDirection(Door.rotateDoorDirection(beamFrom, true), true)*/beamFrom == this.receiveBeamFrom) {
             Debug.Log("equal?");
             this.beamed = true;
