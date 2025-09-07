@@ -10,4 +10,6 @@ public class ForceFieldNotifier : MonoBehaviour, Effectable
     public void onEffect() {
         manager.deactivateForceField(this.deactivateType);
     }
+
+    public void onEffectOver(){} //we don't care what happens when this is disabled
 }

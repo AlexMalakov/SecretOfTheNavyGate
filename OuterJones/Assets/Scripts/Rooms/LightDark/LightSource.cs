@@ -41,4 +41,9 @@ public class LightSource : MonoBehaviour, Effectable
         this.powered = true;
         this.manager.onRoomUpdate(new List<Room>());
     }
+
+    public void onEffectOver() {
+        this.powered = false;
+        this.manager.onRoomUpdate(new List<Room>());
+    }
 }

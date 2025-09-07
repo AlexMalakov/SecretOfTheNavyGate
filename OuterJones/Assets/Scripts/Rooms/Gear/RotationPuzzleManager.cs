@@ -70,6 +70,8 @@ public class RotationPuzzleManager : MonoBehaviour, Effectable
         puzzleEntrance.opencloseDoor(true);
     }
 
+    public void onEffectOver(){}
+
     void OnTriggerEnter2D(Collider2D other) {
         if(other.GetComponent<Player>() != null) {
             puzzleEntrance.opencloseDoor(false);

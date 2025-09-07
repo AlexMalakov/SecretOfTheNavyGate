@@ -14,6 +14,7 @@ public class WaterDetector : Floodable
 
     public override void drainWater() {
         flooded = false;
+        this.effectableObj.GetComponent<Effectable>().onEffectOver();
     }
 
     public bool isFlooded() {

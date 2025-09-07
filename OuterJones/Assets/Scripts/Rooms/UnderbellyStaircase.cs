@@ -33,6 +33,8 @@ public class UnderbellyStaircase : MonoBehaviour, Effectable, InputSubscriber
         }
     }
 
+    public void onEffectOver(){}//doors stay open cuz otherwise it would be annoying lol
+
     public Transform getEnterPos() {
         return this.exitPos;
     }

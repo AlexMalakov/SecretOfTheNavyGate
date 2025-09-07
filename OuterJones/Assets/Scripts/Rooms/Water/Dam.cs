@@ -66,4 +66,6 @@ public class Dam : MonoBehaviour, Effectable
         this.closedObj.SetActive(!this.open);
         this.sourceMan.recomputeFlow();
     }
+
+    public void onEffectOver(){}
 }

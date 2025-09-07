@@ -21,4 +21,6 @@ public class RoomSpinner : MonoBehaviour, Effectable
 
         room.rotate90(player.getRotationDirection());
     }
+
+    public void onEffectOver(){}
 }
