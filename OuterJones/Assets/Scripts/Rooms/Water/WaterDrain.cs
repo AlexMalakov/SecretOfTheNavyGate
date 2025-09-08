@@ -6,6 +6,7 @@ public class WaterDrain : Floodable
 {
     private bool reachedByFlood;
     private bool reachedByDrain;
+    private bool flooded;
 
     [SerializeField] Canal origin;
     [SerializeField] Canal drainTo;
@@ -16,20 +17,23 @@ public class WaterDrain : Floodable
 
     public override void onFlood() {
         this.reachedByFlood = true;
+        this.flooded = true;
     }
 
     public override void drainWater() {
         if(reachedByFlood || reachedByDrain) {
             return;
         }
-
+        
         reachedByFlood = false;
         reachedByDrain = true;
         origin.drainWater(null);
 
-        if(this.drainTo != null) {
+        if(this.flooded && this.drainTo != null) {
             this.drainTo.onFlood(null);
         }
+
+        this.flooded = false;
     }
 
     public void reset() {
