@@ -5,6 +5,7 @@ using UnityEngine;
 public class WaterDrain : Floodable
 {
     private bool reachedByFlood;
+    private bool reachedByDrain;
 
     [SerializeField] Canal origin;
     [SerializeField] Canal drainTo;
@@ -18,11 +19,12 @@ public class WaterDrain : Floodable
     }
 
     public override void drainWater() {
-        if(reachedByFlood) {
+        if(reachedByFlood || reachedByDrain) {
             return;
         }
 
         reachedByFlood = false;
+        reachedByDrain = true;
         origin.drainWater(null);
 
         if(this.drainTo != null) {
@@ -32,5 +34,6 @@ public class WaterDrain : Floodable
 
     public void reset() {
         this.reachedByFlood = false;
+        this.reachedByDrain = false;
     }
 }
