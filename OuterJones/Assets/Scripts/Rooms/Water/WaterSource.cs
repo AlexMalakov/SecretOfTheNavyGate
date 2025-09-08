@@ -9,7 +9,7 @@ public enum CanalEntrances {
 }
 
 public abstract class Floodable : MonoBehaviour {
-    public abstract void onFlood();
+    public abstract void onFlood(bool fromSource);
     public abstract void drainWater();
 }
 
@@ -37,6 +37,6 @@ public class WaterSource : MonoBehaviour
 
 
     public void computeFlow() {
-        waterOrigin.onFlood(null);
+        waterOrigin.onFlood(null, true);
     }
 }

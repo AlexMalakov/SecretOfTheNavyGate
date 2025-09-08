@@ -7,7 +7,7 @@ public class WaterDetector : Floodable
     private bool flooded;
     [SerializeField] private GameObject effectableObj;
 
-    public override void onFlood() {
+    public override void onFlood(bool fromSource) {
         flooded = true;
         this.effectableObj.GetComponent<Effectable>().onEffect();
     }

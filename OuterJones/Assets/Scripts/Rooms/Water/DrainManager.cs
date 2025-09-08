@@ -17,11 +17,11 @@ public class DrainManager : MonoBehaviour, RoomUpdateListener
     }
 
     public void onRoomUpdate(List<Room> rooms) {
+        this.floodRemainingCanals();
+        
         foreach(WaterDrain d in this.drains) {
             d.drainWater();
         }
-
-        this.floodRemainingCanals();
 
         foreach(WaterDrain d in this.drains) {
             d.reset();

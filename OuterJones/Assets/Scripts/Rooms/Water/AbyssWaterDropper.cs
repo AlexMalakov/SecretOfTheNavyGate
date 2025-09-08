@@ -8,7 +8,7 @@ public class AbyssWaterDropper : Floodable
     [SerializeField] Canal destination;
 
 
-    public override void onFlood() {
+    public override void onFlood(bool fromSource) {
         this.destination.onFlood(null);
     }
 

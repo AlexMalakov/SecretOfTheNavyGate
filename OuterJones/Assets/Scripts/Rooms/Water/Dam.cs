@@ -22,15 +22,15 @@ public class Dam : MonoBehaviour, Effectable
     }
 
 
-    public void onFlood(Canal c, CanalEntrances? floodingFrom) {
+    public void onFlood(Canal c, CanalEntrances? floodingFrom, bool fromSource) {
         if(!open) {
             return;
         }
 
         if(c == c1) {
-            c2.onFlood(floodingFrom);
+            c2.onFlood(floodingFrom, fromSource);
         }else if(c == c2) {
-            c1.onFlood(floodingFrom);
+            c1.onFlood(floodingFrom, fromSource);
         }
     }
 

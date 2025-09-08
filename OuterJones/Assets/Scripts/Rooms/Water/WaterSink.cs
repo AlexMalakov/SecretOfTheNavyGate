@@ -6,7 +6,7 @@ public class WaterSink : Floodable
 {
     private bool flooded = false;
 
-    public override void onFlood() {
+    public override void onFlood(bool fromSource) {
         this.flooded = true;
     }
 

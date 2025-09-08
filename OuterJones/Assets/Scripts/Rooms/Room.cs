@@ -154,10 +154,10 @@ public class Room : MonoBehaviour
     //since canals can exist in non water rooms, all water functionality gets to live in room :'(
 
 
-    public virtual void onFlood(CanalEntrances floodingFrom) {
+    public virtual void onFlood(CanalEntrances floodingFrom, bool fromSource) {
         foreach(Canal c in this.canals) {
             if(c.willFlood(floodingFrom)) {
-                c.onFlood(floodingFrom);
+                c.onFlood(floodingFrom, fromSource);
             }
         }
     }
@@ -176,11 +176,11 @@ public class Room : MonoBehaviour
         }
     }
 
-    public virtual void floodNeighbors(List<CanalEntrances> exits) {
+    public virtual void floodNeighbors(List<CanalEntrances> exits, bool fromSource) {
         foreach(CanalEntrances exit in exits) {
             if(this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1], this.position.overworld) != null) {
                 CanalEntrances opposite = (CanalEntrances)(((int)exit + (WaterSource.CANAL_ENTRANCE_COUNT/2)) % WaterSource.CANAL_ENTRANCE_COUNT);
-                this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1], this.position.overworld).onFlood(opposite);
+                this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1], this.position.overworld).onFlood(opposite, fromSource);
             }
         }
     }
@@ -209,7 +209,7 @@ public class Room : MonoBehaviour
         foreach(Canal c in this.canals) {
             if(c.isFlooded()) {
                 //if reachedThisFlood = true, then this will immediately exit
-                c.onFlood(null);
+                c.onFlood(null, false);
             }
         }
     }

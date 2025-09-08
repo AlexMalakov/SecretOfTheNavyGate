@@ -15,8 +15,8 @@ public class WaterDrain : Floodable
        FindObjectOfType<DrainManager>().addDrain(this);
     }
 
-    public override void onFlood() {
-        this.reachedByFlood = true;
+    public override void onFlood(bool fromSource) {
+        this.reachedByFlood = fromSource;
         this.flooded = true;
     }
 

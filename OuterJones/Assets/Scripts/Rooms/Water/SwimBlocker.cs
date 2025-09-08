@@ -11,7 +11,7 @@ public class SwimBlocker : Floodable
         this.floodCollider.SetActive(false);
     }
 
-    public override void onFlood() {
+    public override void onFlood(bool fromSource) {
         this.floodCollider.SetActive(true);
     }
 

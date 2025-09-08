@@ -53,7 +53,7 @@ public class Canal : MonoBehaviour
         // if(this.flooded)
     }
     
-    public void onFlood(CanalEntrances? floodingFrom) {
+    public void onFlood(CanalEntrances? floodingFrom, bool fromSource) {
         if(this.reachedThisFlood || !this.gameObject.activeInHierarchy) {
             return;
         }
@@ -73,16 +73,16 @@ public class Canal : MonoBehaviour
         }
 
         foreach(Dam d in this.attatchedDams) {
-            d.onFlood(this, floodingFrom);
+            d.onFlood(this, floodingFrom, fromSource);
         }
 
         foreach(Floodable f in this.floodableObjects) {
-            f.onFlood();
+            f.onFlood(fromSource);
         }
 
         this.skinnySection.onFlood();
 
-        this.room.floodNeighbors(floodTo);
+        this.room.floodNeighbors(floodTo, fromSource);
     }
 
     public bool willFlood(CanalEntrances floodingFrom) {
