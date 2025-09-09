@@ -52,6 +52,10 @@ public class Canal : MonoBehaviour
 
         // if(this.flooded)
     }
+
+    public Room TEMP_DELETE_ME() {
+        return this.room;
+    }
     
     public void onFlood(CanalEntrances? floodingFrom, bool fromSource) {
         if(this.reachedThisFlood || !this.gameObject.activeInHierarchy) {
@@ -64,23 +68,23 @@ public class Canal : MonoBehaviour
             this.flooded = true;
 
             this.waterCollider.SetActive(true);
-        }
 
-        List<CanalEntrances> floodTo = new List<CanalEntrances>(this.canalEntrances);
+            foreach(Floodable f in this.floodableObjects) {
+                f.onFlood(fromSource);
+            }
 
-        if(floodingFrom != null) {
-            floodTo.Remove((CanalEntrances)floodingFrom);
+            this.skinnySection.onFlood();
         }
 
         foreach(Dam d in this.attatchedDams) {
             d.onFlood(this, floodingFrom, fromSource);
         }
 
-        foreach(Floodable f in this.floodableObjects) {
-            f.onFlood(fromSource);
-        }
+        List<CanalEntrances> floodTo = new List<CanalEntrances>(this.canalEntrances);
 
-        this.skinnySection.onFlood();
+        if(floodingFrom != null) {
+            floodTo.Remove((CanalEntrances)floodingFrom);
+        }  
 
         this.room.floodNeighbors(floodTo, fromSource);
     }
@@ -101,6 +105,16 @@ public class Canal : MonoBehaviour
         if(this.flooded) {
             this.waterCollider.SetActive(false);
             this.flooded = false;
+
+            foreach(Floodable f in this.floodableObjects) {
+                f.drainWater();
+            }
+
+            this.skinnySection.onDrain();
+        }
+
+        foreach(Dam d in this.attatchedDams) {
+            d.drainWater(this, drainingFrom);
         }
 
         List<CanalEntrances> drainTo = new List<CanalEntrances>(this.canalEntrances);
@@ -108,16 +122,6 @@ public class Canal : MonoBehaviour
         if(drainingFrom != null) {
             drainTo.Remove((CanalEntrances)drainingFrom);
         }
-
-        foreach(Floodable f in this.floodableObjects) {
-            f.drainWater();
-        }
-
-        foreach(Dam d in this.attatchedDams) {
-            d.drainWater(this, drainingFrom);
-        }
-
-        this.skinnySection.onDrain();
 
         this.room.drainNeighbors(drainTo);
     }

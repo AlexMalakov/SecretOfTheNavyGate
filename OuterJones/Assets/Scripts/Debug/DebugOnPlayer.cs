@@ -12,21 +12,21 @@ public class DebugOnPlayer : MonoBehaviour
         }
 
         if(Input.GetKeyDown(KeyCode.Alpha1)) {
-            this.player.getCurrentRoom().onFlood(CanalEntrances.NW);
+            this.player.getCurrentRoom().onFlood(CanalEntrances.NW, false);
         } else if(Input.GetKeyDown(KeyCode.Alpha2)) {
-            this.player.getCurrentRoom().onFlood(CanalEntrances.N);
+            this.player.getCurrentRoom().onFlood(CanalEntrances.N, false);
         } else if(Input.GetKeyDown(KeyCode.Alpha3)) {
-            this.player.getCurrentRoom().onFlood(CanalEntrances.NE);
+            this.player.getCurrentRoom().onFlood(CanalEntrances.NE, false);
         } else if(Input.GetKeyDown(KeyCode.Alpha4)) {
-            this.player.getCurrentRoom().onFlood(CanalEntrances.E);
+            this.player.getCurrentRoom().onFlood(CanalEntrances.E, false);
         } else if(Input.GetKeyDown(KeyCode.Alpha5)) {
-            this.player.getCurrentRoom().onFlood(CanalEntrances.SE);
+            this.player.getCurrentRoom().onFlood(CanalEntrances.SE, false);
         } else if(Input.GetKeyDown(KeyCode.Alpha6)) {
-            this.player.getCurrentRoom().onFlood(CanalEntrances.S);
+            this.player.getCurrentRoom().onFlood(CanalEntrances.S, false);
         } else if(Input.GetKeyDown(KeyCode.Alpha7)) {
-            this.player.getCurrentRoom().onFlood(CanalEntrances.SW);
+            this.player.getCurrentRoom().onFlood(CanalEntrances.SW, false);
         } else if(Input.GetKeyDown(KeyCode.Alpha8)) {
-            this.player.getCurrentRoom().onFlood(CanalEntrances.W);
+            this.player.getCurrentRoom().onFlood(CanalEntrances.W, false);
         }
 
         if(Input.GetKeyDown(KeyCode.I)) {
