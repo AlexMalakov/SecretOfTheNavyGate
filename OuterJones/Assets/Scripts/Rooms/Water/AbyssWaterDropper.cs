@@ -9,7 +9,7 @@ public class AbyssWaterDropper : Floodable
 
 
     public override void onFlood(bool fromSource) {
-        this.destination.onFlood(null);
+        this.destination.onFlood(null, fromSource);
     }
 
     public override void drainWater() {

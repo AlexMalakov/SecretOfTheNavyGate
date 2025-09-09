@@ -34,11 +34,13 @@ public class WaterSourceManager : MonoBehaviour, RoomUpdateListener
         foreach(WaterSource s in this.sources) {
             s.computeFlow();
         }
+
+        this.drainM.drainRooms();
     }
 
     public void recomputeFlow() {
         this.onRoomUpdate(new List<Room>());
-        this.drainM.onRoomUpdate(new List<Room>());
+        this.drainM.drainRooms();
     }
 
 }

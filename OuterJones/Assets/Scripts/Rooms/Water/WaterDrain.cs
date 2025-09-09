@@ -30,7 +30,7 @@ public class WaterDrain : Floodable
         origin.drainWater(null);
 
         if(this.flooded && this.drainTo != null) {
-            this.drainTo.onFlood(null);
+            this.drainTo.onFlood(null, false);
         }
 
         this.flooded = false;
