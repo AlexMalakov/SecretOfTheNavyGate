@@ -48,9 +48,16 @@ public class Canal : MonoBehaviour
             g.init(this);
         }
 
+        if(this.flooded) {
+            foreach(Floodable f in this.floodableObjects) {
+                f.onFlood(false);
+            }
+
+            this.skinnySection.onFlood();
+        }
+
         FindObjectOfType<Inventory>().addItemListener(PossibleItems.Floaties, this.waterCollider.GetComponent<WaterColliderManager>());
 
-        // if(this.flooded)
     }
 
     public Room TEMP_DELETE_ME() {
@@ -72,9 +79,9 @@ public class Canal : MonoBehaviour
             foreach(Floodable f in this.floodableObjects) {
                 f.onFlood(fromSource);
             }
-
-            this.skinnySection.onFlood();
         }
+
+        this.skinnySection.onFlood();
 
         foreach(Dam d in this.attatchedDams) {
             d.onFlood(this, floodingFrom, fromSource);
@@ -109,9 +116,9 @@ public class Canal : MonoBehaviour
             foreach(Floodable f in this.floodableObjects) {
                 f.drainWater();
             }
-
-            this.skinnySection.onDrain();
         }
+
+        this.skinnySection.onDrain();
 
         foreach(Dam d in this.attatchedDams) {
             d.drainWater(this, drainingFrom);

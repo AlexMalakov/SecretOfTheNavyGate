@@ -7,12 +7,13 @@ public class Bridge :  Floodable
     [SerializeField] GameObject notFloodedSprite;
     [SerializeField] GameObject floodedSprite;
 
-    private bool flooded = false;
+    [SerializeField] private bool flooded = false;
     private Canal canal;
 
     private void Awake() {
-        notFloodedSprite.SetActive(true);
-        floodedSprite.SetActive(false);
+        notFloodedSprite.SetActive(!this.flooded);
+        floodedSprite.SetActive(this.flooded);
+        
         List<Collider2D> overlapping = new List<Collider2D>();
         ContactFilter2D filter = new ContactFilter2D();
         filter.useTriggers = true;
@@ -28,11 +29,11 @@ public class Bridge :  Floodable
             Debug.Log("COULD NOT FIND A CANAL");
         }
 
-        this.GetComponent<Collider2D>().enabled = false;
+        this.GetComponent<Collider2D>().enabled = this.flooded;
     }
 
     public override void onFlood(bool fromSource) {
-        flooded = true;
+        this.flooded = true;
         notFloodedSprite.SetActive(false);
         floodedSprite.SetActive(true);
 
@@ -40,8 +41,9 @@ public class Bridge :  Floodable
     }
 
     public override void drainWater() {
+        gameObject.SetActive(false);
         this.GetComponent<Collider2D>().enabled = false;
-        flooded = false;
+        this.flooded = false;
         notFloodedSprite.SetActive(true);
         floodedSprite.SetActive(false);
     }
