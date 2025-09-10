@@ -37,7 +37,7 @@ public class DeckUI : MonoBehaviour, RoomUpdateListener, DoorUseListener
         if(!canPlaceNextRoom()) {
             this.image.sprite = cannotPlace;
         } else {
-            this.image.sprite = this.player.getNextInDeck().getRoomSprite();
+            this.image.sprite = this.player.getNextInDeck(true).getRoomSprite();
         }
 
         text.text = this.player.getDeckSize() + " remaining in deck";
@@ -48,7 +48,7 @@ public class DeckUI : MonoBehaviour, RoomUpdateListener, DoorUseListener
             return false;
         }
 
-        foreach(Door d in this.player.getNextInDeck().getDoors()) {
+        foreach(Door d in this.player.getNextInDeck(true).getDoors()) {
             if(this.player.getCurrentRoom().hasDoorDirection(d.getInverse())) {
                 return true;
             }

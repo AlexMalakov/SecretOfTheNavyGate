@@ -24,19 +24,16 @@ public class Player : MonoBehaviour
         this.currentRoom = obj.GetComponent<Room>();
 
         FindObjectOfType<DeckUI>().init(this);
-
-
-
     }
 
     public void addToDeck(List<Room> newDeck) {
         this.deck.AddRange(newDeck);
     }
 
-    public Room getNextInDeck() {
+    public Room getNextInDeck(bool overworld) {
         if(deck.Count == 0)
             return null;
-        return deck[0];
+        return overworld ? deck[0] : deck[0].getPair();
     }
 
     public int getDeckSize() {

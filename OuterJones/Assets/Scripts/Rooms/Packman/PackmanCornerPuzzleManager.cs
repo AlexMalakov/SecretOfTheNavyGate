@@ -12,7 +12,7 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
 
     [SerializeField] private RoomsLayout layout;
 
-    [SerializeField] private UnderbellyStaircase staircaseToOpen;
+    [SerializeField] private GameObject effectableObj;
     private bool completed = false;
 
     public void Awake() {
@@ -45,7 +45,7 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
                 && this.bottomRightPiece.isFullyActivated()) {
 
             completed = true;
-            staircaseToOpen.onEffect();
+            effectableObj.gameObject.GetComponent<Effectable>().onEffect();
         }
     }
 

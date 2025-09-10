@@ -18,8 +18,12 @@ public class WaterSourceManager : MonoBehaviour, RoomUpdateListener
         this.sources.Add(source);
     }
 
-    private void restartFlood() {
-        foreach(Room r in this.layout.getAllRooms()) {
+    public void restartFlood() {
+        foreach(Room r in this.layout.getAllRooms(true)) {
+            r.restartFlood();
+        }
+
+        foreach(Room r in this.layout.getAllRooms(false)) {
             r.restartFlood();
         }
     }
@@ -30,11 +34,13 @@ public class WaterSourceManager : MonoBehaviour, RoomUpdateListener
         foreach(WaterSource s in this.sources) {
             s.computeFlow();
         }
+
+        this.drainM.drainRooms();
     }
 
     public void recomputeFlow() {
         this.onRoomUpdate(new List<Room>());
-        this.drainM.onRoomUpdate(new List<Room>());
+        this.drainM.drainRooms();
     }
 
 }

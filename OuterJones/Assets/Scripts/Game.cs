@@ -16,4 +16,5 @@ public class Game : MonoBehaviour
 
 public interface Effectable {
     void onEffect();
+    void onEffectOver();
 }

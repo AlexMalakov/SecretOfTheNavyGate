@@ -5,12 +5,12 @@ using UnityEngine;
 public class LightSource : MonoBehaviour, Effectable
 {
     //room info
-    [SerializeField] private LightDarkRoom originRoom;
+    [SerializeField] private Room originRoom;
     private BeamModel beam;
     [SerializeField] private DoorDirection castDirection = DoorDirection.North;
     [SerializeField] private LightSourceManager manager;
     
-    private bool powered = false;
+    [SerializeField] private bool powered = false;
     
 
     public void Awake() {
@@ -20,7 +20,7 @@ public class LightSource : MonoBehaviour, Effectable
     }
 
     public void castBeam() {
-        if(this.powered && this.originRoom.isLight()) {
+        if(this.powered && this.originRoom.canCastBeam()) {
             this.beam.initBeam(
                 this.originRoom.transform,
                 this.transform.position,
@@ -39,6 +39,11 @@ public class LightSource : MonoBehaviour, Effectable
 
     public void onEffect() {
         this.powered = true;
+        this.manager.onRoomUpdate(new List<Room>());
+    }
+
+    public void onEffectOver() {
+        this.powered = false;
         this.manager.onRoomUpdate(new List<Room>());
     }
 }

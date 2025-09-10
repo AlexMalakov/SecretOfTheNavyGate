@@ -10,5 +10,49 @@ public class DebugOnPlayer : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.R)) {
             this.player.getCurrentRoom().rotate90(player.getRotationDirection());
         }
+
+        if(Input.GetKeyDown(KeyCode.Alpha1)) {
+            this.player.getCurrentRoom().onFlood(CanalEntrances.NW, false);
+        } else if(Input.GetKeyDown(KeyCode.Alpha2)) {
+            this.player.getCurrentRoom().onFlood(CanalEntrances.N, false);
+        } else if(Input.GetKeyDown(KeyCode.Alpha3)) {
+            this.player.getCurrentRoom().onFlood(CanalEntrances.NE, false);
+        } else if(Input.GetKeyDown(KeyCode.Alpha4)) {
+            this.player.getCurrentRoom().onFlood(CanalEntrances.E, false);
+        } else if(Input.GetKeyDown(KeyCode.Alpha5)) {
+            this.player.getCurrentRoom().onFlood(CanalEntrances.SE, false);
+        } else if(Input.GetKeyDown(KeyCode.Alpha6)) {
+            this.player.getCurrentRoom().onFlood(CanalEntrances.S, false);
+        } else if(Input.GetKeyDown(KeyCode.Alpha7)) {
+            this.player.getCurrentRoom().onFlood(CanalEntrances.SW, false);
+        } else if(Input.GetKeyDown(KeyCode.Alpha8)) {
+            this.player.getCurrentRoom().onFlood(CanalEntrances.W, false);
+        }
+
+        if(Input.GetKeyDown(KeyCode.I)) {
+            this.player.getCurrentRoom().receiveBeam(DoorDirection.North);
+        } else if (Input.GetKeyDown(KeyCode.J)) {
+            this.player.getCurrentRoom().receiveBeam(DoorDirection.West);
+        } else if (Input.GetKeyDown(KeyCode.K)) {
+            this.player.getCurrentRoom().receiveBeam(DoorDirection.South);
+        } else if (Input.GetKeyDown(KeyCode.L)) {
+            this.player.getCurrentRoom().receiveBeam(DoorDirection.East);
+        }
+
+        if(Input.GetKeyDown(KeyCode.U)) {
+            foreach(UnderbellyStaircase u in FindObjectsOfType<UnderbellyStaircase>()) {
+                u.onEffect();
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.N)) {
+            FindObjectOfType<RoomsLayout>().notifyRoomListeners(null);
+        }
+
+
+        if(Input.GetKeyDown(KeyCode.Backspace)) {
+            FindObjectOfType<WaterSourceManager>().restartFlood();
+            FindObjectOfType<LightSourceManager>().resetBeams();
+        }
     }
 }

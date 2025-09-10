@@ -48,10 +48,16 @@ public class Canal : MonoBehaviour
             g.init(this);
         }
 
+        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Floaties, this.waterCollider.GetComponent<WaterColliderManager>());
+
         // if(this.flooded)
     }
+
+    public Room TEMP_DELETE_ME() {
+        return this.room;
+    }
     
-    public void onFlood(CanalEntrances? floodingFrom) {
+    public void onFlood(CanalEntrances? floodingFrom, bool fromSource) {
         if(this.reachedThisFlood || !this.gameObject.activeInHierarchy) {
             return;
         }
@@ -62,25 +68,25 @@ public class Canal : MonoBehaviour
             this.flooded = true;
 
             this.waterCollider.SetActive(true);
+
+            foreach(Floodable f in this.floodableObjects) {
+                f.onFlood(fromSource);
+            }
+
+            this.skinnySection.onFlood();
+        }
+
+        foreach(Dam d in this.attatchedDams) {
+            d.onFlood(this, floodingFrom, fromSource);
         }
 
         List<CanalEntrances> floodTo = new List<CanalEntrances>(this.canalEntrances);
 
         if(floodingFrom != null) {
             floodTo.Remove((CanalEntrances)floodingFrom);
-        }
+        }  
 
-        foreach(Dam d in this.attatchedDams) {
-            d.onFlood(this, floodingFrom);
-        }
-
-        foreach(Floodable f in this.floodableObjects) {
-            f.onFlood();
-        }
-
-        this.skinnySection.onFlood();
-
-        this.room.floodNeighbors(floodTo);
+        this.room.floodNeighbors(floodTo, fromSource);
     }
 
     public bool willFlood(CanalEntrances floodingFrom) {
@@ -99,6 +105,16 @@ public class Canal : MonoBehaviour
         if(this.flooded) {
             this.waterCollider.SetActive(false);
             this.flooded = false;
+
+            foreach(Floodable f in this.floodableObjects) {
+                f.drainWater();
+            }
+
+            this.skinnySection.onDrain();
+        }
+
+        foreach(Dam d in this.attatchedDams) {
+            d.drainWater(this, drainingFrom);
         }
 
         List<CanalEntrances> drainTo = new List<CanalEntrances>(this.canalEntrances);
@@ -106,16 +122,6 @@ public class Canal : MonoBehaviour
         if(drainingFrom != null) {
             drainTo.Remove((CanalEntrances)drainingFrom);
         }
-
-        foreach(Floodable f in this.floodableObjects) {
-            f.drainWater();
-        }
-
-        foreach(Dam d in this.attatchedDams) {
-            d.drainWater(this, drainingFrom);
-        }
-
-        this.skinnySection.onDrain();
 
         this.room.drainNeighbors(drainTo);
     }

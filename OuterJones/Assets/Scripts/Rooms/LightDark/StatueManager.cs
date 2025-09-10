@@ -122,6 +122,7 @@ public class StatueManager : MonoBehaviour, InputSubscriber
         foreach(MonkeyStatue stat in this.statues) {
             stat.reset();
             correct = 0;
+            effectableObj.GetComponent<Effectable>().onEffectOver();
         }
     }
 }

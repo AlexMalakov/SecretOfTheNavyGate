@@ -21,4 +21,13 @@ public class EffectableObjSwapper : MonoBehaviour, Effectable
             secondObj.SetActive(true);
         }
     }
+
+    public void onEffectOver() {
+        if(toggleBetween) {
+            this.onEffect();
+        } else {
+            startingObj.SetActive(true);
+            secondObj.SetActive(false);
+        }
+    }
 }

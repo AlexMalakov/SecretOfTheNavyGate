@@ -10,7 +10,7 @@ public class LightSourceManager : MonoBehaviour, RoomUpdateListener
     [Header ("beam pool")]
     [SerializeField] private Transform beamParent;
     [SerializeField] private GameObject beamPrefab;
-    private int BEAM_POOL_SIZE = 15;
+    private int BEAM_POOL_SIZE = 20;
 
     public void Awake() {
         //TODO: Shouldn't have a beam in a dark room
@@ -26,8 +26,12 @@ public class LightSourceManager : MonoBehaviour, RoomUpdateListener
         return Instantiate(beamPrefab, beamParent).GetComponent<BeamModel>();
     }
 
-    private void resetBeams() {
-        foreach(Room r in this.layout.getAllRooms()) {
+    public void resetBeams() {
+        foreach(Room r in this.layout.getAllRooms(true)) {
+            r.removeBeam();
+        }
+
+        foreach(Room r in this.layout.getAllRooms(false)) {
             r.removeBeam();
         }
     }
@@ -47,7 +51,7 @@ public static class BeamPool {
     private static int EXPAND_POOL_BY = 5;
     
     internal static void init(GameObject beamPrefab, Transform beamParent, int count) {
-
+        pool = new List<BeamModel>();
         for (int i = 0; i < count; i++) {
             pool.Add(GameObject.Instantiate(beamPrefab, beamParent).GetComponent<BeamModel>());
         }

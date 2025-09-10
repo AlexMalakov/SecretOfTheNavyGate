@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public struct RoomCoords {
-    public int x; public int y;
+    public int x; public int y; public bool overworld;
 
-    public RoomCoords(int x, int y) {
-        this.x = x; this.y = y;
+    public RoomCoords(int x, int y, bool overworld) {
+        this.x = x; this.y = y; this.overworld = overworld;
     }
 
     public RoomCoords getOffset(int dX, int dY) {
-        return new RoomCoords(x + dX, y + dY);
+        return new RoomCoords(x + dX, y + dY, this.overworld);
     }
 
     public RoomCoords getOffset(DoorDirection d) {
@@ -28,11 +28,16 @@ public struct RoomCoords {
 
         return this;
     }
+
+    public RoomCoords swapFloor() {
+        return new RoomCoords(this.x, this.y, !this.overworld);
+    }
 }
 
 public class RoomsLayout : MonoBehaviour
 {
     private Room[,] rooms;
+    private Room[,] underbelly;
     [SerializeField] private float positionOffset;
     [SerializeField] private GameObject cameraObj;
     public static int ROOM_GRID_X = 5;
@@ -43,11 +48,34 @@ public class RoomsLayout : MonoBehaviour
     public void Start() {
         //place starting room in the grid
         this.rooms = new Room[ROOM_GRID_X, ROOM_GRID_X];
+        this.underbelly = new Room[ROOM_GRID_X, ROOM_GRID_X];
 
         GameObject obj = GameObject.Find("startingRoom");
-        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2] = obj.GetComponent<Room>();
-        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].init(new RoomCoords(ROOM_GRID_X/2, ROOM_GRID_X/2));
-        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].onEnter(null);
+
+        RoomCoords startingPos = new RoomCoords(ROOM_GRID_X/2, ROOM_GRID_X/2, true);
+        this.helpPlaceRoom(obj.GetComponent<Room>(), startingPos);
+
+        this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].onEnter((Door)null);
+    }
+
+    private void helpPlaceRoom(Room r, RoomCoords pos) {
+        Room overR;
+        Room underR;
+        if(pos.overworld) {
+            overR = r;
+            underR = r.getPair();
+        } else {
+            overR = r.getPair();
+            underR = r;
+        }
+
+        this.rooms[pos.x, pos.y] = overR;
+        overR.init(pos.overworld ? pos : pos.swapFloor());
+        this.moveRoomToSpot(overR);
+
+        this.underbelly[pos.x, pos.y] = underR;
+        underR.init(!pos.overworld ? pos : pos.swapFloor());
+        this.moveRoomToSpot(underR);
     }
 
     public void addRoomUpdateListener(RoomUpdateListener l) {
@@ -86,11 +114,7 @@ public class RoomsLayout : MonoBehaviour
             destPos = origin.getPosition().getOffset(origin.getDirection());
         }
 
-        
-        this.rooms[destPos.x, destPos.y] = dest;
-        dest.init(destPos);
-
-        this.moveRoomToSpot(dest, destPos);
+        this.helpPlaceRoom(dest, destPos);
 
         this.notifyRoomListeners(new List<Room>(){dest});
     }
@@ -105,27 +129,28 @@ public class RoomsLayout : MonoBehaviour
         }
     }
 
-    private void moveRoomToSpot(Room r, RoomCoords c) {
+    private void moveRoomToSpot(Room r) {
         //possible bug in the position placing?
-        RoomCoords centerPos = this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].getPosition();
-        Vector3 offset = new Vector3(this.positionOffset * (c.x - centerPos.x), this.positionOffset * (c.y - centerPos.y), 0);
-        r.transform.position = this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2].transform.position + offset;
+        RoomCoords c = r.getPosition();
+        Room reff = ((c.overworld) ? this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2] : this.underbelly[ROOM_GRID_X/2, ROOM_GRID_X/2]);
+        Vector3 offset = new Vector3(this.positionOffset * (c.x - reff.getPosition().x), this.positionOffset * (c.y - reff.getPosition().y), 0);
+        r.transform.position = reff.transform.position + offset;
     }
 
     private RoomCoords getPackmanCoords(Door origin) {
         RoomCoords destPos;
         switch(origin.getDirection()) {
             case DoorDirection.North:
-                destPos = new RoomCoords(origin.getPosition().x, 0);
+                destPos = new RoomCoords(origin.getPosition().x, 0, origin.getPosition().overworld);
                 break;
             case DoorDirection.East:
-                destPos = new RoomCoords(0, origin.getPosition().y);
+                destPos = new RoomCoords(0, origin.getPosition().y, origin.getPosition().overworld);
                 break;
             case DoorDirection.West:
-                destPos = new RoomCoords(ROOM_GRID_X-1, origin.getPosition().y);
+                destPos = new RoomCoords(ROOM_GRID_X-1, origin.getPosition().y, origin.getPosition().overworld);
                 break;
             case DoorDirection.South:
-                destPos = new RoomCoords(origin.getPosition().y, ROOM_GRID_X-1);
+                destPos = new RoomCoords(origin.getPosition().y, ROOM_GRID_X-1, origin.getPosition().overworld);
                 break;
             default:
                 throw new InvalidOperationException("Invalid door direction!");
@@ -135,39 +160,43 @@ public class RoomsLayout : MonoBehaviour
     }
 
     public Room getRoomAt(RoomCoords c) {
-        return this.getRoomAt(c.x, c.y);
+        return this.getRoomAt(c.x, c.y, c.overworld);
     }
 
-    public Room getRoomAt(int x, int y) {
+    public Room getRoomAt(int x, int y, bool overworld) {
+        Room[,] checking = overworld? this.rooms : this.underbelly;
         if(x < 0 || x >= ROOM_GRID_X || y < 0 || y >= ROOM_GRID_X) {
-            if(this.rooms[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X] is PackmanRoom) {
-                return this.rooms[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X];
+            if(checking[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X] is PackmanRoom) {
+                return checking[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X];
             }
             return null;
         }
-        return this.rooms[x,y];
+        return checking[x,y];
     }
 
     public Room getRoomFromPackman(RoomCoords c) {
-        return this.getRoomFromPackman(c.x, c.y);
+        return this.getRoomFromPackman(c.x, c.y, c.overworld);
     }
 
-    public Room getRoomFromPackman(int x, int y) {
-        return this.rooms[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X];
+    public Room getRoomFromPackman(int x, int y, bool overworld) {
+        return overworld ? 
+                this.rooms[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X] : 
+                this.underbelly[(x + ROOM_GRID_X) % ROOM_GRID_X, (y + ROOM_GRID_X) % ROOM_GRID_X];
     }
 
-    public List<Room> getAllRooms() {
+    public List<Room> getAllRooms(bool overworld) {
         List<Room> all = new List<Room>();
         for(int i = 0; i < ROOM_GRID_X; i++) {
             for(int j = 0; j < ROOM_GRID_X; j++) {
                 if(this.rooms[i,j] != null) {
-                    all.Add(this.rooms[i,j]);
+                    all.Add(overworld ? this.rooms[i,j] : this.underbelly[i,j]);
                 }
             }
         }
         return all;
     }
 
+    //not changing this with underbelly rewrite because it doesn't matter if im rotating the top or the bottom since they move together
     public void slideRoomsAroundCenter(RoomCoords center, bool clockwise) {
         Dictionary<RoomCoords, Room> roomsToShift = new Dictionary<RoomCoords, Room>();
         List<Room> toUpdate = new List<Room>();
@@ -201,8 +230,7 @@ public class RoomsLayout : MonoBehaviour
             Room r = roomsToShift[keys[(i+1) % keys.Count]];
             this.rooms[keys[i].x, keys[i].y] = r;
             if(r != null) {
-                r.init(keys[i]);
-                this.moveRoomToSpot(r, keys[i]);
+                this.helpPlaceRoom(r, keys[i]);
                 toUpdate.Add(r);
             }
         }

@@ -20,6 +20,8 @@ public class Chest : MonoBehaviour, InputSubscriber
 
     [SerializeField] private DoorDirection chestFacing;
 
+    [SerializeField] private bool endGamePopUp = false;
+
     [SerializeField] private bool hideLast = false;
 
     private PlayerIO playerIO;
@@ -39,7 +41,7 @@ public class Chest : MonoBehaviour, InputSubscriber
         }
 
         foreach(Room r in this.deck) { //IM SETTING EVERY ROOM TO NOT ACTIVE!
-            r.gameObject.SetActive(false);
+            r.hideRoom();
         }
     }
 
@@ -55,6 +57,8 @@ public class Chest : MonoBehaviour, InputSubscriber
         } else if(this.item != null && other.gameObject.GetComponent<Player>() != null) {
             other.GetComponent<Player>().getInventory().gainItem(this.item);
             this.playerIO.requestPopUpMessage(this, this.transform, "You've found a " + this.item.getName());
+        } else if(this.endGamePopUp && other.gameObject.GetComponent<Player>() != null){
+            this.playerIO.displayEndGamePopUp(this, this.transform);
         } else {
             //failed to give the player anything
             return;
@@ -62,6 +66,12 @@ public class Chest : MonoBehaviour, InputSubscriber
 
         opened = true;
         this.updateSprite();
+    }
+
+    void OnTriggerExit2D(Collider2D other) {
+        if(this.endGamePopUp) {
+            this.playerIO.cancelRequest(this);
+        }
     }
 
     public void rotate90(bool clockwise) {
@@ -82,4 +92,5 @@ public class Chest : MonoBehaviour, InputSubscriber
     }
 
     public void onSpacePress(){}
+    
 }

@@ -177,9 +177,9 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.38, y: -0.6}
+    - - {x: 0, y: -0.6}
       - {x: 0.67, y: -0.67}
-      - {x: 0.6, y: 0.38}
+      - {x: 0.6, y: 0}
   m_UseDelaunayMesh: 0
 --- !u!1 &1314779437438043050
 GameObject:
@@ -407,9 +407,9 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.38, y: -0.6}
+    - - {x: 0, y: -0.6}
       - {x: 0.67, y: -0.67}
-      - {x: 0.6, y: 0.38}
+      - {x: 0.6, y: 0}
   m_UseDelaunayMesh: 0
 --- !u!1 &2547592562541252504
 GameObject:
@@ -553,9 +553,9 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.38, y: -0.6}
+    - - {x: 0, y: -0.6}
       - {x: 0.67, y: -0.67}
-      - {x: 0.6, y: 0.38}
+      - {x: 0.6, y: 0}
   m_UseDelaunayMesh: 0
 --- !u!1 &4550039340680637549
 GameObject:
@@ -781,6 +781,8 @@ MonoBehaviour:
   dropOffPoint: {fileID: 0}
   alternateDropOff: {fileID: 0}
   oneWay: 0
+  arrow: {fileID: 0}
+  flippedArrow: {fileID: 0}
 --- !u!1 &5636111970925231050
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,9 +925,9 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.38, y: -0.6}
+    - - {x: 0, y: -0.6}
       - {x: 0.67, y: -0.67}
-      - {x: 0.6, y: 0.38}
+      - {x: 0.6, y: 0}
   m_UseDelaunayMesh: 0
 --- !u!1 &6816649214675175826
 GameObject:

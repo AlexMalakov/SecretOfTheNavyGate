@@ -9,12 +9,14 @@ public class MummyManager : MonoBehaviour, ItemListener
     [SerializeField] private List<Transform> possibleTargets;
     [SerializeField] private PackmanRoom pRoom;
     [SerializeField] Inventory inventory;
+    [SerializeField] private PlayerShadow playerShadow;
 
     private bool amuletActive = false;
 
     private float timeBetweenFlip = .1f; //.35 this is a really dumb idea but will probably work
 
     private bool targetingLeft = true;
+    private bool chasingShadow = false;
 
     [SerializeField] Mummy mummy;
     private bool mummyIsAwake = false;
@@ -27,10 +29,15 @@ public class MummyManager : MonoBehaviour, ItemListener
         this.amuletActive = status; 
     }
 
-    public void wakeMummy() {
+    public void wakeMummy(bool shadow) {
         if(this.mummy != null) {
+            this.chasingShadow = shadow;
             this.mummyIsAwake = true;
             this.mummy.wake();
+        }
+
+        if(this.chasingShadow) {
+            this.playerShadow.wakeShadow(this.pRoom);
         }
     }
 
@@ -39,6 +46,10 @@ public class MummyManager : MonoBehaviour, ItemListener
             this.mummyIsAwake = false;
             this.mummy.sleep();
             this.mummy.resetPosition();
+        }
+
+        if(this.chasingShadow) {
+            this.playerShadow.endTask();
         }
     }
 
@@ -49,7 +60,11 @@ public class MummyManager : MonoBehaviour, ItemListener
         
         if(targetPlayer) {
             this.targetingLeft = (((int)(Time.time / this.timeBetweenFlip))%2) == 0;
+
             Transform target = this.targetingLeft ? this.player.getMummyTargets()[0] : this.player.getMummyTargets()[1];
+            if(this.chasingShadow) {
+                target = this.targetingLeft ? this.playerShadow.getMummyTargets()[0] : this.playerShadow.getMummyTargets()[1];
+            }
 
             if(this.amuletActive) {
                 this.mummy.navigateFromTarget(target, this.player.gameObject.GetComponent<PlayerController>().isPlayerMoving());
@@ -59,12 +74,13 @@ public class MummyManager : MonoBehaviour, ItemListener
         } else {
             Transform best = this.mummy.transform;
             float bestVal = amuletActive? -9999 : 9999;
+            Vector3 getBestFor = this.chasingShadow ? this.playerShadow.transform.position : this.player.transform.position;
             foreach(Transform target in possibleTargets) {
-                if((!this.amuletActive && ((target.position - this.player.transform.position).magnitude < bestVal))
-                      || (this.amuletActive && ((target.position - this.player.transform.position).magnitude > bestVal))) {
+                if((!this.amuletActive && ((target.position - getBestFor).magnitude < bestVal))
+                      || (this.amuletActive && ((target.position - getBestFor).magnitude > bestVal))) {
 
                     best = target;
-                    bestVal = (target.position - this.player.transform.position).magnitude;
+                    bestVal = (target.position - getBestFor).magnitude;
                 }
             }
 

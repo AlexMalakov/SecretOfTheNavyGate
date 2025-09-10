@@ -7,7 +7,7 @@ public class PackmanRoom : Room
     [SerializeField] private MummyManager mummyManager;
     [SerializeField] private ButtonManager bManager;
 
-    private Door enteredFrom;
+    private Transform enteredFromPos;
 
     public override void init(RoomCoords position) {
         base.init(position);
@@ -29,10 +29,22 @@ public class PackmanRoom : Room
 
     public override void onEnter(Door d) {
         base.onEnter(d);
-        if(mummyManager != null)
-            mummyManager.wakeMummy();
+        this.wakeMummy();
+        this.enteredFromPos = d.getEnterPos();
+    }
 
-        this.enteredFrom = d;
+    public override void onEnter(UnderbellyStaircase u) {
+        base.onEnter(u);
+        this.wakeMummy();
+        this.enteredFromPos = u.getEnterPos();
+    }
+
+    private void wakeMummy() {
+        if(mummyManager != null)
+            mummyManager.wakeMummy(false);
+
+        if(((PackmanRoom)this.getPair()).getMummyManager() != null)
+            ((PackmanRoom)this.getPair()).getMummyManager().wakeMummy(true);
     }
 
     public override void onExit() {
@@ -43,7 +55,7 @@ public class PackmanRoom : Room
     }
 
     public void resetPackmanRoom(Player p) {
-        p.transform.position = this.enteredFrom.getEnterPos().position;
+        p.transform.position = this.enteredFromPos.position;
         if(this.bManager != null) {
             this.bManager.failButtons();
         }
@@ -59,17 +71,21 @@ public class PackmanRoom : Room
 
     public override void beamNeighbor(DoorDirection exitDirection) {
         //might have a bug where can't receive beam
-        if(this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y) != null) {
-            this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y).receiveBeam(exitDirection);
+        if(this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y, this.position.overworld) != null) {
+            this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y, this.position.overworld).receiveBeam(exitDirection);
         }
     }
 
-    public override void floodNeighbors(List<CanalEntrances> exits) {
+    public override void floodNeighbors(List<CanalEntrances> exits, bool fromSource) {
         foreach(CanalEntrances exit in exits) {
-            if(this.layoutManager.getRoomFromPackman(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]) != null) {
+            if(this.layoutManager.getRoomFromPackman(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1], this.position.overworld) != null) {
                 CanalEntrances opposite = (CanalEntrances)(((int)exit + (WaterSource.CANAL_ENTRANCE_COUNT/2)) % WaterSource.CANAL_ENTRANCE_COUNT);
-                this.layoutManager.getRoomFromPackman(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]).onFlood(opposite);
+                this.layoutManager.getRoomFromPackman(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1], this.position.overworld).onFlood(opposite, fromSource);
             }
         }
+    }
+
+    public MummyManager getMummyManager() {
+        return this.mummyManager;
     }
 }

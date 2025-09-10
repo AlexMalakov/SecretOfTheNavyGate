@@ -10,4 +10,6 @@ public class RoomSlider : MonoBehaviour, Effectable
     public void onEffect() {
         this.originRoom.getLayoutManager().slideRoomsAroundCenter(this.originRoom.getPosition(), this.player.getRotationDirection());
     }
+
+    public void onEffectOver() {} //doesn't do anything
 }

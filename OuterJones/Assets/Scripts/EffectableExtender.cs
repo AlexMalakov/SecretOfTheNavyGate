@@ -11,4 +11,10 @@ public class EffectableExtender : MonoBehaviour, Effectable
             obj.GetComponent<Effectable>().onEffect();
         }
     }
+
+    public void onEffectOver() {
+        foreach(GameObject obj in this.effectables) {
+            obj.GetComponent<Effectable>().onEffectOver();
+        }
+    }
 }

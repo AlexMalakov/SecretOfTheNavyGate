@@ -31,7 +31,7 @@ public class Bridge :  Floodable
         this.GetComponent<Collider2D>().enabled = false;
     }
 
-    public override void onFlood() {
+    public override void onFlood(bool fromSource) {
         flooded = true;
         notFloodedSprite.SetActive(false);
         floodedSprite.SetActive(true);

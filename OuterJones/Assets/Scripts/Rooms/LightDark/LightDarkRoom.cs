@@ -14,14 +14,14 @@ public class LightDarkRoom : Room
     [SerializeField] private LDAlternatePuzzle ldListener;
     [SerializeField] private LightPuzzleRoom ldID;
     
-    private LightSource source;
+    
 
 
     public override void init(RoomCoords position) {
         base.init(position);
 
         this.position = position;
-        if((position.x + position.y) % 2 == 1) {
+        if((position.x + position.y) % 2 == ((position.overworld) ? 1 : 0)) {
             this.roomLighting = lightLevel;
 
             if(this.ldListener != null) {
@@ -36,6 +36,10 @@ public class LightDarkRoom : Room
         }
     }
 
+    public override bool canCastBeam() {
+        return this.isLight();
+    }
+
     public override Sprite getRoomSprite() {
         if(isLight()) {
             return this.roomSprite;
@@ -43,20 +47,6 @@ public class LightDarkRoom : Room
         return this.darkSprite;
     }
     
-    public override bool rotate90() {
-        bool clockwise = base.rotate90();
-
-        if(this.source != null) {
-            this.source.rotate90(clockwise);
-        }
-
-        return clockwise;
-    }
-
-    public void setSource(LightSource s) {
-        this.source = s;
-    }
-
     public bool isLight() {
         return Mathf.Abs(this.roomLighting - lightLevel) < .001;
     }

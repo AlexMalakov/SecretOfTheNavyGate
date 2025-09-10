@@ -447,7 +447,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1.8, y: 1.8}
   m_EdgeRadius: 0
 --- !u!114 &1612557850706979561
 MonoBehaviour:
@@ -469,6 +469,7 @@ MonoBehaviour:
   cwSprite: {fileID: 8879830304119149431}
   ccwSprite: {fileID: 7787143195320022444}
   blinkDelay: 1
+  listener: {fileID: 0}
   clockwise: 1
 --- !u!1 &1493842131615485044
 GameObject:

@@ -15,6 +15,9 @@ public class Room : MonoBehaviour
     [SerializeField] protected List<Door> doors;
     [SerializeField] protected Sprite roomSprite;
 
+    [Header("underbelly")]
+    [SerializeField] private Room roomPair;
+
     [Header ("Beam target transforms")]
     [SerializeField] private Transform northPosition;
     [SerializeField] private Transform eastPosition;
@@ -31,12 +34,12 @@ public class Room : MonoBehaviour
     protected Quaternion initialRotation;
     private bool playerInRoom = false;
 
-    private PopUpManager manager;
-
+    private Map map;
+    
     public void Awake() {
         this.floorAndWallHolderRot = this.floorAndWallHolder.transform.rotation;
         this.initialRotation = transform.rotation;
-        this.manager = FindObjectOfType<PopUpManager>();
+        this.map = FindObjectOfType<Map>();
     }
 
     public virtual void init(RoomCoords position) {
@@ -56,16 +59,31 @@ public class Room : MonoBehaviour
     }
 
     public virtual void onEnter(Door d) {
-        // this.gameObject.SetActive(true);
+        this.enterAbstraction();
+    }
+
+    public void hideRoom() {
+        this.getPair().gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
+    }
+
+    public virtual void onEnter(UnderbellyStaircase staircase) {
+        this.enterAbstraction();
+    }
+
+    private void enterAbstraction() {
         this.layoutManager.getCam().transform.position = new Vector3(this.transform.position.x, this.transform.position.y ,this.layoutManager.getCam().transform.position.z);
         globalLighting.intensity = this.roomLighting;
-        this.manager.displayRoomPopUp(this.getRoomName());
+        this.map.onNewRoomEntered(this);
         playerInRoom = true;
     }
 
     public virtual void onExit() {
         // this.gameObject.SetActive(false);
         playerInRoom = false;
+        if(this.getPosition().overworld) {
+            this.getPair().onExit();
+        }
     }
 
 
@@ -118,6 +136,11 @@ public class Room : MonoBehaviour
         return null;
     }
 
+    public virtual Room getPair() {
+        return this.roomPair;
+    }
+
+
     public string getRoomName() {
         return this.roomName;
     }
@@ -131,10 +154,10 @@ public class Room : MonoBehaviour
     //since canals can exist in non water rooms, all water functionality gets to live in room :'(
 
 
-    public virtual void onFlood(CanalEntrances floodingFrom) {
+    public virtual void onFlood(CanalEntrances floodingFrom, bool fromSource) {
         foreach(Canal c in this.canals) {
             if(c.willFlood(floodingFrom)) {
-                c.onFlood(floodingFrom);
+                c.onFlood(floodingFrom, fromSource);
             }
         }
     }
@@ -153,20 +176,20 @@ public class Room : MonoBehaviour
         }
     }
 
-    public virtual void floodNeighbors(List<CanalEntrances> exits) {
+    public virtual void floodNeighbors(List<CanalEntrances> exits, bool fromSource) {
         foreach(CanalEntrances exit in exits) {
-            if(this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]) != null) {
+            if(this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1], this.position.overworld) != null) {
                 CanalEntrances opposite = (CanalEntrances)(((int)exit + (WaterSource.CANAL_ENTRANCE_COUNT/2)) % WaterSource.CANAL_ENTRANCE_COUNT);
-                this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]).onFlood(opposite);
+                this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1], this.position.overworld).onFlood(opposite, fromSource);
             }
         }
     }
 
     public virtual void drainNeighbors(List<CanalEntrances> exits) {
         foreach(CanalEntrances exit in exits) {
-            if(this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]) != null) {
+            if(this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1], this.position.overworld) != null) {
                 CanalEntrances opposite = (CanalEntrances)(((int)exit + (WaterSource.CANAL_ENTRANCE_COUNT/2)) % WaterSource.CANAL_ENTRANCE_COUNT);
-                this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1]).drainWater(opposite);
+                this.layoutManager.getRoomAt(this.position.x + WaterSource.CANAL_N_MAP[exit][0], this.position.y + WaterSource.CANAL_N_MAP[exit][1], this.position.overworld).drainWater(opposite);
             }
         }
     }
@@ -186,7 +209,7 @@ public class Room : MonoBehaviour
         foreach(Canal c in this.canals) {
             if(c.isFlooded()) {
                 //if reachedThisFlood = true, then this will immediately exit
-                c.onFlood(null);
+                c.onFlood(null, false);
             }
         }
     }
@@ -207,9 +230,10 @@ public class Room : MonoBehaviour
     //////////////////////////////////////////////
     //functionality for L/D rooms
     [Header ("LD Info")]
-    [SerializeField] protected Mirror mirror;
+    [SerializeField] protected Mirrors mirrors;
     [SerializeField] protected LightSink lSink;
     protected List<BeamModel> beams = new List<BeamModel>();
+    private LightSource source;
 
     //this is a chungus of a method cuz of mirrors and non mirrors :'(
     //since all rooms can have mirrors/sinks then a lot of code gets to be moved here yipee I love big classes!!!!!! :D
@@ -237,8 +261,8 @@ public class Room : MonoBehaviour
             }
 
             DoorDirection exitDirection;
-            if(this.mirror != null && !this.mirror.hasCobWebs()) { //if we have a mirror, we draw the light as if it bounces
-                exitDirection = this.mirror.reflect(incomingDirection); //exit direction is wherever we get reflected
+            if(this.mirrors != null && !this.mirrors.hasCobWebs(incomingDirection)) { //if we have a mirror, we draw the light as if it bounces
+                exitDirection = this.mirrors.reflect(incomingDirection); //exit direction is wherever we get reflected
 
                 if(!isUniqueBeam(null, exitDirection)) {
                     return;
@@ -250,7 +274,7 @@ public class Room : MonoBehaviour
                 b.initBeam(
                     this.transform,
                     this.getPointInDirection(incomingDirection).position,
-                    this.mirror.transform.position,
+                    this.mirrors.getStartingPoint(incomingDirection).position,
                     incomingDirection,
                     null);
 
@@ -259,22 +283,25 @@ public class Room : MonoBehaviour
 
                 bb.initBeam(
                     this.transform,
-                    this.mirror.transform.position,
+                    this.mirrors.getEndingPoint(incomingDirection).position,
                     this.getPointInDirection(exitDirection).position,
                     null,
                     exitDirection);
 
-            } else if(this.mirror != null) { //we have webs
+            } else if(this.mirrors != null) { //we have webs
                 if(!isUniqueBeam(incomingDirection, null)) {
                     return;
                 }
+
+                this.mirrors.reflect(incomingDirection);
+
                 BeamModel b = BeamPool.getBeam();
                 this.beams.Add(b);
 
                 b.initBeam(
                     this.transform,
                     this.getPointInDirection(incomingDirection).position,
-                    this.mirror.transform.position,
+                    this.mirrors.getStartingPoint(incomingDirection).position,
                     incomingDirection,
                     null
                     );
@@ -331,17 +358,33 @@ public class Room : MonoBehaviour
             this.beams[i].killBeam();
         }
 
+        if(this.mirrors != null) {
+            this.mirrors.resetMirrorBeams();
+        }
+
         this.beams = new List<BeamModel>();
     }
 
     public virtual void rotateLight90(bool clockwise) {
-        if(this.mirror != null) {
-            this.mirror.rotate90();
+        if(this.mirrors != null) {
+            this.mirrors.rotate90(clockwise);
+        }
+
+        if(this.source != null) {
+            this.source.rotate90(clockwise);
         }
 
         if(this.lSink != null) {
             this.lSink.rotate90(clockwise);
         }
+    }
+
+    public void setSource(LightSource s) {
+        this.source = s;
+    }
+
+    public virtual bool canCastBeam() {
+        return true;
     }
 
     ///////////////////////////////////////////////
@@ -400,6 +443,10 @@ public class Room : MonoBehaviour
         rotateCanals90(clockwise);
 
         rotateLight90(clockwise);
+
+        if(this.getPosition().overworld) {
+            this.getPair().rotate90(clockwise); //flip if we want to change the direction
+        }
 
         //handles canal and light re set, and map rotate
         this.layoutManager.notifyRoomListeners(new List<Room>(){this});

@@ -26,6 +26,12 @@ public class PowerableDoor : GateDoor, Effectable
         }
     }
 
+    public void onEffectOver() {
+        if(dontToggle) {
+            this.opencloseDoor(false);
+        }
+    }
+
     //if specifically open/close is wanted
     public void opencloseDoor(bool openDesired) {
         openState = openDesired;

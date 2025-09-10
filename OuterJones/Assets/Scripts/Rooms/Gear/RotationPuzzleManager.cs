@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class RotationPuzzleManager : MonoBehaviour, Effectable
+public class RotationPuzzleManager : Floodable, Effectable
 {
     [SerializeField] private List<GameObject> puzzleElementObjects;
     [SerializeField] private List<RotationPuzzleButton> rButtons;
@@ -13,6 +13,7 @@ public class RotationPuzzleManager : MonoBehaviour, Effectable
     [SerializeField] private PowerableDoor puzzleFinish;
 
     private List<RotationPuzzleElement> puzzleElements;
+    private bool flooded = false;
 
     void Awake() {
         puzzleElements = new List<RotationPuzzleElement>();
@@ -67,12 +68,25 @@ public class RotationPuzzleManager : MonoBehaviour, Effectable
 
     public void onEffect() {
         this.resetPuzzle();
-        puzzleEntrance.opencloseDoor(true);
+        if(!this.flooded) {
+            puzzleEntrance.opencloseDoor(true);
+        }
     }
+
+    public void onEffectOver(){}
 
     void OnTriggerEnter2D(Collider2D other) {
         if(other.GetComponent<Player>() != null) {
             puzzleEntrance.opencloseDoor(false);
+            puzzleFinish.opencloseDoor(false);
         }
+    }
+
+    public override void onFlood(bool fromSource) {
+        this.flooded = true;
+    }
+
+    public override void drainWater() {
+        this.flooded = false;
     }
 }
