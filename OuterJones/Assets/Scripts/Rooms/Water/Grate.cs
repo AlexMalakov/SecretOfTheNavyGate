@@ -33,7 +33,7 @@ public class Grate : MonoBehaviour, ItemListener
 
     public void onItemEvent(bool itemStatus) {
         this.playerHasFloaties = itemStatus;
-        outOfCanalCollider.enabled = this.playerHasFloaties || this.playerInCanal;
+        outOfCanalCollider.isTrigger = this.playerHasFloaties || this.playerInCanal;
     }
 
     public void onPlayerOutCanal() {

@@ -147,7 +147,7 @@ public class Canal : MonoBehaviour
         }
 
         if(other.gameObject.GetComponent<Player>() != null && !this.playerInCanal) {
-
+            
             bool playerOnGrate = false;
             foreach(Grate g in this.grates) {
                 playerOnGrate = playerOnGrate || g.isPlayerOnGrate();
@@ -185,12 +185,13 @@ public class Canal : MonoBehaviour
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        if(flooded) {
-            return;
-        }
 
         if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
             other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(false);
+        }
+
+        if(flooded) {
+            return;
         }
 
         if(other.gameObject.GetComponent<Player>() != null) {
@@ -199,17 +200,17 @@ public class Canal : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other) {
+        if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
+            other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true);
+        }
+
         if(flooded) {
             return;
         }
 
         if(other.gameObject.GetComponent<CanalFinderManager>() != null) {
             StartCoroutine(checkPlayerGrateStatus(other.gameObject.GetComponent<CanalFinderManager>()));
-        }
-
-        if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
-            other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true);
-        }
+        }        
     }
 
     private IEnumerator checkPlayerGrateStatus(CanalFinderManager finder) {
