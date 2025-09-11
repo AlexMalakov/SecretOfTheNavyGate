@@ -27,6 +27,10 @@ public class Map: MonoBehaviour, RoomUpdateListener
 
     //TODO: Moved rooms that are null
     public void onRoomUpdate(List<Room> rooms) {
+        if(rooms == null) {
+            return;
+        }
+
         foreach(Room r in rooms) {
             if(r.getPosition().overworld) {
                 displayRoom(r, this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y));

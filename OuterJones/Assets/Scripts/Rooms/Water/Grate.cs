@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grate : MonoBehaviour
+public class Grate : MonoBehaviour, ItemListener
 {
     [SerializeField] private string enviromentLayer = "Enviroment";
     [SerializeField] private string foregroundLayer = "FrontForeground";
@@ -13,12 +13,14 @@ public class Grate : MonoBehaviour
     
     private bool playerInCanal = false;
     private bool playerOnGrate = false;
+    private bool playerHasFloaties = false;
     private Canal canal;
 
     public void init(Canal c) {
         this.rend.sortingLayerName = this.enviromentLayer;
-        this.outOfCanalCollider.enabled = true;
+        this.outOfCanalCollider.isTrigger = false;
         this.canal = c;
+        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Floaties, this);
     }
 
 
@@ -26,15 +28,19 @@ public class Grate : MonoBehaviour
         rend.sortingLayerName = this.foregroundLayer;
         this.playerInCanal = true;
 
-        this.outOfCanalCollider.enabled = false;
-        
+        this.outOfCanalCollider.isTrigger = true;
+    }
+
+    public void onItemEvent(bool itemStatus) {
+        this.playerHasFloaties = itemStatus;
+        outOfCanalCollider.enabled = this.playerHasFloaties || this.playerInCanal;
     }
 
     public void onPlayerOutCanal() {
         rend.sortingLayerName = this.enviromentLayer;
         this.playerInCanal = false;
 
-        this.outOfCanalCollider.enabled = true;
+        this.outOfCanalCollider.isTrigger = this.playerHasFloaties;
     }
 
 
