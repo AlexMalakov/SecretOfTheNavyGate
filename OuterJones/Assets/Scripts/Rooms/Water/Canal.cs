@@ -138,7 +138,7 @@ public class Canal : MonoBehaviour
     }
     void OnTriggerStay2D(Collider2D other) {
         //this should not be triggering
-        if(flooded) {
+        if(flooded || (other.gameObject.GetComponent<Player>() != null && other.gameObject.GetComponent<Player>().isGrappling())) {
             return;
         }
 
@@ -204,7 +204,7 @@ public class Canal : MonoBehaviour
             other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true);
         }
 
-        if(flooded) {
+        if(flooded || (other.gameObject.GetComponent<Player>() != null && other.gameObject.GetComponent<Player>().isGrappling())) {
             return;
         }
 

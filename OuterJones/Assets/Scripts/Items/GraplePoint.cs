@@ -56,6 +56,8 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
     }
 
     public IEnumerator swingPlayer(Vector3 target) {
+        Player p = this.controller.gameObject.GetComponent<Player>();
+        p.setGrapplingState(true);
         this.controller.isMovementEnabled(false);
 
         Vector3 startPos = this.controller.transform.position;
@@ -69,5 +71,6 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
         }
 
         this.controller.isMovementEnabled(true);
+        p.setGrapplingState(false);
     }
 }

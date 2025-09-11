@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     private List<Room> deck;
     private Room currentRoom;
     private bool rotateDirection = true;
+    private bool grappling = false;
     private Inventory inventory;
 
     [SerializeField] private List<PlayerEdgeCollider> edges = new List<PlayerEdgeCollider>();
@@ -46,6 +47,14 @@ public class Player : MonoBehaviour
 
     public void setCurrentRoom(Room r) {
         this.currentRoom = r;
+    }
+
+    public void setGrapplingState(bool grappleState) {
+        this.grappling = grappleState;
+    }
+
+    public bool isGrappling() {
+        return this.grappling;
     }
 
     //throws out of bounds exception, should never occur tho so it going unhandled is best
