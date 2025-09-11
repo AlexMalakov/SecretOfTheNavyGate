@@ -180,12 +180,12 @@ GameObject:
   - component: {fileID: 7721721002637369915}
   - component: {fileID: 677082154682793261}
   m_Layer: 0
-  m_Name: floodedObj
+  m_Name: floodedObjCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7992198597925233892
 Transform:
   m_ObjectHideFlags: 0
@@ -194,15 +194,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663207949650428563}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3863752923782867867}
-  - {fileID: 7218878003314387262}
-  - {fileID: 8939426206237503275}
-  m_Father: {fileID: 716105010474320848}
+  m_Children: []
+  m_Father: {fileID: 1988524453557980779}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &7721721002637369915
 BoxCollider2D:
@@ -326,7 +323,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8055058335633518326}
-  - {fileID: 7992198597925233892}
+  - {fileID: 1988524453557980779}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &7981808860839138008
@@ -342,7 +339,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notFloodedSprite: {fileID: 4856668343161628550}
-  floodedSprite: {fileID: 663207949650428563}
+  floodedSprite: {fileID: 6363274177323141347}
+  railingColliders: {fileID: 663207949650428563}
+  flooded: 0
 --- !u!61 &2194783742814571954
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -418,7 +417,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7992198597925233892}
+  m_Father: {fileID: 1988524453557980779}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6236153898571639619
 SpriteRenderer:
@@ -590,6 +589,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &6363274177323141347
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1988524453557980779}
+  m_Layer: 0
+  m_Name: floddedObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1988524453557980779
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6363274177323141347}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7992198597925233892}
+  - {fileID: 3863752923782867867}
+  - {fileID: 7218878003314387262}
+  - {fileID: 8939426206237503275}
+  m_Father: {fileID: 716105010474320848}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7074040098669334160
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,11 +650,11 @@ Transform:
   m_GameObject: {fileID: 7074040098669334160}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.28, z: 0}
+  m_LocalPosition: {x: 0, y: 1.2800002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7992198597925233892}
+  m_Father: {fileID: 1988524453557980779}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8831264403680399200
 SpriteRenderer:
@@ -700,11 +734,11 @@ Transform:
   m_GameObject: {fileID: 8252904271048971587}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.28, z: 0}
+  m_LocalPosition: {x: 0, y: -1.2800002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7992198597925233892}
+  m_Father: {fileID: 1988524453557980779}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5549580233673147071
 SpriteRenderer:

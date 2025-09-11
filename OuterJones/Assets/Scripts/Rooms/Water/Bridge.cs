@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bridge :  Floodable
+public class Bridge :  Floodable, ItemListener
 {
     [SerializeField] GameObject notFloodedSprite;
     [SerializeField] GameObject floodedSprite;
+    [SerializeField] GameObject railingColliders;
 
     [SerializeField] private bool flooded = false;
+
+    private bool playerHasFloaties = false;
     private Canal canal;
 
     private void Awake() {
         notFloodedSprite.SetActive(!this.flooded);
         floodedSprite.SetActive(this.flooded);
-        
+
         List<Collider2D> overlapping = new List<Collider2D>();
         ContactFilter2D filter = new ContactFilter2D();
         filter.useTriggers = true;
@@ -30,6 +33,12 @@ public class Bridge :  Floodable
         }
 
         this.GetComponent<Collider2D>().enabled = this.flooded;
+        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Floaties, this);
+    }
+
+    public void onItemEvent(bool itemStatus) {
+        this.playerHasFloaties = itemStatus;
+        railingColliders.SetActive(!this.playerHasFloaties && this.flooded);
     }
 
     public override void onFlood(bool fromSource) {
