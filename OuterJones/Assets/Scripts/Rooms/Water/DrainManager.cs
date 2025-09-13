@@ -19,6 +19,10 @@ public class DrainManager : MonoBehaviour
             d.drainWater();
         }
 
+        resetDrains();
+    }
+
+    public void resetDrains() {
         foreach(WaterDrain d in this.drains) {
             d.reset();
         }

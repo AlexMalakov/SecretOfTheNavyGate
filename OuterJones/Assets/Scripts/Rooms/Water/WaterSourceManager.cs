@@ -26,6 +26,8 @@ public class WaterSourceManager : MonoBehaviour, RoomUpdateListener
         foreach(Room r in this.layout.getAllRooms(false)) {
             r.restartFlood();
         }
+
+        this.drainM.resetDrains();
     }
 
     public void onRoomUpdate(List<Room> rooms) {

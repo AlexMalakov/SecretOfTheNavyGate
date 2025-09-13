@@ -16,13 +16,11 @@ public class WaterDrain : Floodable
     }
 
     public override void onFlood(bool fromSource) {
-        // Debug.Log("DRAINED REACHED BY FLOOD:" + Time.time + "I AM " + gameObject.name);
         this.reachedByFlood = fromSource;
         this.flooded = true;
     }
 
     public override void drainWater() {
-        // Debug.Log("DRAINING DRAIN:" + Time.time + "I AM " + gameObject.name);
         if(reachedByFlood || reachedByDrain) {
             return;
         }
@@ -39,7 +37,6 @@ public class WaterDrain : Floodable
     }
 
     public void reset() {
-        // Debug.Log("RESSETTING DRAIN:" + Time.time + "I AM " + gameObject.name);
         this.reachedByFlood = false;
         this.reachedByDrain = false;
     }
