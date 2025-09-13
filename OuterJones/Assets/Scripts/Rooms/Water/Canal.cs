@@ -24,6 +24,7 @@ public class Canal : MonoBehaviour
     [SerializeField] private List<Transform> backupTransforms;
 
     [SerializeField] private bool flooded = false;
+    [SerializeField] private Player player;
     [SerializeField] private bool keepsWaterWhenBlocked = false;
 
     private bool playerInCanal = false;
@@ -41,6 +42,7 @@ public class Canal : MonoBehaviour
         this.waterCollider.SetActive(this.flooded);
 
         this.rend = GetComponent<Renderer>();
+        this.player = FindObjectOfType<Player>();
 
         this.initialCanalEntrances = new List<CanalEntrances>(this.canalEntrances);
 
@@ -138,7 +140,7 @@ public class Canal : MonoBehaviour
     }
     void OnTriggerStay2D(Collider2D other) {
         //this should not be triggering
-        if(flooded || (other.gameObject.GetComponent<Player>() != null && other.gameObject.GetComponent<Player>().isGrappling())) {
+        if(flooded || player.isGrappling()) {
             return;
         }
 
@@ -204,7 +206,7 @@ public class Canal : MonoBehaviour
             other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true);
         }
 
-        if(flooded || (other.gameObject.GetComponent<Player>() != null && other.gameObject.GetComponent<Player>().isGrappling())) {
+        if(flooded || this.player.isGrappling()) {
             return;
         }
 

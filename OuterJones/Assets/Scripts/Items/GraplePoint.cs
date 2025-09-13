@@ -70,6 +70,10 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
             yield return null;
         }
 
+
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForFixedUpdate();
         this.controller.isMovementEnabled(true);
         p.setGrapplingState(false);
     }
