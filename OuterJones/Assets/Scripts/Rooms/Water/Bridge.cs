@@ -45,16 +45,17 @@ public class Bridge :  Floodable, ItemListener
         this.flooded = true;
         notFloodedSprite.SetActive(false);
         floodedSprite.SetActive(true);
+        railingColliders.SetActive(!this.playerHasFloaties && this.flooded);
 
         this.GetComponent<Collider2D>().enabled = true;
     }
 
     public override void drainWater() {
-        gameObject.SetActive(false);
         this.GetComponent<Collider2D>().enabled = false;
         this.flooded = false;
         notFloodedSprite.SetActive(true);
         floodedSprite.SetActive(false);
+        railingColliders.SetActive(!this.playerHasFloaties && this.flooded);
     }
 
     void OnTriggerEnter2D(Collider2D other) {
