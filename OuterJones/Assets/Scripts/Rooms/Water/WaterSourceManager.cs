@@ -40,7 +40,6 @@ public class WaterSourceManager : MonoBehaviour, RoomUpdateListener
 
     public void recomputeFlow() {
         this.onRoomUpdate(new List<Room>());
-        this.drainM.drainRooms();
     }
 
 }

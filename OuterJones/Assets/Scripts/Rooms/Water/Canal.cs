@@ -61,10 +61,6 @@ public class Canal : MonoBehaviour
         FindObjectOfType<Inventory>().addItemListener(PossibleItems.Floaties, this.waterCollider.GetComponent<WaterColliderManager>());
 
     }
-
-    public Room TEMP_DELETE_ME() {
-        return this.room;
-    }
     
     public void onFlood(CanalEntrances? floodingFrom, bool fromSource) {
         if(this.reachedThisFlood || !this.gameObject.activeInHierarchy) {
@@ -77,10 +73,10 @@ public class Canal : MonoBehaviour
             this.flooded = true;
 
             this.waterCollider.SetActive(true);
+        }
 
-            foreach(Floodable f in this.floodableObjects) {
-                f.onFlood(fromSource);
-            }
+        foreach(Floodable f in this.floodableObjects) {
+            f.onFlood(fromSource);
         }
 
         this.skinnySection.onFlood();
@@ -113,11 +109,11 @@ public class Canal : MonoBehaviour
 
         if(this.flooded) {
             this.waterCollider.SetActive(false);
-            this.flooded = false;
+            this.flooded = false;            
+        }
 
-            foreach(Floodable f in this.floodableObjects) {
-                f.drainWater();
-            }
+        foreach(Floodable f in this.floodableObjects) {
+            f.drainWater();
         }
 
         this.skinnySection.onDrain();
