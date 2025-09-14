@@ -38,8 +38,8 @@ public class Door : MonoBehaviour, InputSubscriber
 
     public void setDestination(Door newDestination) {
         this.destination = newDestination;
-        this.openModel.SetActive(true);
-        this.closedModel.SetActive(false);
+        this.openModel.SetActive(this.destination != null);
+        this.closedModel.SetActive(this.destination == null);
     }
 
     public Door getDestination() {

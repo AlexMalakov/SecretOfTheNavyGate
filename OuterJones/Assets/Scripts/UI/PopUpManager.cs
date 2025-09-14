@@ -14,6 +14,8 @@ public class PopUpManager : MonoBehaviour
     [SerializeField] private Canvas canvas;
 
     [SerializeField] private Transform popUpBottomBorder;
+    [SerializeField] private Transform popUpLeftBorder;
+    [SerializeField] private Transform popUpRightBorder;
 
     private Coroutine roomEnterCoroutine;
     private Vector3 resetRoomPopUpSize;
@@ -69,12 +71,21 @@ public class PopUpManager : MonoBehaviour
 
         this.placePopUpMessage(this.finalPopUp, popUpPos);
 
-        this.popUpMessage.SetActive(true);
+        this.finalPopUp.SetActive(true);
     }
 
     private void placePopUpMessage(GameObject popUp, Transform popUpPos) {
 
-        Vector3 screenPos = cam.WorldToScreenPoint(popUpPos.position + ((popUpPos.position.y > this.popUpBottomBorder.position.y) ? new Vector3(0f, -4f, 0f) : new Vector3(0f, 4f, 0f)));
+        Vector3 yOffset = (popUpPos.position.y > this.popUpBottomBorder.position.y) ? new Vector3(0f, -4f, 0f) : new Vector3(0f, 4f, 0f);
+
+        Vector3 xOffset = Vector3.zero;
+        if(popUpPos.position.x < this.popUpLeftBorder.position.x) {
+            xOffset = new Vector3(4f, 0f, 0f);
+        } else if(this.popUpLeftBorder.position.x > this.popUpRightBorder.position.x) {
+            xOffset = new Vector3(-4f, 0f, 0f);
+        }
+
+        Vector3 screenPos = cam.WorldToScreenPoint(popUpPos.position + xOffset + yOffset);
 
         Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(

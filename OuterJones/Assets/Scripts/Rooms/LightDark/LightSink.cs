@@ -16,6 +16,7 @@ public class LightSink : MonoBehaviour
 
     public void init(LDPuzzle puzzle, string id) {
         this.puzzle = puzzle;
+        this.id = id;
     }
 
     public void activate(DoorDirection beamFrom) {
@@ -25,7 +26,9 @@ public class LightSink : MonoBehaviour
             this.beamedSprite.SetActive(true);
             this.notBeamedSprite.SetActive(false);
 
-            this.puzzle.onActive(this.id);
+            if(this.puzzle != null) {
+                this.puzzle.onActive(this.id);
+            }
         }
     }
 
