@@ -90,7 +90,7 @@ public class RoomsLayout : MonoBehaviour
     public bool canPlaceRoom(Door origin, Room destination) {
 
         RoomCoords newPos = origin.getPosition().getOffset(origin.getDirection());
-        if(origin.getRoom() is PackmanRoom) {
+        if(origin.getRoom() is PackmanRoom || destination is PackmanRoom) {
             if(PackmanRoom.isPackmanPlace(origin, ROOM_GRID_X, ROOM_GRID_X)) {
                 newPos = getPackmanCoords(origin);
             }
@@ -108,7 +108,7 @@ public class RoomsLayout : MonoBehaviour
     public void placeRoom(Door origin, Room dest) {
         
         RoomCoords destPos;
-        if(origin.getRoom() is PackmanRoom && PackmanRoom.isPackmanPlace(origin, ROOM_GRID_X, ROOM_GRID_X)) {
+        if((origin.getRoom() is PackmanRoom || dest is PackmanRoom) && PackmanRoom.isPackmanPlace(origin, ROOM_GRID_X, ROOM_GRID_X)) {
             destPos = getPackmanCoords(origin);
         } else {
             destPos = origin.getPosition().getOffset(origin.getDirection());
@@ -150,7 +150,7 @@ public class RoomsLayout : MonoBehaviour
                 destPos = new RoomCoords(ROOM_GRID_X-1, origin.getPosition().y, origin.getPosition().overworld);
                 break;
             case DoorDirection.South:
-                destPos = new RoomCoords(origin.getPosition().y, ROOM_GRID_X-1, origin.getPosition().overworld);
+                destPos = new RoomCoords(origin.getPosition().x, ROOM_GRID_X-1, origin.getPosition().overworld);
                 break;
             default:
                 throw new InvalidOperationException("Invalid door direction!");
