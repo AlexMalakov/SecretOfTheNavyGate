@@ -9,6 +9,7 @@ public class BeamModel : MonoBehaviour
     private bool active;
     private DoorDirection? start;
     private DoorDirection? end;
+    public int beamID;
 
     public void Start() {
         gameObject.SetActive(false);
@@ -16,6 +17,7 @@ public class BeamModel : MonoBehaviour
     }
 
     public void initBeam(Transform roomParent, Vector3 startingPos, Vector3 endingPos, DoorDirection? start, DoorDirection? end) {
+        Debug.Log("INITING BEAM " + beamID + " FOR " + roomParent.gameObject.name);
         this.transform.parent = roomParent;
         active = true;
         gameObject.SetActive(true);
@@ -26,7 +28,14 @@ public class BeamModel : MonoBehaviour
         line.SetPosition(1, endingPos);
     }
 
+    public void claimBeam(Transform parent) {
+        Debug.Log("CLAIMING BEAM " + beamID + " FOR " + parent.gameObject.name);
+        this.transform.parent = parent;
+        this.active = true;
+    }
+
     public void killBeam() {
+        Debug.Log("CLAIMING BEAM " + beamID + " FOR " + this.transform.parent.gameObject.name);
         gameObject.SetActive(false);
         active = false;
     }

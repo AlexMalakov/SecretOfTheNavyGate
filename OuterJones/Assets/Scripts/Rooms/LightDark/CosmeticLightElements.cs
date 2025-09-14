@@ -17,9 +17,10 @@ public class CosmeticLightElements : MonoBehaviour, RoomUpdateListener
     private BeamModel beam;
 
 
-    public void Start() {
+    public void Awake() {
         this.layout.addRoomUpdateListener(this);
         this.beam = BeamPool.getBeam();
+        this.beam.claimBeam(this.transform);
         this.beamOff.SetActive(true);
         this.beamOn.SetActive(false);
     }
@@ -34,6 +35,8 @@ public class CosmeticLightElements : MonoBehaviour, RoomUpdateListener
             this.beam.initBeam(this.transform, this.pointA.position, this.pointB.position, null, null);
             this.beamOff.SetActive(false);
             this.beamOn.SetActive(true);
+        } else {
+            this.beam.claimBeam(this.transform);
         }
     }
 }
