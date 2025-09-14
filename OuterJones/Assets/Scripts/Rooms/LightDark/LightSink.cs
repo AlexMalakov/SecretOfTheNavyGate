@@ -33,8 +33,10 @@ public class LightSink : MonoBehaviour
         this.beamed = false;
         this.beamedSprite.SetActive(false);
         this.notBeamedSprite.SetActive(true);
-        this.puzzle.onDeactivate(this.id);
-
+        if(this.puzzle != null) {
+            this.puzzle.onDeactivate(this.id);
+        }
+        
         this.effectableObj.GetComponent<Effectable>().onEffectOver();
     }
 
