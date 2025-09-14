@@ -8,7 +8,7 @@ public class LandBridge : MonoBehaviour
     [SerializeField] private GameObject playerTravelingBelow;
 
 
-    private bool playerLevelIsUpper = true;
+    [SerializeField] private bool playerLevelIsUpper = true;
 
     //basically if u want to cross the bridge u have to hit a collider first
     public void notifyOfPlayer(bool isUpperLevel) {

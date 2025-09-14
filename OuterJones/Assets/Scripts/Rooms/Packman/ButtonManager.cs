@@ -68,12 +68,14 @@ public class ButtonManager : MonoBehaviour
             foreach(GameObject obj in this.damEffectableTargets) {
                 obj.GetComponent<Effectable>().onEffect();
             }
+            this.buttonsPressable = true;
         } else if(!isDamSequence && sequencePos == puzzleSequence.Count) {
             this.buttonsPressable = false;
             sequencePos = 0;
             foreach(GameObject obj in this.puzzleEffectableTargets) {  
                 obj.GetComponent<Effectable>().onEffect();
             }
+            this.buttonsPressable = true;
         }
     }  
 

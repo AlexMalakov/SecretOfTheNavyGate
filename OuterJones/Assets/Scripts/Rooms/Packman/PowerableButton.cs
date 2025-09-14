@@ -27,12 +27,14 @@ public class PowerableButton : MonoBehaviour, ItemListener
 
     private ButtonManager manager;
 
+    private void Awake() {
+        this.setMummyButtonStatus();
+        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Amulet, this);
+    }
+
     public void init(ButtonManager bm) {
         this.manager = bm;
-
-        this.setMummyButtonStatus();
         this.resetToDefault();
-        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Amulet, this);
     }
         
 
