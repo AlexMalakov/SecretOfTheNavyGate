@@ -231,7 +231,7 @@ public class Room : MonoBehaviour
     //functionality for L/D rooms
     [Header ("LD Info")]
     [SerializeField] protected Mirrors mirrors;
-    [SerializeField] protected LightSink lSink;
+    [SerializeField] protected LightSinks lSinks;
     protected List<BeamModel> beams = new List<BeamModel>();
     private LightSource source;
 
@@ -243,8 +243,8 @@ public class Room : MonoBehaviour
         if(this.hasDoorDirection(this.getEntrance(incomingDirection).getDirection()/*.getInverse()*/)) {
     
             //if we have a sink power it, then pass the b
-            if(this.lSink != null && this.lSink.getIncomingDirectionToActivate() == incomingDirection) {
-                this.lSink.activate(incomingDirection);
+            if(this.lSinks != null && this.lSinks.canActivateSink(incomingDirection)) {
+                LightSink sink = this.lSinks.activateSink(incomingDirection);
 
                 if(!isUniqueBeam(incomingDirection, incomingDirection)) {
                     return;
@@ -253,7 +253,7 @@ public class Room : MonoBehaviour
                 b.initBeam(
                     this.transform,
                     this.getPointInDirection(incomingDirection).position,
-                    this.lSink.transform.position,
+                    sink.transform.position,
                     incomingDirection,
                     incomingDirection);
                 this.beams.Add(b);
@@ -350,8 +350,8 @@ public class Room : MonoBehaviour
     }
 
     public virtual void removeBeam() {
-        if(this.lSink != null) {
-            this.lSink.deactivate();
+        if(this.lSinks != null) {
+            this.lSinks.deactivateAll();
         }
 
         for(int i = 0; i < this.beams.Count; i++) {
@@ -374,8 +374,8 @@ public class Room : MonoBehaviour
             this.source.rotate90(clockwise);
         }
 
-        if(this.lSink != null) {
-            this.lSink.rotate90(clockwise);
+        if(this.lSinks != null) {
+            this.lSinks.rotate90(clockwise);
         }
     }
 

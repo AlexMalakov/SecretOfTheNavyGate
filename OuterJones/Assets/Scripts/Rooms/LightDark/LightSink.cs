@@ -19,9 +19,7 @@ public class LightSink : MonoBehaviour
     }
 
     public void activate(DoorDirection beamFrom) {
-        Debug.Log("CHECKING");
         if(/*Door.rotateDoorDirection(Door.rotateDoorDirection(beamFrom, true), true)*/beamFrom == this.receiveBeamFrom) {
-            Debug.Log("equal?");
             this.beamed = true;
             this.effectableObj.GetComponent<Effectable>().onEffect();
             this.beamedSprite.SetActive(true);
@@ -38,10 +36,6 @@ public class LightSink : MonoBehaviour
         this.puzzle.onDeactivate(this.id);
 
         this.effectableObj.GetComponent<Effectable>().onEffectOver();
-    }
-
-    public bool getActive() {
-        return this.beamed;
     }
 
     public void rotate90(bool clockwise) {
