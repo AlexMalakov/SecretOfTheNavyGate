@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LightSink : MonoBehaviour
 {
-    private bool beamed = false;
     [SerializeField] private DoorDirection receiveBeamFrom;
     [SerializeField] private GameObject effectableObj;
     [SerializeField] private GameObject beamedSprite;
@@ -21,7 +20,6 @@ public class LightSink : MonoBehaviour
 
     public void activate(DoorDirection beamFrom) {
         if(/*Door.rotateDoorDirection(Door.rotateDoorDirection(beamFrom, true), true)*/beamFrom == this.receiveBeamFrom) {
-            this.beamed = true;
             this.effectableObj.GetComponent<Effectable>().onEffect();
             this.beamedSprite.SetActive(true);
             this.notBeamedSprite.SetActive(false);
@@ -33,7 +31,6 @@ public class LightSink : MonoBehaviour
     }
 
     public void deactivate() {
-        this.beamed = false;
         this.beamedSprite.SetActive(false);
         this.notBeamedSprite.SetActive(true);
         if(this.puzzle != null) {
