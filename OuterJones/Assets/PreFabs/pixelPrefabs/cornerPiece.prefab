@@ -132,8 +132,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomOfOrigin: {fileID: 0}
-  vertLit: {fileID: 0}
-  horizLit: {fileID: 0}
+  currentPos: 0
+  cwLit: {fileID: 6225668358367049679}
+  ccwLit: {fileID: 386802284051615135}
 --- !u!1 &4974625131298608649
 GameObject:
   m_ObjectHideFlags: 0
