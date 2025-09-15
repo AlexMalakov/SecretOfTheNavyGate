@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     private Room currentRoom;
     private bool rotateDirection = true;
     private bool grappling = false;
+    private bool inBush = false;
     private Inventory inventory;
 
     [SerializeField] private List<PlayerEdgeCollider> edges = new List<PlayerEdgeCollider>();
@@ -78,7 +79,13 @@ public class Player : MonoBehaviour
         return this.mummyTargets;
     }
 
+    public void setPlayerInBush(bool inBush) {
+        this.inBush = inBush;
+    }
 
+    public bool isPlayerInBush() {
+        return this.inBush;
+    }
 
     public bool hasKey() {
         Debug.Log("HAS KEY?" + (this.inventory.hasItem(PossibleItems.Key) && ((Key)this.inventory.getItem(PossibleItems.Key)).hasKey()));
