@@ -80,12 +80,23 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber, ItemListener
         this.controller.transform.parent = this.transform;
         this.controller.isMovementEnabled(false);
 
+        float elapsed = 0f;
+        float positionCorrectionTimer = .2f;
+        Vector3 startPos = this.controller.transform.position;
+        Vector3 endPos = this.getClosestToPlayer().getDropOffPoint().position;
+        
+        while(elapsed < positionCorrectionTimer) {
+            this.controller.transform.position = Vector3.Lerp(startPos, endPos, elapsed/positionCorrectionTimer);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
         Quaternion startRotation = transform.rotation;
         float rotAmount = player.getRotationDirection()? -rotationAmount : rotationAmount;
 
         Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, rotAmount);
 
-        float elapsed = 0f;
+        elapsed = 0f;
         while(elapsed < ROTATION_DURATION) {
             
             transform.rotation = Quaternion.Slerp(startRotation, endRotation, elapsed / ROTATION_DURATION);
@@ -94,20 +105,6 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber, ItemListener
         }
 
         transform.rotation = endRotation;
-
-        if(oneWay && closest.getID() == this.getClosestToPlayer().getID()) {
-            elapsed = 0f;
-            Vector3 targetForClosest = this.player.getRotationDirection() ? this.dropOffPoint.transform.position : this.alternateDropOff.transform.position;
-            float positionCorrectionTimer = .2f;
-            Vector3 startPos = this.controller.transform.position;
-            
-            while(elapsed < positionCorrectionTimer) {
-                this.controller.transform.position = Vector3.Lerp(startPos, targetForClosest, elapsed/positionCorrectionTimer);
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-        }
-        
         
         this.controller.transform.parent = null;
         this.controller.isMovementEnabled(true);

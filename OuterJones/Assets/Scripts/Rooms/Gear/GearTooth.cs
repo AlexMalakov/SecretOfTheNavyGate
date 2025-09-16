@@ -5,6 +5,7 @@ using UnityEngine;
 public class GearTooth : MonoBehaviour, ItemListener
 {
 
+    [SerializeField] private Transform dropOffPoint;
     private RotatingGear gParent;
     private int ID;
     private bool onTooth = false;
@@ -33,6 +34,10 @@ public class GearTooth : MonoBehaviour, ItemListener
             this.onTooth = false;
             this.gParent.playerOffTooth();
         }
+    }
+
+    public Transform getDropOffPoint() {
+        return this.dropOffPoint;
     }
 
     public int getID() {
