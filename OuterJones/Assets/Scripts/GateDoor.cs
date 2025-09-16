@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GateDoor : MonoBehaviour
 {
-    [SerializeField] protected GameObject open;
+    [SerializeField] protected GameObject vertOpen;
+    [SerializeField] protected GameObject horizOpen;
     [SerializeField] protected GameObject vertClosed;
     [SerializeField] protected GameObject horizClosed;
 
@@ -16,23 +17,24 @@ public class GateDoor : MonoBehaviour
 
     protected virtual void Awake() {
         this.initialRot = transform.rotation;
-        open.SetActive(openState);
-        horizClosed.SetActive(!openState && !vert);
-        vertClosed.SetActive(!openState && vert);
+        flipSprites();
     }
 
     public void toggleOpen() {
         openState = !openState;
-        open.SetActive(openState);
-        horizClosed.SetActive(!openState && !vert);
-        vertClosed.SetActive(!openState && vert);
+        flipSprites();
     }
 
     public void rotate90(bool clockwise) {
         vert = !vert;
         
         this.transform.rotation = this.initialRot;
-        open.SetActive(openState);
+        flipSprites();
+    }
+
+    protected void flipSprites() {
+        horizOpen.SetActive(openState && !vert);
+        vertOpen.SetActive(openState && vert);
         horizClosed.SetActive(!openState && !vert);
         vertClosed.SetActive(!openState && vert);
     }
