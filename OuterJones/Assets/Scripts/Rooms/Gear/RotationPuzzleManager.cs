@@ -14,6 +14,7 @@ public class RotationPuzzleManager : Floodable, Effectable
 
     private List<RotationPuzzleElement> puzzleElements;
     private bool flooded = false;
+    private bool solved = false;
 
     void Awake() {
         puzzleElements = new List<RotationPuzzleElement>();
@@ -32,6 +33,7 @@ public class RotationPuzzleManager : Floodable, Effectable
     }
 
     public void resetPuzzle() {
+        this.solved = false;
         foreach(RotationPuzzleElement e in this.puzzleElements) {
             e.resetElement();
         }
@@ -46,6 +48,7 @@ public class RotationPuzzleManager : Floodable, Effectable
             buttonInOrder++;
 
             if(buttonInOrder >= rButtons.Count) {
+                this.solved = true;
                 puzzleFinish.opencloseDoor(true);
                 return;
             }
@@ -78,12 +81,14 @@ public class RotationPuzzleManager : Floodable, Effectable
     void OnTriggerEnter2D(Collider2D other) {
         if(other.GetComponent<Player>() != null) {
             puzzleEntrance.opencloseDoor(false);
-            puzzleFinish.opencloseDoor(false);
+            puzzleFinish.opencloseDoor(this.solved);
         }
     }
 
     public override void onFlood(bool fromSource) {
         this.flooded = true;
+        puzzleEntrance.opencloseDoor(false);
+        puzzleFinish.opencloseDoor(false);
     }
 
     public override void drainWater() {
