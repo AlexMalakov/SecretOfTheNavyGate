@@ -22,6 +22,8 @@ public class Door : MonoBehaviour, InputSubscriber
     [SerializeField] private GameObject closedModel;
     [SerializeField] private GameObject forceField;
 
+    [SerializeField] private GameObject doorLight;
+
     private List<DoorUseListener> listeners = new List<DoorUseListener>();
 
     private DoorDirection initialDirection;
@@ -34,6 +36,9 @@ public class Door : MonoBehaviour, InputSubscriber
         this.initialDirection = this.direction;
         this.input = FindObjectOfType<PlayerIO>();
         this.player = FindObjectOfType<Player>();
+        if(this.room is LightDarkRoom) {
+            this.doorLight.SetActive(true);
+        } 
     }
 
     public void setDestination(Door newDestination) {
