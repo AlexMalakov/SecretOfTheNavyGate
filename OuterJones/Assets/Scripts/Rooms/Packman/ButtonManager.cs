@@ -62,20 +62,8 @@ public class ButtonManager : MonoBehaviour
             return;
         }
 
-        if(isDamSequence && sequencePos == damSequence.Count) {
-            this.buttonsPressable = false;
-            sequencePos = 0;
-            foreach(GameObject obj in this.damEffectableTargets) {
-                obj.GetComponent<Effectable>().onEffect();
-            }
-            this.buttonsPressable = true;
-        } else if(!isDamSequence && sequencePos == puzzleSequence.Count) {
-            this.buttonsPressable = false;
-            sequencePos = 0;
-            foreach(GameObject obj in this.puzzleEffectableTargets) {  
-                obj.GetComponent<Effectable>().onEffect();
-            }
-            this.buttonsPressable = true;
+        if((isDamSequence && sequencePos == damSequence.Count) || (!isDamSequence && sequencePos == puzzleSequence.Count)) {
+            this.succeedButtons();
         }
     }  
 
@@ -83,6 +71,17 @@ public class ButtonManager : MonoBehaviour
         this.sequencePos = 0;
         foreach(PowerableButton b in this.buttons) {
             b.flashFailed();
+        }
+    }
+
+    public void succeedButtons() {
+        sequencePos = 0;
+        foreach(GameObject obj in (isDamSequence? this.damEffectableTargets : this.puzzleEffectableTargets)) {
+            obj.GetComponent<Effectable>().onEffect();
+        }
+
+        foreach(PowerableButton b in this.buttons) {
+            b.flashSuccess();
         }
     }
 

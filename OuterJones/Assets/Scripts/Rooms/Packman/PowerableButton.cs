@@ -121,4 +121,13 @@ public class PowerableButton : MonoBehaviour, ItemListener
 
         Invoke(nameof(setMummyButtonStatus), .4f);
     }
+
+    public void flashSuccess() {
+        default_state.SetActive(false);
+        pressable_state.SetActive(false);
+        failed_state.SetActive(false);
+        successful_state.SetActive(true);
+
+        Invoke(nameof(setMummyButtonStatus), .7f);
+    }
 }
