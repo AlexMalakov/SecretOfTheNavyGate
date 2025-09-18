@@ -20,14 +20,16 @@ public class DemoLightBeams : MonoBehaviour, RoomUpdateListener, Effectable
 
     public void Awake() {
         this.layout.addRoomUpdateListener(this);
+        
+        this.beamOff.SetActive(true);
+        this.beamOn.SetActive(false);
+    }
 
+    public void Start() {
         for(int i = 1; i < this.fakeBeamPath.Count; i++) {
             this.beams.Add(BeamPool.getBeam());
             this.beams[i-1].claimBeam(this.transform);
         }
-        
-        this.beamOff.SetActive(true);
-        this.beamOn.SetActive(false);
     }
 
     public void onEffect() {

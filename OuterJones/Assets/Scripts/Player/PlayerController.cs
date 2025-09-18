@@ -67,6 +67,10 @@ public class PlayerController : MonoBehaviour
         this.movementEnabled = enabled;
     }
 
+    public bool getIfMovementEnabled() {
+        return this.movementEnabled;
+    }
+
     public bool isPlayerMoving() {
         return this.isMoving;
     }
