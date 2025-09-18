@@ -12,7 +12,7 @@ public class Bushes : MonoBehaviour
 
     public void OnTriggerExit2D(Collider2D other) {
         if(other.GetComponent<Player>() != null) {
-            other.GetComponent<Player>().setPlayerInBush(true);
+            other.GetComponent<Player>().setPlayerInBush(false);
         }
     }
 }

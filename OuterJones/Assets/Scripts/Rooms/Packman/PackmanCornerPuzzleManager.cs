@@ -79,9 +79,9 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
         RoomCoords p2RC = p2.getRoomCoords();
 
         if(isHorizontal) {
-            return p1RC.y - p2RC.y == 0 && (Mathf.Abs(p1RC.x - p2RC.x) == 0 || (p1RC.x == 0 && p2RC.x == RoomsLayout.ROOM_GRID_X-1) || (p2RC.x == 0 && p1RC.x == RoomsLayout.ROOM_GRID_X-1));
+            return p1RC.y - p2RC.y == 0 && (Mathf.Abs(p1RC.x - p2RC.x) == 1 || (p1RC.x == 0 && p2RC.x == RoomsLayout.ROOM_GRID_X-1) || (p2RC.x == 0 && p1RC.x == RoomsLayout.ROOM_GRID_X-1));
         }
-        return p1RC.x - p2RC.x == 0 && (Mathf.Abs(p1RC.y - p2RC.y) == 0 || (p1RC.y == 0 && p2RC.y == RoomsLayout.ROOM_GRID_X-1) || (p2RC.y == 0 && p1RC.y == RoomsLayout.ROOM_GRID_X-1));
+        return p1RC.x - p2RC.x == 0 && (Mathf.Abs(p1RC.y - p2RC.y) == 1 || (p1RC.y == 0 && p2RC.y == RoomsLayout.ROOM_GRID_X-1) || (p2RC.y == 0 && p1RC.y == RoomsLayout.ROOM_GRID_X-1));
     }
 
     private bool correctOrientation(PackmanCornerPiece p1, PackmanCornerPiece p2, bool vertical) {
