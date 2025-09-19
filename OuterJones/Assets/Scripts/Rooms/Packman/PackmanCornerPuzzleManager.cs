@@ -19,6 +19,7 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
     }
 
     public void onRoomUpdate(List<Room> rooms) {
+        Debug.Log("UPDATED!");
         //check that all corners are in the correct spot
         if(completed) {
             return;
@@ -54,14 +55,22 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
             piece.deactivate();
 
             foreach(PackmanCornerPiece cwNeighbor in cwNeighbors) {
-                if(areNeighbors(piece, cwNeighbor, isHorizontalOffsetDirection(piece.getCornerPosition(), true))) {
+                //larger then smaller
+                bool isHorizontal = isHorizontalOffsetDirection(piece.getCornerPosition(), true);
+                PackmanCornerPiece largerP = (isLarger(piece.getCornerPosition(), isHorizontal)) ? cwNeighbor : piece;
+                PackmanCornerPiece smallerP = (isLarger(piece.getCornerPosition(), isHorizontal)) ? piece : cwNeighbor;
+                if(areNeighbors(largerP, smallerP, isHorizontal)) {
                     piece.activate(true);
                     break;
                 }
             }
 
             foreach(PackmanCornerPiece ccwNeighbor in ccwNeighbors) {
-                if(areNeighbors(piece, ccwNeighbor, isHorizontalOffsetDirection(piece.getCornerPosition(), false))) {
+                //larger then smaller
+                bool isHorizontal = isHorizontalOffsetDirection(piece.getCornerPosition(), false);
+                PackmanCornerPiece largerP = (isLarger(piece.getCornerPosition(), isHorizontal)) ? ccwNeighbor : piece;
+                PackmanCornerPiece smallerP = (isLarger(piece.getCornerPosition(), isHorizontal)) ? piece : ccwNeighbor;
+                if(areNeighbors(largerP, smallerP, isHorizontal)) {
                     piece.activate(false);
                     break;
                 }
@@ -74,14 +83,18 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
         return (intPos % 2 == 0 && clockwise) || (intPos % 2 == 1 && !clockwise);
     }
 
-    private bool areNeighbors(PackmanCornerPiece p1, PackmanCornerPiece p2, bool isHorizontal) {
-        RoomCoords p1RC = p1.getRoomCoords();
-        RoomCoords p2RC = p2.getRoomCoords();
+    private bool isLarger(CornerPosition p, bool isHorizontal) {
+        return p == CornerPosition.TR || (p == CornerPosition.TL && !isHorizontal) || (p == CornerPosition.BR && isHorizontal);
+    }
+
+    private bool areNeighbors(PackmanCornerPiece largerP, PackmanCornerPiece smallerP, bool isHorizontal) {
+        RoomCoords largerRC = largerP.getRoomCoords();
+        RoomCoords smallerRC = smallerP.getRoomCoords();
 
         if(isHorizontal) {
-            return p1RC.y - p2RC.y == 0 && (Mathf.Abs(p1RC.x - p2RC.x) == 1 || (p1RC.x == 0 && p2RC.x == RoomsLayout.ROOM_GRID_X-1) || (p2RC.x == 0 && p1RC.x == RoomsLayout.ROOM_GRID_X-1));
+            return largerRC.y - smallerRC.y == 0 && (largerRC.x - smallerRC.x == 1 || (largerRC.x == 0 && smallerRC.x == RoomsLayout.ROOM_GRID_X-1));
         }
-        return p1RC.x - p2RC.x == 0 && (Mathf.Abs(p1RC.y - p2RC.y) == 1 || (p1RC.y == 0 && p2RC.y == RoomsLayout.ROOM_GRID_X-1) || (p2RC.y == 0 && p1RC.y == RoomsLayout.ROOM_GRID_X-1));
+        return largerRC.x - smallerRC.x == 0 && (largerRC.y - smallerRC.y == 1 || (largerRC.y == 0 && smallerRC.y == RoomsLayout.ROOM_GRID_X-1));
     }
 
     private bool correctOrientation(PackmanCornerPiece p1, PackmanCornerPiece p2, bool vertical) {

@@ -390,6 +390,8 @@ public class Room : MonoBehaviour
 
     ///////////////////////////////////////////////
     //rotation room functionality
+    [Header ("packman corner piece for rotation")]
+    [SerializeField] List<PackmanCornerPiece> cornerPieces;
 
     public virtual bool rotate90() {
         return this.rotate90(FindObjectOfType<Player>().getRotationDirection());
@@ -412,6 +414,10 @@ public class Room : MonoBehaviour
         //fix non-rotatatble game objects (chests, fences)
         foreach(Chest c in this.chests) {
             c.rotate90(clockwise);
+        }
+
+        foreach(PackmanCornerPiece p in this.cornerPieces) {
+            
         }
 
         foreach(GateDoor d in this.gateDoors) {

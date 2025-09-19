@@ -19,6 +19,9 @@ public class CosmeticLightElements : MonoBehaviour, RoomUpdateListener
 
     public void Awake() {
         this.layout.addRoomUpdateListener(this);
+    }
+
+    public void Start() {
         this.beam = BeamPool.getBeam();
         this.beam.claimBeam(this.transform);
         this.beamOff.SetActive(true);
