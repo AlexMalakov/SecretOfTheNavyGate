@@ -119,7 +119,7 @@ public class PowerableButton : MonoBehaviour, ItemListener
         failed_state.SetActive(false);
         successful_state.SetActive(false);
 
-        Invoke(nameof(setMummyButtonStatus), .4f);
+        Invoke(nameof(resetToDefault), .4f);
     }
 
     public void flashSuccess() {
@@ -128,6 +128,6 @@ public class PowerableButton : MonoBehaviour, ItemListener
         failed_state.SetActive(false);
         successful_state.SetActive(true);
 
-        Invoke(nameof(setMummyButtonStatus), .7f);
+        Invoke(nameof(resetToDefault), .7f);
     }
 }

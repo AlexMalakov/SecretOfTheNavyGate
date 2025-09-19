@@ -33,7 +33,7 @@ public class GearRoom : Room
 
     public override bool rotate90(bool clockwise) {
         if(this.rotListener != null) {
-            this.rotListener.onRotation();
+            this.rotListener.onRotation(clockwise);
         }
 
         return base.rotate90(clockwise);

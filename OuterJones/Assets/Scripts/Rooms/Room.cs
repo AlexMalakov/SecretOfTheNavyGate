@@ -417,7 +417,7 @@ public class Room : MonoBehaviour
         }
 
         foreach(PackmanCornerPiece p in this.cornerPieces) {
-            
+            p.rotate90(clockwise);
         }
 
         foreach(GateDoor d in this.gateDoors) {
