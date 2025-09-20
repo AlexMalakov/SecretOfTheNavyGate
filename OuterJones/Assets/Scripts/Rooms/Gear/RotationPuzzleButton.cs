@@ -7,6 +7,7 @@ public class RotationPuzzleButton : RotationPuzzleElement, InputSubscriber
 
     private RotationPuzzleManager manager;
     private int pressNum;
+    private bool isPressable;
 
     [SerializeField] private GameObject pressedObj;
     [SerializeField] private GameObject pressableObj;
@@ -27,18 +28,21 @@ public class RotationPuzzleButton : RotationPuzzleElement, InputSubscriber
         pressedObj.SetActive(false);
         pressableObj.SetActive(false);
         notPressedObj.SetActive(true);
+        this.isPressable = false;
     }
 
     public void readyToPress() {
         pressedObj.SetActive(false);
         pressableObj.SetActive(true);
         notPressedObj.SetActive(false);
+        this.isPressable = true;
     }
 
     public void isPressed() {
         pressedObj.SetActive(true);
         notPressedObj.SetActive(false);
         pressableObj.SetActive(false);
+        this.isPressable = false;
     }
 
     public int getButtonNum() {
@@ -50,7 +54,7 @@ public class RotationPuzzleButton : RotationPuzzleElement, InputSubscriber
             return;
         }
 
-        if(other.GetComponent<Player>() != null) {
+        if(other.GetComponent<Player>() != null && this.isPressable) {
             this.input.requestSpaceInput(this, this.transform, "press button");
         }
     }
