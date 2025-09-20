@@ -15,6 +15,12 @@ public class Mummy : MonoBehaviour
     [SerializeField] private MummyManager manager;
 
     private Vector3 startingPos;
+
+    [SerializeField] private SpriteRenderer rend;
+    [SerializeField] private Sprite upSprite;
+    [SerializeField] private Sprite leftSprite;
+    [SerializeField] private Sprite rightSprite;
+    [SerializeField] private Sprite downSprite;
     
 
     //mummy improvement features:
@@ -60,6 +66,8 @@ public class Mummy : MonoBehaviour
         if (agent.isStopped != !playerMoving) {
             agent.isStopped = !playerMoving;
         }
+
+        selectSprite(agent.velocity);
     }
 
     public void navigateFromTarget(Transform target, bool playerMoving) {
@@ -76,11 +84,26 @@ public class Mummy : MonoBehaviour
         if(!agent.isStopped) {
             agent.velocity = this.agent.speed * (this.transform.position - target.position).normalized;
         }
+
+        selectSprite(agent.velocity);
     }
 
     public void resetPosition() {
         this.agent.enabled = false;
         this.transform.localPosition = startingPos;
         this.agent.enabled = true;
+    }
+    
+    private void selectSprite(Vector3 movingIn) {
+        float margin = .25f;
+        if(movingIn.x > margin) {
+            rend.sprite = this.rightSprite;
+        } else if(movingIn.x < -margin) {
+            rend.sprite = this.leftSprite;
+        } else if(movingIn.y > margin) {
+            rend.sprite = this.upSprite;
+        } else if(movingIn.y < -margin) {
+            rend.sprite = this.downSprite;
+        }
     }
 } 
