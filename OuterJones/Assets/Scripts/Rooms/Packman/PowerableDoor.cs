@@ -8,13 +8,10 @@ public class PowerableDoor : GateDoor, Effectable
 
     [SerializeField] private bool initiallyOpen;
     [SerializeField] private bool dontToggle;
-    [SerializeField] private UnityEngine.AI.NavMeshObstacle obstacle;
-
 
     protected override void Awake() {
         this.openState = initiallyOpen;
         base.Awake();
-        obstacle.enabled = true;
     }
 
     public void onEffect() {
@@ -22,7 +19,6 @@ public class PowerableDoor : GateDoor, Effectable
             this.opencloseDoor(true);
         } else {
             this.toggleOpen();
-            obstacle.enabled = false;
         }
     }
 
@@ -36,7 +32,6 @@ public class PowerableDoor : GateDoor, Effectable
     public void opencloseDoor(bool openDesired) {
         openState = openDesired;
         this.flipSprites();
-        obstacle.enabled = !openDesired;
     }
 
 }
