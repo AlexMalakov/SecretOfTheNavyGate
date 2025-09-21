@@ -92,4 +92,8 @@ public class MummyManager : MonoBehaviour, ItemListener
         this.pRoom.resetPackmanRoom(this.player);
         this.mummy.resetPosition();
     }
+
+    public void swapTargets(bool targetPlayer) {
+        this.targetPlayer = targetPlayer;
+    }
 }
