@@ -56,6 +56,8 @@ public class ButtonManager : MonoBehaviour
             } else if(sequencePos < puzzleWires.Count && !isDamSequence) {
                 StartCoroutine(puzzleWires[sequencePos].wireAnimation(this));
             }
+
+            Debug.Log("SEQ PLUS PLUS");
             sequencePos++;
         } else {
             this.failButtons();
@@ -68,6 +70,7 @@ public class ButtonManager : MonoBehaviour
     }  
 
     public void failButtons() {
+        Debug.Log("FAILED");
         this.sequencePos = 0;
         foreach(PowerableButton b in this.buttons) {
             b.flashFailed();

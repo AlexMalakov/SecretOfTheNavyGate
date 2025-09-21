@@ -6,7 +6,8 @@ public class CanalFinderManager : MonoBehaviour
 {
     [SerializeField] private PlayerController controller;
     private List<PlayerCanalFinders> canalFinders = new List<PlayerCanalFinders>();
-    private bool inCanal = false;
+    private Canal canalImIn = null;
+    // private bool fallingIntoCanal = false;
 
     // Start is called before the first frame update
     void Start()
@@ -17,13 +18,15 @@ public class CanalFinderManager : MonoBehaviour
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        if(other.GetComponent<Canal>() != null) {
-            this.inCanal = false;
+        if(other.GetComponent<Canal>() != null && other.GetComponent<Canal>() == this.canalImIn) {
+            this.canalImIn = null;
+            Debug.Log("LEFT CANAL " + other.gameObject.name);
         }
     }
 
     public Transform fallInCanal(Canal c) {
-
+        // fallingIntoCanal = true;
+        Debug.Log("falling into " + c.gameObject.name);
         List<PlayerCanalFinders> options = new List<PlayerCanalFinders>();
 
         foreach(PlayerCanalFinders cf in this.canalFinders) {
@@ -53,12 +56,12 @@ public class CanalFinderManager : MonoBehaviour
         return options[bestInd].transform;
     }
 
-    public IEnumerator shoveIntoCanal(Transform destination) {
-        if(this.inCanal) {
+    public IEnumerator shoveIntoCanal(Transform destination, Canal canalImGoingIn) {
+        if(this.canalImIn != null) {
             yield break;
         }
-        Debug.Log("MOVING!");
-        this.inCanal = true;
+        Debug.Log("MOVING INTO " + canalImGoingIn.gameObject.name);
+        this.canalImIn = canalImGoingIn;
         this.controller.isMovementEnabled(false);
 
         Vector3 initial = this.controller.transform.position;
@@ -77,6 +80,6 @@ public class CanalFinderManager : MonoBehaviour
     }
 
     public bool isInCanal() {
-        return this.inCanal;
+        return this.canalImIn != null;
     }
 }

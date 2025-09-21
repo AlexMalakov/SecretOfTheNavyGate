@@ -155,9 +155,11 @@ public class Canal : MonoBehaviour
                 return;
             }
 
+            Debug.Log("NOT ON GRATE!");
+
             bool allInside = true;
             foreach(PlayerEdgeCollider e in other.gameObject.GetComponent<Player>().getEdgeColliders()) {
-                allInside = allInside && e.isCollidingWithCanal();
+                allInside = allInside && e.isCollidingWithCanal(this);
             }
 
             if(allInside) {
@@ -185,7 +187,7 @@ public class Canal : MonoBehaviour
     void OnTriggerExit2D(Collider2D other) {
 
         if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
-            other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(false);
+            other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(false, this);
         }
 
         if(flooded) {
@@ -199,7 +201,7 @@ public class Canal : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.GetComponent<PlayerEdgeCollider>() != null) {
-            other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true);
+            other.gameObject.GetComponent<PlayerEdgeCollider>().setCanalStatus(true, this);
         }
 
         if(flooded || this.player.isGrappling()) {
@@ -222,7 +224,7 @@ public class Canal : MonoBehaviour
         }
 
         if(!playerOnGrate) {
-            StartCoroutine(finder.shoveIntoCanal(cTarget));
+            StartCoroutine(finder.shoveIntoCanal(cTarget, this));
         }
     }
 
@@ -237,7 +239,7 @@ public class Canal : MonoBehaviour
         this.playerInCanal = true;
         this.edgeCollider.SetActive(true);
 
-        this.room.onPlayerInCanal();
+        this.room.onPlayerInCanal(this);
 
         foreach(Grate g in this.grates) {
             g.onPlayerInCanal();
@@ -253,7 +255,7 @@ public class Canal : MonoBehaviour
         this.edgeCollider.SetActive(false);
         this.playerInCanal = false;
 
-        this.room.onPlayerOutCanal();
+        this.room.onPlayerOutCanal(this);
 
         foreach(Grate g in this.grates) {
             g.onPlayerOutCanal();

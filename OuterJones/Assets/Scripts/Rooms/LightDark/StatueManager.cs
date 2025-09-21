@@ -107,7 +107,7 @@ public class StatueManager : MonoBehaviour, InputSubscriber
 
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if(other.GetComponent<Player>() != null) {
+        if(other.GetComponent<Player>() != null && !this.solved) {
             inputManager.requestSpaceInput(this, this.transform, "reset statues");
         }
     }

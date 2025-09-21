@@ -70,16 +70,29 @@ public class Door : MonoBehaviour, InputSubscriber
     public void checkDoorPlacement() {
         if(this.forceFieldOn) {
             this.input.requestPopUpAlert(this, this.transform, "something is stopping you from entering this room!");
+            return;
         }
+
         if(this.destination == null) {
             Room next = this.player.getNextInDeck(this.room.getPosition().overworld);
             if(next != null && room.getLayoutManager().canPlaceRoom(this, next)) {
+                if(this.player.getNextInDeck(this.room.getPosition().overworld).getEntrance(this.getInverse()) != null
+                    && this.player.getNextInDeck(this.room.getPosition().overworld).getEntrance(this.getInverse()).hasForceField()) {
+
+                    this.input.requestPopUpAlert(this, this.transform, "something is stopping you from placing a room here!");
+                    return;
+                } 
+                else if(this.player.getNextInDeck(this.room.getPosition().overworld).getEntrance(this.getInverse()) == null){
+                    throw new InvalidOperationException("impossibile event? where we're able to place a room but also it doesn't have a door?");
+                }
                 this.input.requestSpaceInput(this, this.transform, "place room!");
             } else if(next == null) {
                 this.input.requestPopUpAlert(this, this.transform, "cannot place room from empty deck!");
             } else {
                 this.input.requestPopUpAlert(this, this.transform, "next room cannot be placed here!");
             }
+        } else if(this.destination.hasForceField()) {
+            this.input.requestPopUpAlert(this, this.transform, "something is stopping you from placing a room here!");
         } else {
             this.input.requestSpaceInput(this, this.transform, "use door");
         }
@@ -92,7 +105,13 @@ public class Door : MonoBehaviour, InputSubscriber
     public void useDoor() {
         if(this.destination == null) {
             Room next = this.player.getNextInDeck(this.room.getPosition().overworld);
-            if(next != null && room.getLayoutManager().canPlaceRoom(this, next)) {
+            if(next != null 
+                            && next.hasDoorDirection(this.getInverse())
+                            && next.getEntrance(this.getInverse()) != null
+                            && next.getEntrance(this.getInverse()).hasForceField()) {
+                return;
+            }
+            else if(next != null && room.getLayoutManager().canPlaceRoom(this, next)) {
                 this.player.removeNextInDeck();
                 this.setDestination(next.getEntrance(this.getInverse()));
                 this.destination.setDestination(this);
@@ -103,8 +122,9 @@ public class Door : MonoBehaviour, InputSubscriber
             } else {
                 return;
             }
+        } else if(this.destination.hasForceField() || this.hasForceField()) {
+            return;
         }
-
         this.onExit();
         this.destination.onEnter(this.player);
 
@@ -215,5 +235,9 @@ public class Door : MonoBehaviour, InputSubscriber
         this.forceFieldOn = active;
 
         this.forceField.SetActive(this.forceFieldOn);
+    }
+
+    public bool hasForceField() {
+        return this.forceFieldOn;
     }
 }

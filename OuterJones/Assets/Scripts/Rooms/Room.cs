@@ -151,6 +151,7 @@ public class Room : MonoBehaviour
     [SerializeField] protected List<Canal> canals;
 
     [SerializeField] private GameObject canalEnviromentHider;
+    private List<Canal> canalsPlayerIn = new List<Canal>();
     //since canals can exist in non water rooms, all water functionality gets to live in room :'(
 
 
@@ -215,14 +216,16 @@ public class Room : MonoBehaviour
     }
 
     //idea: darken areas outside canal to make it more obvious that the player is now inside the canal
-    public void onPlayerInCanal() {
+    public void onPlayerInCanal(Canal c) {
+        this.canalsPlayerIn.Add(c);
         if(this.canalEnviromentHider != null) {
             this.canalEnviromentHider.SetActive(true);
         }
     }
 
-    public void onPlayerOutCanal() {
-        if(this.canalEnviromentHider != null) {
+    public void onPlayerOutCanal(Canal c) {
+        this.canalsPlayerIn.Remove(c);
+        if(this.canalEnviromentHider != null && this.canalsPlayerIn.Count == 0) {
             this.canalEnviromentHider.SetActive(false);
         }
     }

@@ -6,15 +6,18 @@ public class PlayerEdgeCollider : MonoBehaviour
 {
     //ok so this object exists literally as a game object data container :'(
 
+    private List<Canal> canalsColidingWith = new List<Canal>();
 
-    private bool isCollidingCanal;
 
-
-    public void setCanalStatus(bool status) {
-        this.isCollidingCanal = status;
+    public void setCanalStatus(bool status, Canal c) {
+        if(status) {
+            canalsColidingWith.Add(c);
+        } else {
+            canalsColidingWith.Remove(c); 
+        }
     }
 
-    public bool isCollidingWithCanal() {
-        return this.isCollidingCanal;
+    public bool isCollidingWithCanal(Canal c) {
+        return this.canalsColidingWith.Contains(c);
     }
 }
