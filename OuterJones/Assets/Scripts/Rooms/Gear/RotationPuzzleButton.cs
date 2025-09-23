@@ -14,9 +14,11 @@ public class RotationPuzzleButton : RotationPuzzleElement, InputSubscriber
     [SerializeField] private GameObject notPressedObj;
 
     private PlayerIO input;
+    private Quaternion initialRott;
 
     public void Awake() {
         this.input = FindObjectOfType<PlayerIO>();
+        this.initialRott = this.transform.rotation;
     }
 
     public void initButton(RotationPuzzleManager manager, int pressNum) {
@@ -63,6 +65,10 @@ public class RotationPuzzleButton : RotationPuzzleElement, InputSubscriber
         if(other.GetComponent<Player>() != null) {
             this.input.cancelRequest(this);
         }
+    }
+
+    public void rotate90() {
+        this.transform.rotation = this.initialRott;
     }
 
     public override void onPlayerInCanal() {

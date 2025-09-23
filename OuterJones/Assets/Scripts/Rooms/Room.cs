@@ -40,6 +40,10 @@ public class Room : MonoBehaviour
         this.floorAndWallHolderRot = this.floorAndWallHolder.transform.rotation;
         this.initialRotation = transform.rotation;
         this.map = FindObjectOfType<Map>();
+
+        this.effectibleButtons = GetComponentsInChildren<TemporaryEffectableButton>();
+        this.powerableButtons = GetComponentsInChildren<PowerableButton>();
+        this.rotationButtons = GetComponentsInChildren<RotationPuzzleButton>();
     }
 
     public virtual void init(RoomCoords position) {
@@ -396,6 +400,14 @@ public class Room : MonoBehaviour
     [Header ("packman corner piece for rotation")]
     [SerializeField] List<PackmanCornerPiece> cornerPieces;
 
+    //ok so this is really where i needed to have a rotationProof super class or something
+    //but also this class has the word temporary in it and ive had it for like several months...
+    //anyway i need the like final final build on sat so you know im not writing that superclass :'(
+    //sorry prof. lerner :(
+    private TemporaryEffectableButton[] effectibleButtons;
+    private PowerableButton[] powerableButtons;
+    private RotationPuzzleButton[] rotationButtons;
+
     public virtual bool rotate90() {
         return this.rotate90(FindObjectOfType<Player>().getRotationDirection());
     }
@@ -436,6 +448,18 @@ public class Room : MonoBehaviour
             d.updateNeighbor();
         }
 
+        foreach(TemporaryEffectableButton b in this.effectibleButtons) {
+            b.rotate90();
+        }
+
+        foreach(PowerableButton b in this.powerableButtons) {
+            b.rotate90();
+        }
+
+        foreach(RotationPuzzleButton b in this.rotationButtons) {
+            b.rotate90();
+        }
+
         //rotate beam transforms :)
         Transform swapper = northPosition;
         if(clockwise) {
@@ -470,4 +494,6 @@ public class Room : MonoBehaviour
             d.updateNeighbor();
         }
     }
+
+    //almost 500 line class like could someone put out a warrant for my arrest
 }

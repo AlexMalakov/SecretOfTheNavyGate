@@ -9,7 +9,16 @@ public class RotationListener : MonoBehaviour
     [SerializeField] private List<GameObject> rotationSprites;
     [SerializeField] private GameObject effectableTarget;
 
+    private Quaternion initialRot;
+
+    public void Awake() {
+        this.initialRot = this.transform.rotation;
+    }
+
     public void onRotation(bool clockwise) {
+
+        this.transform.rotation = this.initialRot;
+
         if(clockwise == !this.direction) {
             this.direction = clockwise;
 

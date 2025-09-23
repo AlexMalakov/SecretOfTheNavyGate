@@ -7,6 +7,7 @@ public class PowerableButton : MonoBehaviour, ItemListener
     [Header ("config")]
     [SerializeField] bool isMummyButton = false;
     [SerializeField] bool isStarting = false;
+    [SerializeField] private ButtonVisualizer vis;
 
     [Header ("sprites")]
     [SerializeField] GameObject mummyFrame;
@@ -26,10 +27,12 @@ public class PowerableButton : MonoBehaviour, ItemListener
     private bool collidingWithMummy = false;
 
     private ButtonManager manager;
+    private Quaternion initialRot;
 
     private void Awake() {
         this.setMummyButtonStatus();
         FindObjectOfType<Inventory>().addItemListener(PossibleItems.Amulet, this);
+        this.initialRot = this.transform.rotation;
     }
 
     public void init(ButtonManager bm) {
@@ -37,6 +40,10 @@ public class PowerableButton : MonoBehaviour, ItemListener
         this.resetToDefault();
     }
         
+
+    public void rotate90() {
+        this.transform.rotation = this.initialRot;
+    }
 
     public void onItemEvent(bool itemStatus) {
         this.setMummyButtonStatus(!this.isMummyButton);
@@ -54,6 +61,10 @@ public class PowerableButton : MonoBehaviour, ItemListener
                     || (other.gameObject.GetComponent<Mummy>() != null && this.isMummyButton)) {
             
             this.manager.onBottonPress(this.puzzleID);
+            
+            if(this.vis != null) {
+                this.vis.onButtonPress();
+            }
         }
     }
 

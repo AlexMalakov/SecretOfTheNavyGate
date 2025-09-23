@@ -36,7 +36,7 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
     public void grapleFrom(int id) {
         this.lastID = id;
         this.colliding = true;
-        if(this.playerHasWhip) {
+        if(this.playerHasWhip && this.controller.gameObject.GetComponent<Player>().canGrapple()) {
             this.input.requestSpaceInput(this, transform, "swing");
         }
     }

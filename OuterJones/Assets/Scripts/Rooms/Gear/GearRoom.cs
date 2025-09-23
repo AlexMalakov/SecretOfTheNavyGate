@@ -6,6 +6,7 @@ public class GearRoom : Room
 {
     [SerializeField] private List<AlternatingSpitter> spitters;
     [SerializeField] private RotationListener rotListener;
+    [SerializeField] private AlternatingSpitterListener spitListener;
 
     public override void onEnter(Door d) {
         base.onEnter(d);
@@ -34,6 +35,10 @@ public class GearRoom : Room
     public override bool rotate90(bool clockwise) {
         if(this.rotListener != null) {
             this.rotListener.onRotation(clockwise);
+        }
+
+        if(this.spitListener != null) {
+            this.spitListener.rotate90();
         }
 
         return base.rotate90(clockwise);

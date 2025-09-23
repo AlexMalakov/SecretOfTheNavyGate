@@ -19,7 +19,7 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber, ItemListener
     private PlayerController controller;
     private bool isAlreadyRotating = false;
 
-    private float ROTATION_DURATION = .5f;
+    private float ROTATION_DURATION = .25f;
 
     void Awake() {
         this.input = FindObjectOfType<PlayerIO>();
@@ -81,7 +81,7 @@ public class RotatingGear : RotationPuzzleElement, InputSubscriber, ItemListener
         this.controller.isMovementEnabled(false);
 
         float elapsed = 0f;
-        float positionCorrectionTimer = .2f;
+        float positionCorrectionTimer = .1f;
         Vector3 startPos = this.controller.transform.position;
         Vector3 endPos = this.getClosestToPlayer().getDropOffPoint().position;
         

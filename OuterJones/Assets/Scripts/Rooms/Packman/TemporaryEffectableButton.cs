@@ -6,7 +6,7 @@ using UnityEngine;
 //button is currently a terrible script thats desgined to exist in only packman rooms
 //so this should be more abstract
 //ok i kinda dont want to rewrite it tho so maybe not so temporary after all >:)
-public class TemporaryEffectableButton : MonoBehaviour, Effectable
+public class TemporaryEffectableButton : MonoBehaviour, Effectable //ok update: code is finalized in a week this mfer permenent
 {
     [SerializeField] private GameObject effObj;
 
@@ -16,8 +16,11 @@ public class TemporaryEffectableButton : MonoBehaviour, Effectable
     [SerializeField] private GameObject pressedSprite;
     [SerializeField] private GameObject notActiveSprite;
 
+    private Quaternion initialRot;
+
     void Awake() {
         this.resetSprite();
+        this.initialRot = this.transform.rotation;
     }
 
     void OnTriggerEnter2D(Collider2D other) {
@@ -29,6 +32,10 @@ public class TemporaryEffectableButton : MonoBehaviour, Effectable
 
             Invoke(nameof(resetSprite), .5f);
         }
+    }
+
+    public void rotate90() {
+        this.transform.rotation = this.initialRot;
     }
 
     public void onEffect() {

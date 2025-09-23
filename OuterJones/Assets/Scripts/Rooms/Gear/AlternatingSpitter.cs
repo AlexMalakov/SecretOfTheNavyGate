@@ -14,7 +14,7 @@ public class AlternatingSpitter : RotationPuzzleElement, InputSubscriber
 
     [SerializeField] private AlternatingSpitterListener listener;
 
-    private float ROTATION_DURATION = .5f;
+    private float ROTATION_DURATION = .25f;
 
     [SerializeField] private bool clockwise = true;
     private bool startDirection;

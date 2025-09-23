@@ -13,8 +13,14 @@ public class AlternatingSpitterListener : MonoBehaviour
     [SerializeField] UnderbellyStaircase targetStaircase;
     [SerializeField] UnderbellyStaircase otherStaircase;
 
+    private Quaternion initialRot;
+
     int counter = 0;
     bool direction = true;
+
+    public void Awake() {
+        this.initialRot = this.transform.rotation;
+    }
 
     public void onSpin(bool spunDirection) {
         if(this.direction != spunDirection) {
@@ -57,5 +63,9 @@ public class AlternatingSpitterListener : MonoBehaviour
         this.two.SetActive(false);
         this.three.SetActive(false);
         this.four.SetActive(false);
+    }
+
+    public void rotate90() {
+        this.transform.rotation = this.initialRot;
     }
 }

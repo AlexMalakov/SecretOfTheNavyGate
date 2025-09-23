@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, ItemListener
 {
     private List<Room> deck;
     private Room currentRoom;
     private bool rotateDirection = true;
     private bool grappling = false;
     private bool inBush = false;
+    private bool torchActive = false;
     private Inventory inventory;
 
     [SerializeField] private List<PlayerEdgeCollider> edges = new List<PlayerEdgeCollider>();
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
 
     public void Start() {
         this.inventory = FindObjectOfType<Inventory>();
+        this.inventory.addItemListener(PossibleItems.Torch, this);
         deck = new List<Room>();
 
         // GameObject obj = GameObject.Find("deckRoom");
@@ -26,6 +28,10 @@ public class Player : MonoBehaviour
         this.currentRoom = obj.GetComponent<Room>();
 
         FindObjectOfType<DeckUI>().init(this);
+    }
+
+    public void onItemEvent(bool itemStatus) {
+        this.torchActive = itemStatus;
     }
 
     public void addToDeck(List<Room> newDeck) {
@@ -102,5 +108,9 @@ public class Player : MonoBehaviour
 
     public Inventory getInventory() {
         return this.inventory;
+    }
+
+    public bool canGrapple() {
+        return !this.grappling && this.inventory.hasItem(PossibleItems.Whip) && (!(this.currentRoom is LightDarkRoom) || ((LightDarkRoom)this.currentRoom).isLight() || this.torchActive);
     }
 }
