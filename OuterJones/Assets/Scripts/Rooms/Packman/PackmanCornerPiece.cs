@@ -10,6 +10,9 @@ public class PackmanCornerPiece : MonoBehaviour
     [SerializeField] private GameObject cwLit;
     [SerializeField] private GameObject ccwLit;
 
+    [SerializeField] private RoomListenerObjListener cwListener;
+    [SerializeField] private RoomListenerObjListener ccwListener;
+
     private bool cwActivated = false;
     private bool ccwActivated = false;
 
@@ -22,6 +25,13 @@ public class PackmanCornerPiece : MonoBehaviour
         this.ccwActivated = false;
         this.cwLit.SetActive(false);
         this.ccwLit.SetActive(false);
+
+        if(this.cwListener != null) {
+            this.cwListener.onRoomEvent(false);
+        }
+        if(this.ccwListener != null) {
+            this.ccwListener.onRoomEvent(false);
+        }
     }
 
     public void activate(bool cwNeighbor) {
@@ -29,6 +39,13 @@ public class PackmanCornerPiece : MonoBehaviour
         this.ccwActivated = ccwActivated || !cwNeighbor;
         this.cwLit.SetActive(this.cwActivated);
         this.ccwLit.SetActive(this.ccwActivated);
+
+        if(this.cwListener != null && cwNeighbor) {
+            this.cwListener.onRoomEvent(true);
+        }
+        if(this.ccwListener != null && !cwNeighbor) {
+            this.ccwListener.onRoomEvent(true);
+        }
     }
 
     public CornerPosition getCornerPosition() {

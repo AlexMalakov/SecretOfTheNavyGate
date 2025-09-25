@@ -23,6 +23,7 @@ public class Chest : MonoBehaviour, InputSubscriber
     [SerializeField] private bool endGamePopUp = false;
 
     [SerializeField] private bool hideLast = false;
+    [SerializeField] private ObjListener chestListener;
 
     private PlayerIO playerIO;
     
@@ -65,6 +66,10 @@ public class Chest : MonoBehaviour, InputSubscriber
         }
 
         opened = true;
+        if(this.chestListener != null) {
+            this.chestListener.onStatusChanged(true);
+        }
+        
         this.updateSprite();
     }
 

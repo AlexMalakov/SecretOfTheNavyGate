@@ -42,6 +42,7 @@ public class RoomsLayout : MonoBehaviour
     [SerializeField] private GameObject cameraObj;
     public static int ROOM_GRID_X = 5;
 
+    private List<RoomUpdateListener> preListeners = new List<RoomUpdateListener>();
     private List<RoomUpdateListener> listeners = new List<RoomUpdateListener>();
     private List<RoomUpdateListener> postListeners = new List<RoomUpdateListener>();
 
@@ -86,6 +87,10 @@ public class RoomsLayout : MonoBehaviour
         this.postListeners.Add(l);
     }
 
+    public void addPreRoomUpdateListener(RoomUpdateListener l) {
+        this.preListeners.Add(l);
+    }
+
     //needs to be overriden for packman rooms
     public bool canPlaceRoom(Door origin, Room destination) {
 
@@ -120,6 +125,10 @@ public class RoomsLayout : MonoBehaviour
     }
 
     public void notifyRoomListeners(List<Room> r) {
+        foreach(RoomUpdateListener pr in this.preListeners) {
+            pr.onRoomUpdate(r);
+        }
+
         foreach(RoomUpdateListener l in this.listeners) {
             l.onRoomUpdate(r);
         }

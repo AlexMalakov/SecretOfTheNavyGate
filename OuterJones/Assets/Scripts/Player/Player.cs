@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, ItemListener
 
     [SerializeField] private List<PlayerEdgeCollider> edges = new List<PlayerEdgeCollider>();
     [SerializeField] private List<Transform> mummyTargets;
+    [SerializeField] private Map map;
 
 
     public void Start() {
@@ -54,6 +55,7 @@ public class Player : MonoBehaviour, ItemListener
 
     public void setCurrentRoom(Room r) {
         this.currentRoom = r;
+        this.map.onPlayerEntersRoom(r);
     }
 
     public void setGrapplingState(bool grappleState) {

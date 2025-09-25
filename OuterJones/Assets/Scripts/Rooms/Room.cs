@@ -29,6 +29,7 @@ public class Room : MonoBehaviour
     private Quaternion floorAndWallHolderRot;
     [SerializeField] private List<GateDoor> gateDoors;
     [SerializeField] private List<Chest> chests;
+    [SerializeField] private ListenerController objListeners;
 
     protected RoomCoords position;
     protected Quaternion initialRotation;
@@ -59,6 +60,10 @@ public class Room : MonoBehaviour
                 d.setDestination(this.layoutManager.getRoomAt(this.position.getOffset(d.getDirection())).getEntrance(d.getInverse()));
                 d.getDestination().getRoom().getEntrance(d.getInverse()).setDestination(d);
             }
+        }
+
+        if(this.objListeners != null) {
+            objListeners.onRoomMove();
         }
     }
 
@@ -460,6 +465,11 @@ public class Room : MonoBehaviour
             b.rotate90();
         }
 
+
+        if(this.objListeners != null) {
+            objListeners.rotate90(clockwise);
+        }
+
         //rotate beam transforms :)
         Transform swapper = northPosition;
         if(clockwise) {
@@ -495,5 +505,5 @@ public class Room : MonoBehaviour
         }
     }
 
-    //almost 500 line class like could someone put out a warrant for my arrest
+    //507 line class like could someone put out a warrant for my arrest
 }

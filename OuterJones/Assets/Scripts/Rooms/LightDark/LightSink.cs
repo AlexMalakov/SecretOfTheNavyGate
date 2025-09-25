@@ -8,6 +8,7 @@ public class LightSink : MonoBehaviour
     [SerializeField] private GameObject effectableObj;
     [SerializeField] private GameObject beamedSprite;
     [SerializeField] private GameObject notBeamedSprite;
+    [SerializeField] private RoomListenerObjListener sinkListener;
 
 
     private LDPuzzle puzzle;
@@ -28,6 +29,10 @@ public class LightSink : MonoBehaviour
                 this.puzzle.onActive(this.id);
             }
         }
+
+        if(this.sinkListener != null) {
+            this.sinkListener.onRoomEvent(true);
+        }
     }
 
     public void deactivate() {
@@ -38,6 +43,9 @@ public class LightSink : MonoBehaviour
         }
         
         this.effectableObj.GetComponent<Effectable>().onEffectOver();
+        if(this.sinkListener != null) {
+            this.sinkListener.onRoomEvent(false);
+        }
     }
 
     public void rotate90(bool clockwise) {

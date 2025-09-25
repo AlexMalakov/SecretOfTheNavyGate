@@ -7,21 +7,33 @@ using TMPro;
 public class Map: MonoBehaviour, RoomUpdateListener
 {
     private MapImageWrangler wrangler;
-    [SerializeField] Image exclamationImg;
+    [SerializeField] MapExclamationManager exclManager;
+    [SerializeField] Image currentRoomOutline;
     [SerializeField] TMP_Text curRoom;
-    private Coroutine exclamationBlink;
+
+    [Header ("default sprites")]
+    [SerializeField] private Sprite lightChecker;
+    [SerializeField] private Sprite darkChecker;
+
     private RoomsLayout layout;
 
     public void Start() {
         this.wrangler = FindObjectOfType<MapImageWrangler>();
 
+        for(int i = 0; i < 5; i++) {
+            for(int j = 0; j < 5; j++) {
+                Image img = this.wrangler.getImageAt(i, j);
+                img.gameObject.SetActive(true);
+
+                this.wipeImage(img, 5*i+j);
+            }
+        }
+
         this.layout = FindObjectOfType<RoomsLayout>();
         this.layout.addRoomUpdateListener(this);
 
         Room r = GameObject.Find("startingRoom").GetComponent<Room>();
-        Image i = this.wrangler.getImageAt(2, 2);
         displayRoom(GameObject.Find("startingRoom").GetComponent<Room>(), this.wrangler.getImageAt(2, 2));
-
     }
 
 
@@ -49,44 +61,37 @@ public class Map: MonoBehaviour, RoomUpdateListener
         i.sprite = r.getRoomSprite();
         i.type = Image.Type.Simple;
         i.preserveAspect = false;
-        i.gameObject.SetActive(true);
 
         i.transform.rotation = r.transform.rotation;
     }
 
     public void onUnderbellyUnlock(Room r) {
-        this.exclamationImg.GetComponent<RectTransform>().anchoredPosition = this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y).GetComponent<RectTransform>().anchoredPosition;
-        if(this.exclamationBlink != null) {
-            StopCoroutine(this.exclamationBlink);
-        }
-        this.exclamationBlink = StartCoroutine(flashExclamation());
+        this.exclManager.startFlash(r, this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y).GetComponent<RectTransform>(), false);
     }
 
-    private IEnumerator flashExclamation() {
-        int num_flashes = 5;
-        for(int i = 0; i < num_flashes; i++) {
-            float elapsed = 0f;
-            float duration = .5f;
-
-            this.exclamationImg.gameObject.SetActive(true);
-            while(elapsed < duration) {
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-
-            this.exclamationImg.gameObject.SetActive(false);
-
-            while(elapsed < 2*duration) {
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-        }
+    public void onSignificantRoomEvent(Room r) {
+        this.exclManager.startFlash(r, this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y).GetComponent<RectTransform>(), true);
     }
 
     public void wipeSquares(List<RoomCoords> wipeTargets) {
         foreach(RoomCoords rc in wipeTargets) {
-            this.wrangler.getImageAt(rc.x, rc.y).gameObject.SetActive(false);
+            wipeImage(this.wrangler.getImageAt(rc.x, rc.y), rc.x * 5 + rc.y);
         }
+    }
+
+    public RectTransform getTransformForRoom(Room r) {
+        return this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y).GetComponent<RectTransform>();
+    }
+
+    private void wipeImage(Image img, int parity) {
+        img.sprite = (parity % 2 == 1 ? lightChecker : darkChecker);
+        img.type = Image.Type.Simple;
+        img.preserveAspect = false;
+    }
+
+    public void onPlayerEntersRoom(Room r) {
+        this.exclManager.onRoomEntered(r);
+        this.currentRoomOutline.GetComponent<RectTransform>().anchoredPosition = this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y).GetComponent<RectTransform>().anchoredPosition;
     }
 }
 

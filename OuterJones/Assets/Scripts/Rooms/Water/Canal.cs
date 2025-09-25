@@ -27,6 +27,8 @@ public class Canal : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private bool keepsWaterWhenBlocked = false;
 
+    [SerializeField] private RoomListenerObjListener canalListener;
+
     private bool playerInCanal = false;
 
     private bool reachedThisFlood = false;
@@ -75,6 +77,10 @@ public class Canal : MonoBehaviour
             this.waterCollider.SetActive(true);
         }
 
+        if(this.canalListener != null) {
+            this.canalListener.onRoomEvent(true);
+        }
+
         foreach(Floodable f in this.floodableObjects) {
             f.onFlood(fromSource);
         }
@@ -114,6 +120,10 @@ public class Canal : MonoBehaviour
 
         foreach(Floodable f in this.floodableObjects) {
             f.drainWater();
+        }
+
+        if(this.canalListener != null) {
+            this.canalListener.onRoomEvent(false);
         }
 
         this.skinnySection.onDrain();

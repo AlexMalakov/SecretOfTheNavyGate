@@ -9,6 +9,7 @@ public class LightSource : MonoBehaviour, Effectable
     private BeamModel beam;
     [SerializeField] private DoorDirection castDirection = DoorDirection.North;
     [SerializeField] private LightSourceManager manager;
+    [SerializeField] private ObjListener sourceListener;
     
     [SerializeField] private bool powered = false;
     
@@ -40,10 +41,18 @@ public class LightSource : MonoBehaviour, Effectable
     public void onEffect() {
         this.powered = true;
         this.manager.onRoomUpdate(new List<Room>());
+
+        if(this.sourceListener != null) {
+            sourceListener.onStatusChanged(true);
+        }
     }
 
     public void onEffectOver() {
         this.powered = false;
         this.manager.onRoomUpdate(new List<Room>());
+
+        if(this.sourceListener != null) {
+            sourceListener.onStatusChanged(false);
+        }
     }
 }
