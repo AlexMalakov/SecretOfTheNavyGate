@@ -17,9 +17,10 @@ public class Map: MonoBehaviour, RoomUpdateListener
 
     private RoomsLayout layout;
 
-    public void Start() {
+    public void Awake() {
         this.wrangler = FindObjectOfType<MapImageWrangler>();
-
+        this.wrangler.init();
+        
         for(int i = 0; i < 5; i++) {
             for(int j = 0; j < 5; j++) {
                 Image img = this.wrangler.getImageAt(i, j);
@@ -29,11 +30,13 @@ public class Map: MonoBehaviour, RoomUpdateListener
             }
         }
 
-        this.layout = FindObjectOfType<RoomsLayout>();
-        this.layout.addRoomUpdateListener(this);
-
         Room r = GameObject.Find("startingRoom").GetComponent<Room>();
         displayRoom(GameObject.Find("startingRoom").GetComponent<Room>(), this.wrangler.getImageAt(2, 2));
+    }
+
+    public void Start() {
+        this.layout = FindObjectOfType<RoomsLayout>();
+        this.layout.addRoomUpdateListener(this);
     }
 
 
@@ -80,6 +83,7 @@ public class Map: MonoBehaviour, RoomUpdateListener
     }
 
     public RectTransform getTransformForRoom(Room r) {
+        Debug.Log(r.getPosition().x + ", " + r.getPosition().y);
         return this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y).GetComponent<RectTransform>();
     }
 
@@ -91,7 +95,7 @@ public class Map: MonoBehaviour, RoomUpdateListener
 
     public void onPlayerEntersRoom(Room r) {
         this.exclManager.onRoomEntered(r);
-        this.currentRoomOutline.GetComponent<RectTransform>().anchoredPosition = this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y).GetComponent<RectTransform>().anchoredPosition;
+        this.currentRoomOutline.GetComponent<RectTransform>().position = this.wrangler.getImageAt(r.getPosition().x, r.getPosition().y).GetComponent<RectTransform>().position;
     }
 }
 

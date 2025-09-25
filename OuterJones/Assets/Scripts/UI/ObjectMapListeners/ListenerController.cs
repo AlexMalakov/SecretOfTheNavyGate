@@ -9,18 +9,16 @@ public class ListenerController : MonoBehaviour
     
     [SerializeField] private Room originRoom;
     [SerializeField] private List<ObjListener> listeners;
-    [SerializeField] private Image img;
     [SerializeField] private Map map;
 
 
-
     public void onRoomMove() {
-        this.img.gameObject.SetActive(true);
-        this.img.GetComponent<RectTransform>().anchoredPosition = this.map.getTransformForRoom(this.originRoom).anchoredPosition;
+        this.GetComponent<RectTransform>().gameObject.SetActive(true);
+        this.GetComponent<RectTransform>().position = this.map.getTransformForRoom(this.originRoom).position;
     }
 
     public void rotate90(bool clockwise) {
-        this.img.transform.Rotate(0f, 0f, (clockwise ? -90f : 90f));
+        this.GetComponent<RectTransform>().transform.Rotate(0f, 0f, (clockwise ? -90f : 90f));
     }
 
     public List<ObjListener> getListeners() {

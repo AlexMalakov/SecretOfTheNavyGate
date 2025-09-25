@@ -8,15 +8,8 @@ public class MapImageWrangler : MonoBehaviour
 
     Image[] images;
 
-    void Awake()
-    {
+    public void init() {
         this.images = GetComponentsInChildren<Image>(includeInactive: true);
-
-        // int counter = 0;
-        // foreach(Image i in this.images) {
-        //     Debug.Log(counter + " = "+ i.gameObject.name);
-        //     counter++;
-        // }
     }
 
     public Image getImageAt(int x, int y) {

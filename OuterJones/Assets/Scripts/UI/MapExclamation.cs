@@ -21,11 +21,12 @@ public class MapExclamation : MonoBehaviour
         this.flashCount = countFlash? this.totalFlashCount : -1;
         this.exclamationImage.sprite = countFlash? this.yellowExclamation : this.redExclamation;
 
-        this.exclamationImage.GetComponent<RectTransform>().anchoredPosition = flashPos.anchoredPosition;
+        this.exclamationImage.GetComponent<RectTransform>().position = flashPos.position;
     }
 
     public void setManager(MapExclamationManager manager) {
         this.manager = manager;
+        this.exclamationImage.gameObject.SetActive(false);
     }
 
     public void flashExclamation() {
@@ -58,5 +59,6 @@ public class MapExclamation : MonoBehaviour
 
     public void endEarly() {
         this.flashing = false;
+        this.exclamationImage.gameObject.SetActive(false);
     }
 }

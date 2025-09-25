@@ -12,7 +12,6 @@ using UnityEngine.UI;
 public class ObjListener : MonoBehaviour
 {
     [SerializeField] protected ListenerController controller;
-    [SerializeField] protected bool useExclamation;
 
     [SerializeField] protected Image img;
     [SerializeField] protected Sprite activatedSprite;
@@ -26,7 +25,6 @@ public class ObjListener : MonoBehaviour
         img.sprite = unactivatedSprite;
         img.type = Image.Type.Simple;
         img.preserveAspect = false;
-        img.gameObject.SetActive(false);
     }
 
     public void onStatusChanged(bool isActive) {

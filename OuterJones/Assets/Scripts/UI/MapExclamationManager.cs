@@ -5,7 +5,7 @@ using UnityEngine;
 //only making this cuz i want them to sync up...
 public class MapExclamationManager : MonoBehaviour
 {
-    List<MapExclamation> exclamationImgs;
+    List<MapExclamation> exclamationImgs = new List<MapExclamation>();
     [SerializeField] private GameObject exclamationPrefab;
     [SerializeField] private int exclamationCount;
     [SerializeField] private float flashTimePause;
