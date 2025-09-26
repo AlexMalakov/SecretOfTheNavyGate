@@ -10,7 +10,7 @@ public class RoomListenerObjListener : ObjListener, RoomUpdateListener
     private bool statusBank;
     private bool updateInitiated = false;
 
-    void Start()
+    void Awake()
     {
         layout.addPreRoomUpdateListener(this);
         layout.addPostRoomUpdateListener(this);

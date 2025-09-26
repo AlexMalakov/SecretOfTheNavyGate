@@ -40,7 +40,8 @@ public class MapExclamationManager : MonoBehaviour
     }
 
     private void flashExclamation() {
-        foreach(MapExclamation excl in this.flashing.Keys) {
+        List<MapExclamation> keyCopy = new List<MapExclamation>(this.flashing.Keys);
+        foreach(MapExclamation excl in keyCopy) {
             excl.flashExclamation();
         }
 
@@ -48,7 +49,8 @@ public class MapExclamationManager : MonoBehaviour
     }
 
     private void unflashExclamation() {
-        foreach(MapExclamation excl in this.flashing.Keys) {
+        List<MapExclamation> keyCopy = new List<MapExclamation>(this.flashing.Keys);
+        foreach(MapExclamation excl in keyCopy) {
             excl.unflashExclamation();
         }
 
@@ -56,7 +58,8 @@ public class MapExclamationManager : MonoBehaviour
     }
 
     public void onRoomEntered(Room r) {
-        foreach(MapExclamation excl in this.flashing.Keys) {
+        List<MapExclamation> keyCopy = new List<MapExclamation>(this.flashing.Keys);
+        foreach(MapExclamation excl in keyCopy) {
             if(this.flashing[excl] == r) {
                 excl.endEarly();
                 this.onExclamationOver(excl);

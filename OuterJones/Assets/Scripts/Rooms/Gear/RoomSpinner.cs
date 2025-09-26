@@ -10,6 +10,7 @@ public class RoomSpinner : MonoBehaviour, Effectable
 
     [SerializeField] private Player player;
     [SerializeField] private WaterDetector detector;
+    [SerializeField] private Map map;
 
     public void onEffect() {
         if(!this.detector.isFlooded()) {
@@ -17,6 +18,7 @@ public class RoomSpinner : MonoBehaviour, Effectable
         }
         if(room.getLayoutManager().getRoomAt(room.getPosition().getOffset(spinThrough.getDirection())) != null) {
             room.getLayoutManager().getRoomAt(room.getPosition().getOffset(spinThrough.getDirection())).rotate90(!player.getRotationDirection());
+            this.map.onSignificantRoomEvent(room.getLayoutManager().getRoomAt(room.getPosition().getOffset(spinThrough.getDirection())));
         }
 
         room.rotate90(player.getRotationDirection());

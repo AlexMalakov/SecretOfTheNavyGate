@@ -8,6 +8,7 @@ public class RotationListener : MonoBehaviour
     private bool direction = true;
     [SerializeField] private List<GameObject> rotationSprites;
     [SerializeField] private GameObject effectableTarget;
+    [SerializeField] private CounterObjListener rotListener;
 
     private Quaternion initialRot;
 
@@ -42,7 +43,6 @@ public class RotationListener : MonoBehaviour
             effectableTarget.GetComponent<Effectable>().onEffect();
         }
 
-        
-        
+        this.rotListener.activateNumber((int)(Mathf.Min(this.totalRotations, this.rotationSprites.Count - 1)));
     }
 }
