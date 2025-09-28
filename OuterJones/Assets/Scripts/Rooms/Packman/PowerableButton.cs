@@ -25,6 +25,7 @@ public class PowerableButton : MonoBehaviour, ItemListener
 
     private bool collidingWithPlayer = false;
     private bool collidingWithMummy = false;
+    private bool completed = false;
 
     private ButtonManager manager;
     private Quaternion initialRot;
@@ -54,6 +55,9 @@ public class PowerableButton : MonoBehaviour, ItemListener
     }
 
     void OnTriggerEnter2D(Collider2D other) {
+        if(this.completed) {
+            return;
+        }
         this.collidingWithPlayer = this.collidingWithPlayer || (other.gameObject.GetComponent<Player>() != null);
         this.collidingWithMummy = this.collidingWithMummy || (other.gameObject.GetComponent<Mummy>() != null);
 
@@ -81,13 +85,13 @@ public class PowerableButton : MonoBehaviour, ItemListener
         this.isMummyButton = mummyBSatus;
         this.mummyFrame.SetActive(this.isMummyButton);
         this.defaultFrame.SetActive(!this.isMummyButton);
-
-        if(flashingFailed) {
-            return;
-        }
     }
 
     private void resetToDefault() {
+        if(this.completed) {
+            return;
+        }
+
         this.default_state.SetActive(true);
         this.pressable_state.SetActive(false);
         this.failed_state.SetActive(false);
@@ -104,8 +108,10 @@ public class PowerableButton : MonoBehaviour, ItemListener
     }
 
     public void flashFailed() {
+        if(this.completed) {
+            return;
+        }
         flashingFailed = true;
-
 
         default_state.SetActive(false);
         pressable_state.SetActive(false);
@@ -121,7 +127,7 @@ public class PowerableButton : MonoBehaviour, ItemListener
     }
 
     public void flashPressable() {
-        if(this.flashingFailed) {
+        if(this.flashingFailed || this.completed) {
             return;
         }
 
@@ -140,5 +146,15 @@ public class PowerableButton : MonoBehaviour, ItemListener
         successful_state.SetActive(true);
 
         Invoke(nameof(resetToDefault), .7f);
+    }
+
+    public void setCompletion(string completedStartingID) {
+        if(this.puzzleID == completedStartingID) {
+            this.completed = true;
+            default_state.SetActive(false);
+            pressable_state.SetActive(false);
+            failed_state.SetActive(false);
+            this.successful_state.SetActive(true);
+        }
     }
 }

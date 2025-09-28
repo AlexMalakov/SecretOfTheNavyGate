@@ -17,7 +17,6 @@ public class RotationListener : MonoBehaviour
     }
 
     public void onRotation(bool clockwise) {
-
         this.transform.rotation = this.initialRot;
 
         if(clockwise == !this.direction) {

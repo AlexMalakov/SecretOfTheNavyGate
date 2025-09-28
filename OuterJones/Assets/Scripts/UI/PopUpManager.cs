@@ -1,7 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
+
+public enum ScreenPopUpType {
+    Endgame, Whip, Magnet, Grapple, Amulet, Torch, P1, W2, L3, R2
+}
 
 public class PopUpManager : MonoBehaviour
 {
@@ -37,9 +42,6 @@ public class PopUpManager : MonoBehaviour
 
     public void endSpacePopUp() {
         this.spacePopUp.SetActive(false);
-        this.popUpMessage.SetActive(false);
-        this.popUpAlertMessage.SetActive(false);
-        this.finalPopUp.SetActive(false);
     }
 
     public void displayPopUpAlert(Transform popUpPos, string message) {
@@ -49,8 +51,10 @@ public class PopUpManager : MonoBehaviour
 
         this.placePopUpMessage(this.popUpAlertMessage, popUpPos);
 
-        this.popUpMessage.SetActive(true);
-        this.popUpMessage.GetComponentInChildren<TMP_Text>().text = message;
+        this.popUpAlertMessage.SetActive(true);
+        this.popUpAlertMessage.GetComponentInChildren<TMP_Text>().text = message;
+
+        StartCoroutine(fadeMessage(this.popUpAlertMessage));
     }
 
     public void displayPopUpMessage(Transform popUpPos, string message) {
@@ -62,16 +66,36 @@ public class PopUpManager : MonoBehaviour
 
         this.popUpMessage.SetActive(true);
         this.popUpMessage.GetComponentInChildren<TMP_Text>().text = message;
+
+        StartCoroutine(fadeMessage(this.popUpMessage));
     }
 
-    public void displayEndGamePopUp(Transform popUpPos) {
+    private IEnumerator fadeMessage(GameObject popUp) {
+        CanvasGroup canvasG = popUp.GetComponent<CanvasGroup>();
+        canvasG.alpha = 1f;
+        yield return new WaitForSeconds(1.5f);
+        
+        float elapsed = 0f;
+        while(elapsed < 1f) {
+            canvasG.alpha = 1f - elapsed;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        popUp.SetActive(false);
+    }
+
+    public void displayScreenPopUp(Sprite screenPopUpImg) {
         if(this.finalPopUp.activeSelf) {
             return;
         }
 
-        this.placePopUpMessage(this.finalPopUp, popUpPos);
-
+        this.finalPopUp.GetComponent<Image>().sprite = screenPopUpImg;
         this.finalPopUp.SetActive(true);
+    }
+
+    public void endScreenPopUp() {
+        this.finalPopUp.SetActive(false);
     }
 
     private void placePopUpMessage(GameObject popUp, Transform popUpPos) {
@@ -96,52 +120,5 @@ public class PopUpManager : MonoBehaviour
         );
 
         popUp.GetComponent<RectTransform>().anchoredPosition = localPoint;
-    }
-
-    public void displayRoomPopUp(string roomName) {
-        if(this.roomPopUp.activeSelf && this.roomEnterCoroutine != null) {
-            StopCoroutine(this.roomEnterCoroutine);
-        }
-
-        this.roomPopUp.SetActive(true);
-        this.roomPopUp.GetComponentInChildren<TMP_Text>().text = roomName;
-
-        this.roomEnterCoroutine = this.StartCoroutine(handleRoomP(this.roomPopUp));
-    }
-
-    private IEnumerator handleRoomP(GameObject popup) {
-        CanvasGroup canvasG = popup.GetComponent<CanvasGroup>();
-        canvasG.alpha = 1f;
-        float duration = 3.5f;
-        float elapsed = 0f;
-
-        popup.transform.localScale = this.resetRoomPopUpSize;
-        
-        Vector3 initial = popup.transform.localScale/4f;
-        Vector3 target = popup.transform.localScale * 1.5f;
-
-        while(elapsed < duration) {
-            popup.transform.localScale = Vector3.Lerp(initial, target, elapsed/duration);
-
-            if(elapsed > 2f) {
-                canvasG.alpha = 1f - (elapsed - 2f)/(3.5f - 2f);
-            }
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        // duration = 1.5f;
-        // elapsed = 0f;
-        // while(elapsed < duration) {
-
-        //     canvasG.alpha = 1f - elapsed/duration;
-        //     elapsed += Time.deltaTime;
-        //     yield return null;
-        // }
-
-        popup.transform.localScale = this.resetRoomPopUpSize;
-        canvasG.alpha = 1f;
-        popup.SetActive(false);
     }
 }

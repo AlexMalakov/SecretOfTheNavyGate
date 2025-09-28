@@ -9,6 +9,7 @@ public interface ItemListener {
 public abstract class Item : MonoBehaviour
 {
     [SerializeField] private Sprite iconSprite;
+    [SerializeField] private Sprite gainMsg;
     private bool equiped;
 
     public virtual void equip() {
@@ -21,6 +22,10 @@ public abstract class Item : MonoBehaviour
 
     public virtual bool isEquiped() {
         return this.equiped;
+    }
+
+    public Sprite getScreenMsg() {
+        return this.gainMsg;
     }
     
     public abstract PossibleItems getItemType();

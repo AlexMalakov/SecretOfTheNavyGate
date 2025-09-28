@@ -47,7 +47,7 @@ public class UnderbellyStaircase : MonoBehaviour, Effectable, InputSubscriber
 
     public void OnTriggerExit2D(Collider2D other) {
         if(this.opened && other.GetComponent<Player>() != null) {
-            this.input.cancelRequest(this);
+            this.input.cancelInputRequest(this);
         }
     }
 

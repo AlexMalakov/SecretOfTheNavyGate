@@ -114,7 +114,7 @@ public class StatueManager : MonoBehaviour, InputSubscriber
 
     public void OnTriggerExit2D(Collider2D other) {
         if(other.GetComponent<Player>() != null) {
-            inputManager.cancelRequest(this);
+            inputManager.cancelInputRequest(this);
         }
     }
 

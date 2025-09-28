@@ -81,6 +81,7 @@ public class Room : MonoBehaviour
     }
 
     private void enterAbstraction() {
+        Debug.Log("SETTING LIGHTING " + this.roomLighting);
         this.layoutManager.getCam().transform.position = new Vector3(this.transform.position.x, this.transform.position.y ,this.layoutManager.getCam().transform.position.z);
         globalLighting.intensity = this.roomLighting;
         this.map.onNewRoomEntered(this);

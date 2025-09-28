@@ -20,7 +20,7 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
 
     public void setWhipStatus(bool status) {
         this.playerHasWhip = status;
-        if(status && this.colliding) {
+        if(status && this.colliding && this.controller.gameObject.GetComponent<Player>().canGrapple()) {
             this.input.requestSpaceInput(this, transform, "swing");
         }
     }
@@ -43,7 +43,7 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
 
     public void pointExit() {
         this.colliding = false;
-        this.input.cancelRequest(this);
+        this.input.cancelInputRequest(this);
     }
 
 
@@ -70,9 +70,11 @@ public class GraplePoint : MonoBehaviour, InputSubscriber
             yield return null;
         }
 
-
+        
         yield return new WaitForFixedUpdate();
-        this.controller.isMovementEnabled(true);
         p.setGrapplingState(false);
+        this.input.requestSpaceInput(this, transform, "swing");
+
+        this.controller.isMovementEnabled(true);
     }
 }

@@ -84,6 +84,10 @@ public class ButtonManager : MonoBehaviour
         }
 
         foreach(PowerableButton b in this.buttons) {
+            b.setCompletion((isDamSequence ? damSequence[0]: puzzleSequence[0]));
+        }
+
+        foreach(PowerableButton b in this.buttons) {
             b.flashSuccess();
         }
     }

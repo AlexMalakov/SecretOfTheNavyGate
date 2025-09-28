@@ -53,6 +53,7 @@ public class CanalFinderManager : MonoBehaviour
             }
         }
 
+        Debug.Log("CHOSEN FINDER: " + options[bestInd].gameObject.name);
         return options[bestInd].transform;
     }
 

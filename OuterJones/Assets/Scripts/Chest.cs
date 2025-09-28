@@ -25,6 +25,8 @@ public class Chest : MonoBehaviour, InputSubscriber
     [SerializeField] private bool hideLast = false;
     [SerializeField] private ObjListener chestListener;
 
+    [SerializeField] private Sprite screenPopUpImg;
+
     private PlayerIO playerIO;
     
     private Quaternion initialRot;
@@ -54,12 +56,12 @@ public class Chest : MonoBehaviour, InputSubscriber
         if(this.deck.Count > 0 && other.gameObject.GetComponent<Player>() != null) {
             other.gameObject.GetComponent<Player>().addToDeck(this.deck);
             FindObjectOfType<DeckUI>().onUpdate();
-            this.playerIO.requestPopUpMessage(this, this.transform, ("Added " + this.deck.Count + " rooms into your deck!"));
+            this.playerIO.requestPopUpMessage(this.transform, ("Added " + this.deck.Count + " rooms into your deck!"));
         } else if(this.item != null && other.gameObject.GetComponent<Player>() != null) {
             other.GetComponent<Player>().getInventory().gainItem(this.item);
-            this.playerIO.requestPopUpMessage(this, this.transform, "You've found a " + this.item.getName());
+            this.playerIO.displayScreenPopUp(this, this.item.getScreenMsg());
         } else if(this.endGamePopUp && other.gameObject.GetComponent<Player>() != null){
-            this.playerIO.displayEndGamePopUp(this, this.transform);
+            this.playerIO.displayScreenPopUp(this, this.screenPopUpImg);
         } else {
             //failed to give the player anything
             return;
@@ -69,13 +71,13 @@ public class Chest : MonoBehaviour, InputSubscriber
         if(this.chestListener != null) {
             this.chestListener.onStatusChanged(true);
         }
-        
+
         this.updateSprite();
     }
 
     void OnTriggerExit2D(Collider2D other) {
         if(this.endGamePopUp) {
-            this.playerIO.cancelRequest(this);
+            this.playerIO.cancelInputRequest(this);
         }
     }
 

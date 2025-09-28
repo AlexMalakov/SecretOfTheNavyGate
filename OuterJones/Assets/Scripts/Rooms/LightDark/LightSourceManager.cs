@@ -73,6 +73,7 @@ public static class BeamPool {
     }
 
     private static BeamModel growPool() {
+
         int count = pool.Count;
 
         for (int i = 0; i < EXPAND_POOL_BY; i++) {

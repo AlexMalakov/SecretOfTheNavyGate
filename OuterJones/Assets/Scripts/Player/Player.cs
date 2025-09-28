@@ -15,6 +15,7 @@ public class Player : MonoBehaviour, ItemListener
     [SerializeField] private List<PlayerEdgeCollider> edges = new List<PlayerEdgeCollider>();
     [SerializeField] private List<Transform> mummyTargets;
     [SerializeField] private Map map;
+    [SerializeField] PlayerIO playerIO;
 
 
     public void Start() {
@@ -113,6 +114,11 @@ public class Player : MonoBehaviour, ItemListener
     }
 
     public bool canGrapple() {
+        if(!this.grappling && this.inventory.hasItem(PossibleItems.Whip) 
+                && !(!(this.currentRoom is LightDarkRoom) || ((LightDarkRoom)this.currentRoom).isLight() || this.torchActive)) {
+
+            this.playerIO.requestPopUpAlert(this.transform, "It's too dark to swing!");
+        }
         return !this.grappling && this.inventory.hasItem(PossibleItems.Whip) && (!(this.currentRoom is LightDarkRoom) || ((LightDarkRoom)this.currentRoom).isLight() || this.torchActive);
     }
 }

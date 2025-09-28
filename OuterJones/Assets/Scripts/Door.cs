@@ -63,13 +63,13 @@ public class Door : MonoBehaviour, InputSubscriber
 
     void OnTriggerExit2D(Collider2D other) {
         if(other.gameObject.GetComponent<Player>() != null && this.input != null) {
-            this.input.cancelRequest(this);
+            this.input.cancelInputRequest(this);
         }
     }
 
     public void checkDoorPlacement() {
         if(this.forceFieldOn) {
-            this.input.requestPopUpAlert(this, this.transform, "something is stopping you from entering this room!");
+            this.input.requestPopUpAlert(this.transform, "something is stopping you from entering this room!");
             return;
         }
 
@@ -79,7 +79,7 @@ public class Door : MonoBehaviour, InputSubscriber
                 if(this.player.getNextInDeck(this.room.getPosition().overworld).getEntrance(this.getInverse()) != null
                     && this.player.getNextInDeck(this.room.getPosition().overworld).getEntrance(this.getInverse()).hasForceField()) {
 
-                    this.input.requestPopUpAlert(this, this.transform, "something is stopping you from placing a room here!");
+                    this.input.requestPopUpAlert(this.transform, "something is stopping you from placing a room here!");
                     return;
                 } 
                 else if(this.player.getNextInDeck(this.room.getPosition().overworld).getEntrance(this.getInverse()) == null){
@@ -87,12 +87,12 @@ public class Door : MonoBehaviour, InputSubscriber
                 }
                 this.input.requestSpaceInput(this, this.transform, "place room!");
             } else if(next == null) {
-                this.input.requestPopUpAlert(this, this.transform, "cannot place room from empty deck!");
+                this.input.requestPopUpAlert(this.transform, "cannot place room from empty deck!");
             } else {
-                this.input.requestPopUpAlert(this, this.transform, "next room cannot be placed here!");
+                this.input.requestPopUpAlert(this.transform, "next room cannot be placed here!");
             }
         } else if(this.destination.hasForceField()) {
-            this.input.requestPopUpAlert(this, this.transform, "something is stopping you from placing a room here!");
+            this.input.requestPopUpAlert(this.transform, "something is stopping you from placing a room here!");
         } else {
             this.input.requestSpaceInput(this, this.transform, "use door");
         }

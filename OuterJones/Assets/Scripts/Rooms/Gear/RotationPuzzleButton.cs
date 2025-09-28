@@ -63,7 +63,7 @@ public class RotationPuzzleButton : RotationPuzzleElement, InputSubscriber
 
     void OnTriggerExit2D(Collider2D other) {
         if(other.GetComponent<Player>() != null) {
-            this.input.cancelRequest(this);
+            this.input.cancelInputRequest(this);
         }
     }
 
@@ -73,7 +73,7 @@ public class RotationPuzzleButton : RotationPuzzleElement, InputSubscriber
 
     public override void onPlayerInCanal() {
         base.onPlayerInCanal();
-        this.input.cancelRequest(this);
+        this.input.cancelInputRequest(this);
     }
 
     public void onSpacePress() {

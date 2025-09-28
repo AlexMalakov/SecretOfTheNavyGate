@@ -72,7 +72,8 @@ public class PackmanRoom : Room
     public override void beamNeighbor(DoorDirection exitDirection) {
         //might have a bug where can't receive beam
         if(this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y, this.position.overworld) != null) {
-            this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y, this.position.overworld).receiveBeam(exitDirection);
+            DoorDirection arrivedFrom = Door.rotateDoorDirection(Door.rotateDoorDirection(exitDirection, true), true);
+            this.layoutManager.getRoomFromPackman(this.position.getOffset(exitDirection).x, this.position.getOffset(exitDirection).y, this.position.overworld).receiveBeam(arrivedFrom);
         }
     }
 
