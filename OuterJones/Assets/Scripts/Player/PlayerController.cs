@@ -75,5 +75,8 @@ public class PlayerController : MonoBehaviour
         return this.isMoving;
     }
     
+    public float getSpeedPercentage() {
+        return this.rb.velocity.magnitude / this.moveSpeed;
+    }
 
 }

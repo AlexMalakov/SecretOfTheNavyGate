@@ -650,10 +650,14 @@ MonoBehaviour:
   canalTilemap: {fileID: 3260933045013561001}
   waterCollider: {fileID: 4712564821584083401}
   skinnySection: {fileID: 8957189184405271709}
+  borderManager: {fileID: 4409660064840647150}
   edgeCollider: {fileID: 4234304543670549944}
   backupTransforms:
   - {fileID: 2466344746079473272}
   flooded: 0
+  player: {fileID: 0}
+  keepsWaterWhenBlocked: 0
+  canalListener: {fileID: 0}
 --- !u!1 &4234304543670549944
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,6 +672,7 @@ GameObject:
   - component: {fileID: 2365114708318308008}
   - component: {fileID: 4156279027480455636}
   - component: {fileID: 1737386530437333621}
+  - component: {fileID: 4409660064840647150}
   m_Layer: 8
   m_Name: canalBorder
   m_TagString: Untagged
@@ -909,6 +914,18 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 4234304543670549944}
+--- !u!114 &4409660064840647150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4234304543670549944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f6316f88d4074cf6ba8a2b1b4d29af7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4700563222411834708
 GameObject:
   m_ObjectHideFlags: 0

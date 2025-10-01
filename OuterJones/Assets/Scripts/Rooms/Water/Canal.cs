@@ -20,6 +20,7 @@ public class Canal : MonoBehaviour
 
     [SerializeField] private GameObject waterCollider;
     [SerializeField] private SkinnySectionManager skinnySection;
+    [SerializeField] private CanalBorderManager borderManager;
     [SerializeField] private GameObject edgeCollider;
     [SerializeField] private List<Transform> backupTransforms;
 
@@ -104,6 +105,10 @@ public class Canal : MonoBehaviour
         return !this.reachedThisFlood && this.canalEntrances.Contains(floodingFrom);
     }
 
+    public CanalBorderManager getBorder() {
+        return this.borderManager;
+    }
+
     //dont need to drain dams: this is because instead of draining sequentially all objects are
     //drained and then flow is recalcualted
     public void drainWater(CanalEntrances? drainingFrom) {
@@ -168,6 +173,8 @@ public class Canal : MonoBehaviour
             Debug.Log("NOT ON GRATE!");
 
             bool allInside = true;
+
+            string concat = "";
             foreach(PlayerEdgeCollider e in other.gameObject.GetComponent<Player>().getEdgeColliders()) {
                 allInside = allInside && e.isCollidingWithCanal(this);
             }
@@ -175,6 +182,16 @@ public class Canal : MonoBehaviour
             if(allInside) {
                 this.onPlayerInCanal();
             }
+        } else if(other.gameObject.GetComponent<Player>() != null) {
+            bool allInBorder = true;
+
+            string concat = "";
+            foreach(PlayerEdgeCollider e in other.gameObject.GetComponent<Player>().getEdgeColliders()) {
+                allInBorder = allInBorder && e.isCollidingWithBorder(this.getBorder());
+
+                concat += e.gameObject.name + ": " + e.isCollidingWithBorder(this.getBorder()) + " | "; 
+            }
+            Debug.Log("BORDER STATUS: " + allInBorder + " : " + concat);
         }
     }
 

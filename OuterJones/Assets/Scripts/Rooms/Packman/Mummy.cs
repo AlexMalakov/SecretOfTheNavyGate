@@ -21,6 +21,8 @@ public class Mummy : MonoBehaviour
     [SerializeField] private Sprite leftSprite;
     [SerializeField] private Sprite rightSprite;
     [SerializeField] private Sprite downSprite;
+
+    [SerializeField] private PlayerController playerController;
     
 
     //mummy improvement features:
@@ -52,9 +54,9 @@ public class Mummy : MonoBehaviour
 
     public void navigateToTarget(Transform target, bool playerMoving) {
         if((this.transform.position - target.position).magnitude > this.distanceToSpeedUp) {
-            this.agent.speed = farSpeed;
+            this.agent.speed = this.playerAugmentedSpeed(farSpeed);
         } else {
-            this.agent.speed = closeSpeed;
+            this.agent.speed = this.playerAugmentedSpeed(closeSpeed);
         }
 
         if(Mathf.Abs(this.transform.position.x - target.position.x) < .1f) {
@@ -72,9 +74,9 @@ public class Mummy : MonoBehaviour
 
     public void navigateFromTarget(Transform target, bool playerMoving) {
         if((this.transform.position - target.position).magnitude < this.distanceToSpeedUp) { //move faster if closer to player
-            this.agent.speed = farSpeed;
+            this.agent.speed = this.farSpeed;
         } else {
-            this.agent.speed = closeSpeed;
+            this.agent.speed = this.closeSpeed;
         }
 
         if (agent.isStopped != !playerMoving) {
@@ -82,7 +84,7 @@ public class Mummy : MonoBehaviour
         }
 
         if(!agent.isStopped) {
-            agent.velocity = this.agent.speed * (this.transform.position - target.position).normalized;
+            agent.velocity = playerAugmentedSpeed(this.agent.speed) * (this.transform.position - target.position).normalized;
         }
 
         selectSprite(agent.velocity);
@@ -92,6 +94,10 @@ public class Mummy : MonoBehaviour
         this.agent.enabled = false;
         this.transform.localPosition = startingPos;
         this.agent.enabled = true;
+    }
+
+    private float playerAugmentedSpeed(float maxSpeed) {
+        return Mathf.Max(2, this.playerController.getSpeedPercentage() * maxSpeed);
     }
     
     private void selectSprite(Vector3 movingIn) {

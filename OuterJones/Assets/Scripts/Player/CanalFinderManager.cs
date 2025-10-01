@@ -7,6 +7,7 @@ public class CanalFinderManager : MonoBehaviour
     [SerializeField] private PlayerController controller;
     private List<PlayerCanalFinders> canalFinders = new List<PlayerCanalFinders>();
     private Canal canalImIn = null;
+    private bool fallingIntoCanal = false;
     // private bool fallingIntoCanal = false;
 
     // Start is called before the first frame update
@@ -26,7 +27,7 @@ public class CanalFinderManager : MonoBehaviour
 
     public Transform fallInCanal(Canal c) {
         // fallingIntoCanal = true;
-        Debug.Log("falling into " + c.gameObject.name);
+        // Debug.Log("falling into " + c.gameObject.name);
         List<PlayerCanalFinders> options = new List<PlayerCanalFinders>();
 
         foreach(PlayerCanalFinders cf in this.canalFinders) {
@@ -53,7 +54,7 @@ public class CanalFinderManager : MonoBehaviour
             }
         }
 
-        Debug.Log("CHOSEN FINDER: " + options[bestInd].gameObject.name);
+        // Debug.Log("CHOSEN FINDER: " + options[bestInd].gameObject.name);
         return options[bestInd].transform;
     }
 
@@ -61,7 +62,9 @@ public class CanalFinderManager : MonoBehaviour
         if(this.canalImIn != null) {
             yield break;
         }
-        Debug.Log("MOVING INTO " + canalImGoingIn.gameObject.name);
+        
+        fallingIntoCanal = true;
+        // Debug.Log("MOVING INTO " + canalImGoingIn.gameObject.name);
         this.canalImIn = canalImGoingIn;
         this.controller.isMovementEnabled(false);
 
@@ -77,6 +80,31 @@ public class CanalFinderManager : MonoBehaviour
             yield return null;
         }
 
+        fallingIntoCanal = false;
+        this.controller.isMovementEnabled(true);
+    }
+
+    private IEnumerator fallOutOfBorder(Canal canalImGoingIn) {
+        if(this.canalImIn == null || this.fallingIntoCanal) {
+            yield break;
+        }
+
+        this.fallingIntoCanal = true;
+        this.controller.isMovementEnabled(false);
+        Vector3 initial = this.controller.transform.position;
+        Vector3 final = fallInCanal(canalImGoingIn).position;
+
+        float elapsed = 0f;
+
+        while(elapsed < .25f) {
+            this.controller.transform.position = Vector3.Lerp(initial, final, elapsed/.25f);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+
+        this.fallingIntoCanal = false;
         this.controller.isMovementEnabled(true);
     }
 
