@@ -69,7 +69,7 @@ public class Door : MonoBehaviour, InputSubscriber
 
     public void checkDoorPlacement() {
         if(this.forceFieldOn) {
-            this.input.requestPopUpAlert(this.transform, "something is stopping you from entering this room!");
+            this.input.requestPopUpAlert(this.transform, "A strange field is stoping you from leaving!");
             return;
         }
 
@@ -79,7 +79,7 @@ public class Door : MonoBehaviour, InputSubscriber
                 if(this.player.getNextInDeck(this.room.getPosition().overworld).getEntrance(this.getInverse()) != null
                     && this.player.getNextInDeck(this.room.getPosition().overworld).getEntrance(this.getInverse()).hasForceField()) {
 
-                    this.input.requestPopUpAlert(this.transform, "something is stopping you from placing a room here!");
+                    this.input.requestPopUpAlert(this.transform, "A strange field is stoping you from placing!");
                     return;
                 } 
                 else if(this.player.getNextInDeck(this.room.getPosition().overworld).getEntrance(this.getInverse()) == null){
@@ -92,7 +92,7 @@ public class Door : MonoBehaviour, InputSubscriber
                 this.input.requestPopUpAlert(this.transform, "next room cannot be placed here!");
             }
         } else if(this.destination.hasForceField()) {
-            this.input.requestPopUpAlert(this.transform, "something is stopping you from placing a room here!");
+            this.input.requestPopUpAlert(this.transform, "A strange field is stoping you from entering!");
         } else {
             this.input.requestSpaceInput(this, this.transform, "use door");
         }
