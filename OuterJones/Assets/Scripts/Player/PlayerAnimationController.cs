@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimationController : MonoBehaviour
+public class PlayerAnimationController : MonoBehaviour, ItemListener
 {
     [SerializeField] public Player player;
     [SerializeField] public PlayerController pc;
     [SerializeField] public Animator animator;
 
+    public void Awake() {
+        FindObjectOfType<Inventory>().addItemListener(PossibleItems.Floaties, this);
+    }
 
+    public void onItemEvent(bool itemStatus) {
+        this.animator.SetBool("hasFloaties", itemStatus);
+    }
 
     public void Update() {
         if(this.pc.getIfMovementEnabled() && this.pc.isPlayerMoving()) {

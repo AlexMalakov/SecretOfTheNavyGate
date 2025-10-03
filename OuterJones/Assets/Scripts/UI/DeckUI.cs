@@ -37,7 +37,12 @@ public class DeckUI : MonoBehaviour, RoomUpdateListener, DoorUseListener
         if(!canPlaceNextRoom()) {
             this.image.sprite = cannotPlace;
         } else {
-            this.image.sprite = this.player.getNextInDeck(true).getRoomSprite();
+
+            if(this.player.getNextInDeck(true) is LightDarkRoom) {
+                this.image.sprite = ((LightDarkRoom) this.player.getNextInDeck(true)).getPlacementSprite(this.player.getCurrentRoom().getPosition());
+            } else {
+                this.image.sprite = this.player.getNextInDeck(true).getRoomSprite();
+            }
         }
 
         text.text = this.player.getDeckSize() + " remaining in deck";

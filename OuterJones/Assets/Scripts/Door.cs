@@ -23,6 +23,7 @@ public class Door : MonoBehaviour, InputSubscriber
     [SerializeField] private GameObject forceField;
 
     [SerializeField] private GameObject doorLight;
+    [SerializeField] private GameObject forceFieldOther;
 
     private List<DoorUseListener> listeners = new List<DoorUseListener>();
 
@@ -39,12 +40,17 @@ public class Door : MonoBehaviour, InputSubscriber
         if(this.room is LightDarkRoom) {
             this.doorLight.SetActive(true);
         } 
+
+        this.listeners.Add(FindObjectOfType<DeckUI>());
     }
 
     public void setDestination(Door newDestination) {
         this.destination = newDestination;
         this.openModel.SetActive(this.destination != null);
         this.closedModel.SetActive(this.destination == null);
+        if(this.destination != null) {
+            this.destination.setOtherForceField(this.forceFieldOn);
+        }
     }
 
     public Door getDestination() {
@@ -162,6 +168,7 @@ public class Door : MonoBehaviour, InputSubscriber
         if(this.destination != null) {
             this.openModel.SetActive(false);
             this.closedModel.SetActive(true);
+            this.destination.setOtherForceField(false);
             this.destination.setDestination(null);
             this.destination = null;
         }
@@ -235,6 +242,14 @@ public class Door : MonoBehaviour, InputSubscriber
         this.forceFieldOn = active;
 
         this.forceField.SetActive(this.forceFieldOn);
+
+        if(this.destination != null) {
+            this.destination.setOtherForceField(this.forceFieldOn);
+        }
+    }
+
+    public void setOtherForceField(bool forceFieldStatus) {
+        this.forceFieldOther.SetActive(forceFieldStatus);
     }
 
     public bool hasForceField() {

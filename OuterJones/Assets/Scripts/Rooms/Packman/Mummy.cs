@@ -9,6 +9,7 @@ public class Mummy : MonoBehaviour
 
     [SerializeField] private float closeSpeed;
     [SerializeField] private float farSpeed;
+    [SerializeField] private Animator animator;
 
     [SerializeField] private float distanceToSpeedUp;
     
@@ -101,15 +102,34 @@ public class Mummy : MonoBehaviour
     }
     
     private void selectSprite(Vector3 movingIn) {
-        float margin = .25f;
-        if(movingIn.x > margin) {
-            rend.sprite = this.rightSprite;
-        } else if(movingIn.x < -margin) {
-            rend.sprite = this.leftSprite;
-        } else if(movingIn.y > margin) {
-            rend.sprite = this.upSprite;
-        } else if(movingIn.y < -margin) {
-            rend.sprite = this.downSprite;
+        // float margin = .25f;
+        // if(movingIn.x > margin) {
+        //     rend.sprite = this.rightSprite;
+        // } else if(movingIn.x < -margin) {
+        //     rend.sprite = this.leftSprite;
+        // } else if(movingIn.y > margin) {
+        //     rend.sprite = this.upSprite;
+        // } else if(movingIn.y < -margin) {
+        //     rend.sprite = this.downSprite;
+        // }
+    }
+
+    public void Update() {
+        if(agent.isOnNavMesh && this.gameObject.activeInHierarchy && !this.agent.isStopped) {
+            this.animator.SetBool("isMoving", true);
+            float margin = .05f;
+
+            if(agent.velocity.x > margin) {
+                this.animator.SetInteger("direction", 3);
+            } else if(agent.velocity.x < -margin) {
+                this.animator.SetInteger("direction", 1);
+            } else if(agent.velocity.y > margin) {
+                this.animator.SetInteger("direction", 0);
+            } else if(agent.velocity.y < -margin) {
+                this.animator.SetInteger("direction", 2);
+            } 
+        } else {
+            this.animator.SetBool("isMoving", false);
         }
     }
 } 

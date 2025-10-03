@@ -10,6 +10,7 @@ public class MummyManager : MonoBehaviour, ItemListener
     [SerializeField] private PackmanRoom pRoom;
     [SerializeField] Inventory inventory;
     [SerializeField] private PlayerShadow playerShadow;
+    [SerializeField] private bool playerShadowNotABrick = true;
 
     private bool amuletActive = false;
 
@@ -36,7 +37,7 @@ public class MummyManager : MonoBehaviour, ItemListener
             this.mummy.wake();
         }
 
-        if(this.chasingShadow) {
+        if(this.chasingShadow && playerShadowNotABrick) {
             this.playerShadow.wakeShadow(this.pRoom);
         }
     }

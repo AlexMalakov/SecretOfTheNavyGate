@@ -46,6 +46,13 @@ public class LightDarkRoom : Room
         }
         return this.darkSprite;
     }
+
+    public Sprite getPlacementSprite(RoomCoords position) {
+        if((position.x + position.y) % 2 == ((position.overworld) ? 1 : 0)) {
+            return this.darkSprite;
+        }
+        return this.roomSprite;
+    }
     
     public bool isLight() {
         return Mathf.Abs(this.roomLighting - lightLevel) < .001;

@@ -125,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closeSpeed: 8
   farSpeed: 9
+  animator: {fileID: 8252958439517416030}
   distanceToSpeedUp: 5
   manager: {fileID: 0}
   rend: {fileID: 1116893514202318670}
