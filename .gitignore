@@ -12,13 +12,13 @@ x/[Bb]uild/
 /[Uu]ser[Ss]ettings/
 
 
-/OuterJones/[Ll]ibrary/
-/OuterJones/[Tt]emp/
-/OuterJones/[Oo]bj/
-/OuterJones/[Bb]uild/
-/OuterJones/[Bb]uilds/
-/OuterJones/[Ll]ogs/
-/OuterJones/[Uu]ser[Ss]ettings/
+/NavyGate/[Ll]ibrary/
+/NavyGate/[Tt]emp/
+/NavyGate/[Oo]bj/
+/NavyGate/[Bb]uild/
+/NavyGate/[Bb]uilds/
+/NavyGate/[Ll]ogs/
+/NavyGate/[Uu]ser[Ss]ettings/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
