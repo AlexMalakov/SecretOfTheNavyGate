@@ -38,7 +38,7 @@ public class RotationListener : MonoBehaviour
             rotationSprites[this.totalRotations].SetActive(true);
         }
 
-        if(totalRotations == rotationSprites.Count) {
+        if(totalRotations == rotationSprites.Count-1) {
             effectableTarget.GetComponent<Effectable>().onEffect();
         }
 

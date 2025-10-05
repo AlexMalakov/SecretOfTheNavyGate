@@ -245,7 +245,7 @@ public class Room : MonoBehaviour
     [Header ("LD Info")]
     [SerializeField] protected Mirrors mirrors;
     [SerializeField] protected LightSinks lSinks;
-    protected List<BeamModel> beams = new List<BeamModel>();
+    [SerializeField] protected List<BeamModel> beams = new List<BeamModel>();
     private List<LightSource> sources = new List<LightSource>();
 
     //this is a chungus of a method cuz of mirrors and non mirrors :'(
@@ -253,7 +253,7 @@ public class Room : MonoBehaviour
     //incoming direction is the door from which the beam is coming from
     public virtual void receiveBeam(DoorDirection incomingDirection) {
         //only receive beam if we have a door that it can enter through
-        if(this.hasDoorDirection(this.getEntrance(incomingDirection).getDirection()/*.getInverse()*/)) {
+        if(this.hasDoorDirection(incomingDirection)) {
     
             //if we have a sink power it, then pass the b
             if(this.lSinks != null && this.lSinks.canActivateSink(incomingDirection)) {
@@ -347,9 +347,11 @@ public class Room : MonoBehaviour
     private bool isUniqueBeam(DoorDirection? start, DoorDirection? end) {
         foreach(BeamModel b in this.beams) {
             if(b.sameBeam(start, end)) {
+                Debug.Log("NOT UNIQUE BEAM!!!!");
                 return false;
             }
         }
+        Debug.Log("UNIQUE BEAM!!!!");
         return true;
     }
 

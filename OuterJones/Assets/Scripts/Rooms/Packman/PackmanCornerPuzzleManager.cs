@@ -19,7 +19,6 @@ public class PackmanCornerPuzzleManager : MonoBehaviour, RoomUpdateListener
     }
 
     public void onRoomUpdate(List<Room> rooms) {
-        Debug.Log("UPDATED!");
         //check that all corners are in the correct spot
         if(completed) {
             return;

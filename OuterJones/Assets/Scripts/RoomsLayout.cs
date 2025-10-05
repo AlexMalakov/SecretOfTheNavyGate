@@ -34,12 +34,14 @@ public struct RoomCoords {
     }
 }
 
-public class RoomsLayout : MonoBehaviour
+public class RoomsLayout : MonoBehaviour, DoorUseListener
 {
     private Room[,] rooms;
     private Room[,] underbelly;
     [SerializeField] private float positionOffset;
     [SerializeField] private GameObject cameraObj;
+    [SerializeField] private GameObject centerObjectOverworld;
+    [SerializeField] private GameObject centerObjectUnderbelly;
     public static int ROOM_GRID_X = 5;
 
     private List<RoomUpdateListener> preListeners = new List<RoomUpdateListener>();
@@ -77,6 +79,10 @@ public class RoomsLayout : MonoBehaviour
         this.underbelly[pos.x, pos.y] = underR;
         underR.init(!pos.overworld ? pos : pos.swapFloor());
         this.moveRoomToSpot(underR);
+    }
+
+    public void onRoomEnter() {
+        this.notifyRoomListeners(new List<Room>());
     }
 
     public void addRoomUpdateListener(RoomUpdateListener l) {
@@ -141,9 +147,9 @@ public class RoomsLayout : MonoBehaviour
     private void moveRoomToSpot(Room r) {
         //possible bug in the position placing?
         RoomCoords c = r.getPosition();
-        Room reff = ((c.overworld) ? this.rooms[ROOM_GRID_X/2, ROOM_GRID_X/2] : this.underbelly[ROOM_GRID_X/2, ROOM_GRID_X/2]);
-        Vector3 offset = new Vector3(this.positionOffset * (c.x - reff.getPosition().x), this.positionOffset * (c.y - reff.getPosition().y), 0);
-        r.transform.position = reff.transform.position + offset;
+        Vector3 offset = new Vector3(this.positionOffset * (c.x - ROOM_GRID_X/2), this.positionOffset * (c.y - ROOM_GRID_X/2), 0);
+        Vector3 reff = c.overworld ? this.centerObjectOverworld.transform.position : this.centerObjectUnderbelly.transform.position;
+        r.transform.position = reff + offset;
     }
 
     private RoomCoords getPackmanCoords(Door origin) {
@@ -238,18 +244,23 @@ public class RoomsLayout : MonoBehaviour
         for(int i = 0; i < keys.Count; i++) {
             Room r = roomsToShift[keys[(i+1) % keys.Count]];
             this.rooms[keys[i].x, keys[i].y] = r;
+            this.underbelly[keys[i].x, keys[i].y] = (r == null) ? null : r.getPair();
             if(r != null) {
                 this.helpPlaceRoom(r, keys[i]);
                 toUpdate.Add(r);
             }
+            
         }
         
         foreach(Room r in toUpdate) {
             r.resetAllDoors();
+            r.getPair().resetAllDoors();
         }
         this.rooms[center.x, center.y].resetAllDoors();
+        this.rooms[center.x, center.y].getPair().resetAllDoors();
 
         FindObjectOfType<Map>().wipeSquares(keys);
+
         this.notifyRoomListeners(toUpdate);
     }
 

@@ -42,6 +42,7 @@ public class Door : MonoBehaviour, InputSubscriber
         } 
 
         this.listeners.Add(FindObjectOfType<DeckUI>());
+        this.listeners.Add(FindObjectOfType<RoomsLayout>());
     }
 
     public void setDestination(Door newDestination) {

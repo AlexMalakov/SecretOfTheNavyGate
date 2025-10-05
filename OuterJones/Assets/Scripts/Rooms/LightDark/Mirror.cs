@@ -11,10 +11,10 @@ public class Mirror : MonoBehaviour
     void Awake() {
         if(isWebbed) {
             webbedSprite.SetActive(true);
-            regSprite.SetActive(true);
+            regSprite.SetActive(false);
         } else {
             webbedSprite.SetActive(false);
-            regSprite.SetActive(false);
+            regSprite.SetActive(true);
         }
     }
 

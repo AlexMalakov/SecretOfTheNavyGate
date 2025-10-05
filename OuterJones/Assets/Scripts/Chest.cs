@@ -50,6 +50,9 @@ public class Chest : MonoBehaviour, InputSubscriber
 
     void OnTriggerEnter2D(Collider2D other) {
         if(opened) {
+            if(this.endGamePopUp && other.gameObject.GetComponent<Player>() != null) {
+                this.playerIO.displayScreenPopUp(this, this.screenPopUpImg);
+            }
             return;
         }
 

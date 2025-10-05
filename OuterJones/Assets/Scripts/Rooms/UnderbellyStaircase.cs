@@ -14,6 +14,9 @@ public class UnderbellyStaircase : MonoBehaviour, Effectable, InputSubscriber
 
     [SerializeField] private Room originRoom;
 
+    [SerializeField] private LandBridge bridge;
+    [SerializeField] private bool setToHigh;
+
     private bool opened = false;
     private PlayerIO input;
 
@@ -57,10 +60,14 @@ public class UnderbellyStaircase : MonoBehaviour, Effectable, InputSubscriber
     }
 
     public void onEntered() {
+        if(this.bridge != null) {
+            this.bridge.notifyOfPlayer(this.setToHigh);
+        }
         this.originRoom.onEnter(this);
         this.player.setCurrentRoom(this.originRoom);
         this.player.transform.position = this.exitPos.position;
 
+        
         //door use listenering :)
     }
 }

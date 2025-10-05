@@ -24,6 +24,8 @@ public class BeamModel : MonoBehaviour
         line.positionCount = 2;
         line.SetPosition(0, startingPos);
         line.SetPosition(1, endingPos);
+        this.start = start;
+        this.end = end;
     }
 
     public void claimBeam(Transform parent) {
