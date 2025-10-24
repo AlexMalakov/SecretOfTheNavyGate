@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour 
 {
     [SerializeField] private float moveSpeed =  12f;//5f;
+    [SerializeField] private SpeedRunTimer speedRunTimer;
     private Rigidbody2D rb;
     private Vector2 movementInput;
 
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private Quaternion locRot;
 
     private bool isMoving = false;
+    private bool hasMoved = false;
 
     private void Start() { 
         rb = GetComponent<Rigidbody2D>();
@@ -33,6 +35,10 @@ public class PlayerController : MonoBehaviour
         if(rb.velocity.x == 0 && rb.velocity.y == 0) {
             this.isMoving = false;
         } else {
+            if(!this.hasMoved) {
+                this.hasMoved = true;
+                this.speedRunTimer.playerHasMoved();
+            }
             this.isMoving = true;
         }
     }

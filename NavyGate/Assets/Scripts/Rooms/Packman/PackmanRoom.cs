@@ -19,6 +19,7 @@ public class PackmanRoom : Room
 
                 
                 d.setDestination(this.layoutManager.getRoomFromPackman(this.position.getOffset(d.getDirection())).getEntrance(d.getInverse()));
+                d.getDestination().setDestination(d);
             }
         }
 

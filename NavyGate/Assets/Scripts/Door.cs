@@ -177,8 +177,14 @@ public class Door : MonoBehaviour, InputSubscriber
 
     public void updateNeighbor() {
         RoomCoords neighborPos = this.room.getPosition().getOffset(this.direction);
+
         Room neighbor = this.room.getLayoutManager().getRoomAt(neighborPos);
-        if(neighbor != null && neighbor.hasDoorDirection(this.getInverse())) {
+        Room pacmanNeighbor = this.room.getLayoutManager().getRoomFromPackman(neighborPos);
+
+        if((this.room is PackmanRoom || pacmanNeighbor is PackmanRoom) && pacmanNeighbor.hasDoorDirection(this.getInverse())) {
+            this.setDestination(pacmanNeighbor.getEntrance(this.getInverse()));
+            this.destination.setDestination(this);
+        } else if(neighbor != null && neighbor.hasDoorDirection(this.getInverse())) {
             this.setDestination(neighbor.getEntrance(this.getInverse()));
             this.destination.setDestination(this);
         } else {
