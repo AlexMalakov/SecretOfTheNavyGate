@@ -10,15 +10,22 @@ public class SpeedRunTimer : MonoBehaviour
     private bool hasMoved = false;
     [SerializeField] private TMP_Text text;
     private float startingTime;
+    private bool over = false;
 
     public void playerHasMoved() {
         hasMoved = true;
         this.startingTime = Time.time;
     }
 
+    public void endTimer() {
+        this.over = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if(this.over)
+            return;
         if(hasMoved) {
             float time = Time.time - startingTime;
             text.text = FormatTime(time);

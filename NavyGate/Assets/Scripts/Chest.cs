@@ -64,6 +64,7 @@ public class Chest : MonoBehaviour, InputSubscriber
             other.GetComponent<Player>().getInventory().gainItem(this.item);
             this.playerIO.displayScreenPopUp(this, this.item.getScreenMsg());
         } else if(this.endGamePopUp && other.gameObject.GetComponent<Player>() != null){
+            FindObjectOfType<SpeedRunTimer>().endTimer();
             this.playerIO.displayScreenPopUp(this, this.screenPopUpImg);
         } else {
             //failed to give the player anything
